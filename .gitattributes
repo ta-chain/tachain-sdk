@@ -1,0 +1,3 @@
+# OpenAPI Generator emits trailing spaces and blank terminal lines in clients.
+# Maintained templates and scripts remain subject to Git's whitespace checks.
+generated/** whitespace=-blank-at-eol,-blank-at-eof

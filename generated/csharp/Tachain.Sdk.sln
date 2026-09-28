@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+VisualStudioVersion = 12.0.0.0
+MinimumVisualStudioVersion = 10.0.0.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tachain.Sdk", "src\Tachain.Sdk\Tachain.Sdk.csproj", "{7B23591D-71F5-5E03-A41B-B8AE207900F5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B23591D-71F5-5E03-A41B-B8AE207900F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B23591D-71F5-5E03-A41B-B8AE207900F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B23591D-71F5-5E03-A41B-B8AE207900F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B23591D-71F5-5E03-A41B-B8AE207900F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD836C9-0C19-57D2-90E2-25C2D7FA445B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD836C9-0C19-57D2-90E2-25C2D7FA445B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD836C9-0C19-57D2-90E2-25C2D7FA445B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD836C9-0C19-57D2-90E2-25C2D7FA445B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

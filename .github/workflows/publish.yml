@@ -1,0 +1,257 @@
+name: Publish one SDK package
+
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: SDK to publish
+        required: true
+        type: choice
+        options: [typescript, python, java, csharp, go, php, ruby, swift]
+      version:
+        description: Version already committed in sdk.config.json, without a v prefix
+        required: true
+        type: string
+      confirm:
+        description: Type publish to confirm the external release
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sdk-publish-${{ inputs.language }}-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify release inputs
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          RELEASE_CONFIRM: ${{ inputs.confirm }}
+          RELEASE_REF: ${{ github.ref }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          version = os.environ['RELEASE_VERSION']
+          configured = json.load(open('sdk.config.json', encoding='utf-8'))['releaseVersion']
+          if os.environ['RELEASE_REF'] != 'refs/heads/main':
+              raise SystemExit('Publish only from the main branch')
+          if os.environ['RELEASE_CONFIRM'] != 'publish':
+              raise SystemExit('Enter publish in the confirm field')
+          if not re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?', version):
+              raise SystemExit('Version must be a semantic version without the v prefix')
+          if version != configured:
+              raise SystemExit(f'Input version {version} differs from sdk.config.json {configured}')
+          PY
+      - name: Validate and regenerate all clients
+        run: python3 scripts/generate.py
+      - name: Check signing vectors
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Refuse stale generated artifacts
+        shell: bash
+        run: |
+          git diff --exit-code -- openapi generated
+          test -z "$(git ls-files --others --exclude-standard -- openapi generated)"
+
+  typescript:
+    if: inputs.language == 'typescript'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+          registry-url: https://registry.npmjs.org
+      - name: Build and publish to npm
+        working-directory: generated/typescript
+        shell: bash
+        run: |
+          npm install --global npm@11.5.1
+          npm install --no-audit --no-fund
+          npm run build
+          node ../../tests/check_typescript_signature.cjs
+          npm publish --access public --provenance
+
+  python:
+    if: inputs.language == 'python'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build distributions
+        run: |
+          python3 -m pip install --upgrade build
+          python3 -m build generated/python --outdir generated/python/dist
+      - name: Publish to PyPI with trusted publishing
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: generated/python/dist
+
+  java:
+    if: inputs.language == 'java'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Publish signed artifacts to Maven Central
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: mvn -B -f generated/java/pom.xml -Psign-artifacts deploy
+
+  csharp:
+    if: inputs.language == 'csharp'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Pack NuGet package
+        run: |
+          dotnet run --project tests/csharp/SignatureVectors.csproj -c Release
+          dotnet pack generated/csharp/src/Tachain.Sdk/Tachain.Sdk.csproj -c Release -o "$RUNNER_TEMP/nuget"
+      - name: Publish to NuGet.org
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push "$RUNNER_TEMP"/nuget/*.nupkg --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY" --skip-duplicate
+
+  go:
+    if: inputs.language == 'go'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: generated/go/go.mod
+      - name: Test Go module
+        working-directory: generated/go
+        run: go test ./...
+      - name: Publish Go module tag
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          tag="generated/go/v${RELEASE_VERSION}"
+          if git rev-parse -q --verify "refs/tags/${tag}" >/dev/null; then
+            echo "Tag ${tag} already exists" >&2
+            exit 1
+          fi
+          git tag "$tag" "$GITHUB_SHA"
+          git push origin "refs/tags/${tag}"
+
+  ruby:
+    if: inputs.language == 'ruby'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: Build and publish to RubyGems
+        working-directory: generated/ruby
+        shell: bash
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
+        run: |
+          gem install typhoeus --no-document
+          ruby ../../tests/ruby_signature.rb
+          gem build tachain-sdk.gemspec
+          gem push tachain-sdk-${{ inputs.version }}.gem
+
+  split-repository:
+    if: inputs.language == 'php' || inputs.language == 'swift'
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: package-release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@v2
+        if: inputs.language == 'php'
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+      - name: Test PHP package before mirroring
+        if: inputs.language == 'php'
+        run: |
+          composer install --no-interaction --prefer-dist --working-dir=generated/php
+          php tests/php/signature.php
+      - name: Publish generated package to its public repository
+        shell: bash
+        env:
+          SPLIT_REPO_TOKEN: ${{ secrets.SPLIT_REPO_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.version }}
+          SDK_LANGUAGE: ${{ inputs.language }}
+        run: |
+          if [ -z "$SPLIT_REPO_TOKEN" ]; then
+            echo 'Set SPLIT_REPO_TOKEN with write access to the split repositories' >&2
+            exit 1
+          fi
+          if [ "$SDK_LANGUAGE" = php ]; then
+            repo=tachain-sdk-php
+          else
+            repo=tachain-sdk-swift
+          fi
+          cat > "$RUNNER_TEMP/askpass.sh" <<'SH'
+          #!/bin/sh
+          case "$1" in
+            *Username*) printf 'x-access-token\n' ;;
+            *) printf '%s\n' "$SPLIT_REPO_TOKEN" ;;
+          esac
+          SH
+          chmod 700 "$RUNNER_TEMP/askpass.sh"
+          export GIT_ASKPASS="$RUNNER_TEMP/askpass.sh"
+          export GIT_TERMINAL_PROMPT=0
+          commit=$(git subtree split --prefix="generated/$SDK_LANGUAGE" HEAD)
+          remote="https://github.com/ta-chain/${repo}.git"
+          git push "$remote" "${commit}:refs/heads/main"
+          git push "$remote" "${commit}:refs/tags/v${RELEASE_VERSION}"

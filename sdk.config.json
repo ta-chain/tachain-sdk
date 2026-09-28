@@ -1,0 +1,21 @@
+{
+  "generatorVersion": "7.25.0",
+  "releaseVersion": "0.1.0",
+  "githubOwner": "ta-chain",
+  "githubRepository": "tachain-sdk",
+  "packages": {
+    "typescript": "@ta-chain/tachain-sdk",
+    "python": "tachain-sdk",
+    "javaGroup": "com.tachain",
+    "javaArtifact": "tachain-sdk",
+    "csharp": "Tachain.Sdk",
+    "goModule": "github.com/ta-chain/tachain-sdk/generated/go",
+    "php": "ta-chain/tachain-sdk",
+    "ruby": "tachain-sdk",
+    "swift": "TachainSDK"
+  },
+  "splitRepositories": {
+    "php": "tachain-sdk-php",
+    "swift": "tachain-sdk-swift"
+  }
+}

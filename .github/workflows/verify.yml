@@ -1,0 +1,135 @@
+name: Verify generated SDKs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate and regenerate all clients
+        run: python3 scripts/generate.py
+      - name: Check signing vectors
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Check committed spec and clients are current
+        shell: bash
+        run: |
+          git diff --exit-code -- openapi generated
+          test -z "$(git ls-files --others --exclude-standard -- openapi generated)"
+
+  typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.14.0'
+      - name: Build package
+        working-directory: generated/typescript
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+      - name: Check signing vectors
+        run: node tests/check_typescript_signature.cjs
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build package
+        run: |
+          python3 -m pip install --upgrade build
+          python3 -m build generated/python
+      - name: Check signing vectors
+        run: python3 -m unittest discover -s tests -p 'test_*.py'
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build and test Maven package
+        run: mvn -B -f generated/java/pom.xml test
+
+  csharp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build package
+        run: dotnet build generated/csharp/src/Tachain.Sdk/Tachain.Sdk.csproj -c Release
+      - name: Check signing vectors
+        run: dotnet run --project tests/csharp/SignatureVectors.csproj -c Release
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: generated/go/go.mod
+      - name: Build and test module
+        working-directory: generated/go
+        run: go test ./...
+
+  php:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+      - name: Validate Composer metadata
+        working-directory: generated/php
+        run: composer validate --strict
+      - name: Install dependencies and check signing
+        run: |
+          composer install --no-interaction --prefer-dist --working-dir=generated/php
+          php tests/php/signature.php
+
+  ruby:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+      - name: Build gem
+        working-directory: generated/ruby
+        run: gem build tachain-sdk.gemspec
+      - name: Check signing
+        run: |
+          gem install typhoeus --no-document
+          ruby tests/ruby_signature.rb
+
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Swift package
+        run: swift build --package-path generated/swift
+      - name: Check signing
+        run: swift test --package-path generated/swift

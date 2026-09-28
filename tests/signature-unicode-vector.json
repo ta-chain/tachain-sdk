@@ -1,0 +1,8 @@
+{
+  "apiKey": "demo-key",
+  "apiSecret": "demo-secret",
+  "timestamp": "1790586000",
+  "url": "https://api.example.com/v1/enum/GetList?a=%EE%80%80&a=%F0%90%80%80",
+  "normalizedQuery": "a=𐀀&a=",
+  "signature": "cffe13c9fa916b79d7f2ccacb4403c0bd5af1b5221414564a4571581b3b152eb"
+}
