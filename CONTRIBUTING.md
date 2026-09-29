@@ -6,4 +6,4 @@
 4. Put custom authentication code in `helpers/`; the generator copies it into supported packages. Do not hand-edit generated code.
 5. Run the available local builds and the shared signature vector checks before submitting.
 
-Do not commit credentials, release tokens, private keys, or a downloaded generator JAR. Package publishing is handled by the manual release workflow after maintainers configure the registries.
+Do not commit credentials, release tokens, private keys, or a downloaded generator JAR. Package publishing is handled by the manual release workflow after maintainers configure the registries. NuGet.org publishing uses Trusted Publishing; configure the `package-release` environment secret `NUGET_USER` with the NuGet.org profile name (not an email address), and configure the NuGet policy for this repository's `publish.yml` workflow and `package-release` environment.
