@@ -3,6 +3,16 @@
 Public integration endpoints. Set your own base URL and credential before calling.
 
 
+## Source repository and local build
+
+This package is distributed from its [standalone source repository](https://github.com/ta-chain/tachain-sdk-php). Its generated code is also maintained in the [SDK monorepo](https://github.com/ta-chain/tachain-sdk/tree/main/generated/php).
+
+~~~sh
+git clone https://github.com/ta-chain/tachain-sdk-php.git
+cd tachain-sdk-php
+composer install --no-interaction --prefer-dist
+~~~
+
 ## Installation & Usage
 
 ### Requirements
@@ -11,23 +21,13 @@ PHP 8.1 and later.
 
 ### Composer
 
-To install the bindings via [Composer](https://getcomposer.org/), add the following to `composer.json`:
+Install version 0.1.0 from Packagist:
 
-```json
-{
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ta-chain/tachain-sdk.git"
-    }
-  ],
-  "require": {
-    "ta-chain/tachain-sdk": "*@dev"
-  }
-}
-```
+~~~sh
+composer require ta-chain/tachain-sdk:0.1.0
+~~~
 
-Then run `composer install`
+Composer obtains the source from the [standalone PHP repository](https://github.com/ta-chain/tachain-sdk-php).
 
 ### Manual Installation
 

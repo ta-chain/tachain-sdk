@@ -16,6 +16,11 @@ import xml.etree.ElementTree as ET
 import uuid
 from pathlib import Path
 
+if __package__:
+    from .readme_customization import customize_readme
+else:
+    from readme_customization import customize_readme
+
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / "sdk.config.json").read_text(encoding="utf-8"))
 VERSION = CONFIG["generatorVersion"]
@@ -187,8 +192,6 @@ def customize(output: Path, language: str) -> None:
         body = body.replace("module github.com/GIT_USER_ID/GIT_REPO_ID", f"module {module}")
         body = body.replace(f"module {repository.removeprefix('https://')}", f"module {module}")
         go_mod.write_text(body, encoding="utf-8")
-        readme = output / "README.md"
-        readme.write_text(readme.read_text(encoding="utf-8").replace(repository, "https://" + module), encoding="utf-8")
     elif language == "php":
         auth = output / "lib" / "Auth"
         auth.mkdir(parents=True, exist_ok=True)
@@ -227,6 +230,7 @@ def customize(output: Path, language: str) -> None:
         for pattern in ("*.podspec", "Cartfile", "git_push.sh"):
             for path in output.glob(pattern):
                 path.unlink()
+    customize_readme(output, language, CONFIG)
 
 
 def generate(language: str) -> None:

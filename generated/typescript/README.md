@@ -2,6 +2,17 @@
 
 A TypeScript SDK client for the api.example.com API.
 
+## Source repository and local build
+
+This SDK is in the [generated/typescript directory](https://github.com/ta-chain/tachain-sdk/tree/main/generated/typescript) of the [open-source SDK repository](https://github.com/ta-chain/tachain-sdk).
+
+~~~sh
+git clone https://github.com/ta-chain/tachain-sdk.git
+cd tachain-sdk/generated/typescript
+npm install --no-audit --no-fund
+npm run build
+~~~
+
 ## Usage
 
 First, install the SDK from npm.

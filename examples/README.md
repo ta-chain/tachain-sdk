@@ -19,7 +19,11 @@ environment; never put a Token or API Secret in a browser bundle.
 All eight generated clients include signing adapters for API Key + Secret.
 The adapters sign the final serialized URL as described in the repository README.
 
-Before the first registry release, install from `generated/<language>` or add
-the generated project as a local dependency before running an example.
+Install a published package or build the client from source before running an
+example. The [main source repository](https://github.com/ta-chain/tachain-sdk)
+contains all eight clients under `generated/<language>`; see its
+[local build commands](../README.md#local-builds). PHP and Swift also have
+standalone package repositories: [PHP](https://github.com/ta-chain/tachain-sdk-php)
+and [Swift](https://github.com/ta-chain/tachain-sdk-swift).
 Each example is standalone; for languages with two example files, run one at a
-time. The main README lists local build commands.
+time.

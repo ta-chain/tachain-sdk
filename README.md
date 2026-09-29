@@ -1,6 +1,6 @@
 # Tachain SDK
 
-Open source clients for the **public Tactic Chain integration API**. This repository pins [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) **7.25.0**, tracks the source OpenAPI export, and commits generated clients for eight languages. Each client can be built from source. Registry installation is available after the maintainers publish its first release.
+Open source clients for the **public Tactic Chain integration API**. The [main SDK source repository](https://github.com/ta-chain/tachain-sdk) pins [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) **7.25.0**, tracks the source OpenAPI export, and commits generated clients for eight languages. Each client can be built from source.
 
 ## Clients and package targets
 
@@ -11,11 +11,11 @@ Open source clients for the **public Tactic Chain integration API**. This reposi
 | Java | `java` | [`generated/java`](generated/java) | `com.tachain:tachain-sdk` | Maven Central |
 | C# | `csharp` | [`generated/csharp`](generated/csharp) | `Tachain.Sdk` | NuGet |
 | Go | `go` | [`generated/go`](generated/go) | `github.com/ta-chain/tachain-sdk/generated/go` | Go modules |
-| PHP | `php` | [`generated/php`](generated/php) | `ta-chain/tachain-sdk` | Packagist, via a split repository |
+| PHP | `php` | [`generated/php`](generated/php) · [standalone repository](https://github.com/ta-chain/tachain-sdk-php) | `ta-chain/tachain-sdk` | Packagist, via a split repository |
 | Ruby | `ruby` | [`generated/ruby`](generated/ruby) | `tachain-sdk` | RubyGems |
-| Swift | `swift5` | [`generated/swift`](generated/swift) | `TachainSDK` | Swift Package Manager, via a split repository |
+| Swift | `swift5` | [`generated/swift`](generated/swift) · [standalone repository](https://github.com/ta-chain/tachain-sdk-swift) | `TachainSDK` | Swift Package Manager, via a split repository |
 
-Registry ownership, namespaces, signing keys, and package accounts must be set up by the `ta-chain` maintainers before the first release. `sdk.config.json` is the single place to edit package coordinates and the release version. For a new version, edit it, regenerate, review and commit the resulting code, then manually dispatch the release workflow. Choose a version that is not already in the target registry.
+The main repository contains all eight generated clients. PHP and Swift also have standalone repositories with their package manifests at the repository root, so they can be used directly with Composer and Swift Package Manager. `sdk.config.json` is the single place to edit package coordinates and the release version. For a new version, edit it, regenerate, review and commit the resulting code, then manually dispatch the release workflow. Choose a version that is not already in the target registry.
 
 ## Regenerate
 
@@ -70,7 +70,12 @@ For PHP, create a `HandlerStack`, push `SignatureMiddleware::create($key, $secre
 
 ## Local builds
 
-Use these before registry publication:
+Clone the main source repository, then run the commands for your language from its root:
+
+```sh
+git clone https://github.com/ta-chain/tachain-sdk.git
+cd tachain-sdk
+```
 
 ```sh
 npm install --prefix generated/typescript && npm run build --prefix generated/typescript
@@ -83,17 +88,33 @@ composer install --working-dir=generated/php
 swift build --package-path generated/swift
 ```
 
+To build from the standalone package repositories instead, run either sequence from a directory outside the main checkout:
+
+PHP ([source](https://github.com/ta-chain/tachain-sdk-php)):
+
+```sh
+git clone https://github.com/ta-chain/tachain-sdk-php.git
+composer install --working-dir=tachain-sdk-php
+```
+
+Swift ([source](https://github.com/ta-chain/tachain-sdk-swift)):
+
+```sh
+git clone https://github.com/ta-chain/tachain-sdk-swift.git
+swift build --package-path tachain-sdk-swift
+```
+
 Run only the commands for toolchains installed on your machine. The `examples/` directory shows per-language use against an API base URL and credential supplied through environment variables.
 
 ## Publishing
 
 Release is manual through `.github/workflows/publish.yml`. In GitHub Actions, open **Publish SDK packages** and select **Run workflow**. Check **Publish all eight SDKs** to release every package in one run, or check any combination of language boxes to release a subset. Enter the version committed in `sdk.config.json` and type `publish` in the confirmation field. Leave **Publish all eight SDKs** unchecked when selecting individual languages; an empty or conflicting selection fails before publishing. Each selected package is built and published independently after the shared preflight. If only some packages fail, rerun the workflow with just those languages selected.
 
-Publishing jobs use the GitHub `package-release` environment. **Configure required reviewers for that environment in repository settings** before the first release. The maintainers must verify the `ta-chain` npm scope, PyPI project ownership, Maven Central `com.tachain` namespace, NuGet ID, RubyGems name, Packagist vendor, and GitHub organization/repositories. Configure npm and PyPI trusted publishing for the workflow, and add `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`, `NUGET_USER`, `RUBYGEMS_API_KEY`, and `SPLIT_REPO_TOKEN` as the relevant GitHub Actions secrets. Never commit registry tokens or GPG keys.
+Publishing jobs use the GitHub `package-release` environment. **Configure required reviewers for that environment in repository settings** before publishing. The maintainers must verify the `ta-chain` npm scope, PyPI project ownership, Maven Central `com.tachain` namespace, NuGet ID, RubyGems name, Packagist vendor, and GitHub organization/repositories. Configure npm and PyPI trusted publishing for the workflow, and add `CENTRAL_USERNAME`, `CENTRAL_PASSWORD`, `MAVEN_GPG_PRIVATE_KEY`, `MAVEN_GPG_PASSPHRASE`, `NUGET_USER`, `RUBYGEMS_API_KEY`, and `SPLIT_REPO_TOKEN` as the relevant GitHub Actions secrets. Never commit registry tokens or GPG keys.
 
-Go is a nested module and must receive a tag of the form `generated/go/v0.1.0`. Packagist expects `composer.json` at a repository root, and Swift Package Manager expects `Package.swift` at a repository root. Consequently the generated PHP and Swift directories are mirrored into `ta-chain/tachain-sdk-php` and `ta-chain/tachain-sdk-swift` release repositories; tag those repositories `v0.1.0` after mirroring. Create both split repositories **empty** (do not initialize a README or license) before the first non-force subtree push. Continue publishing them only from this repository's subtree history. Register the PHP mirror once in Packagist and enable its GitHub update hook. The main monorepo URL is **not** a direct Composer or SPM package URL.
+Go is a nested module and uses tags such as `generated/go/v0.1.0`. Packagist expects `composer.json` at a repository root, and Swift Package Manager expects `Package.swift` at a repository root. Consequently the generated PHP and Swift directories are mirrored into the [PHP](https://github.com/ta-chain/tachain-sdk-php) and [Swift](https://github.com/ta-chain/tachain-sdk-swift) release repositories and tagged there with the release version (for example, `v0.1.0`). Continue publishing them only from this repository's subtree history. The main monorepo URL is **not** a direct Composer or SPM package URL.
 
-Maven Central publishing uses Sonatype's Central Publishing Maven plugin, attached sources/Javadoc, and the generated `sign-artifacts` GPG profile. The first release also requires Central Portal namespace verification and a user token. The release workflow does not run on ordinary commits or pull requests.
+Maven Central publishing uses Sonatype's Central Publishing Maven plugin, attached sources/Javadoc, and the generated `sign-artifacts` GPG profile. Central Portal namespace verification and a user token are required for publishing. The release workflow does not run on ordinary commits or pull requests.
 
 ## License and contributions
 
