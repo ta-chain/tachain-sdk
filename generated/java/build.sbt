@@ -2,7 +2,7 @@ lazy val root = (project in file(".")).
   settings(
     organization := "com.tachain",
     name := "tachain-sdk",
-    version := "0.1.0",
+    version := "0.1.1",
     scalaVersion := "2.13.6",
     scalacOptions ++= Seq("-feature"),
     compile / javacOptions ++= Seq("-Xlint:deprecation"),

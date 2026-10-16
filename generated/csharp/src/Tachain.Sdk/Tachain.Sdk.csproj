@@ -12,7 +12,7 @@
     <Description>Tactic Chain public integration API client</Description>
     <Copyright>Copyright 2026 Tactic Chain contributors</Copyright>
     <RootNamespace>Tachain.Sdk</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Tachain.Sdk.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/ta-chain/tachain-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

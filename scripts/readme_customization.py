@@ -37,7 +37,7 @@ def customize_readme(output: Path, language: str, config: dict) -> None:
     if language == "python":
         body = replace_section(
             body, "### pip install\n", "### Setuptools\n",
-            f"### pip install\n\nInstall the published version:\n\n"
+            f"### pip install\n\nAfter this version is published on PyPI, install it with:\n\n"
             f"~~~sh\npython3 -m pip install tachain-sdk=={version}\n~~~\n\n"
             "For a source build, use the checkout steps above.\n\n",
         )
@@ -49,7 +49,7 @@ def customize_readme(output: Path, language: str, config: dict) -> None:
     elif language == "php":
         body = replace_section(
             body, "### Composer\n", "### Manual Installation\n",
-            f"### Composer\n\nInstall version {version} from Packagist:\n\n"
+            f"### Composer\n\nAfter version {version} is released on Packagist, install it with:\n\n"
             f"~~~sh\ncomposer require {config['packages']['php']}:{version}\n~~~\n\n"
             f"Composer obtains the source from the [standalone PHP repository]({repository}).\n\n",
         )

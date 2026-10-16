@@ -8,4 +8,4 @@ script:
   - bundle install --path vendor/bundle
   - bundle exec rspec
   - gem build tachain-sdk.gemspec
-  - gem install ./tachain-sdk-0.1.0.gem
+  - gem install ./tachain-sdk-0.1.1.gem

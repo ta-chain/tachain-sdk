@@ -11,5 +11,5 @@ Generator version: 7.25.0
 =end
 
 module TachainSdk
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 end

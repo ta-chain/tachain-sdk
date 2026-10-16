@@ -70,6 +70,8 @@ class ContractMetadata(unittest.TestCase):
         pyproject = (ROOT / "generated/python/pyproject.toml").read_text()
         self.assertIn(f'version = "{version}"', pyproject)
         self.assertIn('license = "MIT"', pyproject)
+        self.assertIn(f'__version__ = "{version}"', (ROOT / "generated/python/tachain_sdk/__init__.py").read_text())
+        self.assertIn(f'VERSION = "{version}"', (ROOT / "generated/python/setup.py").read_text())
         pom = ET.parse(ROOT / "generated/java/pom.xml").getroot()
         ns = {"m": "http://maven.apache.org/POM/4.0.0"}
         self.assertEqual(pom.findtext("m:groupId", namespaces=ns), packages["javaGroup"])
@@ -79,12 +81,22 @@ class ContractMetadata(unittest.TestCase):
         self.assertIn(f"<PackageId>{packages['csharp']}</PackageId>", csproj)
         self.assertIn(f"<Version>{version}</Version>", csproj)
         self.assertIn(f"module {packages['goModule']}", (ROOT / "generated/go/go.mod").read_text())
+        self.assertIn(f"OpenAPI-Generator/{version}/go", (ROOT / "generated/go/configuration.go").read_text())
         php = json.loads((ROOT / "generated/php/composer.json").read_text())
         self.assertEqual((php["name"], php["license"]), (packages["php"], "MIT"))
+        self.assertNotIn("version", php, "Packagist derives the release version from the split-repository tag")
+        php_config = (ROOT / "generated/php/lib/Configuration.php").read_text()
+        self.assertIn(f"OpenAPI-Generator/{version}/PHP", php_config)
+        self.assertIn(f"SDK Package Version: {version}", php_config)
         gemspec = (ROOT / f"generated/ruby/{packages['ruby']}.gemspec").read_text()
         self.assertIn(f's.name        = "{packages["ruby"]}"', gemspec)
         self.assertIn('s.license     = "MIT"', gemspec)
+        self.assertIn('s.version     = TachainSdk::VERSION', gemspec)
+        self.assertIn(f"VERSION = '{version}'", (ROOT / "generated/ruby/lib/tachain-sdk/version.rb").read_text())
         self.assertIn(f'name: "{packages["swift"]}"', (ROOT / "generated/swift/Package.swift").read_text())
+        swift_readme = (ROOT / "generated/swift/README.md").read_text()
+        self.assertIn(f"- Package version: {version}", swift_readme)
+        self.assertIn(f'from: "{version}"', swift_readme)
 
 
 if __name__ == "__main__":

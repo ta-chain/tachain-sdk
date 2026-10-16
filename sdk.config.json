@@ -1,6 +1,6 @@
 {
   "generatorVersion": "7.25.0",
-  "releaseVersion": "0.1.0",
+  "releaseVersion": "0.1.1",
   "githubOwner": "ta-chain",
   "githubRepository": "tachain-sdk",
   "packages": {
