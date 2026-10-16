@@ -14,40 +14,45 @@
 
 import * as runtime from '../runtime';
 import {
-    type MicrosoftAspNetCoreMvcProblemDetails,
-    MicrosoftAspNetCoreMvcProblemDetailsFromJSON,
-    MicrosoftAspNetCoreMvcProblemDetailsToJSON,
-} from '../models/MicrosoftAspNetCoreMvcProblemDetails';
+    type DeleteV1DeclarationDelete200Response,
+    DeleteV1DeclarationDelete200ResponseFromJSON,
+    DeleteV1DeclarationDelete200ResponseToJSON,
+} from '../models/DeleteV1DeclarationDelete200Response';
 import {
-    type Model4,
-    Model4FromJSON,
-    Model4ToJSON,
-} from '../models/Model4';
+    type GetV1DeliveryListPaging200Response,
+    GetV1DeliveryListPaging200ResponseFromJSON,
+    GetV1DeliveryListPaging200ResponseToJSON,
+} from '../models/GetV1DeliveryListPaging200Response';
 import {
-    type TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest,
-    TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestFromJSON,
-    TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestToJSON,
-} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest';
+    type PutV1DeliveryConfirmReceipt200Response,
+    PutV1DeliveryConfirmReceipt200ResponseFromJSON,
+    PutV1DeliveryConfirmReceipt200ResponseToJSON,
+} from '../models/PutV1DeliveryConfirmReceipt200Response';
 import {
-    type TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e,
-    TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798eFromJSON,
-    TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798eToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
+    type PutV1DeliveryReturnReceipt200Response,
+    PutV1DeliveryReturnReceipt200ResponseFromJSON,
+    PutV1DeliveryReturnReceipt200ResponseToJSON,
+} from '../models/PutV1DeliveryReturnReceipt200Response';
 import {
-    type TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest';
 import {
-    type TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest';
 import {
-    type TacticChainApiServiceViewModelsDeliveryNoteApiDto,
-    TacticChainApiServiceViewModelsDeliveryNoteApiDtoFromJSON,
-    TacticChainApiServiceViewModelsDeliveryNoteApiDtoToJSON,
-} from '../models/TacticChainApiServiceViewModelsDeliveryNoteApiDto';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest';
+import {
+    type TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 
 export interface DeleteV1DeliveryDeleteRequest {
     /**
@@ -55,17 +60,17 @@ export interface DeleteV1DeliveryDeleteRequest {
      */
     xCredentialType: DeleteV1DeliveryDeleteXCredentialTypeEnum;
     /**
-     * query 方式传入的单个 ID。
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
     /**
      * 
      */
-    tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+    tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest;
 }
 
 export interface GetV1DeliveryListPagingRequest {
@@ -74,93 +79,117 @@ export interface GetV1DeliveryListPagingRequest {
      */
     xCredentialType: GetV1DeliveryListPagingXCredentialTypeEnum;
     /**
-     * 
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: number;
     /**
-     * 
+     * 查询是否为转运单；创建/修改接口只开放普通发货。
      */
     isTransfer?: number;
     /**
-     * 
+     * 完整发货单号，精确匹配。
      */
     matchNumber?: string;
     /**
-     * 
+     * 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
      */
     fromCountry?: string;
     /**
-     * 
+     * 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
      */
     toCountry?: string;
     /**
-     * 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+     * 关键词搜索，具体匹配范围见本接口说明。
      */
     searchText?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
     /**
-     * 
+     * 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
      */
     orderId?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     deliveryDateStart?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     deliveryDateEnd?: string;
     /**
-     * 
+     * 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
      */
     orderLineId?: string;
     /**
-     * 
+     * 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
      */
     orderNumber?: string;
     /**
-     * 
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
      */
     orderDate?: string;
     /**
-     * 
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
      */
     lineNumber?: string;
     /**
-     * 
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
      */
     uniqueNo?: string;
     /**
-     * 
+     * 查询状态过滤，不作为写入状态字段开放。
      */
     status?: Array<number>;
     /**
-     * 
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
      */
     customerId?: Array<string>;
     /**
-     * 
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
      */
     customerCode?: Array<string>;
     /**
-     * 
+     * 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
      */
     businessStatus?: number;
     /**
-     * 
+     * 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
      */
     sortBy?: string;
     /**
-     * 
+     * 页码，默认 1；小于等于 0 时调整为 1。
      */
     page?: number;
     /**
-     * 
+     * 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
      */
     pageSize?: number;
+    /**
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    customerExtNo?: string;
+    /**
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    supplierExtNo?: string;
+    /**
+     * 关联订单的客户编码/外部映射值；用于订单定位。
+     */
+    orderCustomerCode?: string;
+    /**
+     * 关联订单的供应商编码/外部映射值；用于订单定位。
+     */
+    orderSupplierCode?: string;
+    /**
+     * 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+     */
+    orderCustomerName?: string;
+    /**
+     * 关联订单的供应商名称；用于订单定位。
+     */
+    orderSupplierName?: string;
 }
 
 export interface GetV1DeliveryReceiptListPagingRequest {
@@ -169,93 +198,117 @@ export interface GetV1DeliveryReceiptListPagingRequest {
      */
     xCredentialType: GetV1DeliveryReceiptListPagingXCredentialTypeEnum;
     /**
-     * 
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: number;
     /**
-     * 
+     * 查询是否为转运单；创建/修改接口只开放普通发货。
      */
     isTransfer?: number;
     /**
-     * 
+     * 完整发货单号，精确匹配。
      */
     matchNumber?: string;
     /**
-     * 
+     * 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
      */
     fromCountry?: string;
     /**
-     * 
+     * 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
      */
     toCountry?: string;
     /**
-     * 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+     * 关键词搜索，具体匹配范围见本接口说明。
      */
     searchText?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
     /**
-     * 
+     * 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
      */
     orderId?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     deliveryDateStart?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     deliveryDateEnd?: string;
     /**
-     * 
+     * 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
      */
     orderLineId?: string;
     /**
-     * 
+     * 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
      */
     orderNumber?: string;
     /**
-     * 
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
      */
     orderDate?: string;
     /**
-     * 
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
      */
     lineNumber?: string;
     /**
-     * 
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
      */
     uniqueNo?: string;
     /**
-     * 
+     * 查询状态过滤，不作为写入状态字段开放。
      */
     status?: Array<number>;
     /**
-     * 
+     * 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
      */
     supplierId?: Array<string>;
     /**
-     * 
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
      */
     supplierCode?: Array<string>;
     /**
-     * 
+     * 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
      */
     businessStatus?: number;
     /**
-     * 
+     * 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
      */
     sortBy?: string;
     /**
-     * 
+     * 页码，默认 1；小于等于 0 时调整为 1。
      */
     page?: number;
     /**
-     * 
+     * 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
      */
     pageSize?: number;
+    /**
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    customerExtNo?: string;
+    /**
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    supplierExtNo?: string;
+    /**
+     * 关联订单的客户编码/外部映射值；用于订单定位。
+     */
+    orderCustomerCode?: string;
+    /**
+     * 关联订单的供应商编码/外部映射值；用于订单定位。
+     */
+    orderSupplierCode?: string;
+    /**
+     * 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+     */
+    orderCustomerName?: string;
+    /**
+     * 关联订单的供应商名称；用于订单定位。
+     */
+    orderSupplierName?: string;
 }
 
 export interface PostV1DeliveryCreateRequest {
@@ -266,7 +319,7 @@ export interface PostV1DeliveryCreateRequest {
     /**
      * 
      */
-    tacticChainApiServiceViewModelsDeliveryNoteApiDto?: TacticChainApiServiceViewModelsDeliveryNoteApiDto;
+    tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest;
 }
 
 export interface PutV1DeliveryConfirmReceiptRequest {
@@ -275,13 +328,37 @@ export interface PutV1DeliveryConfirmReceiptRequest {
      */
     xCredentialType: PutV1DeliveryConfirmReceiptXCredentialTypeEnum;
     /**
-     * 需要确认收货的发货/收货流转单 ID。
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
+    /**
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+     */
+    customerId?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配。
+     */
+    customerName?: string;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+     */
+    supplierId?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配。
+     */
+    supplierName?: string;
+    /**
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string;
 }
 
 export interface PutV1DeliveryReturnReceiptRequest {
@@ -290,13 +367,37 @@ export interface PutV1DeliveryReturnReceiptRequest {
      */
     xCredentialType: PutV1DeliveryReturnReceiptXCredentialTypeEnum;
     /**
-     * 需要退回的发货/收货流转单 ID。
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
+    /**
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+     */
+    customerId?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配。
+     */
+    customerName?: string;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+     */
+    supplierId?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配。
+     */
+    supplierName?: string;
+    /**
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string;
 }
 
 export interface PutV1DeliveryUpdateRequest {
@@ -307,7 +408,7 @@ export interface PutV1DeliveryUpdateRequest {
     /**
      * 
      */
-    tacticChainApiServiceViewModelsDeliveryNoteApiDto?: TacticChainApiServiceViewModelsDeliveryNoteApiDto;
+    tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest;
 }
 
 /**
@@ -372,7 +473,7 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest']),
         };
     }
 
@@ -380,18 +481,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 
      * 删除发货单。
      */
-    async deleteV1DeliveryDeleteRaw(requestParameters: DeleteV1DeliveryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model4>> {
+    async deleteV1DeliveryDeleteRaw(requestParameters: DeleteV1DeliveryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteV1DeclarationDelete200Response>> {
         const requestOptions = await this.deleteV1DeliveryDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => Model4FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteV1DeclarationDelete200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 
      * 删除发货单。
      */
-    async deleteV1DeliveryDelete(requestParameters: DeleteV1DeliveryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model4> {
+    async deleteV1DeliveryDelete(requestParameters: DeleteV1DeliveryDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteV1DeclarationDelete200Response> {
         const response = await this.deleteV1DeliveryDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -497,6 +598,30 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             queryParameters['pageSize'] = requestParameters['pageSize'];
         }
 
+        if (requestParameters['customerExtNo'] != null) {
+            queryParameters['customerExtNo'] = requestParameters['customerExtNo'];
+        }
+
+        if (requestParameters['supplierExtNo'] != null) {
+            queryParameters['supplierExtNo'] = requestParameters['supplierExtNo'];
+        }
+
+        if (requestParameters['orderCustomerCode'] != null) {
+            queryParameters['orderCustomerCode'] = requestParameters['orderCustomerCode'];
+        }
+
+        if (requestParameters['orderSupplierCode'] != null) {
+            queryParameters['orderSupplierCode'] = requestParameters['orderSupplierCode'];
+        }
+
+        if (requestParameters['orderCustomerName'] != null) {
+            queryParameters['orderCustomerName'] = requestParameters['orderCustomerName'];
+        }
+
+        if (requestParameters['orderSupplierName'] != null) {
+            queryParameters['orderSupplierName'] = requestParameters['orderSupplierName'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['xCredentialType'] != null) {
@@ -538,18 +663,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 发货单查询固定以当前集成公司作为供应商/发货方，避免第三方越权查询其他公司的发货数据。 返回数据中的 `DeliveryNoteDetailList` 为该发货单的明细集合。
      * 查询发货单信息及明细信息。
      */
-    async getV1DeliveryListPagingRaw(requestParameters: GetV1DeliveryListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async getV1DeliveryListPagingRaw(requestParameters: GetV1DeliveryListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1DeliveryListPaging200Response>> {
         const requestOptions = await this.getV1DeliveryListPagingRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1DeliveryListPaging200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 发货单查询固定以当前集成公司作为供应商/发货方，避免第三方越权查询其他公司的发货数据。 返回数据中的 `DeliveryNoteDetailList` 为该发货单的明细集合。
      * 查询发货单信息及明细信息。
      */
-    async getV1DeliveryListPaging(requestParameters: GetV1DeliveryListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async getV1DeliveryListPaging(requestParameters: GetV1DeliveryListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1DeliveryListPaging200Response> {
         const response = await this.getV1DeliveryListPagingRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -655,6 +780,30 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             queryParameters['pageSize'] = requestParameters['pageSize'];
         }
 
+        if (requestParameters['customerExtNo'] != null) {
+            queryParameters['customerExtNo'] = requestParameters['customerExtNo'];
+        }
+
+        if (requestParameters['supplierExtNo'] != null) {
+            queryParameters['supplierExtNo'] = requestParameters['supplierExtNo'];
+        }
+
+        if (requestParameters['orderCustomerCode'] != null) {
+            queryParameters['orderCustomerCode'] = requestParameters['orderCustomerCode'];
+        }
+
+        if (requestParameters['orderSupplierCode'] != null) {
+            queryParameters['orderSupplierCode'] = requestParameters['orderSupplierCode'];
+        }
+
+        if (requestParameters['orderCustomerName'] != null) {
+            queryParameters['orderCustomerName'] = requestParameters['orderCustomerName'];
+        }
+
+        if (requestParameters['orderSupplierName'] != null) {
+            queryParameters['orderSupplierName'] = requestParameters['orderSupplierName'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['xCredentialType'] != null) {
@@ -696,18 +845,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 收货单查询固定以当前集成公司作为客户/收货方，结果可直接用于确认收货或收货退回。
      * 查询收货单集合，核对收货信息。
      */
-    async getV1DeliveryReceiptListPagingRaw(requestParameters: GetV1DeliveryReceiptListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async getV1DeliveryReceiptListPagingRaw(requestParameters: GetV1DeliveryReceiptListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1DeliveryListPaging200Response>> {
         const requestOptions = await this.getV1DeliveryReceiptListPagingRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1DeliveryListPaging200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 收货单查询固定以当前集成公司作为客户/收货方，结果可直接用于确认收货或收货退回。
      * 查询收货单集合，核对收货信息。
      */
-    async getV1DeliveryReceiptListPaging(requestParameters: GetV1DeliveryReceiptListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async getV1DeliveryReceiptListPaging(requestParameters: GetV1DeliveryReceiptListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1DeliveryListPaging200Response> {
         const response = await this.getV1DeliveryReceiptListPagingRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -720,6 +869,13 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling postV1DeliveryCreate().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest" was null or undefined when calling postV1DeliveryCreate().'
             );
         }
 
@@ -761,7 +917,7 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceViewModelsDeliveryNoteApiDtoToJSON(requestParameters['tacticChainApiServiceViewModelsDeliveryNoteApiDto']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest']),
         };
     }
 
@@ -769,18 +925,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 本接口只创建普通发货单，`FreightType` 由接口内部固定为 `1`，当前集成公司会被写入供应商/发货方。 收货确认和退回请使用独立的收货接口，不通过创建发货单接口创建收货数据。 发货单明细必须至少有一条有效记录，且有效明细数量必须大于 0。
      * 创建发货单。
      */
-    async postV1DeliveryCreateRaw(requestParameters: PostV1DeliveryCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async postV1DeliveryCreateRaw(requestParameters: PostV1DeliveryCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> {
         const requestOptions = await this.postV1DeliveryCreateRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PutV1DeliveryConfirmReceipt200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 本接口只创建普通发货单，`FreightType` 由接口内部固定为 `1`，当前集成公司会被写入供应商/发货方。 收货确认和退回请使用独立的收货接口，不通过创建发货单接口创建收货数据。 发货单明细必须至少有一条有效记录，且有效明细数量必须大于 0。
      * 创建发货单。
      */
-    async postV1DeliveryCreate(requestParameters: PostV1DeliveryCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async postV1DeliveryCreate(requestParameters: PostV1DeliveryCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PutV1DeliveryConfirmReceipt200Response> {
         const response = await this.postV1DeliveryCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -804,6 +960,30 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
 
         if (requestParameters['number'] != null) {
             queryParameters['number'] = requestParameters['number'];
+        }
+
+        if (requestParameters['customerId'] != null) {
+            queryParameters['CustomerId'] = requestParameters['customerId'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['CustomerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['CustomerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierId'] != null) {
+            queryParameters['SupplierId'] = requestParameters['supplierId'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['SupplierName'] = requestParameters['supplierName'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['SupplierCode'] = requestParameters['supplierCode'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -847,18 +1027,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 确认成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
      * 确认收货。
      */
-    async putV1DeliveryConfirmReceiptRaw(requestParameters: PutV1DeliveryConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async putV1DeliveryConfirmReceiptRaw(requestParameters: PutV1DeliveryConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> {
         const requestOptions = await this.putV1DeliveryConfirmReceiptRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PutV1DeliveryConfirmReceipt200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 确认成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
      * 确认收货。
      */
-    async putV1DeliveryConfirmReceipt(requestParameters: PutV1DeliveryConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async putV1DeliveryConfirmReceipt(requestParameters: PutV1DeliveryConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PutV1DeliveryConfirmReceipt200Response> {
         const response = await this.putV1DeliveryConfirmReceiptRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -882,6 +1062,30 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
 
         if (requestParameters['number'] != null) {
             queryParameters['number'] = requestParameters['number'];
+        }
+
+        if (requestParameters['customerId'] != null) {
+            queryParameters['CustomerId'] = requestParameters['customerId'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['CustomerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['CustomerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierId'] != null) {
+            queryParameters['SupplierId'] = requestParameters['supplierId'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['SupplierName'] = requestParameters['supplierName'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['SupplierCode'] = requestParameters['supplierCode'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -925,18 +1129,18 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
      * 退回成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
      * 收货退回。
      */
-    async putV1DeliveryReturnReceiptRaw(requestParameters: PutV1DeliveryReturnReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>> {
+    async putV1DeliveryReturnReceiptRaw(requestParameters: PutV1DeliveryReturnReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PutV1DeliveryReturnReceipt200Response>> {
         const requestOptions = await this.putV1DeliveryReturnReceiptRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798eFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PutV1DeliveryReturnReceipt200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 退回成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
      * 收货退回。
      */
-    async putV1DeliveryReturnReceipt(requestParameters: PutV1DeliveryReturnReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    async putV1DeliveryReturnReceipt(requestParameters: PutV1DeliveryReturnReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PutV1DeliveryReturnReceipt200Response> {
         const response = await this.putV1DeliveryReturnReceiptRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -949,6 +1153,13 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling putV1DeliveryUpdate().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest" was null or undefined when calling putV1DeliveryUpdate().'
             );
         }
 
@@ -990,26 +1201,26 @@ export class ApiDeliveryApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceViewModelsDeliveryNoteApiDtoToJSON(requestParameters['tacticChainApiServiceViewModelsDeliveryNoteApiDto']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest']),
         };
     }
 
     /**
-     * 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 `UniqueCode`，传入 `Status = -1` 可删除明细。
+     * 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete=true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
      * 修改发货单。
      */
-    async putV1DeliveryUpdateRaw(requestParameters: PutV1DeliveryUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async putV1DeliveryUpdateRaw(requestParameters: PutV1DeliveryUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> {
         const requestOptions = await this.putV1DeliveryUpdateRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PutV1DeliveryConfirmReceipt200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 `UniqueCode`，传入 `Status = -1` 可删除明细。
+     * 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete=true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
      * 修改发货单。
      */
-    async putV1DeliveryUpdate(requestParameters: PutV1DeliveryUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async putV1DeliveryUpdate(requestParameters: PutV1DeliveryUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PutV1DeliveryConfirmReceipt200Response> {
         const response = await this.putV1DeliveryUpdateRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -13,32 +13,32 @@
  */
 
 import { mapValues } from '../runtime';
-import type { TacticChainApiServiceViewModelsDocumentTypeApiDto } from './TacticChainApiServiceViewModelsDocumentTypeApiDto';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull } from './TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
 import {
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSON,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSONTyped,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSON,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSONTyped,
-} from './TacticChainApiServiceViewModelsDocumentTypeApiDto';
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
 
 /**
- * 
+ * 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  * @export
  * @interface Model3
  */
 export interface Model3 {
     /**
-     * 
+     * 业务状态码。
      */
-    code: number;
+    readonly code: number;
     /**
      * 
      */
-    message: string;
+    data?: TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull;
     /**
-     * 
+     * 按请求语言返回的提示，未指定语言时默认中文。
      */
-    data?: Array<TacticChainApiServiceViewModelsDocumentTypeApiDto> | null;
+    readonly message?: string | null;
 }
 
 /**
@@ -46,7 +46,6 @@ export interface Model3 {
  */
 export function instanceOfModel3(value: object): value is Model3 {
     if (!('code' in value) || value['code'] === undefined) return false;
-    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -61,8 +60,8 @@ export function Model3FromJSONTyped(json: any, ignoreDiscriminator: boolean): Mo
     return {
         
         'code': json['code'],
-        'message': json['message'],
-        'data': json['data'] === undefined ? undefined : json['data'] === null ? null : ((json['data'] as Array<any>).map(TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSON)),
+        'data': json['data'] == null ? undefined : TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(json['data']),
+        'message': json['message'] === undefined ? undefined : json['message'] === null ? null : json['message'],
     };
 }
 
@@ -70,16 +69,14 @@ export function Model3ToJSON(json: any): Model3 {
     return Model3ToJSONTyped(json, false);
 }
 
-export function Model3ToJSONTyped(value?: Model3 | null, ignoreDiscriminator: boolean = false): any {
+export function Model3ToJSONTyped(value?: Omit<Model3, 'code'|'message'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'code': value['code'],
-        'message': value['message'],
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSON)),
+        'data': TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON(value['data']),
     };
 }
 

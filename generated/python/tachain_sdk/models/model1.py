@@ -17,20 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from tachain_sdk.models.tactic_chain_api_service_view_models_document_type_api_dto import TacticChainApiServiceViewModelsDocumentTypeApiDto
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_document_type_response import TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class Model1(BaseModel):
     """
-    Model1
+    集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
     """ # noqa: E501
-    key: Optional[StrictStr] = None
-    value: Optional[TacticChainApiServiceViewModelsDocumentTypeApiDto] = None
-    __properties: ClassVar[List[str]] = ["key", "value"]
+    code: StrictInt = Field(description="业务状态码。")
+    data: Optional[List[TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse]] = Field(default=None, description="业务返回数据。")
+    message: Optional[StrictStr] = Field(default=None, description="按请求语言返回的提示，未指定语言时默认中文。")
+    __properties: ClassVar[List[str]] = ["code", "data", "message"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -62,8 +63,14 @@ class Model1(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
+            "code",
+            "data",
+            "message",
         ])
 
         _dict = self.model_dump(
@@ -71,14 +78,24 @@ class Model1(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of value
-        if self.value:
-            _dict['value'] = self.value.to_dict()
-        # set to None if key (nullable) is None
+                # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        _items = []
+        if self.data:
+            for _item_data in self.data:
+                _items.append(_item_data.to_dict() if _item_data is not None else None)
+            _dict['data'] = _items
+                
+                # set to None if data (nullable) is None
         # and model_fields_set contains the field
-        if self.key is None and "key" in self.model_fields_set:
-            _dict['key'] = None
+        if self.data is None and "data" in self.model_fields_set:
+            _dict['data'] = None
 
+                # set to None if message (nullable) is None
+        # and model_fields_set contains the field
+        if self.message is None and "message" in self.model_fields_set:
+            _dict['message'] = None
+
+        
         return _dict
 
     @classmethod
@@ -91,8 +108,10 @@ class Model1(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "key": obj.get("key"),
-            "value": TacticChainApiServiceViewModelsDocumentTypeApiDto.from_dict(obj["value"]) if obj.get("value") is not None else None
+            "code": obj.get("code"),
+                        "data": [TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+                        "message": obj.get("message")
+            
         })
         return _obj
 

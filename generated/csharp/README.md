@@ -133,14 +133,14 @@ namespace Example
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new ApiDeclarationApi(httpClient, config, httpClientHandler);
             var xCredentialType = "Token";  // string | Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.
-            var attachmentId = "attachmentId_example";  // string? | query 方式传入的单个附件申报 ID。 (optional) 
-            var formDataId = "formDataId_example";  // string? | query 方式传入的单个表单申报 ID。 (optional) 
+            var attachmentId = "attachmentId_example";  // string? | 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional) 
+            var formDataId = "formDataId_example";  // string? | 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional) 
             var tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = new TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest?(); // TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? |  (optional) 
 
             try
             {
                 // 申报信息删除接口。
-                Model4 result = apiInstance.DeleteV1DeclarationDelete(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
+                DeleteV1DeclarationDelete200Response result = apiInstance.DeleteV1DeclarationDelete(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -166,6 +166,7 @@ Class | Method | HTTP request | Description
 *ApiDeclarationApi* | [**GetV1DeclarationListPaging**](docs/ApiDeclarationApi.md#getv1declarationlistpaging) | **GET** /v1/declaration/ListPaging | 申报信息查询接口。
 *ApiDeclarationApi* | [**GetV1DeclarationRequiredDocuments**](docs/ApiDeclarationApi.md#getv1declarationrequireddocuments) | **GET** /v1/declaration/RequiredDocuments | 单据所需申报信息查询接口。
 *ApiDeclarationApi* | [**PostV1DeclarationSubmit**](docs/ApiDeclarationApi.md#postv1declarationsubmit) | **POST** /v1/declaration/Submit | 申报文件/表单提交接口。
+*ApiDeclarationUploadApi* | [**PostV1DeclarationUploadFile**](docs/ApiDeclarationUploadApi.md#postv1declarationuploadfile) | **POST** /v1/declaration/UploadFile | 上传申报文件，返回 FileId；文件内容最多 30 MiB。
 *ApiDeliveryApi* | [**DeleteV1DeliveryDelete**](docs/ApiDeliveryApi.md#deletev1deliverydelete) | **DELETE** /v1/delivery/Delete | 删除发货单。
 *ApiDeliveryApi* | [**GetV1DeliveryListPaging**](docs/ApiDeliveryApi.md#getv1deliverylistpaging) | **GET** /v1/delivery/ListPaging | 查询发货单信息及明细信息。
 *ApiDeliveryApi* | [**GetV1DeliveryReceiptListPaging**](docs/ApiDeliveryApi.md#getv1deliveryreceiptlistpaging) | **GET** /v1/delivery/ReceiptListPaging | 查询收货单集合，核对收货信息。
@@ -174,6 +175,11 @@ Class | Method | HTTP request | Description
 *ApiDeliveryApi* | [**PutV1DeliveryReturnReceipt**](docs/ApiDeliveryApi.md#putv1deliveryreturnreceipt) | **PUT** /v1/delivery/ReturnReceipt | 收货退回。
 *ApiDeliveryApi* | [**PutV1DeliveryUpdate**](docs/ApiDeliveryApi.md#putv1deliveryupdate) | **PUT** /v1/delivery/Update | 修改发货单。
 *ApiEnumApi* | [**GetV1EnumGetList**](docs/ApiEnumApi.md#getv1enumgetlist) | **GET** /v1/enum/GetList | 第三方-获取统一枚举列表（支持批量查询/查询所有）
+*ApiMaterialApi* | [**DeleteV1MaterialDelete**](docs/ApiMaterialApi.md#deletev1materialdelete) | **DELETE** /v1/material/Delete | 删除未被使用的资料；软删除，已被订单等业务使用时返回业务错误。
+*ApiMaterialApi* | [**GetV1MaterialGet**](docs/ApiMaterialApi.md#getv1materialget) | **GET** /v1/material/Get | 按编码或 ID 精确查询。
+*ApiMaterialApi* | [**GetV1MaterialListPaging**](docs/ApiMaterialApi.md#getv1materiallistpaging) | **GET** /v1/material/ListPaging | 分页查询；searchText 搜索编码或名称，scopeCode 按加工阶段筛选。
+*ApiMaterialApi* | [**PostV1MaterialCreate**](docs/ApiMaterialApi.md#postv1materialcreate) | **POST** /v1/material/Create | 创建原料资料。
+*ApiMaterialApi* | [**PutV1MaterialUpdate**](docs/ApiMaterialApi.md#putv1materialupdate) | **PUT** /v1/material/Update | 完整修改原料资料。
 *ApiOrderApi* | [**DeleteV1OrderDelete**](docs/ApiOrderApi.md#deletev1orderdelete) | **DELETE** /v1/order/Delete | 第三方-更新订单状态（通过匹配条件获取订单ID）
 *ApiOrderApi* | [**DeleteV1OrderDeleteLine**](docs/ApiOrderApi.md#deletev1orderdeleteline) | **DELETE** /v1/order/DeleteLine | 第三方-更新订单明细状态（通过匹配条件获取明细ID）
 *ApiOrderApi* | [**GetV1OrderPOListPaging**](docs/ApiOrderApi.md#getv1orderpolistpaging) | **GET** /v1/order/POListPaging | 第三方-获取采购订单分页列表（含明细）
@@ -181,77 +187,151 @@ Class | Method | HTTP request | Description
 *ApiOrderApi* | [**PostV1OrderCreate**](docs/ApiOrderApi.md#postv1ordercreate) | **POST** /v1/order/Create | 第三方-创建订单（含明细）
 *ApiOrderApi* | [**PostV1OrderSoAccept**](docs/ApiOrderApi.md#postv1ordersoaccept) | **POST** /v1/order/SoAccept | 第三方-销售订单接单（支持绑定成品/自动创建成品）
 *ApiOrderApi* | [**PutV1OrderUpdate**](docs/ApiOrderApi.md#putv1orderupdate) | **PUT** /v1/order/Update | 第三方-更新订单（部分字段）
+*ApiOrderWorkflowApi* | [**GetV1OrderReceiptPending**](docs/ApiOrderWorkflowApi.md#getv1orderreceiptpending) | **GET** /v1/order/ReceiptPending | 采购订单确认收货待办项查询。
+*ApiOrderWorkflowApi* | [**PostV1OrderDeclarationVerification**](docs/ApiOrderWorkflowApi.md#postv1orderdeclarationverification) | **POST** /v1/order/DeclarationVerification | 销售订单提交审核前一键校验。
 *ApiOrderWorkflowApi* | [**PostV1OrderSubmitAudit**](docs/ApiOrderWorkflowApi.md#postv1ordersubmitaudit) | **POST** /v1/order/SubmitAudit | 销售方根据已入库的订单、生产、发货及申报资料提交审核。
 *ApiOrderWorkflowApi* | [**PutV1OrderConfirmReceipt**](docs/ApiOrderWorkflowApi.md#putv1orderconfirmreceipt) | **PUT** /v1/order/ConfirmReceipt | 采购方按整单或单条订单明细确认收货。
+*ApiProcessRouteApi* | [**DeleteV1ProcessRouteDelete**](docs/ApiProcessRouteApi.md#deletev1processroutedelete) | **DELETE** /v1/processRoute/Delete | 软删除加工路线；历史单据保持其已有引用，新建业务不可再选择该路线。
+*ApiProcessRouteApi* | [**GetV1ProcessRouteGet**](docs/ApiProcessRouteApi.md#getv1processrouteget) | **GET** /v1/processRoute/Get | 按路线编码或查询返回的 ID 精确查询，两者同时传入须一致。
+*ApiProcessRouteApi* | [**GetV1ProcessRouteListPaging**](docs/ApiProcessRouteApi.md#getv1processroutelistpaging) | **GET** /v1/processRoute/ListPaging | 分页查询正常路线；searchText 匹配编码或名称，scopeCode 筛选加工阶段。
+*ApiProcessRouteApi* | [**PostV1ProcessRouteCreate**](docs/ApiProcessRouteApi.md#postv1processroutecreate) | **POST** /v1/processRoute/Create | 创建加工路线及有序工序。
+*ApiProcessRouteApi* | [**PutV1ProcessRouteUpdate**](docs/ApiProcessRouteApi.md#putv1processrouteupdate) | **PUT** /v1/processRoute/Update | 完整修改路线；steps 省略保留原工序，数组则替换全部工序，空数组清空。
+*ApiProductApi* | [**DeleteV1ProductDelete**](docs/ApiProductApi.md#deletev1productdelete) | **DELETE** /v1/product/Delete | 删除未被使用的资料；软删除，已被订单等业务使用时返回业务错误。
+*ApiProductApi* | [**GetV1ProductGet**](docs/ApiProductApi.md#getv1productget) | **GET** /v1/product/Get | 按编码或 ID 精确查询。
+*ApiProductApi* | [**GetV1ProductListPaging**](docs/ApiProductApi.md#getv1productlistpaging) | **GET** /v1/product/ListPaging | 分页查询；searchText 搜索编码或名称，scopeCode 按加工阶段筛选。
+*ApiProductApi* | [**PostV1ProductCreate**](docs/ApiProductApi.md#postv1productcreate) | **POST** /v1/product/Create | 创建成品资料。
+*ApiProductApi* | [**PutV1ProductUpdate**](docs/ApiProductApi.md#putv1productupdate) | **PUT** /v1/product/Update | 完整修改成品资料。
 *ApiProductionApi* | [**DeleteV1ProductionDelete**](docs/ApiProductionApi.md#deletev1productiondelete) | **DELETE** /v1/production/Delete | 删除生产记录单。
 *ApiProductionApi* | [**GetV1ProductionListPaging**](docs/ApiProductionApi.md#getv1productionlistpaging) | **GET** /v1/production/ListPaging | 查询生产记录单及详细领料信息。
 *ApiProductionApi* | [**PostV1ProductionCreate**](docs/ApiProductionApi.md#postv1productioncreate) | **POST** /v1/production/Create | 创建生产记录单。
 *ApiProductionApi* | [**PutV1ProductionUpdate**](docs/ApiProductionApi.md#putv1productionupdate) | **PUT** /v1/production/Update | 修改生产记录单。
+*ApiReferenceApi* | [**GetV1ReferenceEnumValues**](docs/ApiReferenceApi.md#getv1referenceenumvalues) | **GET** /v1/reference/EnumValues | 查询 enum_value；EnumTypeId 必填，Value 可选精确匹配。
+*ApiReferenceApi* | [**GetV1ReferenceMappings**](docs/ApiReferenceApi.md#getv1referencemappings) | **GET** /v1/reference/Mappings | 查询 external_mapping；MappedTable 必填，ExternalValue 可选精确匹配。
 
 
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [Model.DeleteV1DeclarationDelete200Response](docs/DeleteV1DeclarationDelete200Response.md)
+ - [Model.GetV1DeclarationListPaging200Response](docs/GetV1DeclarationListPaging200Response.md)
+ - [Model.GetV1DeclarationRequiredDocuments200Response](docs/GetV1DeclarationRequiredDocuments200Response.md)
+ - [Model.GetV1DeliveryListPaging200Response](docs/GetV1DeliveryListPaging200Response.md)
  - [Model.GetV1EnumGetList200Response](docs/GetV1EnumGetList200Response.md)
- - [Model.MicrosoftAspNetCoreMvcProblemDetails](docs/MicrosoftAspNetCoreMvcProblemDetails.md)
+ - [Model.GetV1MaterialListPaging200Response](docs/GetV1MaterialListPaging200Response.md)
+ - [Model.GetV1OrderPOListPaging200Response](docs/GetV1OrderPOListPaging200Response.md)
+ - [Model.GetV1OrderReceiptPending200Response](docs/GetV1OrderReceiptPending200Response.md)
+ - [Model.GetV1ProcessRouteListPaging200Response](docs/GetV1ProcessRouteListPaging200Response.md)
+ - [Model.GetV1ProductListPaging200Response](docs/GetV1ProductListPaging200Response.md)
+ - [Model.GetV1ProductionListPaging200Response](docs/GetV1ProductionListPaging200Response.md)
+ - [Model.GetV1ReferenceEnumValues200Response](docs/GetV1ReferenceEnumValues200Response.md)
+ - [Model.GetV1ReferenceMappings200Response](docs/GetV1ReferenceMappings200Response.md)
  - [Model.Model1](docs/Model1.md)
+ - [Model.Model2](docs/Model2.md)
  - [Model.Model3](docs/Model3.md)
  - [Model.Model4](docs/Model4.md)
+ - [Model.PostV1DeclarationSubmit200Response](docs/PostV1DeclarationSubmit200Response.md)
+ - [Model.PostV1DeclarationUploadFile200Response](docs/PostV1DeclarationUploadFile200Response.md)
+ - [Model.PostV1MaterialCreate200Response](docs/PostV1MaterialCreate200Response.md)
+ - [Model.PostV1OrderCreate200Response](docs/PostV1OrderCreate200Response.md)
+ - [Model.PostV1OrderDeclarationVerification200Response](docs/PostV1OrderDeclarationVerification200Response.md)
+ - [Model.PostV1OrderSubmitAudit200Response](docs/PostV1OrderSubmitAudit200Response.md)
+ - [Model.PostV1ProcessRouteCreate200Response](docs/PostV1ProcessRouteCreate200Response.md)
+ - [Model.PostV1ProductCreate200Response](docs/PostV1ProductCreate200Response.md)
+ - [Model.PostV1ProductionCreate200Response](docs/PostV1ProductionCreate200Response.md)
+ - [Model.PutV1DeliveryConfirmReceipt200Response](docs/PutV1DeliveryConfirmReceipt200Response.md)
+ - [Model.PutV1DeliveryReturnReceipt200Response](docs/PutV1DeliveryReturnReceipt200Response.md)
+ - [Model.PutV1OrderConfirmReceipt200Response](docs/PutV1OrderConfirmReceipt200Response.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiBomLineRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiBomLineRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiBomLineResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiBomLineResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiCatalogDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiCatalogDeleteRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationAttachmentResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationAttachmentResponse.md)
  - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest.md)
  - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.md)
- - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDto](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDto.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListResponse.md)
  - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest.md)
- - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDto](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDto.md)
- - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDetailUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDocumentFormResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDocumentFormResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiFiberCompositionRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiFiberCompositionRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiFiberCompositionResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiFiberCompositionResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiFileResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiFileResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiFileUploadResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiFileUploadResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiMaterialCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiMaterialCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiMaterialUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiMaterialUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest.md)
  - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderLineUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingLineResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingLineResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptResult](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptResult.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponse.md)
  - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest.md)
- - [Model.TacticChainApiServiceDataEntitiesCompany](docs/TacticChainApiServiceDataEntitiesCompany.md)
- - [Model.TacticChainApiServiceDataEntitiesCompanyComplianceProfile](docs/TacticChainApiServiceDataEntitiesCompanyComplianceProfile.md)
- - [Model.TacticChainApiServiceDataEntitiesCompanyUtilityDeclaration](docs/TacticChainApiServiceDataEntitiesCompanyUtilityDeclaration.md)
- - [Model.TacticChainApiServiceDataEntitiesCustomer](docs/TacticChainApiServiceDataEntitiesCustomer.md)
- - [Model.TacticChainApiServiceDataEntitiesFactory](docs/TacticChainApiServiceDataEntitiesFactory.md)
- - [Model.TacticChainApiServiceDataEntitiesOrder](docs/TacticChainApiServiceDataEntitiesOrder.md)
- - [Model.TacticChainApiServiceDataEntitiesOrderLine](docs/TacticChainApiServiceDataEntitiesOrderLine.md)
- - [Model.TacticChainApiServiceDataEntitiesSupplier](docs/TacticChainApiServiceDataEntitiesSupplier.md)
- - [Model.TacticChainApiServiceDataEntitiesSupplierOnboardingExt](docs/TacticChainApiServiceDataEntitiesSupplierOnboardingExt.md)
- - [Model.TacticChainApiServiceDataEntitiesTrader](docs/TacticChainApiServiceDataEntitiesTrader.md)
- - [Model.TacticChainApiServiceHelperResultApiEnum](docs/TacticChainApiServiceHelperResultApiEnum.md)
- - [Model.TacticChainApiServiceHelperResultBrandReportAllocatedDeliveryKpiDetail](docs/TacticChainApiServiceHelperResultBrandReportAllocatedDeliveryKpiDetail.md)
- - [Model.TacticChainApiServiceHelperResultBrandReportUnlinkedOrderDetail](docs/TacticChainApiServiceHelperResultBrandReportUnlinkedOrderDetail.md)
- - [Model.TacticChainApiServiceHelperResultKpiArchivedDataChangeDetail](docs/TacticChainApiServiceHelperResultKpiArchivedDataChangeDetail.md)
- - [Model.TacticChainApiServiceHelperResultMappingOrderSelect](docs/TacticChainApiServiceHelperResultMappingOrderSelect.md)
- - [Model.TacticChainApiServiceHelperResultOrderTraceReport](docs/TacticChainApiServiceHelperResultOrderTraceReport.md)
- - [Model.TacticChainApiServiceHelperTemplateDtoBusinessRiskWarnInfoDto](docs/TacticChainApiServiceHelperTemplateDtoBusinessRiskWarnInfoDto.md)
- - [Model.TacticChainApiServiceHelperTemplateDtoMultiSoLineCompleteStatus](docs/TacticChainApiServiceHelperTemplateDtoMultiSoLineCompleteStatus.md)
- - [Model.TacticChainApiServiceModelsBrandKpiPolicyResult](docs/TacticChainApiServiceModelsBrandKpiPolicyResult.md)
- - [Model.TacticChainApiServiceModelsBrandOrderKpiSnapshotDto](docs/TacticChainApiServiceModelsBrandOrderKpiSnapshotDto.md)
- - [Model.TacticChainApiServiceModelsBrandOrderSupplierOrderSnapshotDto](docs/TacticChainApiServiceModelsBrandOrderSupplierOrderSnapshotDto.md)
- - [Model.TacticChainApiServiceModelsBrandOrderUncompletedDeclareSnapshotDto](docs/TacticChainApiServiceModelsBrandOrderUncompletedDeclareSnapshotDto.md)
- - [Model.TacticChainApiServiceModelsOrderStageFormDto](docs/TacticChainApiServiceModelsOrderStageFormDto.md)
- - [Model.TacticChainApiServiceModelsProductBomGroupingDto](docs/TacticChainApiServiceModelsProductBomGroupingDto.md)
- - [Model.TacticChainApiServiceModelsProductionRawMaterialDto](docs/TacticChainApiServiceModelsProductionRawMaterialDto.md)
- - [Model.TacticChainApiServiceViewModelsAttachmentInApiCreateDto](docs/TacticChainApiServiceViewModelsAttachmentInApiCreateDto.md)
- - [Model.TacticChainApiServiceViewModelsAttachmentInApiDto](docs/TacticChainApiServiceViewModelsAttachmentInApiDto.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e](docs/TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
- - [Model.TacticChainApiServiceViewModelsDeliveryNoteApiDto](docs/TacticChainApiServiceViewModelsDeliveryNoteApiDto.md)
- - [Model.TacticChainApiServiceViewModelsDeliveryNoteDetailApiDto](docs/TacticChainApiServiceViewModelsDeliveryNoteDetailApiDto.md)
- - [Model.TacticChainApiServiceViewModelsDocumentTypeApiDto](docs/TacticChainApiServiceViewModelsDocumentTypeApiDto.md)
- - [Model.TacticChainApiServiceViewModelsOrderApiDto](docs/TacticChainApiServiceViewModelsOrderApiDto.md)
- - [Model.TacticChainApiServiceViewModelsOrderLineApiDto](docs/TacticChainApiServiceViewModelsOrderLineApiDto.md)
- - [Model.TacticChainApiServiceViewModelsOrderStageFormApiDto](docs/TacticChainApiServiceViewModelsOrderStageFormApiDto.md)
- - [Model.TacticChainApiServiceViewModelsOrderStageFormDatumApiDto](docs/TacticChainApiServiceViewModelsOrderStageFormDatumApiDto.md)
- - [Model.TacticChainApiServiceViewModelsProductionApiDto](docs/TacticChainApiServiceViewModelsProductionApiDto.md)
- - [Model.TacticChainApiServiceViewModelsProductionRawMaterialApiDto](docs/TacticChainApiServiceViewModelsProductionRawMaterialApiDto.md)
- - [Model.TacticChainApiServiceViewModelsProductionSalesOrderApiDto](docs/TacticChainApiServiceViewModelsProductionSalesOrderApiDto.md)
- - [Model.TacticChainApiServiceViewModelsStageAttachmentApiDto](docs/TacticChainApiServiceViewModelsStageAttachmentApiDto.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiPageResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProcessStepRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProcessStepRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProcessStepResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProcessStepResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionRawMaterialUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderCreateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderCreateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionSalesOrderUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest](docs/TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiReceiptPendingItemResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiReceiptPendingItemResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiFileUploadResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiFileUploadResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiMaterialResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptPendingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptResultTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderReceiptResultTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProcessRouteResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull](docs/TacticChainApiServiceControllersApiIntegrationV1ApiResult1TacticChainApiServiceControllersApiIntegrationV1ApiProductionResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiVerificationFileResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiVerificationFileResponse.md)
+ - [Model.TacticChainApiServiceControllersApiIntegrationV1ApiVerificationResponse](docs/TacticChainApiServiceControllersApiIntegrationV1ApiVerificationResponse.md)
 
 
 <a id="documentation-for-authorization"></a>

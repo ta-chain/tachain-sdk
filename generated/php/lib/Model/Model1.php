@@ -35,6 +35,7 @@ use \TachainSdk\ObjectSerializer;
  * Model1 Class Doc Comment
  *
  * @category Class
+ * @description 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  * @package  TachainSdk
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -57,8 +58,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $openAPITypes = [
-        'key' => 'string',
-        'value' => '\TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto'
+        'code' => 'int',
+        'data' => '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse[]',
+        'message' => 'string'
     ];
 
     /**
@@ -69,8 +71,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
-        'key' => null,
-        'value' => null
+        'code' => 'int32',
+        'data' => null,
+        'message' => null
     ];
 
     /**
@@ -79,8 +82,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var boolean[]
      */
     protected static array $openAPINullables = [
-        'key' => true,
-        'value' => false
+        'code' => false,
+        'data' => true,
+        'message' => true
     ];
 
     /**
@@ -169,8 +173,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $attributeMap = [
-        'key' => 'key',
-        'value' => 'value'
+        'code' => 'code',
+        'data' => 'data',
+        'message' => 'message'
     ];
 
     /**
@@ -179,8 +184,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $setters = [
-        'key' => 'setKey',
-        'value' => 'setValue'
+        'code' => 'setCode',
+        'data' => 'setData',
+        'message' => 'setMessage'
     ];
 
     /**
@@ -189,8 +195,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      * @var string[]
      */
     protected static $getters = [
-        'key' => 'getKey',
-        'value' => 'getValue'
+        'code' => 'getCode',
+        'data' => 'getData',
+        'message' => 'getMessage'
     ];
 
     /**
@@ -250,8 +257,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     public function __construct(?array $data = null)
     {
-        $this->setIfExists('key', $data ?? [], null);
-        $this->setIfExists('value', $data ?? [], null);
+        $this->setIfExists('code', $data ?? [], null);
+        $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
     }
 
     /**
@@ -281,6 +289,9 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
     {
         $invalidProperties = [];
 
+        if ($this->container['code'] === null) {
+            $invalidProperties[] = "'code' can't be null";
+        }
         return $invalidProperties;
     }
 
@@ -297,62 +308,96 @@ class Model1 implements ModelInterface, ArrayAccess, \JsonSerializable
 
 
     /**
-     * Gets key
+     * Gets code
      *
-     * @return string|null
+     * @return int
      */
-    public function getKey()
+    public function getCode()
     {
-        return $this->container['key'];
+        return $this->container['code'];
     }
 
     /**
-     * Sets key
+     * Sets code
      *
-     * @param string|null $key key
+     * @param int $code 业务状态码。
      *
      * @return self
      */
-    public function setKey($key)
+    public function setCode($code)
     {
-        if (is_null($key)) {
-            array_push($this->openAPINullablesSetToNull, 'key');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('key', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+        if (is_null($code)) {
+            throw new \InvalidArgumentException('non-nullable code cannot be null');
         }
-        $this->container['key'] = $key;
+        $this->container['code'] = $code;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets data
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto|null
+     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse[]|null
      */
-    public function getValue()
+    public function getData()
     {
-        return $this->container['value'];
+        return $this->container['data'];
     }
 
     /**
-     * Sets value
+     * Sets data
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto|null $value value
+     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse[]|null $data 业务返回数据。
      *
      * @return self
      */
-    public function setValue($value)
+    public function setData($data)
     {
-        if (is_null($value)) {
-            throw new \InvalidArgumentException('non-nullable value cannot be null');
+        if (is_null($data)) {
+            array_push($this->openAPINullablesSetToNull, 'data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
-        $this->container['value'] = $value;
+        $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message 按请求语言返回的提示，未指定语言时默认中文。
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            array_push($this->openAPINullablesSetToNull, 'message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['message'] = $message;
 
         return $this;
     }

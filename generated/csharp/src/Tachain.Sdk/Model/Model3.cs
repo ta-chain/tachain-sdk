@@ -27,7 +27,7 @@ using OpenAPIDateConverter = Tachain.Sdk.Client.OpenAPIDateConverter;
 namespace Tachain.Sdk.Model
 {
     /// <summary>
-    /// Model3
+    /// 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
     /// </summary>
     [DataContract(Name = "3")]
     public partial class Model3 : IValidatableObject
@@ -40,39 +40,48 @@ namespace Tachain.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model3" /> class.
         /// </summary>
-        /// <param name="code">code (required).</param>
-        /// <param name="message">message (required).</param>
         /// <param name="data">data.</param>
-        public Model3(int code = default, string message = default, List<TacticChainApiServiceViewModelsDocumentTypeApiDto> data = default)
+        public Model3(TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull data = default)
         {
-            this.Code = code;
-            // to ensure "message" is required (not null)
-            if (message == null)
-            {
-                throw new ArgumentNullException("message is a required property for Model3 and cannot be null");
-            }
-            this.Message = message;
             this.Data = data;
         }
 
         /// <summary>
-        /// Gets or Sets Code
+        /// 业务状态码。
         /// </summary>
+        /// <value>业务状态码。</value>
         [DataMember(Name = "code", IsRequired = true, EmitDefaultValue = true)]
-        public int Code { get; set; }
+        public int Code { get; private set; }
 
         /// <summary>
-        /// Gets or Sets Message
+        /// Returns false as Code should not be serialized given that it's read-only.
         /// </summary>
-        [DataMember(Name = "message", IsRequired = true, EmitDefaultValue = true)]
-        public string Message { get; set; }
-
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeCode()
+        {
+            return false;
+        }
         /// <summary>
         /// Gets or Sets Data
         /// </summary>
-        [DataMember(Name = "data", EmitDefaultValue = true)]
-        public List<TacticChainApiServiceViewModelsDocumentTypeApiDto> Data { get; set; }
+        [DataMember(Name = "data", EmitDefaultValue = false)]
+        public TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull Data { get; set; }
 
+        /// <summary>
+        /// 按请求语言返回的提示，未指定语言时默认中文。
+        /// </summary>
+        /// <value>按请求语言返回的提示，未指定语言时默认中文。</value>
+        [DataMember(Name = "message", EmitDefaultValue = true)]
+        public string Message { get; private set; }
+
+        /// <summary>
+        /// Returns false as Message should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeMessage()
+        {
+            return false;
+        }
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -82,8 +91,8 @@ namespace Tachain.Sdk.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model3 {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  Data: ").Append(Data).Append("\n");
+            sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }

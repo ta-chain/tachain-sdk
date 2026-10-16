@@ -149,18 +149,18 @@ class ApiDeliveryApi
      * 删除发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id query 方式传入的单个 ID。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1DeliveryDelete'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\Model4
+     * @return \TachainSdk\Model\DeleteV1DeclarationDelete200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function deleteV1DeliveryDelete($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
+    public function deleteV1DeliveryDelete($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
     {
-        list($response) = $this->deleteV1DeliveryDeleteWithHttpInfo($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request, $contentType);
+        list($response) = $this->deleteV1DeliveryDeleteWithHttpInfo($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request, $contentType);
         return $response;
     }
 
@@ -170,18 +170,18 @@ class ApiDeliveryApi
      * 删除发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id query 方式传入的单个 ID。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1DeliveryDelete'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\Model4, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\DeleteV1DeclarationDelete200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteV1DeliveryDeleteWithHttpInfo($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
+    public function deleteV1DeliveryDeleteWithHttpInfo($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
     {
-        $request = $this->deleteV1DeliveryDeleteRequest($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request, $contentType);
+        $request = $this->deleteV1DeliveryDeleteRequest($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -209,7 +209,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\Model4',
+                        '\TachainSdk\Model\DeleteV1DeclarationDelete200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -231,7 +249,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\Model4',
+                '\TachainSdk\Model\DeleteV1DeclarationDelete200Response',
                 $request,
                 $response,
             );
@@ -240,7 +258,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\Model4',
+                        '\TachainSdk\Model\DeleteV1DeclarationDelete200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -258,17 +300,17 @@ class ApiDeliveryApi
      * 删除发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id query 方式传入的单个 ID。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1DeliveryDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1DeliveryDeleteAsync($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
+    public function deleteV1DeliveryDeleteAsync($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
     {
-        return $this->deleteV1DeliveryDeleteAsyncWithHttpInfo($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request, $contentType)
+        return $this->deleteV1DeliveryDeleteAsyncWithHttpInfo($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -282,18 +324,18 @@ class ApiDeliveryApi
      * 删除发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id query 方式传入的单个 ID。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1DeliveryDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1DeliveryDeleteAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
+    public function deleteV1DeliveryDeleteAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
     {
-        $returnType = '\TachainSdk\Model\Model4';
-        $request = $this->deleteV1DeliveryDeleteRequest($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request, $contentType);
+        $returnType = '\TachainSdk\Model\DeleteV1DeclarationDelete200Response';
+        $request = $this->deleteV1DeliveryDeleteRequest($x_credential_type, $id, $number, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -335,15 +377,15 @@ class ApiDeliveryApi
      * Create request for operation 'deleteV1DeliveryDelete'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id query 方式传入的单个 ID。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1DeliveryDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteV1DeliveryDeleteRequest($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
+    public function deleteV1DeliveryDeleteRequest($x_credential_type, $id = null, $number = null, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request = null, string $contentType = self::contentTypes['deleteV1DeliveryDelete'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -397,16 +439,16 @@ class ApiDeliveryApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_delete_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -483,37 +525,43 @@ class ApiDeliveryApi
      * 查询发货单信息及明细信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $customer_id  (optional)
-     * @param  string[]|null $customer_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string[]|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\GetV1DeliveryListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function getV1DeliveryListPaging($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
+    public function getV1DeliveryListPaging($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
     {
-        list($response) = $this->getV1DeliveryListPagingWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        list($response) = $this->getV1DeliveryListPagingWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
         return $response;
     }
 
@@ -523,37 +571,43 @@ class ApiDeliveryApi
      * 查询发货单信息及明细信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $customer_id  (optional)
-     * @param  string[]|null $customer_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string[]|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\GetV1DeliveryListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getV1DeliveryListPagingWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
+    public function getV1DeliveryListPagingWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
     {
-        $request = $this->getV1DeliveryListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        $request = $this->getV1DeliveryListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -581,7 +635,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -603,7 +675,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
                 $request,
                 $response,
             );
@@ -612,7 +684,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -630,36 +726,42 @@ class ApiDeliveryApi
      * 查询发货单信息及明细信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $customer_id  (optional)
-     * @param  string[]|null $customer_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string[]|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1DeliveryListPagingAsync($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
+    public function getV1DeliveryListPagingAsync($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
     {
-        return $this->getV1DeliveryListPagingAsyncWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $contentType)
+        return $this->getV1DeliveryListPagingAsyncWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -673,37 +775,43 @@ class ApiDeliveryApi
      * 查询发货单信息及明细信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $customer_id  (optional)
-     * @param  string[]|null $customer_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string[]|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1DeliveryListPagingAsyncWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
+    public function getV1DeliveryListPagingAsyncWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->getV1DeliveryListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        $returnType = '\TachainSdk\Model\GetV1DeliveryListPaging200Response';
+        $request = $this->getV1DeliveryListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $customer_id, $customer_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -745,34 +853,40 @@ class ApiDeliveryApi
      * Create request for operation 'getV1DeliveryListPaging'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $customer_id  (optional)
-     * @param  string[]|null $customer_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string[]|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getV1DeliveryListPagingRequest($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
+    public function getV1DeliveryListPagingRequest($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $customer_id = null, $customer_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryListPaging'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -781,6 +895,12 @@ class ApiDeliveryApi
                 'Missing the required parameter $x_credential_type when calling getV1DeliveryListPaging'
             );
         }
+
+
+
+
+
+
 
 
 
@@ -1010,6 +1130,60 @@ class ApiDeliveryApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_ext_no,
+            'customerExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_ext_no,
+            'supplierExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_customer_code,
+            'orderCustomerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_supplier_code,
+            'orderSupplierCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_customer_name,
+            'orderCustomerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_supplier_name,
+            'orderSupplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
         // header params
         if ($x_credential_type !== null) {
@@ -1100,37 +1274,43 @@ class ApiDeliveryApi
      * 查询收货单集合，核对收货信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $supplier_id  (optional)
-     * @param  string[]|null $supplier_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string[]|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryReceiptListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\GetV1DeliveryListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function getV1DeliveryReceiptListPaging($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
+    public function getV1DeliveryReceiptListPaging($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
     {
-        list($response) = $this->getV1DeliveryReceiptListPagingWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        list($response) = $this->getV1DeliveryReceiptListPagingWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
         return $response;
     }
 
@@ -1140,37 +1320,43 @@ class ApiDeliveryApi
      * 查询收货单集合，核对收货信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $supplier_id  (optional)
-     * @param  string[]|null $supplier_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string[]|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryReceiptListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\GetV1DeliveryListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getV1DeliveryReceiptListPagingWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
+    public function getV1DeliveryReceiptListPagingWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
     {
-        $request = $this->getV1DeliveryReceiptListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        $request = $this->getV1DeliveryReceiptListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1198,7 +1384,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -1220,7 +1424,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
                 $request,
                 $response,
             );
@@ -1229,7 +1433,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1DeliveryListPaging200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1247,36 +1475,42 @@ class ApiDeliveryApi
      * 查询收货单集合，核对收货信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $supplier_id  (optional)
-     * @param  string[]|null $supplier_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string[]|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryReceiptListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1DeliveryReceiptListPagingAsync($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
+    public function getV1DeliveryReceiptListPagingAsync($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
     {
-        return $this->getV1DeliveryReceiptListPagingAsyncWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $contentType)
+        return $this->getV1DeliveryReceiptListPagingAsyncWithHttpInfo($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1290,37 +1524,43 @@ class ApiDeliveryApi
      * 查询收货单集合，核对收货信息。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $supplier_id  (optional)
-     * @param  string[]|null $supplier_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string[]|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryReceiptListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1DeliveryReceiptListPagingAsyncWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
+    public function getV1DeliveryReceiptListPagingAsyncWithHttpInfo($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->getV1DeliveryReceiptListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $contentType);
+        $returnType = '\TachainSdk\Model\GetV1DeliveryListPaging200Response';
+        $request = $this->getV1DeliveryReceiptListPagingRequest($x_credential_type, $id, $is_transfer, $match_number, $from_country, $to_country, $search_text, $number, $order_id, $delivery_date_start, $delivery_date_end, $order_line_id, $order_number, $order_date, $line_number, $unique_no, $status, $supplier_id, $supplier_code, $business_status, $sort_by, $page, $page_size, $customer_ext_no, $supplier_ext_no, $order_customer_code, $order_supplier_code, $order_customer_name, $order_supplier_name, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1362,34 +1602,40 @@ class ApiDeliveryApi
      * Create request for operation 'getV1DeliveryReceiptListPaging'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  int|null $id  (optional)
-     * @param  int|null $is_transfer  (optional)
-     * @param  string|null $match_number  (optional)
-     * @param  string|null $from_country  (optional)
-     * @param  string|null $to_country  (optional)
-     * @param  string|null $search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $number  (optional)
-     * @param  string|null $order_id  (optional)
-     * @param  \DateTime|null $delivery_date_start  (optional)
-     * @param  \DateTime|null $delivery_date_end  (optional)
-     * @param  string|null $order_line_id  (optional)
-     * @param  string|null $order_number  (optional)
-     * @param  \DateTime|null $order_date  (optional)
-     * @param  string|null $line_number  (optional)
-     * @param  string|null $unique_no  (optional)
-     * @param  int[]|null $status  (optional)
-     * @param  string[]|null $supplier_id  (optional)
-     * @param  string[]|null $supplier_code  (optional)
-     * @param  int|null $business_status  (optional)
-     * @param  string|null $sort_by  (optional)
-     * @param  int|null $page  (optional, default to 1)
-     * @param  int|null $page_size  (optional, default to 10)
+     * @param  int|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  int|null $is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     * @param  string|null $match_number 完整发货单号，精确匹配。 (optional)
+     * @param  string|null $from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     * @param  \DateTime|null $delivery_date_start 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  \DateTime|null $delivery_date_end 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param  string[]|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string[]|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  int|null $business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     * @param  string|null $order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     * @param  string|null $order_supplier_name 关联订单的供应商名称；用于订单定位。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1DeliveryReceiptListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getV1DeliveryReceiptListPagingRequest($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
+    public function getV1DeliveryReceiptListPagingRequest($x_credential_type, $id = null, $is_transfer = null, $match_number = null, $from_country = null, $to_country = null, $search_text = null, $number = null, $order_id = null, $delivery_date_start = null, $delivery_date_end = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $unique_no = null, $status = null, $supplier_id = null, $supplier_code = null, $business_status = null, $sort_by = null, $page = 1, $page_size = 10, $customer_ext_no = null, $supplier_ext_no = null, $order_customer_code = null, $order_supplier_code = null, $order_customer_name = null, $order_supplier_name = null, string $contentType = self::contentTypes['getV1DeliveryReceiptListPaging'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -1398,6 +1644,12 @@ class ApiDeliveryApi
                 'Missing the required parameter $x_credential_type when calling getV1DeliveryReceiptListPaging'
             );
         }
+
+
+
+
+
+
 
 
 
@@ -1627,6 +1879,60 @@ class ApiDeliveryApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_ext_no,
+            'customerExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_ext_no,
+            'supplierExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_customer_code,
+            'orderCustomerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_supplier_code,
+            'orderSupplierCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_customer_name,
+            'orderCustomerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_supplier_name,
+            'orderSupplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
         // header params
         if ($x_credential_type !== null) {
@@ -1717,16 +2023,16 @@ class ApiDeliveryApi
      * 创建发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1DeliveryCreate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails
+     * @return \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function postV1DeliveryCreate($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
+    public function postV1DeliveryCreate($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
     {
-        list($response) = $this->postV1DeliveryCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        list($response) = $this->postV1DeliveryCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, $contentType);
         return $response;
     }
 
@@ -1736,16 +2042,16 @@ class ApiDeliveryApi
      * 创建发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1DeliveryCreate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postV1DeliveryCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
+    public function postV1DeliveryCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
     {
-        $request = $this->postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        $request = $this->postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1771,15 +2077,27 @@ class ApiDeliveryApi
 
 
             switch($statusCode) {
-                case 201:
+                case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -1801,16 +2119,16 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
                 $request,
                 $response,
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 201:
+                case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1818,7 +2136,23 @@ class ApiDeliveryApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -1836,15 +2170,15 @@ class ApiDeliveryApi
      * 创建发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1DeliveryCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1DeliveryCreateAsync($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
+    public function postV1DeliveryCreateAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
     {
-        return $this->postV1DeliveryCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType)
+        return $this->postV1DeliveryCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1858,16 +2192,16 @@ class ApiDeliveryApi
      * 创建发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1DeliveryCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1DeliveryCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
+    public function postV1DeliveryCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response';
+        $request = $this->postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1909,13 +2243,13 @@ class ApiDeliveryApi
      * Create request for operation 'postV1DeliveryCreate'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1DeliveryCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
+    public function postV1DeliveryCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request, string $contentType = self::contentTypes['postV1DeliveryCreate'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -1925,6 +2259,12 @@ class ApiDeliveryApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request when calling postV1DeliveryCreate'
+            );
+        }
 
 
         $resourcePath = '/v1/delivery/Create';
@@ -1949,16 +2289,16 @@ class ApiDeliveryApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_view_models_delivery_note_api_dto)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_view_models_delivery_note_api_dto), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_view_models_delivery_note_api_dto;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_create_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -2035,17 +2375,23 @@ class ApiDeliveryApi
      * 确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要确认收货的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function putV1DeliveryConfirmReceipt($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
+    public function putV1DeliveryConfirmReceipt($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
     {
-        list($response) = $this->putV1DeliveryConfirmReceiptWithHttpInfo($x_credential_type, $id, $number, $contentType);
+        list($response) = $this->putV1DeliveryConfirmReceiptWithHttpInfo($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
         return $response;
     }
 
@@ -2055,17 +2401,23 @@ class ApiDeliveryApi
      * 确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要确认收货的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function putV1DeliveryConfirmReceiptWithHttpInfo($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
+    public function putV1DeliveryConfirmReceiptWithHttpInfo($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
     {
-        $request = $this->putV1DeliveryConfirmReceiptRequest($x_credential_type, $id, $number, $contentType);
+        $request = $this->putV1DeliveryConfirmReceiptRequest($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2093,7 +2445,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -2115,7 +2485,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
                 $request,
                 $response,
             );
@@ -2124,7 +2494,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2142,16 +2536,22 @@ class ApiDeliveryApi
      * 确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要确认收货的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryConfirmReceiptAsync($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
+    public function putV1DeliveryConfirmReceiptAsync($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
     {
-        return $this->putV1DeliveryConfirmReceiptAsyncWithHttpInfo($x_credential_type, $id, $number, $contentType)
+        return $this->putV1DeliveryConfirmReceiptAsyncWithHttpInfo($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2165,17 +2565,23 @@ class ApiDeliveryApi
      * 确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要确认收货的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryConfirmReceiptAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
+    public function putV1DeliveryConfirmReceiptAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->putV1DeliveryConfirmReceiptRequest($x_credential_type, $id, $number, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response';
+        $request = $this->putV1DeliveryConfirmReceiptRequest($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2217,14 +2623,20 @@ class ApiDeliveryApi
      * Create request for operation 'putV1DeliveryConfirmReceipt'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要确认收货的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function putV1DeliveryConfirmReceiptRequest($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
+    public function putV1DeliveryConfirmReceiptRequest($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryConfirmReceipt'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -2233,6 +2645,12 @@ class ApiDeliveryApi
                 'Missing the required parameter $x_credential_type when calling putV1DeliveryConfirmReceipt'
             );
         }
+
+
+
+
+
+
 
 
 
@@ -2257,6 +2675,60 @@ class ApiDeliveryApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $number,
             'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_id,
+            'CustomerId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_name,
+            'CustomerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_code,
+            'CustomerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_id,
+            'SupplierId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_name,
+            'SupplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_code,
+            'SupplierCode', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -2352,17 +2824,23 @@ class ApiDeliveryApi
      * 收货退回。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要退回的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryReturnReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+     * @return \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function putV1DeliveryReturnReceipt($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
+    public function putV1DeliveryReturnReceipt($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
     {
-        list($response) = $this->putV1DeliveryReturnReceiptWithHttpInfo($x_credential_type, $id, $number, $contentType);
+        list($response) = $this->putV1DeliveryReturnReceiptWithHttpInfo($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
         return $response;
     }
 
@@ -2372,17 +2850,23 @@ class ApiDeliveryApi
      * 收货退回。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要退回的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryReturnReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function putV1DeliveryReturnReceiptWithHttpInfo($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
+    public function putV1DeliveryReturnReceiptWithHttpInfo($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
     {
-        $request = $this->putV1DeliveryReturnReceiptRequest($x_credential_type, $id, $number, $contentType);
+        $request = $this->putV1DeliveryReturnReceiptRequest($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2410,7 +2894,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -2432,7 +2934,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
                 $request,
                 $response,
             );
@@ -2441,7 +2943,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2459,16 +2985,22 @@ class ApiDeliveryApi
      * 收货退回。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要退回的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryReturnReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryReturnReceiptAsync($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
+    public function putV1DeliveryReturnReceiptAsync($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
     {
-        return $this->putV1DeliveryReturnReceiptAsyncWithHttpInfo($x_credential_type, $id, $number, $contentType)
+        return $this->putV1DeliveryReturnReceiptAsyncWithHttpInfo($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2482,17 +3014,23 @@ class ApiDeliveryApi
      * 收货退回。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要退回的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryReturnReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryReturnReceiptAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
+    public function putV1DeliveryReturnReceiptAsyncWithHttpInfo($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
-        $request = $this->putV1DeliveryReturnReceiptRequest($x_credential_type, $id, $number, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response';
+        $request = $this->putV1DeliveryReturnReceiptRequest($x_credential_type, $id, $number, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2534,14 +3072,20 @@ class ApiDeliveryApi
      * Create request for operation 'putV1DeliveryReturnReceipt'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $id 需要退回的发货/收货流转单 ID。 (optional)
-     * @param  string|null $number  (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryReturnReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function putV1DeliveryReturnReceiptRequest($x_credential_type, $id = null, $number = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
+    public function putV1DeliveryReturnReceiptRequest($x_credential_type, $id = null, $number = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['putV1DeliveryReturnReceipt'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -2550,6 +3094,12 @@ class ApiDeliveryApi
                 'Missing the required parameter $x_credential_type when calling putV1DeliveryReturnReceipt'
             );
         }
+
+
+
+
+
+
 
 
 
@@ -2574,6 +3124,60 @@ class ApiDeliveryApi
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $number,
             'number', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_id,
+            'CustomerId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_name,
+            'CustomerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_code,
+            'CustomerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_id,
+            'SupplierId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_name,
+            'SupplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_code,
+            'SupplierCode', // param base name
             'string', // openApiType
             'form', // style
             true, // explode
@@ -2669,16 +3273,16 @@ class ApiDeliveryApi
      * 修改发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryUpdate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function putV1DeliveryUpdate($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
+    public function putV1DeliveryUpdate($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
     {
-        list($response) = $this->putV1DeliveryUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        list($response) = $this->putV1DeliveryUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, $contentType);
         return $response;
     }
 
@@ -2688,16 +3292,16 @@ class ApiDeliveryApi
      * 修改发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryUpdate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function putV1DeliveryUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
+    public function putV1DeliveryUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
     {
-        $request = $this->putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        $request = $this->putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2725,7 +3329,25 @@ class ApiDeliveryApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -2747,7 +3369,7 @@ class ApiDeliveryApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
                 $request,
                 $response,
             );
@@ -2756,7 +3378,31 @@ class ApiDeliveryApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2774,15 +3420,15 @@ class ApiDeliveryApi
      * 修改发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryUpdateAsync($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
+    public function putV1DeliveryUpdateAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
     {
-        return $this->putV1DeliveryUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType)
+        return $this->putV1DeliveryUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2796,16 +3442,16 @@ class ApiDeliveryApi
      * 修改发货单。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1DeliveryUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
+    public function putV1DeliveryUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryConfirmReceipt200Response';
+        $request = $this->putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2847,13 +3493,13 @@ class ApiDeliveryApi
      * Create request for operation 'putV1DeliveryUpdate'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsDeliveryNoteApiDto|null $tactic_chain_api_service_view_models_delivery_note_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1DeliveryUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_delivery_note_api_dto = null, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
+    public function putV1DeliveryUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request, string $contentType = self::contentTypes['putV1DeliveryUpdate'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -2863,6 +3509,12 @@ class ApiDeliveryApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request when calling putV1DeliveryUpdate'
+            );
+        }
 
 
         $resourcePath = '/v1/delivery/Update';
@@ -2887,16 +3539,16 @@ class ApiDeliveryApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_view_models_delivery_note_api_dto)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_view_models_delivery_note_api_dto), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_view_models_delivery_note_api_dto;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_delivery_update_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

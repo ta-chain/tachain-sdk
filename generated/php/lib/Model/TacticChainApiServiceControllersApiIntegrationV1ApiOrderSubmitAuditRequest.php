@@ -58,13 +58,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @var string[]
      */
     protected static $openAPITypes = [
+        'customer_id' => 'string',
+        'customer_name' => 'string',
+        'customer_code' => 'string',
+        'supplier_id' => 'string',
+        'supplier_name' => 'string',
+        'supplier_code' => 'string',
+        'customer_ext_no' => 'string',
+        'supplier_ext_no' => 'string',
+        'unique_no' => 'string',
         'order_id' => 'string',
         'order_line_id' => 'string',
         'order_number' => 'string',
         'order_date' => '\DateTime',
         'line_number' => 'string',
-        'customer_id' => 'string',
-        'customer_name' => 'string',
         'confirm_warnings' => 'bool'
     ];
 
@@ -76,13 +83,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
+        'customer_id' => null,
+        'customer_name' => null,
+        'customer_code' => null,
+        'supplier_id' => null,
+        'supplier_name' => null,
+        'supplier_code' => null,
+        'customer_ext_no' => null,
+        'supplier_ext_no' => null,
+        'unique_no' => null,
         'order_id' => null,
         'order_line_id' => null,
         'order_number' => null,
         'order_date' => 'date-time',
         'line_number' => null,
-        'customer_id' => null,
-        'customer_name' => null,
         'confirm_warnings' => null
     ];
 
@@ -92,13 +106,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @var boolean[]
      */
     protected static array $openAPINullables = [
+        'customer_id' => true,
+        'customer_name' => true,
+        'customer_code' => true,
+        'supplier_id' => true,
+        'supplier_name' => true,
+        'supplier_code' => true,
+        'customer_ext_no' => true,
+        'supplier_ext_no' => true,
+        'unique_no' => true,
         'order_id' => true,
         'order_line_id' => true,
         'order_number' => true,
         'order_date' => true,
         'line_number' => true,
-        'customer_id' => true,
-        'customer_name' => true,
         'confirm_warnings' => false
     ];
 
@@ -188,13 +209,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @var string[]
      */
     protected static $attributeMap = [
+        'customer_id' => 'customerId',
+        'customer_name' => 'customerName',
+        'customer_code' => 'customerCode',
+        'supplier_id' => 'supplierId',
+        'supplier_name' => 'supplierName',
+        'supplier_code' => 'supplierCode',
+        'customer_ext_no' => 'customerExtNo',
+        'supplier_ext_no' => 'supplierExtNo',
+        'unique_no' => 'uniqueNo',
         'order_id' => 'orderId',
         'order_line_id' => 'orderLineId',
         'order_number' => 'orderNumber',
         'order_date' => 'orderDate',
         'line_number' => 'lineNumber',
-        'customer_id' => 'customerId',
-        'customer_name' => 'customerName',
         'confirm_warnings' => 'confirmWarnings'
     ];
 
@@ -204,13 +232,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @var string[]
      */
     protected static $setters = [
+        'customer_id' => 'setCustomerId',
+        'customer_name' => 'setCustomerName',
+        'customer_code' => 'setCustomerCode',
+        'supplier_id' => 'setSupplierId',
+        'supplier_name' => 'setSupplierName',
+        'supplier_code' => 'setSupplierCode',
+        'customer_ext_no' => 'setCustomerExtNo',
+        'supplier_ext_no' => 'setSupplierExtNo',
+        'unique_no' => 'setUniqueNo',
         'order_id' => 'setOrderId',
         'order_line_id' => 'setOrderLineId',
         'order_number' => 'setOrderNumber',
         'order_date' => 'setOrderDate',
         'line_number' => 'setLineNumber',
-        'customer_id' => 'setCustomerId',
-        'customer_name' => 'setCustomerName',
         'confirm_warnings' => 'setConfirmWarnings'
     ];
 
@@ -220,13 +255,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      * @var string[]
      */
     protected static $getters = [
+        'customer_id' => 'getCustomerId',
+        'customer_name' => 'getCustomerName',
+        'customer_code' => 'getCustomerCode',
+        'supplier_id' => 'getSupplierId',
+        'supplier_name' => 'getSupplierName',
+        'supplier_code' => 'getSupplierCode',
+        'customer_ext_no' => 'getCustomerExtNo',
+        'supplier_ext_no' => 'getSupplierExtNo',
+        'unique_no' => 'getUniqueNo',
         'order_id' => 'getOrderId',
         'order_line_id' => 'getOrderLineId',
         'order_number' => 'getOrderNumber',
         'order_date' => 'getOrderDate',
         'line_number' => 'getLineNumber',
-        'customer_id' => 'getCustomerId',
-        'customer_name' => 'getCustomerName',
         'confirm_warnings' => 'getConfirmWarnings'
     ];
 
@@ -287,13 +329,20 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
      */
     public function __construct(?array $data = null)
     {
+        $this->setIfExists('customer_id', $data ?? [], null);
+        $this->setIfExists('customer_name', $data ?? [], null);
+        $this->setIfExists('customer_code', $data ?? [], null);
+        $this->setIfExists('supplier_id', $data ?? [], null);
+        $this->setIfExists('supplier_name', $data ?? [], null);
+        $this->setIfExists('supplier_code', $data ?? [], null);
+        $this->setIfExists('customer_ext_no', $data ?? [], null);
+        $this->setIfExists('supplier_ext_no', $data ?? [], null);
+        $this->setIfExists('unique_no', $data ?? [], null);
         $this->setIfExists('order_id', $data ?? [], null);
         $this->setIfExists('order_line_id', $data ?? [], null);
         $this->setIfExists('order_number', $data ?? [], null);
         $this->setIfExists('order_date', $data ?? [], null);
         $this->setIfExists('line_number', $data ?? [], null);
-        $this->setIfExists('customer_id', $data ?? [], null);
-        $this->setIfExists('customer_name', $data ?? [], null);
         $this->setIfExists('confirm_warnings', $data ?? [], null);
     }
 
@@ -324,9 +373,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
     {
         $invalidProperties = [];
 
-        if ($this->container['confirm_warnings'] === null) {
-            $invalidProperties[] = "'confirm_warnings' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -341,6 +387,312 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets customer_id
+     *
+     * @return string|null
+     */
+    public function getCustomerId()
+    {
+        return $this->container['customer_id'];
+    }
+
+    /**
+     * Sets customer_id
+     *
+     * @param string|null $customer_id 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+     *
+     * @return self
+     */
+    public function setCustomerId($customer_id)
+    {
+        if (is_null($customer_id)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_id'] = $customer_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_name
+     *
+     * @return string|null
+     */
+    public function getCustomerName()
+    {
+        return $this->container['customer_name'];
+    }
+
+    /**
+     * Sets customer_name
+     *
+     * @param string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     *
+     * @return self
+     */
+    public function setCustomerName($customer_name)
+    {
+        if (is_null($customer_name)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_name'] = $customer_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_code
+     *
+     * @return string|null
+     */
+    public function getCustomerCode()
+    {
+        return $this->container['customer_code'];
+    }
+
+    /**
+     * Sets customer_code
+     *
+     * @param string|null $customer_code 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+     *
+     * @return self
+     */
+    public function setCustomerCode($customer_code)
+    {
+        if (is_null($customer_code)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_code'] = $customer_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_id
+     *
+     * @return string|null
+     */
+    public function getSupplierId()
+    {
+        return $this->container['supplier_id'];
+    }
+
+    /**
+     * Sets supplier_id
+     *
+     * @param string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     *
+     * @return self
+     */
+    public function setSupplierId($supplier_id)
+    {
+        if (is_null($supplier_id)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_id'] = $supplier_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_name
+     *
+     * @return string|null
+     */
+    public function getSupplierName()
+    {
+        return $this->container['supplier_name'];
+    }
+
+    /**
+     * Sets supplier_name
+     *
+     * @param string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+     *
+     * @return self
+     */
+    public function setSupplierName($supplier_name)
+    {
+        if (is_null($supplier_name)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_name'] = $supplier_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_code
+     *
+     * @return string|null
+     */
+    public function getSupplierCode()
+    {
+        return $this->container['supplier_code'];
+    }
+
+    /**
+     * Sets supplier_code
+     *
+     * @param string|null $supplier_code 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+     *
+     * @return self
+     */
+    public function setSupplierCode($supplier_code)
+    {
+        if (is_null($supplier_code)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_code'] = $supplier_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_ext_no
+     *
+     * @return string|null
+     */
+    public function getCustomerExtNo()
+    {
+        return $this->container['customer_ext_no'];
+    }
+
+    /**
+     * Sets customer_ext_no
+     *
+     * @param string|null $customer_ext_no 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+     *
+     * @return self
+     */
+    public function setCustomerExtNo($customer_ext_no)
+    {
+        if (is_null($customer_ext_no)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_ext_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_ext_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_ext_no'] = $customer_ext_no;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_ext_no
+     *
+     * @return string|null
+     */
+    public function getSupplierExtNo()
+    {
+        return $this->container['supplier_ext_no'];
+    }
+
+    /**
+     * Sets supplier_ext_no
+     *
+     * @param string|null $supplier_ext_no 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+     *
+     * @return self
+     */
+    public function setSupplierExtNo($supplier_ext_no)
+    {
+        if (is_null($supplier_ext_no)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_ext_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_ext_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_ext_no'] = $supplier_ext_no;
+
+        return $this;
+    }
+
+    /**
+     * Gets unique_no
+     *
+     * @return string|null
+     */
+    public function getUniqueNo()
+    {
+        return $this->container['unique_no'];
+    }
+
+    /**
+     * Sets unique_no
+     *
+     * @param string|null $unique_no 订单明细的全局唯一系统流水号。
+     *
+     * @return self
+     */
+    public function setUniqueNo($unique_no)
+    {
+        if (is_null($unique_no)) {
+            array_push($this->openAPINullablesSetToNull, 'unique_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('unique_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['unique_no'] = $unique_no;
+
+        return $this;
+    }
 
     /**
      * Gets order_id
@@ -423,7 +775,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
     /**
      * Sets order_number
      *
-     * @param string|null $order_number 订单号；不传任何内部 ID 时必填。
+     * @param string|null $order_number 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。
      *
      * @return self
      */
@@ -457,7 +809,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
     /**
      * Sets order_date
      *
-     * @param \DateTime|null $order_date 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。
+     * @param \DateTime|null $order_date 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。
      *
      * @return self
      */
@@ -513,77 +865,9 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
     }
 
     /**
-     * Gets customer_id
-     *
-     * @return string|null
-     */
-    public function getCustomerId()
-    {
-        return $this->container['customer_id'];
-    }
-
-    /**
-     * Sets customer_id
-     *
-     * @param string|null $customer_id 买方公司 ID；业务键定位时与 CustomerName 至少传一个。
-     *
-     * @return self
-     */
-    public function setCustomerId($customer_id)
-    {
-        if (is_null($customer_id)) {
-            array_push($this->openAPINullablesSetToNull, 'customer_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('customer_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['customer_id'] = $customer_id;
-
-        return $this;
-    }
-
-    /**
-     * Gets customer_name
-     *
-     * @return string|null
-     */
-    public function getCustomerName()
-    {
-        return $this->container['customer_name'];
-    }
-
-    /**
-     * Sets customer_name
-     *
-     * @param string|null $customer_name 买方名称，支持英文名、当地语言名称或简称，精确匹配。
-     *
-     * @return self
-     */
-    public function setCustomerName($customer_name)
-    {
-        if (is_null($customer_name)) {
-            array_push($this->openAPINullablesSetToNull, 'customer_name');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('customer_name', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['customer_name'] = $customer_name;
-
-        return $this;
-    }
-
-    /**
      * Gets confirm_warnings
      *
-     * @return bool
+     * @return bool|null
      */
     public function getConfirmWarnings()
     {
@@ -593,7 +877,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
     /**
      * Sets confirm_warnings
      *
-     * @param bool $confirm_warnings 是否确认 Type=0 的警告，默认 false；不能跳过 Type=1 阻断错误。
+     * @param bool|null $confirm_warnings 是否确认 Type=0 的警告，默认 false；不能跳过 Type=1 阻断错误。
      *
      * @return self
      */

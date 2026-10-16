@@ -19,11 +19,13 @@ import (
 // checks if the Model4 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Model4{}
 
-// Model4 struct for Model4
+// Model4 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
 type Model4 struct {
+	// 业务状态码。
 	Code int32 `json:"code"`
-	Message string `json:"message"`
-	Data []string `json:"data,omitempty"`
+	Data *TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull `json:"data,omitempty"`
+	// 按请求语言返回的提示，未指定语言时默认中文。
+	Message NullableString `json:"message,omitempty"`
 }
 
 type _Model4 Model4
@@ -32,10 +34,9 @@ type _Model4 Model4
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel4(code int32, message string) *Model4 {
+func NewModel4(code int32) *Model4 {
 	this := Model4{}
 	this.Code = code
-	this.Message = message
 	return &this
 }
 
@@ -71,43 +72,18 @@ func (o *Model4) SetCode(v int32) {
 	o.Code = v
 }
 
-// GetMessage returns the Message field value
-func (o *Model4) GetMessage() string {
-	if o == nil {
-		var ret string
+// GetData returns the Data field value if set, zero value otherwise.
+func (o *Model4) GetData() TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull {
+	if o == nil || IsNil(o.Data) {
+		var ret TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
 		return ret
 	}
-
-	return o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value
-// and a boolean to check if the value has been set.
-func (o *Model4) GetMessageOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Message, true
-}
-
-// SetMessage sets field value
-func (o *Model4) SetMessage(v string) {
-	o.Message = v
-}
-
-// GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Model4) GetData() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-	return o.Data
+	return *o.Data
 }
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Model4) GetDataOk() ([]string, bool) {
+func (o *Model4) GetDataOk() (*TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, bool) {
 	if o == nil || IsNil(o.Data) {
 		return nil, false
 	}
@@ -123,9 +99,51 @@ func (o *Model4) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given []string and assigns it to the Data field.
-func (o *Model4) SetData(v []string) {
-	o.Data = v
+// SetData gets a reference to the given TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull and assigns it to the Data field.
+func (o *Model4) SetData(v TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull) {
+	o.Data = &v
+}
+
+// GetMessage returns the Message field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Model4) GetMessage() string {
+	if o == nil || IsNil(o.Message.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Message.Get()
+}
+
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Model4) GetMessageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Message.Get(), o.Message.IsSet()
+}
+
+// HasMessage returns a boolean if a field has been set.
+func (o *Model4) HasMessage() bool {
+	if o != nil && o.Message.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetMessage gets a reference to the given NullableString and assigns it to the Message field.
+func (o *Model4) SetMessage(v string) {
+	o.Message.Set(&v)
+}
+// SetMessageNil sets the value for Message to be an explicit nil
+func (o *Model4) SetMessageNil() {
+	o.Message.Set(nil)
+}
+
+// UnsetMessage ensures that no value is present for Message, not even an explicit nil
+func (o *Model4) UnsetMessage() {
+	o.Message.Unset()
 }
 
 func (o Model4) MarshalJSON() ([]byte, error) {
@@ -139,9 +157,11 @@ func (o Model4) MarshalJSON() ([]byte, error) {
 func (o Model4) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["code"] = o.Code
-	toSerialize["message"] = o.Message
-	if o.Data != nil {
+	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
+	}
+	if o.Message.IsSet() {
+		toSerialize["message"] = o.Message.Get()
 	}
 	return toSerialize, nil
 }
@@ -152,7 +172,6 @@ func (o *Model4) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"code",
-		"message",
 	}
 
 	allProperties := make(map[string]interface{})

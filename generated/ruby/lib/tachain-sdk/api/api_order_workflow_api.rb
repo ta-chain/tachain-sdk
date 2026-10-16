@@ -19,24 +19,215 @@ module TachainSdk
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # 销售方根据已入库的订单、生产、发货及申报资料提交审核。
-    # 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+    # 采购订单确认收货待办项查询。
+    # 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiOrderSubmitAuditRequest] :api_order_submit_audit_request 
-    # @return [nil]
-    def post_v1_order_submit_audit(x_credential_type, opts = {})
-      post_v1_order_submit_audit_with_http_info(x_credential_type, opts)
-      nil
+    # @option opts [String] :order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+    # @option opts [String] :order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+    # @option opts [String] :supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+    # @return [GetV1OrderReceiptPending200Response]
+    def get_v1_order_receipt_pending(x_credential_type, opts = {})
+      data, _status_code, _headers = get_v1_order_receipt_pending_with_http_info(x_credential_type, opts)
+      data
+    end
+
+    # 采购订单确认收货待办项查询。
+    # 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+    # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+    # @option opts [String] :order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+    # @option opts [String] :supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+    # @return [Array<(GetV1OrderReceiptPending200Response, Integer, Hash)>] GetV1OrderReceiptPending200Response data, response status code and response headers
+    def get_v1_order_receipt_pending_with_http_info(x_credential_type, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ApiOrderWorkflowApi.get_v1_order_receipt_pending ...'
+      end
+      # verify the required parameter 'x_credential_type' is set
+      if @api_client.config.client_side_validation && x_credential_type.nil?
+        fail ArgumentError, "Missing the required parameter 'x_credential_type' when calling ApiOrderWorkflowApi.get_v1_order_receipt_pending"
+      end
+      # verify enum value
+      allowable_values = ["Token", "API Key"]
+      if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
+        fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/v1/order/ReceiptPending'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+      query_params[:'OrderId'] = opts[:'order_id'] if !opts[:'order_id'].nil?
+      query_params[:'OrderLineId'] = opts[:'order_line_id'] if !opts[:'order_line_id'].nil?
+      query_params[:'OrderNumber'] = opts[:'order_number'] if !opts[:'order_number'].nil?
+      query_params[:'OrderDate'] = opts[:'order_date'] if !opts[:'order_date'].nil?
+      query_params[:'LineNumber'] = opts[:'line_number'] if !opts[:'line_number'].nil?
+      query_params[:'CustomerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
+      query_params[:'SupplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
+      query_params[:'UniqueNo'] = opts[:'unique_no'] if !opts[:'unique_no'].nil?
+      query_params[:'CustomerId'] = opts[:'customer_id'] if !opts[:'customer_id'].nil?
+      query_params[:'CustomerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'CustomerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'SupplierId'] = opts[:'supplier_id'] if !opts[:'supplier_id'].nil?
+      query_params[:'SupplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
+      query_params[:'SupplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      header_params[:'X-Credential-Type'] = x_credential_type
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body]
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'GetV1OrderReceiptPending200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
+
+      new_options = opts.merge(
+        :operation => :"ApiOrderWorkflowApi.get_v1_order_receipt_pending",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ApiOrderWorkflowApi#get_v1_order_receipt_pending\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # 销售订单提交审核前一键校验。
+    # 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+    # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_declaration_verification_request [ApiOrderDeclarationVerificationRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [PostV1OrderDeclarationVerification200Response]
+    def post_v1_order_declaration_verification(x_credential_type, api_order_declaration_verification_request, opts = {})
+      data, _status_code, _headers = post_v1_order_declaration_verification_with_http_info(x_credential_type, api_order_declaration_verification_request, opts)
+      data
+    end
+
+    # 销售订单提交审核前一键校验。
+    # 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+    # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_declaration_verification_request [ApiOrderDeclarationVerificationRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PostV1OrderDeclarationVerification200Response, Integer, Hash)>] PostV1OrderDeclarationVerification200Response data, response status code and response headers
+    def post_v1_order_declaration_verification_with_http_info(x_credential_type, api_order_declaration_verification_request, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: ApiOrderWorkflowApi.post_v1_order_declaration_verification ...'
+      end
+      # verify the required parameter 'x_credential_type' is set
+      if @api_client.config.client_side_validation && x_credential_type.nil?
+        fail ArgumentError, "Missing the required parameter 'x_credential_type' when calling ApiOrderWorkflowApi.post_v1_order_declaration_verification"
+      end
+      # verify enum value
+      allowable_values = ["Token", "API Key"]
+      if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
+        fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_order_declaration_verification_request' is set
+      if @api_client.config.client_side_validation && api_order_declaration_verification_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_order_declaration_verification_request' when calling ApiOrderWorkflowApi.post_v1_order_declaration_verification"
+      end
+      # resource path
+      local_var_path = '/v1/order/DeclarationVerification'
+
+      # query parameters
+      query_params = opts[:query_params] || {}
+
+      # header parameters
+      header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
+      # HTTP header 'Content-Type'
+      content_type = @api_client.select_header_content_type(['application/json'])
+      if !content_type.nil?
+          header_params['Content-Type'] = content_type
+      end
+      header_params[:'X-Credential-Type'] = x_credential_type
+
+      # form parameters
+      form_params = opts[:form_params] || {}
+
+      # http body (model)
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_order_declaration_verification_request)
+
+      # return_type
+      return_type = opts[:debug_return_type] || 'PostV1OrderDeclarationVerification200Response'
+
+      # auth_names
+      auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
+
+      new_options = opts.merge(
+        :operation => :"ApiOrderWorkflowApi.post_v1_order_declaration_verification",
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: ApiOrderWorkflowApi#post_v1_order_declaration_verification\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
     end
 
     # 销售方根据已入库的订单、生产、发货及申报资料提交审核。
-    # 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+    # 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_submit_audit_request [ApiOrderSubmitAuditRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiOrderSubmitAuditRequest] :api_order_submit_audit_request 
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def post_v1_order_submit_audit_with_http_info(x_credential_type, opts = {})
+    # @return [PostV1OrderSubmitAudit200Response]
+    def post_v1_order_submit_audit(x_credential_type, api_order_submit_audit_request, opts = {})
+      data, _status_code, _headers = post_v1_order_submit_audit_with_http_info(x_credential_type, api_order_submit_audit_request, opts)
+      data
+    end
+
+    # 销售方根据已入库的订单、生产、发货及申报资料提交审核。
+    # 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+    # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_submit_audit_request [ApiOrderSubmitAuditRequest] 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(PostV1OrderSubmitAudit200Response, Integer, Hash)>] PostV1OrderSubmitAudit200Response data, response status code and response headers
+    def post_v1_order_submit_audit_with_http_info(x_credential_type, api_order_submit_audit_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiOrderWorkflowApi.post_v1_order_submit_audit ...'
       end
@@ -49,6 +240,10 @@ module TachainSdk
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
       end
+      # verify the required parameter 'api_order_submit_audit_request' is set
+      if @api_client.config.client_side_validation && api_order_submit_audit_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_order_submit_audit_request' when calling ApiOrderWorkflowApi.post_v1_order_submit_audit"
+      end
       # resource path
       local_var_path = '/v1/order/SubmitAudit'
 
@@ -57,6 +252,8 @@ module TachainSdk
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
@@ -68,10 +265,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_order_submit_audit_request'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_order_submit_audit_request)
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'PostV1OrderSubmitAudit200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -94,23 +291,23 @@ module TachainSdk
     end
 
     # 采购方按整单或单条订单明细确认收货。
-    # 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+    # 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_confirm_receipt_request [ApiOrderConfirmReceiptRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiOrderConfirmReceiptRequest] :api_order_confirm_receipt_request 
-    # @return [nil]
-    def put_v1_order_confirm_receipt(x_credential_type, opts = {})
-      put_v1_order_confirm_receipt_with_http_info(x_credential_type, opts)
-      nil
+    # @return [PutV1OrderConfirmReceipt200Response]
+    def put_v1_order_confirm_receipt(x_credential_type, api_order_confirm_receipt_request, opts = {})
+      data, _status_code, _headers = put_v1_order_confirm_receipt_with_http_info(x_credential_type, api_order_confirm_receipt_request, opts)
+      data
     end
 
     # 采购方按整单或单条订单明细确认收货。
-    # 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+    # 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_order_confirm_receipt_request [ApiOrderConfirmReceiptRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiOrderConfirmReceiptRequest] :api_order_confirm_receipt_request 
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def put_v1_order_confirm_receipt_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PutV1OrderConfirmReceipt200Response, Integer, Hash)>] PutV1OrderConfirmReceipt200Response data, response status code and response headers
+    def put_v1_order_confirm_receipt_with_http_info(x_credential_type, api_order_confirm_receipt_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiOrderWorkflowApi.put_v1_order_confirm_receipt ...'
       end
@@ -123,6 +320,10 @@ module TachainSdk
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
       end
+      # verify the required parameter 'api_order_confirm_receipt_request' is set
+      if @api_client.config.client_side_validation && api_order_confirm_receipt_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_order_confirm_receipt_request' when calling ApiOrderWorkflowApi.put_v1_order_confirm_receipt"
+      end
       # resource path
       local_var_path = '/v1/order/ConfirmReceipt'
 
@@ -131,6 +332,8 @@ module TachainSdk
 
       # header parameters
       header_params = opts[:header_params] || {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json']) unless header_params['Accept']
       # HTTP header 'Content-Type'
       content_type = @api_client.select_header_content_type(['application/json'])
       if !content_type.nil?
@@ -142,10 +345,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_order_confirm_receipt_request'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_order_confirm_receipt_request)
 
       # return_type
-      return_type = opts[:debug_return_type]
+      return_type = opts[:debug_return_type] || 'PutV1OrderConfirmReceipt200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']

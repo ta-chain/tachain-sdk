@@ -10,38 +10,48 @@ import Foundation
 import AnyCodable
 #endif
 
+/** 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。 */
 public final class Model1: Codable, JSONEncodable, Hashable {
 
-    public var key: String?
-    public var value: TacticChainApiServiceViewModelsDocumentTypeApiDto?
+    /** 业务状态码。 */
+    public var code: Int
+    /** 业务返回数据。 */
+    public var data: [TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse]?
+    /** 按请求语言返回的提示，未指定语言时默认中文。 */
+    public var message: String?
 
-    public init(key: String? = nil, value: TacticChainApiServiceViewModelsDocumentTypeApiDto? = nil) {
-        self.key = key
-        self.value = value
+    public init(code: Int, data: [TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse]? = nil, message: String? = nil) {
+        self.code = code
+        self.data = data
+        self.message = message
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case key
-        case value
+        case code
+        case data
+        case message
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(key, forKey: .key)
-        try container.encodeIfPresent(value, forKey: .value)
+        try container.encode(code, forKey: .code)
+        try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(message, forKey: .message)
     }
 
     public static func == (lhs: Model1, rhs: Model1) -> Bool {
-        lhs.key == rhs.key &&
-        lhs.value == rhs.value
+        lhs.code == rhs.code &&
+        lhs.data == rhs.data &&
+        lhs.message == rhs.message
         
     }
 
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(key?.hashValue)
-        hasher.combine(value?.hashValue)
+        hasher.combine(code.hashValue)
+        hasher.combine(data?.hashValue)
+        hasher.combine(message?.hashValue)
         
     }
 }

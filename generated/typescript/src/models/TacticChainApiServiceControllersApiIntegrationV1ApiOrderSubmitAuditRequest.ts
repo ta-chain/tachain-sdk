@@ -20,6 +20,42 @@ import { mapValues } from '../runtime';
  */
 export interface TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest {
     /**
+     * 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+     */
+    customerId?: string | null;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     */
+    customerName?: string | null;
+    /**
+     * 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string | null;
+    /**
+     * 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     */
+    supplierId?: string | null;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+     */
+    supplierName?: string | null;
+    /**
+     * 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string | null;
+    /**
+     * 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+     */
+    customerExtNo?: string | null;
+    /**
+     * 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+     */
+    supplierExtNo?: string | null;
+    /**
+     * 订单明细的全局唯一系统流水号。
+     */
+    uniqueNo?: string | null;
+    /**
      * 订单主 ID；不传明细条件时处理全部有效明细。
      */
     orderId?: string | null;
@@ -28,11 +64,11 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitA
      */
     orderLineId?: string | null;
     /**
-     * 订单号；不传任何内部 ID 时必填。
+     * 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。
      */
     orderNumber?: string | null;
     /**
-     * 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。
+     * 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。
      */
     orderDate?: string | null;
     /**
@@ -40,24 +76,15 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitA
      */
     lineNumber?: string | null;
     /**
-     * 买方公司 ID；业务键定位时与 CustomerName 至少传一个。
-     */
-    customerId?: string | null;
-    /**
-     * 买方名称，支持英文名、当地语言名称或简称，精确匹配。
-     */
-    customerName?: string | null;
-    /**
      * 是否确认 Type=0 的警告，默认 false；不能跳过 Type=1 阻断错误。
      */
-    confirmWarnings: boolean;
+    confirmWarnings?: boolean;
 }
 
 /**
  * Check if a given object implements the TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest interface.
  */
 export function instanceOfTacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest(value: object): value is TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest {
-    if (!('confirmWarnings' in value) || value['confirmWarnings'] === undefined) return false;
     return true;
 }
 
@@ -71,14 +98,21 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAu
     }
     return {
         
+        'customerId': json['customerId'] === undefined ? undefined : json['customerId'] === null ? null : json['customerId'],
+        'customerName': json['customerName'] === undefined ? undefined : json['customerName'] === null ? null : json['customerName'],
+        'customerCode': json['customerCode'] === undefined ? undefined : json['customerCode'] === null ? null : json['customerCode'],
+        'supplierId': json['supplierId'] === undefined ? undefined : json['supplierId'] === null ? null : json['supplierId'],
+        'supplierName': json['supplierName'] === undefined ? undefined : json['supplierName'] === null ? null : json['supplierName'],
+        'supplierCode': json['supplierCode'] === undefined ? undefined : json['supplierCode'] === null ? null : json['supplierCode'],
+        'customerExtNo': json['customerExtNo'] === undefined ? undefined : json['customerExtNo'] === null ? null : json['customerExtNo'],
+        'supplierExtNo': json['supplierExtNo'] === undefined ? undefined : json['supplierExtNo'] === null ? null : json['supplierExtNo'],
+        'uniqueNo': json['uniqueNo'] === undefined ? undefined : json['uniqueNo'] === null ? null : json['uniqueNo'],
         'orderId': json['orderId'] === undefined ? undefined : json['orderId'] === null ? null : json['orderId'],
         'orderLineId': json['orderLineId'] === undefined ? undefined : json['orderLineId'] === null ? null : json['orderLineId'],
         'orderNumber': json['orderNumber'] === undefined ? undefined : json['orderNumber'] === null ? null : json['orderNumber'],
         'orderDate': json['orderDate'] === undefined ? undefined : json['orderDate'] === null ? null : json['orderDate'],
         'lineNumber': json['lineNumber'] === undefined ? undefined : json['lineNumber'] === null ? null : json['lineNumber'],
-        'customerId': json['customerId'] === undefined ? undefined : json['customerId'] === null ? null : json['customerId'],
-        'customerName': json['customerName'] === undefined ? undefined : json['customerName'] === null ? null : json['customerName'],
-        'confirmWarnings': json['confirmWarnings'],
+        'confirmWarnings': json['confirmWarnings'] == null ? undefined : json['confirmWarnings'],
     };
 }
 
@@ -93,13 +127,20 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAu
 
     return {
         
+        'customerId': value['customerId'],
+        'customerName': value['customerName'],
+        'customerCode': value['customerCode'],
+        'supplierId': value['supplierId'],
+        'supplierName': value['supplierName'],
+        'supplierCode': value['supplierCode'],
+        'customerExtNo': value['customerExtNo'],
+        'supplierExtNo': value['supplierExtNo'],
+        'uniqueNo': value['uniqueNo'],
         'orderId': value['orderId'],
         'orderLineId': value['orderLineId'],
         'orderNumber': value['orderNumber'],
         'orderDate': value['orderDate'],
         'lineNumber': value['lineNumber'],
-        'customerId': value['customerId'],
-        'customerName': value['customerName'],
         'confirmWarnings': value['confirmWarnings'],
     };
 }

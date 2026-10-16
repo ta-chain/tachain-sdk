@@ -23,7 +23,7 @@ module TachainSdk
     # 
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+    # @option opts [Array<String>] :enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
     # @return [GetV1EnumGetList200Response]
     def get_v1_enum_get_list(x_credential_type, opts = {})
       data, _status_code, _headers = get_v1_enum_get_list_with_http_info(x_credential_type, opts)
@@ -34,7 +34,7 @@ module TachainSdk
     # 
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Array<String>] :enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+    # @option opts [Array<String>] :enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
     # @return [Array<(GetV1EnumGetList200Response, Integer, Hash)>] GetV1EnumGetList200Response data, response status code and response headers
     def get_v1_enum_get_list_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging

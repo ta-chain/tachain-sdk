@@ -60,10 +60,8 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static $openAPITypes = [
         'document_type_id' => 'string',
         'document_type_code' => 'string',
-        'document_date' => '\DateTime',
-        'document_number' => 'string',
-        'file_list' => '\TachainSdk\Model\TacticChainApiServiceViewModelsAttachmentInApiCreateDto[]',
-        'form_data_list' => '\TachainSdk\Model\TacticChainApiServiceModelsOrderStageFormDto[]'
+        'file_list' => '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest[]',
+        'form_data_list' => '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest[]'
     ];
 
     /**
@@ -76,8 +74,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static $openAPIFormats = [
         'document_type_id' => null,
         'document_type_code' => null,
-        'document_date' => 'date-time',
-        'document_number' => null,
         'file_list' => null,
         'form_data_list' => null
     ];
@@ -90,8 +86,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static array $openAPINullables = [
         'document_type_id' => true,
         'document_type_code' => true,
-        'document_date' => true,
-        'document_number' => true,
         'file_list' => true,
         'form_data_list' => true
     ];
@@ -184,8 +178,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static $attributeMap = [
         'document_type_id' => 'documentTypeId',
         'document_type_code' => 'documentTypeCode',
-        'document_date' => 'documentDate',
-        'document_number' => 'documentNumber',
         'file_list' => 'fileList',
         'form_data_list' => 'formDataList'
     ];
@@ -198,8 +190,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static $setters = [
         'document_type_id' => 'setDocumentTypeId',
         'document_type_code' => 'setDocumentTypeCode',
-        'document_date' => 'setDocumentDate',
-        'document_number' => 'setDocumentNumber',
         'file_list' => 'setFileList',
         'form_data_list' => 'setFormDataList'
     ];
@@ -212,8 +202,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     protected static $getters = [
         'document_type_id' => 'getDocumentTypeId',
         'document_type_code' => 'getDocumentTypeCode',
-        'document_date' => 'getDocumentDate',
-        'document_number' => 'getDocumentNumber',
         'file_list' => 'getFileList',
         'form_data_list' => 'getFormDataList'
     ];
@@ -277,8 +265,6 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     {
         $this->setIfExists('document_type_id', $data ?? [], null);
         $this->setIfExists('document_type_code', $data ?? [], null);
-        $this->setIfExists('document_date', $data ?? [], null);
-        $this->setIfExists('document_number', $data ?? [], null);
         $this->setIfExists('file_list', $data ?? [], null);
         $this->setIfExists('form_data_list', $data ?? [], null);
     }
@@ -338,7 +324,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     /**
      * Sets document_type_id
      *
-     * @param string|null $document_type_id 资料类型 ID，对应系统中的文档类型。
+     * @param string|null $document_type_id 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
      *
      * @return self
      */
@@ -372,7 +358,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     /**
      * Sets document_type_code
      *
-     * @param string|null $document_type_code 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+     * @param string|null $document_type_code 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
      *
      * @return self
      */
@@ -394,77 +380,9 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     }
 
     /**
-     * Gets document_date
-     *
-     * @return \DateTime|null
-     */
-    public function getDocumentDate()
-    {
-        return $this->container['document_date'];
-    }
-
-    /**
-     * Sets document_date
-     *
-     * @param \DateTime|null $document_date 单据日期，例如运输单日期、入库单日期。
-     *
-     * @return self
-     */
-    public function setDocumentDate($document_date)
-    {
-        if (is_null($document_date)) {
-            array_push($this->openAPINullablesSetToNull, 'document_date');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_date', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['document_date'] = $document_date;
-
-        return $this;
-    }
-
-    /**
-     * Gets document_number
-     *
-     * @return string|null
-     */
-    public function getDocumentNumber()
-    {
-        return $this->container['document_number'];
-    }
-
-    /**
-     * Sets document_number
-     *
-     * @param string|null $document_number 单据编号，例如运输单号、入库单号。
-     *
-     * @return self
-     */
-    public function setDocumentNumber($document_number)
-    {
-        if (is_null($document_number)) {
-            array_push($this->openAPINullablesSetToNull, 'document_number');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_number', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
-        }
-        $this->container['document_number'] = $document_number;
-
-        return $this;
-    }
-
-    /**
      * Gets file_list
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsAttachmentInApiCreateDto[]|null
+     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest[]|null
      */
     public function getFileList()
     {
@@ -474,7 +392,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     /**
      * Sets file_list
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceViewModelsAttachmentInApiCreateDto[]|null $file_list 文件资料列表。只提交表单资料时可以为空。
+     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest[]|null $file_list 文件资料列表。只提交表单资料时可以为空。
      *
      * @return self
      */
@@ -498,7 +416,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     /**
      * Gets form_data_list
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceModelsOrderStageFormDto[]|null
+     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest[]|null
      */
     public function getFormDataList()
     {
@@ -508,7 +426,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     /**
      * Sets form_data_list
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceModelsOrderStageFormDto[]|null $form_data_list 表单资料列表。只提交文件资料时可以为空。
+     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest[]|null $form_data_list 表单资料列表。只提交文件资料时可以为空。
      *
      * @return self
      */

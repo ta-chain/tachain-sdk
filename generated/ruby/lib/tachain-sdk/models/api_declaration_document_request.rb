@@ -16,17 +16,11 @@ require 'time'
 module TachainSdk
   # 外部集成申报资料明细。
   class ApiDeclarationDocumentRequest < ApiModelBase
-    # 资料类型 ID，对应系统中的文档类型。
+    # 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
     attr_accessor :document_type_id
 
-    # 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+    # 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
     attr_accessor :document_type_code
-
-    # 单据日期，例如运输单日期、入库单日期。
-    attr_accessor :document_date
-
-    # 单据编号，例如运输单号、入库单号。
-    attr_accessor :document_number
 
     # 文件资料列表。只提交表单资料时可以为空。
     attr_accessor :file_list
@@ -39,8 +33,6 @@ module TachainSdk
       {
         :'document_type_id' => :'documentTypeId',
         :'document_type_code' => :'documentTypeCode',
-        :'document_date' => :'documentDate',
-        :'document_number' => :'documentNumber',
         :'file_list' => :'fileList',
         :'form_data_list' => :'formDataList'
       }
@@ -61,10 +53,8 @@ module TachainSdk
       {
         :'document_type_id' => :'String',
         :'document_type_code' => :'String',
-        :'document_date' => :'Time',
-        :'document_number' => :'String',
-        :'file_list' => :'Array<AttachmentInApiCreateDto>',
-        :'form_data_list' => :'Array<OrderStageFormDto>'
+        :'file_list' => :'Array<ApiDeclarationFileRequest>',
+        :'form_data_list' => :'Array<ApiDeclarationFormRequest>'
       }
     end
 
@@ -73,8 +63,6 @@ module TachainSdk
       Set.new([
         :'document_type_id',
         :'document_type_code',
-        :'document_date',
-        :'document_number',
         :'file_list',
         :'form_data_list'
       ])
@@ -102,14 +90,6 @@ module TachainSdk
 
       if attributes.key?(:'document_type_code')
         self.document_type_code = attributes[:'document_type_code']
-      end
-
-      if attributes.key?(:'document_date')
-        self.document_date = attributes[:'document_date']
-      end
-
-      if attributes.key?(:'document_number')
-        self.document_number = attributes[:'document_number']
       end
 
       if attributes.key?(:'file_list')
@@ -147,8 +127,6 @@ module TachainSdk
       self.class == o.class &&
           document_type_id == o.document_type_id &&
           document_type_code == o.document_type_code &&
-          document_date == o.document_date &&
-          document_number == o.document_number &&
           file_list == o.file_list &&
           form_data_list == o.form_data_list
     end
@@ -162,7 +140,7 @@ module TachainSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [document_type_id, document_type_code, document_date, document_number, file_list, form_data_list].hash
+      [document_type_id, document_type_code, file_list, form_data_list].hash
     end
 
     # Builds the object from hash

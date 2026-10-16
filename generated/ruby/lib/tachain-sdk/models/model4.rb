@@ -14,19 +14,22 @@ require 'date'
 require 'time'
 
 module TachainSdk
+  # 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
   class Model4 < ApiModelBase
+    # 业务状态码。
     attr_accessor :code
 
-    attr_accessor :message
-
     attr_accessor :data
+
+    # 按请求语言返回的提示，未指定语言时默认中文。
+    attr_accessor :message
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'code' => :'code',
-        :'message' => :'message',
-        :'data' => :'data'
+        :'data' => :'data',
+        :'message' => :'message'
       }
     end
 
@@ -44,15 +47,15 @@ module TachainSdk
     def self.openapi_types
       {
         :'code' => :'Integer',
-        :'message' => :'String',
-        :'data' => :'Array<String>'
+        :'data' => :'ApiReferencePageResponse1ApiEnumValueResponse',
+        :'message' => :'String'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
-        :'data'
+        :'message'
       ])
     end
 
@@ -78,16 +81,12 @@ module TachainSdk
         self.code = nil
       end
 
-      if attributes.key?(:'message')
-        self.message = attributes[:'message']
-      else
-        self.message = nil
+      if attributes.key?(:'data')
+        self.data = attributes[:'data']
       end
 
-      if attributes.key?(:'data')
-        if (value = attributes[:'data']).is_a?(Array)
-          self.data = value
-        end
+      if attributes.key?(:'message')
+        self.message = attributes[:'message']
       end
     end
 
@@ -100,10 +99,6 @@ module TachainSdk
         invalid_properties.push('invalid value for "code", code cannot be nil.')
       end
 
-      if @message.nil?
-        invalid_properties.push('invalid value for "message", message cannot be nil.')
-      end
-
       invalid_properties
     end
 
@@ -112,7 +107,6 @@ module TachainSdk
     def valid?
       warn '[DEPRECATED] the `valid?` method is obsolete'
       return false if @code.nil?
-      return false if @message.nil?
       true
     end
 
@@ -126,24 +120,14 @@ module TachainSdk
       @code = code
     end
 
-    # Custom attribute writer method with validation
-    # @param [Object] message Value to be assigned
-    def message=(message)
-      if message.nil?
-        fail ArgumentError, 'message cannot be nil'
-      end
-
-      @message = message
-    end
-
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
           code == o.code &&
-          message == o.message &&
-          data == o.data
+          data == o.data &&
+          message == o.message
     end
 
     # @see the `==` method
@@ -155,7 +139,7 @@ module TachainSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [code, message, data].hash
+      [code, data, message].hash
     end
 
     # Builds the object from hash

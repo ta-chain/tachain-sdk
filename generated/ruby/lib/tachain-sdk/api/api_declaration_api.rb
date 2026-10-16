@@ -23,10 +23,10 @@ module TachainSdk
     # 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 `StageId + ExtendId` 重新计算申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :attachment_id query 方式传入的单个附件申报 ID。
-    # @option opts [String] :form_data_id query 方式传入的单个表单申报 ID。
+    # @option opts [String] :attachment_id 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
+    # @option opts [String] :form_data_id 查询返回的表单记录标识；也可在 Body 按业务键删除。
     # @option opts [ApiDeclarationDeleteRequest] :api_declaration_delete_request 
-    # @return [Model4]
+    # @return [DeleteV1DeclarationDelete200Response]
     def delete_v1_declaration_delete(x_credential_type, opts = {})
       data, _status_code, _headers = delete_v1_declaration_delete_with_http_info(x_credential_type, opts)
       data
@@ -36,10 +36,10 @@ module TachainSdk
     # 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 &#x60;StageId + ExtendId&#x60; 重新计算申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :attachment_id query 方式传入的单个附件申报 ID。
-    # @option opts [String] :form_data_id query 方式传入的单个表单申报 ID。
+    # @option opts [String] :attachment_id 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
+    # @option opts [String] :form_data_id 查询返回的表单记录标识；也可在 Body 按业务键删除。
     # @option opts [ApiDeclarationDeleteRequest] :api_declaration_delete_request 
-    # @return [Array<(Model4, Integer, Hash)>] Model4 data, response status code and response headers
+    # @return [Array<(DeleteV1DeclarationDelete200Response, Integer, Hash)>] DeleteV1DeclarationDelete200Response data, response status code and response headers
     def delete_v1_declaration_delete_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeclarationApi.delete_v1_declaration_delete ...'
@@ -79,7 +79,7 @@ module TachainSdk
       post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_declaration_delete_request'])
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Model4'
+      return_type = opts[:debug_return_type] || 'DeleteV1DeclarationDelete200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -105,24 +105,34 @@ module TachainSdk
     # 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 `extendId` 和 `stageId`，以便精确查询某个业务单据的申报资料。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :search_text 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [Array<String>] :extend_id 
-    # @option opts [Array<String>] :stage_id 
-    # @option opts [Array<String>] :document_type_id 
-    # @option opts [String] :document_type_code 
-    # @option opts [String] :extend_number 
-    # @option opts [Time] :extend_date 
-    # @option opts [String] :extend_line_number 
-    # @option opts [String] :order_side 
-    # @option opts [String] :product_code 
-    # @option opts [Integer] :production_type 
-    # @option opts [String] :delivery_number 
-    # @option opts [Integer] :status 
-    # @option opts [Array<Integer>] :risk_warning 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [ApiResponseApiDeclarationListDto]
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [Array<String>] :extend_id 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
+    # @option opts [Array<String>] :stage_id 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
+    # @option opts [Array<String>] :document_type_id RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
+    # @option opts [String] :document_type_code 资料类型业务代码或当前公司启用的外部映射。
+    # @option opts [String] :extend_number 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :order_side PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :production_type 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
+    # @option opts [String] :delivery_number 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
+    # @option opts [Integer] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<Integer>] :risk_warning 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :receipt_number 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+    # @return [GetV1DeclarationListPaging200Response]
     def get_v1_declaration_list_paging(x_credential_type, opts = {})
       data, _status_code, _headers = get_v1_declaration_list_paging_with_http_info(x_credential_type, opts)
       data
@@ -132,24 +142,34 @@ module TachainSdk
     # 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 &#x60;extendId&#x60; 和 &#x60;stageId&#x60;，以便精确查询某个业务单据的申报资料。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :search_text 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [Array<String>] :extend_id 
-    # @option opts [Array<String>] :stage_id 
-    # @option opts [Array<String>] :document_type_id 
-    # @option opts [String] :document_type_code 
-    # @option opts [String] :extend_number 
-    # @option opts [Time] :extend_date 
-    # @option opts [String] :extend_line_number 
-    # @option opts [String] :order_side 
-    # @option opts [String] :product_code 
-    # @option opts [Integer] :production_type 
-    # @option opts [String] :delivery_number 
-    # @option opts [Integer] :status 
-    # @option opts [Array<Integer>] :risk_warning 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [Array<(ApiResponseApiDeclarationListDto, Integer, Hash)>] ApiResponseApiDeclarationListDto data, response status code and response headers
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [Array<String>] :extend_id 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
+    # @option opts [Array<String>] :stage_id 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
+    # @option opts [Array<String>] :document_type_id RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
+    # @option opts [String] :document_type_code 资料类型业务代码或当前公司启用的外部映射。
+    # @option opts [String] :extend_number 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :order_side PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :production_type 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
+    # @option opts [String] :delivery_number 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
+    # @option opts [Integer] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<Integer>] :risk_warning 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :receipt_number 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+    # @return [Array<(GetV1DeclarationListPaging200Response, Integer, Hash)>] GetV1DeclarationListPaging200Response data, response status code and response headers
     def get_v1_declaration_list_paging_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeclarationApi.get_v1_declaration_list_paging ...'
@@ -174,8 +194,8 @@ module TachainSdk
       query_params[:'documentTypeId'] = @api_client.build_collection_param(opts[:'document_type_id'], :multi) if !opts[:'document_type_id'].nil?
       query_params[:'documentTypeCode'] = opts[:'document_type_code'] if !opts[:'document_type_code'].nil?
       query_params[:'extendNumber'] = opts[:'extend_number'] if !opts[:'extend_number'].nil?
-      query_params[:'extendDate'] = opts[:'extend_date'] if !opts[:'extend_date'].nil?
-      query_params[:'extendLineNumber'] = opts[:'extend_line_number'] if !opts[:'extend_line_number'].nil?
+      query_params[:'orderDate'] = opts[:'order_date'] if !opts[:'order_date'].nil?
+      query_params[:'lineNumber'] = opts[:'line_number'] if !opts[:'line_number'].nil?
       query_params[:'orderSide'] = opts[:'order_side'] if !opts[:'order_side'].nil?
       query_params[:'productCode'] = opts[:'product_code'] if !opts[:'product_code'].nil?
       query_params[:'productionType'] = opts[:'production_type'] if !opts[:'production_type'].nil?
@@ -185,6 +205,16 @@ module TachainSdk
       query_params[:'sortBy'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'pageSize'] = opts[:'page_size'] if !opts[:'page_size'].nil?
+      query_params[:'CustomerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
+      query_params[:'SupplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
+      query_params[:'UniqueNo'] = opts[:'unique_no'] if !opts[:'unique_no'].nil?
+      query_params[:'CustomerId'] = opts[:'customer_id'] if !opts[:'customer_id'].nil?
+      query_params[:'CustomerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'CustomerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'SupplierId'] = opts[:'supplier_id'] if !opts[:'supplier_id'].nil?
+      query_params[:'SupplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
+      query_params[:'SupplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
+      query_params[:'receiptNumber'] = opts[:'receipt_number'] if !opts[:'receipt_number'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -199,7 +229,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseApiDeclarationListDto'
+      return_type = opts[:debug_return_type] || 'GetV1DeclarationListPaging200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -222,41 +252,67 @@ module TachainSdk
     end
 
     # 单据所需申报信息查询接口。
-    # 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+    # 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+    # @param stage_code [String] 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :stage_code 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。
-    # @option opts [String] :id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
-    # @option opts [String] :order_number 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
-    # @option opts [Time] :order_date 订单日期；订单阶段按订单号定位时必传。
-    # @option opts [String] :order_side 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。
-    # @option opts [String] :production_number 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
-    # @option opts [String] :product_code 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
-    # @option opts [Integer] :production_type 生产类型；生产阶段默认 0，入库阶段默认 1。
-    # @option opts [String] :delivery_number 发货单号；发货阶段未传 id 时用于定位发货单。
-    # @return [Model3]
-    def get_v1_declaration_required_documents(x_credential_type, opts = {})
-      data, _status_code, _headers = get_v1_declaration_required_documents_with_http_info(x_credential_type, opts)
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :order_side PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
+    # @option opts [String] :production_number 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :production_type 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
+    # @option opts [String] :delivery_number 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :receipt_number 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @return [GetV1DeclarationRequiredDocuments200Response]
+    def get_v1_declaration_required_documents(stage_code, x_credential_type, opts = {})
+      data, _status_code, _headers = get_v1_declaration_required_documents_with_http_info(stage_code, x_credential_type, opts)
       data
     end
 
     # 单据所需申报信息查询接口。
-    # 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+    # 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+    # @param stage_code [String] 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :stage_code 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。
-    # @option opts [String] :id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
-    # @option opts [String] :order_number 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
-    # @option opts [Time] :order_date 订单日期；订单阶段按订单号定位时必传。
-    # @option opts [String] :order_side 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。
-    # @option opts [String] :production_number 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
-    # @option opts [String] :product_code 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
-    # @option opts [Integer] :production_type 生产类型；生产阶段默认 0，入库阶段默认 1。
-    # @option opts [String] :delivery_number 发货单号；发货阶段未传 id 时用于定位发货单。
-    # @return [Array<(Model3, Integer, Hash)>] Model3 data, response status code and response headers
-    def get_v1_declaration_required_documents_with_http_info(x_credential_type, opts = {})
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :order_side PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
+    # @option opts [String] :production_number 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :production_type 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
+    # @option opts [String] :delivery_number 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :receipt_number 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @return [Array<(GetV1DeclarationRequiredDocuments200Response, Integer, Hash)>] GetV1DeclarationRequiredDocuments200Response data, response status code and response headers
+    def get_v1_declaration_required_documents_with_http_info(stage_code, x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeclarationApi.get_v1_declaration_required_documents ...'
+      end
+      # verify the required parameter 'stage_code' is set
+      if @api_client.config.client_side_validation && stage_code.nil?
+        fail ArgumentError, "Missing the required parameter 'stage_code' when calling ApiDeclarationApi.get_v1_declaration_required_documents"
       end
       # verify the required parameter 'x_credential_type' is set
       if @api_client.config.client_side_validation && x_credential_type.nil?
@@ -272,7 +328,7 @@ module TachainSdk
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'stageCode'] = opts[:'stage_code'] if !opts[:'stage_code'].nil?
+      query_params[:'stageCode'] = stage_code
       query_params[:'id'] = opts[:'id'] if !opts[:'id'].nil?
       query_params[:'orderNumber'] = opts[:'order_number'] if !opts[:'order_number'].nil?
       query_params[:'orderDate'] = opts[:'order_date'] if !opts[:'order_date'].nil?
@@ -281,6 +337,17 @@ module TachainSdk
       query_params[:'productCode'] = opts[:'product_code'] if !opts[:'product_code'].nil?
       query_params[:'productionType'] = opts[:'production_type'] if !opts[:'production_type'].nil?
       query_params[:'deliveryNumber'] = opts[:'delivery_number'] if !opts[:'delivery_number'].nil?
+      query_params[:'CustomerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
+      query_params[:'SupplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
+      query_params[:'UniqueNo'] = opts[:'unique_no'] if !opts[:'unique_no'].nil?
+      query_params[:'CustomerId'] = opts[:'customer_id'] if !opts[:'customer_id'].nil?
+      query_params[:'CustomerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'CustomerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'SupplierId'] = opts[:'supplier_id'] if !opts[:'supplier_id'].nil?
+      query_params[:'SupplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
+      query_params[:'SupplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
+      query_params[:'receiptNumber'] = opts[:'receipt_number'] if !opts[:'receipt_number'].nil?
+      query_params[:'lineNumber'] = opts[:'line_number'] if !opts[:'line_number'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -295,7 +362,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Model3'
+      return_type = opts[:debug_return_type] || 'GetV1DeclarationRequiredDocuments200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -318,23 +385,23 @@ module TachainSdk
     end
 
     # 申报文件/表单提交接口。
-    #  入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+    #  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_declaration_submit_request [ApiDeclarationSubmitRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiDeclarationSubmitRequest] :api_declaration_submit_request 
-    # @return [ApiResponseApiDeclarationSubmitResultDto]
-    def post_v1_declaration_submit(x_credential_type, opts = {})
-      data, _status_code, _headers = post_v1_declaration_submit_with_http_info(x_credential_type, opts)
+    # @return [PostV1DeclarationSubmit200Response]
+    def post_v1_declaration_submit(x_credential_type, api_declaration_submit_request, opts = {})
+      data, _status_code, _headers = post_v1_declaration_submit_with_http_info(x_credential_type, api_declaration_submit_request, opts)
       data
     end
 
     # 申报文件/表单提交接口。
-    #  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+    #  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_declaration_submit_request [ApiDeclarationSubmitRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ApiDeclarationSubmitRequest] :api_declaration_submit_request 
-    # @return [Array<(ApiResponseApiDeclarationSubmitResultDto, Integer, Hash)>] ApiResponseApiDeclarationSubmitResultDto data, response status code and response headers
-    def post_v1_declaration_submit_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PostV1DeclarationSubmit200Response, Integer, Hash)>] PostV1DeclarationSubmit200Response data, response status code and response headers
+    def post_v1_declaration_submit_with_http_info(x_credential_type, api_declaration_submit_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeclarationApi.post_v1_declaration_submit ...'
       end
@@ -346,6 +413,10 @@ module TachainSdk
       allowable_values = ["Token", "API Key"]
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_declaration_submit_request' is set
+      if @api_client.config.client_side_validation && api_declaration_submit_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_declaration_submit_request' when calling ApiDeclarationApi.post_v1_declaration_submit"
       end
       # resource path
       local_var_path = '/v1/declaration/Submit'
@@ -368,10 +439,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_declaration_submit_request'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_declaration_submit_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseApiDeclarationSubmitResultDto'
+      return_type = opts[:debug_return_type] || 'PostV1DeclarationSubmit200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']

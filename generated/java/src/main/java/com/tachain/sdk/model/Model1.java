@@ -19,9 +19,11 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.tachain.sdk.model.TacticChainApiServiceViewModelsDocumentTypeApiDto;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -49,59 +51,70 @@ import java.util.Set;
 import com.tachain.sdk.client.JSON;
 
 /**
- * Model1
+ * 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0")
 public class Model1 {
-  public static final String SERIALIZED_NAME_KEY = "key";
-  @SerializedName(SERIALIZED_NAME_KEY)
-  @javax.annotation.Nullable
-  private String key;
+  public static final String SERIALIZED_NAME_CODE = "code";
+  @SerializedName(SERIALIZED_NAME_CODE)
+  @javax.annotation.Nonnull
+  private Integer code;
 
-  public static final String SERIALIZED_NAME_VALUE = "value";
-  @SerializedName(SERIALIZED_NAME_VALUE)
+  public static final String SERIALIZED_NAME_DATA = "data";
+  @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nullable
-  private TacticChainApiServiceViewModelsDocumentTypeApiDto value;
+  private List<TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse> data;
+
+  public static final String SERIALIZED_NAME_MESSAGE = "message";
+  @SerializedName(SERIALIZED_NAME_MESSAGE)
+  @javax.annotation.Nullable
+  private String message;
 
   public Model1() {
   }
 
-  public Model1 key(@javax.annotation.Nullable String key) {
-    this.key = key;
-    return this;
+  public Model1(
+     Integer code, 
+     List<TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse> data, 
+     String message
+  ) {
+    this();
+    this.code = code;
+    this.data = data;
+    this.message = message;
   }
 
   /**
-   * Get key
-   * @return key
+   * 业务状态码。
+   * @return code
    */
-  @javax.annotation.Nullable
-  public String getKey() {
-    return key;
-  }
-
-  public void setKey(@javax.annotation.Nullable String key) {
-    this.key = key;
+  @javax.annotation.Nonnull
+  public Integer getCode() {
+    return code;
   }
 
 
-  public Model1 value(@javax.annotation.Nullable TacticChainApiServiceViewModelsDocumentTypeApiDto value) {
-    this.value = value;
-    return this;
-  }
 
   /**
-   * Get value
-   * @return value
+   * 业务返回数据。
+   * @return data
    */
   @javax.annotation.Nullable
-  public TacticChainApiServiceViewModelsDocumentTypeApiDto getValue() {
-    return value;
+  public List<TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse> getData() {
+    return data;
   }
 
-  public void setValue(@javax.annotation.Nullable TacticChainApiServiceViewModelsDocumentTypeApiDto value) {
-    this.value = value;
+
+
+  /**
+   * 按请求语言返回的提示，未指定语言时默认中文。
+   * @return message
+   */
+  @javax.annotation.Nullable
+  public String getMessage() {
+    return message;
   }
+
 
 
 
@@ -114,8 +127,9 @@ public class Model1 {
       return false;
     }
     Model1 _1 = (Model1) o;
-    return Objects.equals(this.key, _1.key) &&
-        Objects.equals(this.value, _1.value);
+    return Objects.equals(this.code, _1.code) &&
+        Objects.equals(this.data, _1.data) &&
+        Objects.equals(this.message, _1.message);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -124,7 +138,7 @@ public class Model1 {
 
   @Override
   public int hashCode() {
-    return Objects.hash(key, value);
+    return Objects.hash(code, data, message);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -138,8 +152,9 @@ public class Model1 {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Model1 {\n");
-    sb.append("    key: ").append(toIndentedString(key)).append("\n");
-    sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -158,10 +173,10 @@ public class Model1 {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("key", "value"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "data", "message"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(0);
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("code"));
   }
 
   /**
@@ -184,13 +199,30 @@ public class Model1 {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `Model1` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
-        JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("key") != null && !jsonObj.get("key").isJsonNull()) && !jsonObj.get("key").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `key` to be a primitive type in the JSON string but got `%s`", jsonObj.get("key").toString()));
+
+      // check to make sure all required properties/fields are present in the JSON string
+      for (String requiredField : Model1.openapiRequiredFields) {
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        }
       }
-      // validate the optional field `value`
-      if (jsonObj.get("value") != null && !jsonObj.get("value").isJsonNull()) {
-        TacticChainApiServiceViewModelsDocumentTypeApiDto.validateJsonElement(jsonObj.get("value"));
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if (jsonObj.get("data") != null && !jsonObj.get("data").isJsonNull()) {
+        JsonArray jsonArraydata = jsonObj.getAsJsonArray("data");
+        if (jsonArraydata != null) {
+          // ensure the json data is an array
+          if (!jsonObj.get("data").isJsonArray()) {
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `data` to be an array in the JSON string but got `%s`", jsonObj.get("data").toString()));
+          }
+
+          // validate the optional field `data` (array)
+          for (int i = 0; i < jsonArraydata.size(); i++) {
+            TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse.validateJsonElement(jsonArraydata.get(i));
+          };
+        }
+      }
+      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
       }
   }
 

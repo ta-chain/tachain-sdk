@@ -15,25 +15,38 @@ open class ApiOrderWorkflowAPI {
     /**
      * enum for parameter xCredentialType
      */
-    public enum XCredentialType_postV1OrderSubmitAudit: String, CaseIterable {
+    public enum XCredentialType_getV1OrderReceiptPending: String, CaseIterable {
         case token = "Token"
         case apiKey = "API Key"
     }
 
     /**
-     销售方根据已入库的订单、生产、发货及申报资料提交审核。
+     采购订单确认收货待办项查询。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: (body)  (optional)
+     - parameter orderId: (query) 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     - parameter orderLineId: (query) 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1OrderSubmitAudit(xCredentialType: XCredentialType_postV1OrderSubmitAudit, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
-        return postV1OrderSubmitAuditWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest).execute(apiResponseQueue) { result in
+    open class func getV1OrderReceiptPending(xCredentialType: XCredentialType_getV1OrderReceiptPending, orderId: String? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1OrderReceiptPending200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1OrderReceiptPendingWithRequestBuilder(xCredentialType: xCredentialType, orderId: orderId, orderLineId: orderLineId, orderNumber: orderNumber, orderDate: orderDate, lineNumber: lineNumber, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, uniqueNo: uniqueNo, customerId: customerId, customerName: customerName, customerCode: customerCode, supplierId: supplierId, supplierName: supplierName, supplierCode: supplierCode).execute(apiResponseQueue) { result in
             switch result {
-            case .success:
-                completion((), nil)
+            case let .success(response):
+                completion(response.body, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -41,9 +54,9 @@ open class ApiOrderWorkflowAPI {
     }
 
     /**
-     销售方根据已入库的订单、生产、发货及申报资料提交审核。
-     - POST /v1/order/SubmitAudit
-     - 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     采购订单确认收货待办项查询。
+     - GET /v1/order/ReceiptPending
+     - 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -57,10 +70,172 @@ open class ApiOrderWorkflowAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
+     - parameter orderId: (query) 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     - parameter orderLineId: (query) 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     - returns: RequestBuilder<GetV1OrderReceiptPending200Response> 
      */
-    open class func postV1OrderSubmitAuditWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderSubmitAudit, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? = nil) -> RequestBuilder<Void> {
+    open class func getV1OrderReceiptPendingWithRequestBuilder(xCredentialType: XCredentialType_getV1OrderReceiptPending, orderId: String? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil) -> RequestBuilder<GetV1OrderReceiptPending200Response> {
+        let localVariablePath = "/v1/order/ReceiptPending"
+        let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "OrderId": (wrappedValue: orderId?.encodeToJSON(), isExplode: true),
+            "OrderLineId": (wrappedValue: orderLineId?.encodeToJSON(), isExplode: true),
+            "OrderNumber": (wrappedValue: orderNumber?.encodeToJSON(), isExplode: true),
+            "OrderDate": (wrappedValue: orderDate?.encodeToJSON(), isExplode: true),
+            "LineNumber": (wrappedValue: lineNumber?.encodeToJSON(), isExplode: true),
+            "CustomerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
+            "SupplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
+            "UniqueNo": (wrappedValue: uniqueNo?.encodeToJSON(), isExplode: true),
+            "CustomerId": (wrappedValue: customerId?.encodeToJSON(), isExplode: true),
+            "CustomerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "CustomerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "SupplierId": (wrappedValue: supplierId?.encodeToJSON(), isExplode: true),
+            "SupplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
+            "SupplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "X-Credential-Type": xCredentialType.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GetV1OrderReceiptPending200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter xCredentialType
+     */
+    public enum XCredentialType_postV1OrderDeclarationVerification: String, CaseIterable {
+        case token = "Token"
+        case apiKey = "API Key"
+    }
+
+    /**
+     销售订单提交审核前一键校验。
+     
+     - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func postV1OrderDeclarationVerification(xCredentialType: XCredentialType_postV1OrderDeclarationVerification, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1OrderDeclarationVerification200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1OrderDeclarationVerificationWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     销售订单提交审核前一键校验。
+     - POST /v1/order/DeclarationVerification
+     - 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKey
+     - API Key:
+       - type: apiKey X-Signature (HEADER)
+       - name: Signature
+     - Bearer Token:
+       - type: http
+       - name: BearerToken
+     - API Key:
+       - type: apiKey X-Timestamp (HEADER)
+       - name: Timestamp
+     - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: (body)  
+     - returns: RequestBuilder<PostV1OrderDeclarationVerification200Response> 
+     */
+    open class func postV1OrderDeclarationVerificationWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderDeclarationVerification, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest) -> RequestBuilder<PostV1OrderDeclarationVerification200Response> {
+        let localVariablePath = "/v1/order/DeclarationVerification"
+        let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+            "X-Credential-Type": xCredentialType.encodeToJSON(),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PostV1OrderDeclarationVerification200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     * enum for parameter xCredentialType
+     */
+    public enum XCredentialType_postV1OrderSubmitAudit: String, CaseIterable {
+        case token = "Token"
+        case apiKey = "API Key"
+    }
+
+    /**
+     销售方根据已入库的订单、生产、发货及申报资料提交审核。
+     
+     - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: (body)  
+     - parameter apiResponseQueue: The queue on which api response is dispatched.
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    @discardableResult
+    open class func postV1OrderSubmitAudit(xCredentialType: XCredentialType_postV1OrderSubmitAudit, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1OrderSubmitAudit200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1OrderSubmitAuditWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest).execute(apiResponseQueue) { result in
+            switch result {
+            case let .success(response):
+                completion(response.body, nil)
+            case let .failure(error):
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     销售方根据已入库的订单、生产、发货及申报资料提交审核。
+     - POST /v1/order/SubmitAudit
+     - 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     - API Key:
+       - type: apiKey X-API-Key (HEADER)
+       - name: ApiKey
+     - API Key:
+       - type: apiKey X-Signature (HEADER)
+       - name: Signature
+     - Bearer Token:
+       - type: http
+       - name: BearerToken
+     - API Key:
+       - type: apiKey X-Timestamp (HEADER)
+       - name: Timestamp
+     - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: (body)  
+     - returns: RequestBuilder<PostV1OrderSubmitAudit200Response> 
+     */
+    open class func postV1OrderSubmitAuditWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderSubmitAudit, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest) -> RequestBuilder<PostV1OrderSubmitAudit200Response> {
         let localVariablePath = "/v1/order/SubmitAudit"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest)
@@ -74,7 +249,7 @@ open class ApiOrderWorkflowAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TachainSDKAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PostV1OrderSubmitAudit200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -91,16 +266,16 @@ open class ApiOrderWorkflowAPI {
      采购方按整单或单条订单明细确认收货。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1OrderConfirmReceipt(xCredentialType: XCredentialType_putV1OrderConfirmReceipt, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Void?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func putV1OrderConfirmReceipt(xCredentialType: XCredentialType_putV1OrderConfirmReceipt, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1OrderConfirmReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return putV1OrderConfirmReceiptWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest).execute(apiResponseQueue) { result in
             switch result {
-            case .success:
-                completion((), nil)
+            case let .success(response):
+                completion(response.body, nil)
             case let .failure(error):
                 completion(nil, error)
             }
@@ -110,7 +285,7 @@ open class ApiOrderWorkflowAPI {
     /**
      采购方按整单或单条订单明细确认收货。
      - PUT /v1/order/ConfirmReceipt
-     - 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+     - 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -124,10 +299,10 @@ open class ApiOrderWorkflowAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: (body)  (optional)
-     - returns: RequestBuilder<Void> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: (body)  
+     - returns: RequestBuilder<PutV1OrderConfirmReceipt200Response> 
      */
-    open class func putV1OrderConfirmReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1OrderConfirmReceipt, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? = nil) -> RequestBuilder<Void> {
+    open class func putV1OrderConfirmReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1OrderConfirmReceipt, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) -> RequestBuilder<PutV1OrderConfirmReceipt200Response> {
         let localVariablePath = "/v1/order/ConfirmReceipt"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest)
@@ -141,7 +316,7 @@ open class ApiOrderWorkflowAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = TachainSDKAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1OrderConfirmReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

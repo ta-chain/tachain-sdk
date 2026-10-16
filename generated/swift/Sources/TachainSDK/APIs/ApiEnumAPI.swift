@@ -24,7 +24,7 @@ open class ApiEnumAPI {
      第三方-获取统一枚举列表（支持批量查询/查询所有）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter enumTypes: (query) 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     - parameter enumTypes: (query) 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
@@ -57,7 +57,7 @@ open class ApiEnumAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter enumTypes: (query) 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     - parameter enumTypes: (query) 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      - returns: RequestBuilder<GetV1EnumGetList200Response> 
      */
     open class func getV1EnumGetListWithRequestBuilder(xCredentialType: XCredentialType_getV1EnumGetList, enumTypes: [String]? = nil) -> RequestBuilder<GetV1EnumGetList200Response> {

@@ -17,11 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from tachain_sdk.models.tactic_chain_api_service_models_order_stage_form_dto import TacticChainApiServiceModelsOrderStageFormDto
-from tachain_sdk.models.tactic_chain_api_service_view_models_attachment_in_api_create_dto import TacticChainApiServiceViewModelsAttachmentInApiCreateDto
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_declaration_file_request import TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_declaration_form_request import TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
@@ -30,13 +29,11 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
     """
     外部集成申报资料明细。
     """ # noqa: E501
-    document_type_id: Optional[StrictStr] = Field(default=None, description="资料类型 ID，对应系统中的文档类型。", alias="documentTypeId")
-    document_type_code: Optional[StrictStr] = Field(default=None, description="资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。", alias="documentTypeCode")
-    document_date: Optional[datetime] = Field(default=None, description="单据日期，例如运输单日期、入库单日期。", alias="documentDate")
-    document_number: Optional[StrictStr] = Field(default=None, description="单据编号，例如运输单号、入库单号。", alias="documentNumber")
-    file_list: Optional[List[TacticChainApiServiceViewModelsAttachmentInApiCreateDto]] = Field(default=None, description="文件资料列表。只提交表单资料时可以为空。", alias="fileList")
-    form_data_list: Optional[List[TacticChainApiServiceModelsOrderStageFormDto]] = Field(default=None, description="表单资料列表。只提交文件资料时可以为空。", alias="formDataList")
-    __properties: ClassVar[List[str]] = ["documentTypeId", "documentTypeCode", "documentDate", "documentNumber", "fileList", "formDataList"]
+    document_type_id: Optional[StrictStr] = Field(default=None, description="资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。", alias="documentTypeId")
+    document_type_code: Optional[StrictStr] = Field(default=None, description="资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。", alias="documentTypeCode")
+    file_list: Optional[List[Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest]]] = Field(default=None, description="文件资料列表。只提交表单资料时可以为空。", alias="fileList")
+    form_data_list: Optional[List[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest]] = Field(default=None, description="表单资料列表。只提交文件资料时可以为空。", alias="formDataList")
+    __properties: ClassVar[List[str]] = ["documentTypeId", "documentTypeCode", "fileList", "formDataList"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -77,48 +74,40 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in file_list (list)
+                        # override the default output from pydantic by calling `to_dict()` of each item in file_list (list)
         _items = []
         if self.file_list:
             for _item_file_list in self.file_list:
                 _items.append(_item_file_list.to_dict() if _item_file_list is not None else None)
             _dict['fileList'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in form_data_list (list)
+                # override the default output from pydantic by calling `to_dict()` of each item in form_data_list (list)
         _items = []
         if self.form_data_list:
             for _item_form_data_list in self.form_data_list:
                 _items.append(_item_form_data_list.to_dict() if _item_form_data_list is not None else None)
             _dict['formDataList'] = _items
+        
         # set to None if document_type_id (nullable) is None
         # and model_fields_set contains the field
         if self.document_type_id is None and "document_type_id" in self.model_fields_set:
             _dict['documentTypeId'] = None
 
-        # set to None if document_type_code (nullable) is None
+                # set to None if document_type_code (nullable) is None
         # and model_fields_set contains the field
         if self.document_type_code is None and "document_type_code" in self.model_fields_set:
             _dict['documentTypeCode'] = None
 
-        # set to None if document_date (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_date is None and "document_date" in self.model_fields_set:
-            _dict['documentDate'] = None
-
-        # set to None if document_number (nullable) is None
-        # and model_fields_set contains the field
-        if self.document_number is None and "document_number" in self.model_fields_set:
-            _dict['documentNumber'] = None
-
-        # set to None if file_list (nullable) is None
+                # set to None if file_list (nullable) is None
         # and model_fields_set contains the field
         if self.file_list is None and "file_list" in self.model_fields_set:
             _dict['fileList'] = None
 
-        # set to None if form_data_list (nullable) is None
+                # set to None if form_data_list (nullable) is None
         # and model_fields_set contains the field
         if self.form_data_list is None and "form_data_list" in self.model_fields_set:
             _dict['formDataList'] = None
 
+        
         return _dict
 
     @classmethod
@@ -132,11 +121,10 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequ
 
         _obj = cls.model_validate({
             "documentTypeId": obj.get("documentTypeId"),
-            "documentTypeCode": obj.get("documentTypeCode"),
-            "documentDate": obj.get("documentDate"),
-            "documentNumber": obj.get("documentNumber"),
-            "fileList": [TacticChainApiServiceViewModelsAttachmentInApiCreateDto.from_dict(_item) for _item in obj["fileList"]] if obj.get("fileList") is not None else None,
-            "formDataList": [TacticChainApiServiceModelsOrderStageFormDto.from_dict(_item) for _item in obj["formDataList"]] if obj.get("formDataList") is not None else None
+                        "documentTypeCode": obj.get("documentTypeCode"),
+                        "fileList": [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest.from_dict(_item) for _item in obj["fileList"]] if obj.get("fileList") is not None else None,
+                        "formDataList": [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest.from_dict(_item) for _item in obj["formDataList"]] if obj.get("formDataList") is not None else None
+            
         })
         return _obj
 

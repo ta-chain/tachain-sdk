@@ -20,6 +20,24 @@ var _ MappedNullable = &TacticChainApiServiceControllersApiIntegrationV1ApiDecla
 
 // TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest 申报资料删除请求。
 type TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest struct {
+	// 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+	CustomerId NullableString `json:"customerId,omitempty"`
+	// 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+	CustomerName NullableString `json:"customerName,omitempty"`
+	// 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+	CustomerCode NullableString `json:"customerCode,omitempty"`
+	// 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+	SupplierId NullableString `json:"supplierId,omitempty"`
+	// 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+	SupplierName NullableString `json:"supplierName,omitempty"`
+	// 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+	SupplierCode NullableString `json:"supplierCode,omitempty"`
+	// 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+	CustomerExtNo NullableString `json:"customerExtNo,omitempty"`
+	// 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+	SupplierExtNo NullableString `json:"supplierExtNo,omitempty"`
+	// 订单明细的全局唯一系统流水号。
+	UniqueNo NullableString `json:"uniqueNo,omitempty"`
 	// 单个附件申报记录 ID。
 	AttachmentId NullableString `json:"attachmentId,omitempty"`
 	// 批量附件申报记录 ID。
@@ -32,18 +50,20 @@ type TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest
 	StageId NullableString `json:"stageId,omitempty"`
 	// 业务扩展 ID，例如订单 ID、生产单 ID、发货单 ID。
 	ExtendId NullableString `json:"extendId,omitempty"`
-	// 业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。
+	// 业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。
 	ExtendNumber NullableString `json:"extendNumber,omitempty"`
 	// 业务单日期。订单阶段按订单号定位时使用。
-	ExtendDate NullableTime `json:"extendDate,omitempty"`
+	OrderDate NullableTime `json:"orderDate,omitempty"`
 	// 订单行号。订单阶段按订单行定位时使用。
-	ExtendLineNumber NullableString `json:"extendLineNumber,omitempty"`
+	LineNumber NullableString `json:"lineNumber,omitempty"`
 	// 订单侧别，常用 PO 或 SO。
 	OrderSide NullableString `json:"orderSide,omitempty"`
 	// 产品编码。生产/入库阶段按生产单号删除申报资料时参与定位生产单。
 	ProductCode NullableString `json:"productCode,omitempty"`
-	// 生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。
+	// 生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。
 	ProductionType NullableInt32 `json:"productionType,omitempty"`
+	// 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+	ReceiptNumber NullableString `json:"receiptNumber,omitempty"`
 	// 发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。
 	DeliveryNumber NullableString `json:"deliveryNumber,omitempty"`
 	// 资料类型 ID。按业务键删除时和 StageId、ExtendId 一起定位申报记录。
@@ -73,6 +93,384 @@ func NewTacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequ
 func NewTacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequestWithDefaults() *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest {
 	this := TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest{}
 	return &this
+}
+
+// GetCustomerId returns the CustomerId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerId() string {
+	if o == nil || IsNil(o.CustomerId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.CustomerId.Get()
+}
+
+// GetCustomerIdOk returns a tuple with the CustomerId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CustomerId.Get(), o.CustomerId.IsSet()
+}
+
+// HasCustomerId returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasCustomerId() bool {
+	if o != nil && o.CustomerId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCustomerId gets a reference to the given NullableString and assigns it to the CustomerId field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerId(v string) {
+	o.CustomerId.Set(&v)
+}
+// SetCustomerIdNil sets the value for CustomerId to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerIdNil() {
+	o.CustomerId.Set(nil)
+}
+
+// UnsetCustomerId ensures that no value is present for CustomerId, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetCustomerId() {
+	o.CustomerId.Unset()
+}
+
+// GetCustomerName returns the CustomerName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerName() string {
+	if o == nil || IsNil(o.CustomerName.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.CustomerName.Get()
+}
+
+// GetCustomerNameOk returns a tuple with the CustomerName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CustomerName.Get(), o.CustomerName.IsSet()
+}
+
+// HasCustomerName returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasCustomerName() bool {
+	if o != nil && o.CustomerName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCustomerName gets a reference to the given NullableString and assigns it to the CustomerName field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerName(v string) {
+	o.CustomerName.Set(&v)
+}
+// SetCustomerNameNil sets the value for CustomerName to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerNameNil() {
+	o.CustomerName.Set(nil)
+}
+
+// UnsetCustomerName ensures that no value is present for CustomerName, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetCustomerName() {
+	o.CustomerName.Unset()
+}
+
+// GetCustomerCode returns the CustomerCode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerCode() string {
+	if o == nil || IsNil(o.CustomerCode.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.CustomerCode.Get()
+}
+
+// GetCustomerCodeOk returns a tuple with the CustomerCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerCodeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CustomerCode.Get(), o.CustomerCode.IsSet()
+}
+
+// HasCustomerCode returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasCustomerCode() bool {
+	if o != nil && o.CustomerCode.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCustomerCode gets a reference to the given NullableString and assigns it to the CustomerCode field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerCode(v string) {
+	o.CustomerCode.Set(&v)
+}
+// SetCustomerCodeNil sets the value for CustomerCode to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerCodeNil() {
+	o.CustomerCode.Set(nil)
+}
+
+// UnsetCustomerCode ensures that no value is present for CustomerCode, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetCustomerCode() {
+	o.CustomerCode.Unset()
+}
+
+// GetSupplierId returns the SupplierId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierId() string {
+	if o == nil || IsNil(o.SupplierId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SupplierId.Get()
+}
+
+// GetSupplierIdOk returns a tuple with the SupplierId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SupplierId.Get(), o.SupplierId.IsSet()
+}
+
+// HasSupplierId returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasSupplierId() bool {
+	if o != nil && o.SupplierId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSupplierId gets a reference to the given NullableString and assigns it to the SupplierId field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierId(v string) {
+	o.SupplierId.Set(&v)
+}
+// SetSupplierIdNil sets the value for SupplierId to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierIdNil() {
+	o.SupplierId.Set(nil)
+}
+
+// UnsetSupplierId ensures that no value is present for SupplierId, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetSupplierId() {
+	o.SupplierId.Unset()
+}
+
+// GetSupplierName returns the SupplierName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierName() string {
+	if o == nil || IsNil(o.SupplierName.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SupplierName.Get()
+}
+
+// GetSupplierNameOk returns a tuple with the SupplierName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SupplierName.Get(), o.SupplierName.IsSet()
+}
+
+// HasSupplierName returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasSupplierName() bool {
+	if o != nil && o.SupplierName.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSupplierName gets a reference to the given NullableString and assigns it to the SupplierName field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierName(v string) {
+	o.SupplierName.Set(&v)
+}
+// SetSupplierNameNil sets the value for SupplierName to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierNameNil() {
+	o.SupplierName.Set(nil)
+}
+
+// UnsetSupplierName ensures that no value is present for SupplierName, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetSupplierName() {
+	o.SupplierName.Unset()
+}
+
+// GetSupplierCode returns the SupplierCode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierCode() string {
+	if o == nil || IsNil(o.SupplierCode.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SupplierCode.Get()
+}
+
+// GetSupplierCodeOk returns a tuple with the SupplierCode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierCodeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SupplierCode.Get(), o.SupplierCode.IsSet()
+}
+
+// HasSupplierCode returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasSupplierCode() bool {
+	if o != nil && o.SupplierCode.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSupplierCode gets a reference to the given NullableString and assigns it to the SupplierCode field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierCode(v string) {
+	o.SupplierCode.Set(&v)
+}
+// SetSupplierCodeNil sets the value for SupplierCode to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierCodeNil() {
+	o.SupplierCode.Set(nil)
+}
+
+// UnsetSupplierCode ensures that no value is present for SupplierCode, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetSupplierCode() {
+	o.SupplierCode.Unset()
+}
+
+// GetCustomerExtNo returns the CustomerExtNo field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerExtNo() string {
+	if o == nil || IsNil(o.CustomerExtNo.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.CustomerExtNo.Get()
+}
+
+// GetCustomerExtNoOk returns a tuple with the CustomerExtNo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetCustomerExtNoOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CustomerExtNo.Get(), o.CustomerExtNo.IsSet()
+}
+
+// HasCustomerExtNo returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasCustomerExtNo() bool {
+	if o != nil && o.CustomerExtNo.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetCustomerExtNo gets a reference to the given NullableString and assigns it to the CustomerExtNo field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerExtNo(v string) {
+	o.CustomerExtNo.Set(&v)
+}
+// SetCustomerExtNoNil sets the value for CustomerExtNo to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetCustomerExtNoNil() {
+	o.CustomerExtNo.Set(nil)
+}
+
+// UnsetCustomerExtNo ensures that no value is present for CustomerExtNo, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetCustomerExtNo() {
+	o.CustomerExtNo.Unset()
+}
+
+// GetSupplierExtNo returns the SupplierExtNo field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierExtNo() string {
+	if o == nil || IsNil(o.SupplierExtNo.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.SupplierExtNo.Get()
+}
+
+// GetSupplierExtNoOk returns a tuple with the SupplierExtNo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetSupplierExtNoOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SupplierExtNo.Get(), o.SupplierExtNo.IsSet()
+}
+
+// HasSupplierExtNo returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasSupplierExtNo() bool {
+	if o != nil && o.SupplierExtNo.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetSupplierExtNo gets a reference to the given NullableString and assigns it to the SupplierExtNo field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierExtNo(v string) {
+	o.SupplierExtNo.Set(&v)
+}
+// SetSupplierExtNoNil sets the value for SupplierExtNo to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetSupplierExtNoNil() {
+	o.SupplierExtNo.Set(nil)
+}
+
+// UnsetSupplierExtNo ensures that no value is present for SupplierExtNo, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetSupplierExtNo() {
+	o.SupplierExtNo.Unset()
+}
+
+// GetUniqueNo returns the UniqueNo field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetUniqueNo() string {
+	if o == nil || IsNil(o.UniqueNo.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.UniqueNo.Get()
+}
+
+// GetUniqueNoOk returns a tuple with the UniqueNo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetUniqueNoOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UniqueNo.Get(), o.UniqueNo.IsSet()
+}
+
+// HasUniqueNo returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasUniqueNo() bool {
+	if o != nil && o.UniqueNo.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetUniqueNo gets a reference to the given NullableString and assigns it to the UniqueNo field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetUniqueNo(v string) {
+	o.UniqueNo.Set(&v)
+}
+// SetUniqueNoNil sets the value for UniqueNo to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetUniqueNoNil() {
+	o.UniqueNo.Set(nil)
+}
+
+// UnsetUniqueNo ensures that no value is present for UniqueNo, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetUniqueNo() {
+	o.UniqueNo.Unset()
 }
 
 // GetAttachmentId returns the AttachmentId field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -351,88 +749,88 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteReq
 	o.ExtendNumber.Unset()
 }
 
-// GetExtendDate returns the ExtendDate field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetExtendDate() time.Time {
-	if o == nil || IsNil(o.ExtendDate.Get()) {
+// GetOrderDate returns the OrderDate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetOrderDate() time.Time {
+	if o == nil || IsNil(o.OrderDate.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.ExtendDate.Get()
+	return *o.OrderDate.Get()
 }
 
-// GetExtendDateOk returns a tuple with the ExtendDate field value if set, nil otherwise
+// GetOrderDateOk returns a tuple with the OrderDate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetExtendDateOk() (*time.Time, bool) {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetOrderDateOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ExtendDate.Get(), o.ExtendDate.IsSet()
+	return o.OrderDate.Get(), o.OrderDate.IsSet()
 }
 
-// HasExtendDate returns a boolean if a field has been set.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasExtendDate() bool {
-	if o != nil && o.ExtendDate.IsSet() {
+// HasOrderDate returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasOrderDate() bool {
+	if o != nil && o.OrderDate.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExtendDate gets a reference to the given NullableTime and assigns it to the ExtendDate field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetExtendDate(v time.Time) {
-	o.ExtendDate.Set(&v)
+// SetOrderDate gets a reference to the given NullableTime and assigns it to the OrderDate field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetOrderDate(v time.Time) {
+	o.OrderDate.Set(&v)
 }
-// SetExtendDateNil sets the value for ExtendDate to be an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetExtendDateNil() {
-	o.ExtendDate.Set(nil)
-}
-
-// UnsetExtendDate ensures that no value is present for ExtendDate, not even an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetExtendDate() {
-	o.ExtendDate.Unset()
+// SetOrderDateNil sets the value for OrderDate to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetOrderDateNil() {
+	o.OrderDate.Set(nil)
 }
 
-// GetExtendLineNumber returns the ExtendLineNumber field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetExtendLineNumber() string {
-	if o == nil || IsNil(o.ExtendLineNumber.Get()) {
+// UnsetOrderDate ensures that no value is present for OrderDate, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetOrderDate() {
+	o.OrderDate.Unset()
+}
+
+// GetLineNumber returns the LineNumber field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetLineNumber() string {
+	if o == nil || IsNil(o.LineNumber.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ExtendLineNumber.Get()
+	return *o.LineNumber.Get()
 }
 
-// GetExtendLineNumberOk returns a tuple with the ExtendLineNumber field value if set, nil otherwise
+// GetLineNumberOk returns a tuple with the LineNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetExtendLineNumberOk() (*string, bool) {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetLineNumberOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ExtendLineNumber.Get(), o.ExtendLineNumber.IsSet()
+	return o.LineNumber.Get(), o.LineNumber.IsSet()
 }
 
-// HasExtendLineNumber returns a boolean if a field has been set.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasExtendLineNumber() bool {
-	if o != nil && o.ExtendLineNumber.IsSet() {
+// HasLineNumber returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasLineNumber() bool {
+	if o != nil && o.LineNumber.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExtendLineNumber gets a reference to the given NullableString and assigns it to the ExtendLineNumber field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetExtendLineNumber(v string) {
-	o.ExtendLineNumber.Set(&v)
+// SetLineNumber gets a reference to the given NullableString and assigns it to the LineNumber field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetLineNumber(v string) {
+	o.LineNumber.Set(&v)
 }
-// SetExtendLineNumberNil sets the value for ExtendLineNumber to be an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetExtendLineNumberNil() {
-	o.ExtendLineNumber.Set(nil)
+// SetLineNumberNil sets the value for LineNumber to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetLineNumberNil() {
+	o.LineNumber.Set(nil)
 }
 
-// UnsetExtendLineNumber ensures that no value is present for ExtendLineNumber, not even an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetExtendLineNumber() {
-	o.ExtendLineNumber.Unset()
+// UnsetLineNumber ensures that no value is present for LineNumber, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetLineNumber() {
+	o.LineNumber.Unset()
 }
 
 // GetOrderSide returns the OrderSide field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -559,6 +957,48 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteReq
 // UnsetProductionType ensures that no value is present for ProductionType, not even an explicit nil
 func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetProductionType() {
 	o.ProductionType.Unset()
+}
+
+// GetReceiptNumber returns the ReceiptNumber field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetReceiptNumber() string {
+	if o == nil || IsNil(o.ReceiptNumber.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.ReceiptNumber.Get()
+}
+
+// GetReceiptNumberOk returns a tuple with the ReceiptNumber field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) GetReceiptNumberOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ReceiptNumber.Get(), o.ReceiptNumber.IsSet()
+}
+
+// HasReceiptNumber returns a boolean if a field has been set.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) HasReceiptNumber() bool {
+	if o != nil && o.ReceiptNumber.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetReceiptNumber gets a reference to the given NullableString and assigns it to the ReceiptNumber field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetReceiptNumber(v string) {
+	o.ReceiptNumber.Set(&v)
+}
+// SetReceiptNumberNil sets the value for ReceiptNumber to be an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) SetReceiptNumberNil() {
+	o.ReceiptNumber.Set(nil)
+}
+
+// UnsetReceiptNumber ensures that no value is present for ReceiptNumber, not even an explicit nil
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) UnsetReceiptNumber() {
+	o.ReceiptNumber.Unset()
 }
 
 // GetDeliveryNumber returns the DeliveryNumber field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -823,6 +1263,33 @@ func (o TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequ
 
 func (o TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	if o.CustomerId.IsSet() {
+		toSerialize["customerId"] = o.CustomerId.Get()
+	}
+	if o.CustomerName.IsSet() {
+		toSerialize["customerName"] = o.CustomerName.Get()
+	}
+	if o.CustomerCode.IsSet() {
+		toSerialize["customerCode"] = o.CustomerCode.Get()
+	}
+	if o.SupplierId.IsSet() {
+		toSerialize["supplierId"] = o.SupplierId.Get()
+	}
+	if o.SupplierName.IsSet() {
+		toSerialize["supplierName"] = o.SupplierName.Get()
+	}
+	if o.SupplierCode.IsSet() {
+		toSerialize["supplierCode"] = o.SupplierCode.Get()
+	}
+	if o.CustomerExtNo.IsSet() {
+		toSerialize["customerExtNo"] = o.CustomerExtNo.Get()
+	}
+	if o.SupplierExtNo.IsSet() {
+		toSerialize["supplierExtNo"] = o.SupplierExtNo.Get()
+	}
+	if o.UniqueNo.IsSet() {
+		toSerialize["uniqueNo"] = o.UniqueNo.Get()
+	}
 	if o.AttachmentId.IsSet() {
 		toSerialize["attachmentId"] = o.AttachmentId.Get()
 	}
@@ -844,11 +1311,11 @@ func (o TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequ
 	if o.ExtendNumber.IsSet() {
 		toSerialize["extendNumber"] = o.ExtendNumber.Get()
 	}
-	if o.ExtendDate.IsSet() {
-		toSerialize["extendDate"] = o.ExtendDate.Get()
+	if o.OrderDate.IsSet() {
+		toSerialize["orderDate"] = o.OrderDate.Get()
 	}
-	if o.ExtendLineNumber.IsSet() {
-		toSerialize["extendLineNumber"] = o.ExtendLineNumber.Get()
+	if o.LineNumber.IsSet() {
+		toSerialize["lineNumber"] = o.LineNumber.Get()
 	}
 	if o.OrderSide.IsSet() {
 		toSerialize["orderSide"] = o.OrderSide.Get()
@@ -858,6 +1325,9 @@ func (o TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequ
 	}
 	if o.ProductionType.IsSet() {
 		toSerialize["productionType"] = o.ProductionType.Get()
+	}
+	if o.ReceiptNumber.IsSet() {
+		toSerialize["receiptNumber"] = o.ReceiptNumber.Get()
 	}
 	if o.DeliveryNumber.IsSet() {
 		toSerialize["deliveryNumber"] = o.DeliveryNumber.Get()

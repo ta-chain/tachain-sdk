@@ -13,24 +13,32 @@
  */
 
 import { mapValues } from '../runtime';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull } from './TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+import {
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+
 /**
- * 
+ * 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  * @export
  * @interface Model4
  */
 export interface Model4 {
     /**
-     * 
+     * 业务状态码。
      */
-    code: number;
+    readonly code: number;
     /**
      * 
      */
-    message: string;
+    data?: TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull;
     /**
-     * 
+     * 按请求语言返回的提示，未指定语言时默认中文。
      */
-    data?: Array<string> | null;
+    readonly message?: string | null;
 }
 
 /**
@@ -38,7 +46,6 @@ export interface Model4 {
  */
 export function instanceOfModel4(value: object): value is Model4 {
     if (!('code' in value) || value['code'] === undefined) return false;
-    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -53,8 +60,8 @@ export function Model4FromJSONTyped(json: any, ignoreDiscriminator: boolean): Mo
     return {
         
         'code': json['code'],
-        'message': json['message'],
-        'data': json['data'] === undefined ? undefined : json['data'] === null ? null : json['data'],
+        'data': json['data'] == null ? undefined : TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(json['data']),
+        'message': json['message'] === undefined ? undefined : json['message'] === null ? null : json['message'],
     };
 }
 
@@ -62,16 +69,14 @@ export function Model4ToJSON(json: any): Model4 {
     return Model4ToJSONTyped(json, false);
 }
 
-export function Model4ToJSONTyped(value?: Model4 | null, ignoreDiscriminator: boolean = false): any {
+export function Model4ToJSONTyped(value?: Omit<Model4, 'code'|'message'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'code': value['code'],
-        'message': value['message'],
-        'data': value['data'],
+        'data': TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON(value['data']),
     };
 }
 

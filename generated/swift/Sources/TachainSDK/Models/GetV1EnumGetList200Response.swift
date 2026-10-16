@@ -12,20 +12,23 @@ import AnyCodable
 
 public final class GetV1EnumGetList200Response: Codable, JSONEncodable, Hashable {
 
+    /** 业务状态码。 */
     public var code: Int
-    public var message: String
-    public var data: [TacticChainApiServiceHelperResultApiEnum]?
+    /** 业务返回数据。 */
+    public var data: AnyCodable?
+    /** 按请求语言返回的提示，未指定语言时默认中文。 */
+    public var message: String?
 
-    public init(code: Int, message: String, data: [TacticChainApiServiceHelperResultApiEnum]? = nil) {
+    public init(code: Int, data: AnyCodable? = nil, message: String? = nil) {
         self.code = code
-        self.message = message
         self.data = data
+        self.message = message
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
-        case message
         case data
+        case message
     }
 
     // Encodable protocol methods
@@ -33,21 +36,21 @@ public final class GetV1EnumGetList200Response: Codable, JSONEncodable, Hashable
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
-        try container.encode(message, forKey: .message)
         try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(message, forKey: .message)
     }
 
     public static func == (lhs: GetV1EnumGetList200Response, rhs: GetV1EnumGetList200Response) -> Bool {
         lhs.code == rhs.code &&
-        lhs.message == rhs.message &&
-        lhs.data == rhs.data
+        lhs.data == rhs.data &&
+        lhs.message == rhs.message
         
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(code.hashValue)
-        hasher.combine(message.hashValue)
         hasher.combine(data?.hashValue)
+        hasher.combine(message?.hashValue)
         
     }
 }

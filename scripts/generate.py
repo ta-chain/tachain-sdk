@@ -14,6 +14,7 @@ import tempfile
 import urllib.request
 import xml.etree.ElementTree as ET
 import uuid
+import zipfile
 from pathlib import Path
 
 if __package__:
@@ -241,6 +242,34 @@ def generate(language: str) -> None:
         config_file = temp / "config.json"
         config_file.write_text(json.dumps(options), encoding="utf-8")
         command = ["java", "-jar", str(JAR), "generate", "-i", str(SPEC), "-g", generator, "-o", str(output), "-c", str(config_file), "--git-user-id", CONFIG["githubOwner"], "--git-repo-id", CONFIG["githubRepository"], "--global-property", "apiDocs=false,modelDocs=false,apiTests=false,modelTests=false"]
+        if language == "python":
+            # Generator 7.25.0 leaves allVars empty on object models with
+            # required-only oneOf branches, even though vars contains the
+            # declared fields. Its from_dict then silently discards fileId.
+            # Override the pinned template, using vars only when allVars is
+            # empty; keep the public oneOf contract and generated code intact.
+            templates = temp / "templates"
+            templates.mkdir()
+            with zipfile.ZipFile(JAR) as archive:
+                template = archive.read("python/model_generic.mustache").decode("utf-8")
+            pattern = re.compile(r"{{#allVars}}(.*?){{/allVars}}", re.DOTALL)
+            template, count = pattern.subn(
+                lambda match: match.group(0) + "{{^allVars}}{{#vars}}" + match.group(1) + "{{/vars}}{{/allVars}}",
+                template,
+            )
+            if count != 7:
+                raise ValueError("Pinned Python model template changed; review composed-model serialization")
+            from_dict = "        _obj = cls.model_validate({"
+            if template.count(from_dict) != 1:
+                raise ValueError("Pinned Python from_dict template changed")
+            template = template.replace(from_dict, (
+                "{{^allVars}}\n"
+                "        # Composed-model fallback: keep omitted nullable fields absent.\n"
+                "        return cls.model_validate(obj)\n"
+                "{{/allVars}}\n" + from_dict
+            ))
+            (templates / "model_generic.mustache").write_text(template, encoding="utf-8")
+            command += ["--template-dir", str(templates)]
         if language == "ruby":
             schema_names = json.loads(SPEC.read_text(encoding="utf-8"))["components"]["schemas"]
             aliases = {name: short_model_name(name) for name in schema_names}

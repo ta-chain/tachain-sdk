@@ -35,11 +35,11 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        Model4 DeleteV1DeclarationDelete(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default);
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        DeleteV1DeclarationDelete200Response DeleteV1DeclarationDelete(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default);
 
         /// <summary>
         /// 申报信息删除接口。
@@ -49,11 +49,11 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        ApiResponse<Model4> DeleteV1DeclarationDeleteWithHttpInfo(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default);
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1DeclarationDeleteWithHttpInfo(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default);
         /// <summary>
         /// 申报信息查询接口。
         /// </summary>
@@ -62,25 +62,35 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeclarationListPaging(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <returns>GetV1DeclarationListPaging200Response</returns>
+        GetV1DeclarationListPaging200Response GetV1DeclarationListPaging(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default);
 
         /// <summary>
         /// 申报信息查询接口。
@@ -90,87 +100,119 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeclarationListPagingWithHttpInfo(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeclarationListPaging200Response</returns>
+        ApiResponse<GetV1DeclarationListPaging200Response> GetV1DeclarationListPagingWithHttpInfo(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default);
         /// <summary>
         /// 单据所需申报信息查询接口。
         /// </summary>
         /// <remarks>
-        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
-        /// <returns>Model3</returns>
-        Model3 GetV1DeclarationRequiredDocuments(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <returns>GetV1DeclarationRequiredDocuments200Response</returns>
+        GetV1DeclarationRequiredDocuments200Response GetV1DeclarationRequiredDocuments(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default);
 
         /// <summary>
         /// 单据所需申报信息查询接口。
         /// </summary>
         /// <remarks>
-        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
-        /// <returns>ApiResponse of Model3</returns>
-        ApiResponse<Model3> GetV1DeclarationRequiredDocumentsWithHttpInfo(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeclarationRequiredDocuments200Response</returns>
+        ApiResponse<GetV1DeclarationRequiredDocuments200Response> GetV1DeclarationRequiredDocumentsWithHttpInfo(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default);
         /// <summary>
         /// 申报文件/表单提交接口。
         /// </summary>
         /// <remarks>
-        ///  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        ///  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1DeclarationSubmit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
+        /// <returns>PostV1DeclarationSubmit200Response</returns>
+        PostV1DeclarationSubmit200Response PostV1DeclarationSubmit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
 
         /// <summary>
         /// 申报文件/表单提交接口。
         /// </summary>
         /// <remarks>
-        ///  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        ///  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeclarationSubmitWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
+        /// <returns>ApiResponse of PostV1DeclarationSubmit200Response</returns>
+        ApiResponse<PostV1DeclarationSubmit200Response> PostV1DeclarationSubmitWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
         #endregion Synchronous Operations
     }
 
@@ -188,12 +230,12 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        System.Threading.Tasks.Task<Model4> DeleteV1DeclarationDeleteAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1DeclarationDeleteAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 申报信息删除接口。
@@ -203,12 +245,12 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Model4>> DeleteV1DeclarationDeleteWithHttpInfoAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1DeclarationDeleteWithHttpInfoAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 申报信息查询接口。
         /// </summary>
@@ -217,26 +259,36 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeclarationListPagingAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1DeclarationListPaging200Response</returns>
+        System.Threading.Tasks.Task<GetV1DeclarationListPaging200Response> GetV1DeclarationListPagingAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 申报信息查询接口。
@@ -246,92 +298,124 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeclarationListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (GetV1DeclarationListPaging200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1DeclarationListPaging200Response>> GetV1DeclarationListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 单据所需申报信息查询接口。
         /// </summary>
         /// <remarks>
-        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model3</returns>
-        System.Threading.Tasks.Task<Model3> GetV1DeclarationRequiredDocumentsAsync(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1DeclarationRequiredDocuments200Response</returns>
+        System.Threading.Tasks.Task<GetV1DeclarationRequiredDocuments200Response> GetV1DeclarationRequiredDocumentsAsync(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 单据所需申报信息查询接口。
         /// </summary>
         /// <remarks>
-        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model3)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Model3>> GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (GetV1DeclarationRequiredDocuments200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1DeclarationRequiredDocuments200Response>> GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 申报文件/表单提交接口。
         /// </summary>
         /// <remarks>
-        ///  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        ///  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeclarationSubmitAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PostV1DeclarationSubmit200Response</returns>
+        System.Threading.Tasks.Task<PostV1DeclarationSubmit200Response> PostV1DeclarationSubmitAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 申报文件/表单提交接口。
         /// </summary>
         /// <remarks>
-        ///  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        ///  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1DeclarationSubmitWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PostV1DeclarationSubmit200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PostV1DeclarationSubmit200Response>> PostV1DeclarationSubmitWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -550,13 +634,13 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        public Model4 DeleteV1DeclarationDelete(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default)
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        public DeleteV1DeclarationDelete200Response DeleteV1DeclarationDelete(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = DeleteV1DeclarationDeleteWithHttpInfo(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = DeleteV1DeclarationDeleteWithHttpInfo(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
             return localVarResponse.Data;
         }
 
@@ -565,11 +649,11 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        public Tachain.Sdk.Client.ApiResponse<Model4> DeleteV1DeclarationDeleteWithHttpInfo(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default)
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1DeclarationDeleteWithHttpInfo(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -626,7 +710,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Model4>("/v1/declaration/Delete", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<DeleteV1DeclarationDelete200Response>("/v1/declaration/Delete", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -642,14 +726,14 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        public async System.Threading.Tasks.Task<Model4> DeleteV1DeclarationDeleteAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        public async System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1DeclarationDeleteAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = await DeleteV1DeclarationDeleteWithHttpInfoAsync(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = await DeleteV1DeclarationDeleteWithHttpInfoAsync(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -658,12 +742,12 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="attachmentId">query 方式传入的单个附件申报 ID。 (optional)</param>
-        /// <param name="formDataId">query 方式传入的单个表单申报 ID。 (optional)</param>
+        /// <param name="attachmentId">查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)</param>
+        /// <param name="formDataId">查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)</param>
         /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Model4>> DeleteV1DeclarationDeleteWithHttpInfoAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1DeclarationDeleteWithHttpInfoAsync(string xCredentialType, string? attachmentId = default, string? formDataId = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -723,7 +807,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Model4>("/v1/declaration/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteV1DeclarationDelete200Response>("/v1/declaration/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -739,27 +823,37 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeclarationListPaging(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <returns>GetV1DeclarationListPaging200Response</returns>
+        public GetV1DeclarationListPaging200Response GetV1DeclarationListPaging(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = GetV1DeclarationListPagingWithHttpInfo(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeclarationListPaging200Response> localVarResponse = GetV1DeclarationListPagingWithHttpInfo(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber);
             return localVarResponse.Data;
         }
 
@@ -768,25 +862,35 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeclarationListPagingWithHttpInfo(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeclarationListPaging200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1DeclarationListPaging200Response> GetV1DeclarationListPagingWithHttpInfo(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -832,13 +936,13 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendNumber", extendNumber));
             }
-            if (extendDate != null)
+            if (orderDate != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendDate", extendDate));
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderDate", orderDate));
             }
-            if (extendLineNumber != null)
+            if (lineNumber != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendLineNumber", extendLineNumber));
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lineNumber", lineNumber));
             }
             if (orderSide != null)
             {
@@ -876,6 +980,46 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            if (receiptNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "receiptNumber", receiptNumber));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -901,7 +1045,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/declaration/ListPaging", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetV1DeclarationListPaging200Response>("/v1/declaration/ListPaging", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -917,28 +1061,38 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeclarationListPagingAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of GetV1DeclarationListPaging200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1DeclarationListPaging200Response> GetV1DeclarationListPagingAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await GetV1DeclarationListPagingWithHttpInfoAsync(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeclarationListPaging200Response> localVarResponse = await GetV1DeclarationListPagingWithHttpInfoAsync(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -947,26 +1101,36 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="extendId"> (optional)</param>
-        /// <param name="stageId"> (optional)</param>
-        /// <param name="documentTypeId"> (optional)</param>
-        /// <param name="documentTypeCode"> (optional)</param>
-        /// <param name="extendNumber"> (optional)</param>
-        /// <param name="extendDate"> (optional)</param>
-        /// <param name="extendLineNumber"> (optional)</param>
-        /// <param name="orderSide"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productionType"> (optional)</param>
-        /// <param name="deliveryNumber"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="riskWarning"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="extendId">查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)</param>
+        /// <param name="stageId">阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)</param>
+        /// <param name="documentTypeId">RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)</param>
+        /// <param name="documentTypeCode">资料类型业务代码或当前公司启用的外部映射。 (optional)</param>
+        /// <param name="extendNumber">通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="riskWarning">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeclarationListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? extendDate = default, string? extendLineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (GetV1DeclarationListPaging200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1DeclarationListPaging200Response>> GetV1DeclarationListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, List<string>? extendId = default, List<string>? stageId = default, List<string>? documentTypeId = default, string? documentTypeCode = default, string? extendNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? orderSide = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, int? status = default, List<int>? riskWarning = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1014,13 +1178,13 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendNumber", extendNumber));
             }
-            if (extendDate != null)
+            if (orderDate != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendDate", extendDate));
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderDate", orderDate));
             }
-            if (extendLineNumber != null)
+            if (lineNumber != null)
             {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "extendLineNumber", extendLineNumber));
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lineNumber", lineNumber));
             }
             if (orderSide != null)
             {
@@ -1058,6 +1222,46 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            if (receiptNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "receiptNumber", receiptNumber));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1084,7 +1288,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/declaration/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1DeclarationListPaging200Response>("/v1/declaration/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1096,43 +1300,69 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
-        /// <returns>Model3</returns>
-        public Model3 GetV1DeclarationRequiredDocuments(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <returns>GetV1DeclarationRequiredDocuments200Response</returns>
+        public GetV1DeclarationRequiredDocuments200Response GetV1DeclarationRequiredDocuments(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model3> localVarResponse = GetV1DeclarationRequiredDocumentsWithHttpInfo(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeclarationRequiredDocuments200Response> localVarResponse = GetV1DeclarationRequiredDocumentsWithHttpInfo(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
-        /// <returns>ApiResponse of Model3</returns>
-        public Tachain.Sdk.Client.ApiResponse<Model3> GetV1DeclarationRequiredDocumentsWithHttpInfo(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeclarationRequiredDocuments200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1DeclarationRequiredDocuments200Response> GetV1DeclarationRequiredDocumentsWithHttpInfo(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default)
         {
+            // verify the required parameter 'stageCode' is set
+            if (stageCode == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'stageCode' when calling ApiDeclarationApi->GetV1DeclarationRequiredDocuments");
+
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeclarationApi->GetV1DeclarationRequiredDocuments");
@@ -1153,10 +1383,7 @@ namespace Tachain.Sdk.Api
             var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (stageCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "stageCode", stageCode));
-            }
+            localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "stageCode", stageCode));
             if (id != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "id", id));
@@ -1189,6 +1416,50 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "deliveryNumber", deliveryNumber));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            if (receiptNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "receiptNumber", receiptNumber));
+            }
+            if (lineNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lineNumber", lineNumber));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1214,7 +1485,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<Model3>("/v1/declaration/RequiredDocuments", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetV1DeclarationRequiredDocuments200Response>("/v1/declaration/RequiredDocuments", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1226,45 +1497,71 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model3</returns>
-        public async System.Threading.Tasks.Task<Model3> GetV1DeclarationRequiredDocumentsAsync(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of GetV1DeclarationRequiredDocuments200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1DeclarationRequiredDocuments200Response> GetV1DeclarationRequiredDocumentsAsync(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model3> localVarResponse = await GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeclarationRequiredDocuments200Response> localVarResponse = await GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        /// 单据所需申报信息查询接口。 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stageCode">阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。</param>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="stageCode">申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)</param>
-        /// <param name="id">阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)</param>
-        /// <param name="orderNumber">订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)</param>
-        /// <param name="orderDate">订单日期；订单阶段按订单号定位时必传。 (optional)</param>
-        /// <param name="orderSide">订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)</param>
-        /// <param name="productionNumber">生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)</param>
-        /// <param name="productCode">产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)</param>
-        /// <param name="productionType">生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)</param>
-        /// <param name="deliveryNumber">发货单号；发货阶段未传 id 时用于定位发货单。 (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="orderSide">PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)</param>
+        /// <param name="productionNumber">生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productionType">可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)</param>
+        /// <param name="deliveryNumber">发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="receiptNumber">入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model3)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Model3>> GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(string xCredentialType, string? stageCode = default, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (GetV1DeclarationRequiredDocuments200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1DeclarationRequiredDocuments200Response>> GetV1DeclarationRequiredDocumentsWithHttpInfoAsync(string stageCode, string xCredentialType, string? id = default, string? orderNumber = default, DateTime? orderDate = default, string? orderSide = default, string? productionNumber = default, string? productCode = default, int? productionType = default, string? deliveryNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, string? receiptNumber = default, string? lineNumber = default, System.Threading.CancellationToken cancellationToken = default)
         {
+            // verify the required parameter 'stageCode' is set
+            if (stageCode == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'stageCode' when calling ApiDeclarationApi->GetV1DeclarationRequiredDocuments");
+
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeclarationApi->GetV1DeclarationRequiredDocuments");
@@ -1287,10 +1584,7 @@ namespace Tachain.Sdk.Api
             var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            if (stageCode != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "stageCode", stageCode));
-            }
+            localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "stageCode", stageCode));
             if (id != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "id", id));
@@ -1323,6 +1617,50 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "deliveryNumber", deliveryNumber));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            if (receiptNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "receiptNumber", receiptNumber));
+            }
+            if (lineNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lineNumber", lineNumber));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1349,7 +1687,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Model3>("/v1/declaration/RequiredDocuments", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1DeclarationRequiredDocuments200Response>("/v1/declaration/RequiredDocuments", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1361,30 +1699,34 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 申报文件/表单提交接口。  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        /// 申报文件/表单提交接口。  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1DeclarationSubmit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
+        /// <returns>PostV1DeclarationSubmit200Response</returns>
+        public PostV1DeclarationSubmit200Response PostV1DeclarationSubmit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PostV1DeclarationSubmitWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
+            Tachain.Sdk.Client.ApiResponse<PostV1DeclarationSubmit200Response> localVarResponse = PostV1DeclarationSubmitWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 申报文件/表单提交接口。  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        /// 申报文件/表单提交接口。  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeclarationSubmitWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
+        /// <returns>ApiResponse of PostV1DeclarationSubmit200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PostV1DeclarationSubmit200Response> PostV1DeclarationSubmitWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeclarationApi->PostV1DeclarationSubmit");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' when calling ApiDeclarationApi->PostV1DeclarationSubmit");
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
@@ -1429,7 +1771,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/declaration/Submit", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<PostV1DeclarationSubmit200Response>("/v1/declaration/Submit", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1441,32 +1783,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 申报文件/表单提交接口。  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        /// 申报文件/表单提交接口。  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeclarationSubmitAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PostV1DeclarationSubmit200Response</returns>
+        public async System.Threading.Tasks.Task<PostV1DeclarationSubmit200Response> PostV1DeclarationSubmitAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PostV1DeclarationSubmitWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PostV1DeclarationSubmit200Response> localVarResponse = await PostV1DeclarationSubmitWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 申报文件/表单提交接口。  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+        /// 申报文件/表单提交接口。  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1DeclarationSubmitWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PostV1DeclarationSubmit200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PostV1DeclarationSubmit200Response>> PostV1DeclarationSubmitWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeclarationApi->PostV1DeclarationSubmit");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' when calling ApiDeclarationApi->PostV1DeclarationSubmit");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -1514,7 +1860,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/declaration/Submit", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<PostV1DeclarationSubmit200Response>("/v1/declaration/Submit", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

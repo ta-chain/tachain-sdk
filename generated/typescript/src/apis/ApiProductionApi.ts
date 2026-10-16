@@ -14,35 +14,40 @@
 
 import * as runtime from '../runtime';
 import {
-    type MicrosoftAspNetCoreMvcProblemDetails,
-    MicrosoftAspNetCoreMvcProblemDetailsFromJSON,
-    MicrosoftAspNetCoreMvcProblemDetailsToJSON,
-} from '../models/MicrosoftAspNetCoreMvcProblemDetails';
+    type DeleteV1DeclarationDelete200Response,
+    DeleteV1DeclarationDelete200ResponseFromJSON,
+    DeleteV1DeclarationDelete200ResponseToJSON,
+} from '../models/DeleteV1DeclarationDelete200Response';
 import {
-    type Model4,
-    Model4FromJSON,
-    Model4ToJSON,
-} from '../models/Model4';
+    type GetV1ProductionListPaging200Response,
+    GetV1ProductionListPaging200ResponseFromJSON,
+    GetV1ProductionListPaging200ResponseToJSON,
+} from '../models/GetV1ProductionListPaging200Response';
 import {
-    type TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest,
-    TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestFromJSON,
-    TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestToJSON,
-} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest';
+    type PostV1ProductionCreate200Response,
+    PostV1ProductionCreate200ResponseFromJSON,
+    PostV1ProductionCreate200ResponseToJSON,
+} from '../models/PostV1ProductionCreate200Response';
 import {
-    type TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 import {
-    type TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest';
 import {
-    type TacticChainApiServiceViewModelsProductionApiDto,
-    TacticChainApiServiceViewModelsProductionApiDtoFromJSON,
-    TacticChainApiServiceViewModelsProductionApiDtoToJSON,
-} from '../models/TacticChainApiServiceViewModelsProductionApiDto';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest';
+import {
+    type TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest';
 
 export interface DeleteV1ProductionDeleteRequest {
     /**
@@ -50,25 +55,25 @@ export interface DeleteV1ProductionDeleteRequest {
      */
     xCredentialType: DeleteV1ProductionDeleteXCredentialTypeEnum;
     /**
-     * query 方式传入的单个 ID，便于简单调用。
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
     /**
-     * 
+     * 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
      */
     productCode?: string;
     /**
-     * 
+     * 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
      */
     type?: number;
     /**
      * 
      */
-    tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+    tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest;
 }
 
 export interface GetV1ProductionListPagingRequest {
@@ -77,199 +82,181 @@ export interface GetV1ProductionListPagingRequest {
      */
     xCredentialType: GetV1ProductionListPagingXCredentialTypeEnum;
     /**
-     * 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+     * 关键词搜索，具体匹配范围见本接口说明。
      */
     searchText?: string;
     /**
-     * 
+     * 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
      */
     number?: string;
     /**
-     * 
+     * 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
      */
     productCode?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     productName?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     productionDateStart?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     productionDateEnd?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     batch?: string;
     /**
-     * 
+     * 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
      */
     type?: number;
     /**
-     * 
+     * 查询状态过滤，不作为写入状态字段开放。
      */
     status?: number;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     facilityId?: string;
     /**
-     * 
+     * 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
      */
     facilityCode?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     processRouteId?: number;
     /**
-     * 
+     * 工艺路线 Code/Name 或外部映射。
      */
     processRouteCode?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     createdBy?: string;
     /**
-     * 
+     * 创建时间下限。
      */
     createdAtStart?: string;
     /**
-     * 
+     * 创建时间上限。
      */
     createdAtEnd?: string;
     /**
-     * 
+     * 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
      */
     salesOrderLineId?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     quantityProduced?: number;
     /**
-     * 
+     * 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
      */
     unit?: string;
     /**
-     * 
-     */
-    sortBy?: string;
-    /**
-     * 
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
      */
     uniqueNo?: string;
     /**
-     * 
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
      */
     lineNumber?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     productCategory?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     materialId?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     materialCode?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     materialName?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     productId?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     destinationCountry?: string;
     /**
-     * 
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
      */
     customerExtNo?: string;
     /**
-     * 
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
      */
     supplierExtNo?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     originCountry?: string;
     /**
-     * 
-     */
-    estimatedTimeOfDepartureStart?: string;
-    /**
-     * 
-     */
-    estimatedTimeOfDepartureEnd?: string;
-    /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     season?: string;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     seasonYear?: string;
     /**
-     * 
-     */
-    lastUpdatedAtStart?: string;
-    /**
-     * 
-     */
-    lastUpdatedAtEnd?: string;
-    /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     color?: string;
     /**
-     * 
-     * 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。
-     * 
-     * 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
-     * 
-     * 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-     * 
-     * 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+     * 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
      */
     soStatus?: number;
     /**
-     * 
-     * 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。
-     * 
-     * 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
-     * 
-     * 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-     * 
-     * 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+     * 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
      */
     poStatus?: number;
     /**
-     * 
+     * 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
      */
     orderId?: string;
     /**
-     * 
+     * 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
      */
     orderNumber?: string;
     /**
-     * 
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
      */
     orderDate?: string;
     /**
-     * 
+     * 页码，默认 1；小于等于 0 时调整为 1。
      */
     page?: number;
     /**
-     * 
+     * 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
      */
     pageSize?: number;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配。
+     */
+    customerName?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配。
+     */
+    supplierName?: string;
 }
 
 export interface PostV1ProductionCreateRequest {
@@ -280,7 +267,7 @@ export interface PostV1ProductionCreateRequest {
     /**
      * 
      */
-    tacticChainApiServiceViewModelsProductionApiDto?: TacticChainApiServiceViewModelsProductionApiDto;
+    tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest;
 }
 
 export interface PutV1ProductionUpdateRequest {
@@ -291,7 +278,7 @@ export interface PutV1ProductionUpdateRequest {
     /**
      * 
      */
-    tacticChainApiServiceViewModelsProductionApiDto?: TacticChainApiServiceViewModelsProductionApiDto;
+    tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest;
 }
 
 /**
@@ -364,7 +351,7 @@ export class ApiProductionApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest']),
         };
     }
 
@@ -372,18 +359,18 @@ export class ApiProductionApi extends runtime.BaseAPI {
      * 删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
      * 删除生产记录单。
      */
-    async deleteV1ProductionDeleteRaw(requestParameters: DeleteV1ProductionDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model4>> {
+    async deleteV1ProductionDeleteRaw(requestParameters: DeleteV1ProductionDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteV1DeclarationDelete200Response>> {
         const requestOptions = await this.deleteV1ProductionDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => Model4FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteV1DeclarationDelete200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
      * 删除生产记录单。
      */
-    async deleteV1ProductionDelete(requestParameters: DeleteV1ProductionDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model4> {
+    async deleteV1ProductionDelete(requestParameters: DeleteV1ProductionDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteV1DeclarationDelete200Response> {
         const response = await this.deleteV1ProductionDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -477,10 +464,6 @@ export class ApiProductionApi extends runtime.BaseAPI {
             queryParameters['unit'] = requestParameters['unit'];
         }
 
-        if (requestParameters['sortBy'] != null) {
-            queryParameters['sortBy'] = requestParameters['sortBy'];
-        }
-
         if (requestParameters['uniqueNo'] != null) {
             queryParameters['uniqueNo'] = requestParameters['uniqueNo'];
         }
@@ -525,28 +508,12 @@ export class ApiProductionApi extends runtime.BaseAPI {
             queryParameters['originCountry'] = requestParameters['originCountry'];
         }
 
-        if (requestParameters['estimatedTimeOfDepartureStart'] != null) {
-            queryParameters['estimatedTimeOfDepartureStart'] = requestParameters['estimatedTimeOfDepartureStart'];
-        }
-
-        if (requestParameters['estimatedTimeOfDepartureEnd'] != null) {
-            queryParameters['estimatedTimeOfDepartureEnd'] = requestParameters['estimatedTimeOfDepartureEnd'];
-        }
-
         if (requestParameters['season'] != null) {
             queryParameters['season'] = requestParameters['season'];
         }
 
         if (requestParameters['seasonYear'] != null) {
             queryParameters['seasonYear'] = requestParameters['seasonYear'];
-        }
-
-        if (requestParameters['lastUpdatedAtStart'] != null) {
-            queryParameters['lastUpdatedAtStart'] = requestParameters['lastUpdatedAtStart'];
-        }
-
-        if (requestParameters['lastUpdatedAtEnd'] != null) {
-            queryParameters['lastUpdatedAtEnd'] = requestParameters['lastUpdatedAtEnd'];
         }
 
         if (requestParameters['color'] != null) {
@@ -579,6 +546,22 @@ export class ApiProductionApi extends runtime.BaseAPI {
 
         if (requestParameters['pageSize'] != null) {
             queryParameters['pageSize'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['customerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['supplierCode'] = requestParameters['supplierCode'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['customerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['supplierName'] = requestParameters['supplierName'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -619,21 +602,21 @@ export class ApiProductionApi extends runtime.BaseAPI {
     }
 
     /**
-     * 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+     * 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
      * 查询生产记录单及详细领料信息。
      */
-    async getV1ProductionListPagingRaw(requestParameters: GetV1ProductionListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async getV1ProductionListPagingRaw(requestParameters: GetV1ProductionListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1ProductionListPaging200Response>> {
         const requestOptions = await this.getV1ProductionListPagingRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1ProductionListPaging200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+     * 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
      * 查询生产记录单及详细领料信息。
      */
-    async getV1ProductionListPaging(requestParameters: GetV1ProductionListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async getV1ProductionListPaging(requestParameters: GetV1ProductionListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1ProductionListPaging200Response> {
         const response = await this.getV1ProductionListPagingRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -646,6 +629,13 @@ export class ApiProductionApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling postV1ProductionCreate().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest" was null or undefined when calling postV1ProductionCreate().'
             );
         }
 
@@ -687,26 +677,26 @@ export class ApiProductionApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceViewModelsProductionApiDtoToJSON(requestParameters['tacticChainApiServiceViewModelsProductionApiDto']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest']),
         };
     }
 
     /**
-     * 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+     * 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
      * 创建生产记录单。
      */
-    async postV1ProductionCreateRaw(requestParameters: PostV1ProductionCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async postV1ProductionCreateRaw(requestParameters: PostV1ProductionCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostV1ProductionCreate200Response>> {
         const requestOptions = await this.postV1ProductionCreateRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PostV1ProductionCreate200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+     * 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
      * 创建生产记录单。
      */
-    async postV1ProductionCreate(requestParameters: PostV1ProductionCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async postV1ProductionCreate(requestParameters: PostV1ProductionCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostV1ProductionCreate200Response> {
         const response = await this.postV1ProductionCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -719,6 +709,13 @@ export class ApiProductionApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling putV1ProductionUpdate().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest" was null or undefined when calling putV1ProductionUpdate().'
             );
         }
 
@@ -760,26 +757,26 @@ export class ApiProductionApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: TacticChainApiServiceViewModelsProductionApiDtoToJSON(requestParameters['tacticChainApiServiceViewModelsProductionApiDto']),
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest']),
         };
     }
 
     /**
-     * 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+     * 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
      * 修改生产记录单。
      */
-    async putV1ProductionUpdateRaw(requestParameters: PutV1ProductionUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async putV1ProductionUpdateRaw(requestParameters: PutV1ProductionUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostV1ProductionCreate200Response>> {
         const requestOptions = await this.putV1ProductionUpdateRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PostV1ProductionCreate200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+     * 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
      * 修改生产记录单。
      */
-    async putV1ProductionUpdate(requestParameters: PutV1ProductionUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async putV1ProductionUpdate(requestParameters: PutV1ProductionUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostV1ProductionCreate200Response> {
         const response = await this.putV1ProductionUpdateRaw(requestParameters, initOverrides);
         return await response.value();
     }

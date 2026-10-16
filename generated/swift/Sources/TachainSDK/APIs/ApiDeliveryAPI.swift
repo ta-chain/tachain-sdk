@@ -24,15 +24,15 @@ open class ApiDeliveryAPI {
      删除发货单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) query 方式传入的单个 ID。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: (body)  (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest: (body)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteV1DeliveryDelete(xCredentialType: XCredentialType_deleteV1DeliveryDelete, id: String? = nil, number: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Model4?, _ error: Error?) -> Void)) -> RequestTask {
-        return deleteV1DeliveryDeleteWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest).execute(apiResponseQueue) { result in
+    open class func deleteV1DeliveryDelete(xCredentialType: XCredentialType_deleteV1DeliveryDelete, id: String? = nil, number: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: DeleteV1DeclarationDelete200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteV1DeliveryDeleteWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -59,15 +59,15 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) query 方式传入的单个 ID。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: (body)  (optional)
-     - returns: RequestBuilder<Model4> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest: (body)  (optional)
+     - returns: RequestBuilder<DeleteV1DeclarationDelete200Response> 
      */
-    open class func deleteV1DeliveryDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1DeliveryDelete, id: String? = nil, number: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? = nil) -> RequestBuilder<Model4> {
+    open class func deleteV1DeliveryDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1DeliveryDelete, id: String? = nil, number: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? = nil) -> RequestBuilder<DeleteV1DeclarationDelete200Response> {
         let localVariablePath = "/v1/delivery/Delete"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -82,7 +82,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Model4>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeleteV1DeclarationDelete200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -99,34 +99,40 @@ open class ApiDeliveryAPI {
      查询发货单信息及明细信息。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query)  (optional)
-     - parameter isTransfer: (query)  (optional)
-     - parameter matchNumber: (query)  (optional)
-     - parameter fromCountry: (query)  (optional)
-     - parameter toCountry: (query)  (optional)
-     - parameter searchText: (query) 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter deliveryDateStart: (query)  (optional)
-     - parameter deliveryDateEnd: (query)  (optional)
-     - parameter orderLineId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter customerId: (query)  (optional)
-     - parameter customerCode: (query)  (optional)
-     - parameter businessStatus: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter isTransfer: (query) 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     - parameter matchNumber: (query) 完整发货单号，精确匹配。 (optional)
+     - parameter fromCountry: (query) 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter toCountry: (query) 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter deliveryDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter deliveryDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter orderLineId: (query) 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter businessStatus: (query) 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter orderCustomerCode: (query) 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderSupplierCode: (query) 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderCustomerName: (query) 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     - parameter orderSupplierName: (query) 关联订单的供应商名称；用于订单定位。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1DeliveryListPaging(xCredentialType: XCredentialType_getV1DeliveryListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, customerId: [String]? = nil, customerCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1DeliveryListPagingWithRequestBuilder(xCredentialType: xCredentialType, id: id, isTransfer: isTransfer, matchNumber: matchNumber, fromCountry: fromCountry, toCountry: toCountry, searchText: searchText, number: number, orderId: orderId, deliveryDateStart: deliveryDateStart, deliveryDateEnd: deliveryDateEnd, orderLineId: orderLineId, orderNumber: orderNumber, orderDate: orderDate, lineNumber: lineNumber, uniqueNo: uniqueNo, status: status, customerId: customerId, customerCode: customerCode, businessStatus: businessStatus, sortBy: sortBy, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1DeliveryListPaging(xCredentialType: XCredentialType_getV1DeliveryListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, customerId: [String]? = nil, customerCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, orderCustomerCode: String? = nil, orderSupplierCode: String? = nil, orderCustomerName: String? = nil, orderSupplierName: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1DeliveryListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1DeliveryListPagingWithRequestBuilder(xCredentialType: xCredentialType, id: id, isTransfer: isTransfer, matchNumber: matchNumber, fromCountry: fromCountry, toCountry: toCountry, searchText: searchText, number: number, orderId: orderId, deliveryDateStart: deliveryDateStart, deliveryDateEnd: deliveryDateEnd, orderLineId: orderLineId, orderNumber: orderNumber, orderDate: orderDate, lineNumber: lineNumber, uniqueNo: uniqueNo, status: status, customerId: customerId, customerCode: customerCode, businessStatus: businessStatus, sortBy: sortBy, page: page, pageSize: pageSize, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, orderCustomerCode: orderCustomerCode, orderSupplierCode: orderSupplierCode, orderCustomerName: orderCustomerName, orderSupplierName: orderSupplierName).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -153,31 +159,37 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query)  (optional)
-     - parameter isTransfer: (query)  (optional)
-     - parameter matchNumber: (query)  (optional)
-     - parameter fromCountry: (query)  (optional)
-     - parameter toCountry: (query)  (optional)
-     - parameter searchText: (query) 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter deliveryDateStart: (query)  (optional)
-     - parameter deliveryDateEnd: (query)  (optional)
-     - parameter orderLineId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter customerId: (query)  (optional)
-     - parameter customerCode: (query)  (optional)
-     - parameter businessStatus: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter isTransfer: (query) 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     - parameter matchNumber: (query) 完整发货单号，精确匹配。 (optional)
+     - parameter fromCountry: (query) 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter toCountry: (query) 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter deliveryDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter deliveryDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter orderLineId: (query) 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter businessStatus: (query) 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter orderCustomerCode: (query) 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderSupplierCode: (query) 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderCustomerName: (query) 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     - parameter orderSupplierName: (query) 关联订单的供应商名称；用于订单定位。 (optional)
+     - returns: RequestBuilder<GetV1DeliveryListPaging200Response> 
      */
-    open class func getV1DeliveryListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeliveryListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, customerId: [String]? = nil, customerCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1DeliveryListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeliveryListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, customerId: [String]? = nil, customerCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, orderCustomerCode: String? = nil, orderSupplierCode: String? = nil, orderCustomerName: String? = nil, orderSupplierName: String? = nil) -> RequestBuilder<GetV1DeliveryListPaging200Response> {
         let localVariablePath = "/v1/delivery/ListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -206,6 +218,12 @@ open class ApiDeliveryAPI {
             "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "customerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
+            "supplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
+            "orderCustomerCode": (wrappedValue: orderCustomerCode?.encodeToJSON(), isExplode: true),
+            "orderSupplierCode": (wrappedValue: orderSupplierCode?.encodeToJSON(), isExplode: true),
+            "orderCustomerName": (wrappedValue: orderCustomerName?.encodeToJSON(), isExplode: true),
+            "orderSupplierName": (wrappedValue: orderSupplierName?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -214,7 +232,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1DeliveryListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -231,34 +249,40 @@ open class ApiDeliveryAPI {
      查询收货单集合，核对收货信息。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query)  (optional)
-     - parameter isTransfer: (query)  (optional)
-     - parameter matchNumber: (query)  (optional)
-     - parameter fromCountry: (query)  (optional)
-     - parameter toCountry: (query)  (optional)
-     - parameter searchText: (query) 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter deliveryDateStart: (query)  (optional)
-     - parameter deliveryDateEnd: (query)  (optional)
-     - parameter orderLineId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter supplierId: (query)  (optional)
-     - parameter supplierCode: (query)  (optional)
-     - parameter businessStatus: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter isTransfer: (query) 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     - parameter matchNumber: (query) 完整发货单号，精确匹配。 (optional)
+     - parameter fromCountry: (query) 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter toCountry: (query) 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter deliveryDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter deliveryDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter orderLineId: (query) 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter businessStatus: (query) 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter orderCustomerCode: (query) 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderSupplierCode: (query) 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderCustomerName: (query) 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     - parameter orderSupplierName: (query) 关联订单的供应商名称；用于订单定位。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1DeliveryReceiptListPaging(xCredentialType: XCredentialType_getV1DeliveryReceiptListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, supplierId: [String]? = nil, supplierCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1DeliveryReceiptListPagingWithRequestBuilder(xCredentialType: xCredentialType, id: id, isTransfer: isTransfer, matchNumber: matchNumber, fromCountry: fromCountry, toCountry: toCountry, searchText: searchText, number: number, orderId: orderId, deliveryDateStart: deliveryDateStart, deliveryDateEnd: deliveryDateEnd, orderLineId: orderLineId, orderNumber: orderNumber, orderDate: orderDate, lineNumber: lineNumber, uniqueNo: uniqueNo, status: status, supplierId: supplierId, supplierCode: supplierCode, businessStatus: businessStatus, sortBy: sortBy, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1DeliveryReceiptListPaging(xCredentialType: XCredentialType_getV1DeliveryReceiptListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, supplierId: [String]? = nil, supplierCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, orderCustomerCode: String? = nil, orderSupplierCode: String? = nil, orderCustomerName: String? = nil, orderSupplierName: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1DeliveryListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1DeliveryReceiptListPagingWithRequestBuilder(xCredentialType: xCredentialType, id: id, isTransfer: isTransfer, matchNumber: matchNumber, fromCountry: fromCountry, toCountry: toCountry, searchText: searchText, number: number, orderId: orderId, deliveryDateStart: deliveryDateStart, deliveryDateEnd: deliveryDateEnd, orderLineId: orderLineId, orderNumber: orderNumber, orderDate: orderDate, lineNumber: lineNumber, uniqueNo: uniqueNo, status: status, supplierId: supplierId, supplierCode: supplierCode, businessStatus: businessStatus, sortBy: sortBy, page: page, pageSize: pageSize, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, orderCustomerCode: orderCustomerCode, orderSupplierCode: orderSupplierCode, orderCustomerName: orderCustomerName, orderSupplierName: orderSupplierName).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -285,31 +309,37 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query)  (optional)
-     - parameter isTransfer: (query)  (optional)
-     - parameter matchNumber: (query)  (optional)
-     - parameter fromCountry: (query)  (optional)
-     - parameter toCountry: (query)  (optional)
-     - parameter searchText: (query) 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter deliveryDateStart: (query)  (optional)
-     - parameter deliveryDateEnd: (query)  (optional)
-     - parameter orderLineId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter supplierId: (query)  (optional)
-     - parameter supplierCode: (query)  (optional)
-     - parameter businessStatus: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter isTransfer: (query) 查询是否为转运单；创建/修改接口只开放普通发货。 (optional)
+     - parameter matchNumber: (query) 完整发货单号，精确匹配。 (optional)
+     - parameter fromCountry: (query) 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter toCountry: (query) 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter deliveryDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter deliveryDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter orderLineId: (query) 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter businessStatus: (query) 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter orderCustomerCode: (query) 关联订单的客户编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderSupplierCode: (query) 关联订单的供应商编码/外部映射值；用于订单定位。 (optional)
+     - parameter orderCustomerName: (query) 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)
+     - parameter orderSupplierName: (query) 关联订单的供应商名称；用于订单定位。 (optional)
+     - returns: RequestBuilder<GetV1DeliveryListPaging200Response> 
      */
-    open class func getV1DeliveryReceiptListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeliveryReceiptListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, supplierId: [String]? = nil, supplierCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1DeliveryReceiptListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeliveryReceiptListPaging, id: Int? = nil, isTransfer: Int? = nil, matchNumber: String? = nil, fromCountry: String? = nil, toCountry: String? = nil, searchText: String? = nil, number: String? = nil, orderId: String? = nil, deliveryDateStart: Date? = nil, deliveryDateEnd: Date? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, uniqueNo: String? = nil, status: [Int]? = nil, supplierId: [String]? = nil, supplierCode: [String]? = nil, businessStatus: Int? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, orderCustomerCode: String? = nil, orderSupplierCode: String? = nil, orderCustomerName: String? = nil, orderSupplierName: String? = nil) -> RequestBuilder<GetV1DeliveryListPaging200Response> {
         let localVariablePath = "/v1/delivery/ReceiptListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -338,6 +368,12 @@ open class ApiDeliveryAPI {
             "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "customerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
+            "supplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
+            "orderCustomerCode": (wrappedValue: orderCustomerCode?.encodeToJSON(), isExplode: true),
+            "orderSupplierCode": (wrappedValue: orderSupplierCode?.encodeToJSON(), isExplode: true),
+            "orderCustomerName": (wrappedValue: orderCustomerName?.encodeToJSON(), isExplode: true),
+            "orderSupplierName": (wrappedValue: orderSupplierName?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -346,7 +382,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1DeliveryListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -363,13 +399,13 @@ open class ApiDeliveryAPI {
      创建发货单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsDeliveryNoteApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1DeliveryCreate(xCredentialType: XCredentialType_postV1DeliveryCreate, tacticChainApiServiceViewModelsDeliveryNoteApiDto: TacticChainApiServiceViewModelsDeliveryNoteApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return postV1DeliveryCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto: tacticChainApiServiceViewModelsDeliveryNoteApiDto).execute(apiResponseQueue) { result in
+    open class func postV1DeliveryCreate(xCredentialType: XCredentialType_postV1DeliveryCreate, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryConfirmReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1DeliveryCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -396,13 +432,13 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsDeliveryNoteApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: (body)  
+     - returns: RequestBuilder<PutV1DeliveryConfirmReceipt200Response> 
      */
-    open class func postV1DeliveryCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1DeliveryCreate, tacticChainApiServiceViewModelsDeliveryNoteApiDto: TacticChainApiServiceViewModelsDeliveryNoteApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func postV1DeliveryCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1DeliveryCreate, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest) -> RequestBuilder<PutV1DeliveryConfirmReceipt200Response> {
         let localVariablePath = "/v1/delivery/Create"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsDeliveryNoteApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -413,7 +449,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryConfirmReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -430,14 +466,20 @@ open class ApiDeliveryAPI {
      确认收货。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) 需要确认收货的发货/收货流转单 ID。 (optional)
-     - parameter number: (query)  (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1DeliveryConfirmReceipt(xCredentialType: XCredentialType_putV1DeliveryConfirmReceipt, id: String? = nil, number: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return putV1DeliveryConfirmReceiptWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number).execute(apiResponseQueue) { result in
+    open class func putV1DeliveryConfirmReceipt(xCredentialType: XCredentialType_putV1DeliveryConfirmReceipt, id: String? = nil, number: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryConfirmReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return putV1DeliveryConfirmReceiptWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, customerId: customerId, customerName: customerName, customerCode: customerCode, supplierId: supplierId, supplierName: supplierName, supplierCode: supplierCode).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -464,11 +506,17 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) 需要确认收货的发货/收货流转单 ID。 (optional)
-     - parameter number: (query)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - returns: RequestBuilder<PutV1DeliveryConfirmReceipt200Response> 
      */
-    open class func putV1DeliveryConfirmReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryConfirmReceipt, id: String? = nil, number: String? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func putV1DeliveryConfirmReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryConfirmReceipt, id: String? = nil, number: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil) -> RequestBuilder<PutV1DeliveryConfirmReceipt200Response> {
         let localVariablePath = "/v1/delivery/ConfirmReceipt"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -477,6 +525,12 @@ open class ApiDeliveryAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "id": (wrappedValue: id?.encodeToJSON(), isExplode: true),
             "number": (wrappedValue: number?.encodeToJSON(), isExplode: true),
+            "CustomerId": (wrappedValue: customerId?.encodeToJSON(), isExplode: true),
+            "CustomerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "CustomerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "SupplierId": (wrappedValue: supplierId?.encodeToJSON(), isExplode: true),
+            "SupplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
+            "SupplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -485,7 +539,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryConfirmReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -502,14 +556,20 @@ open class ApiDeliveryAPI {
      收货退回。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) 需要退回的发货/收货流转单 ID。 (optional)
-     - parameter number: (query)  (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1DeliveryReturnReceipt(xCredentialType: XCredentialType_putV1DeliveryReturnReceipt, id: String? = nil, number: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e?, _ error: Error?) -> Void)) -> RequestTask {
-        return putV1DeliveryReturnReceiptWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number).execute(apiResponseQueue) { result in
+    open class func putV1DeliveryReturnReceipt(xCredentialType: XCredentialType_putV1DeliveryReturnReceipt, id: String? = nil, number: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryReturnReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return putV1DeliveryReturnReceiptWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, customerId: customerId, customerName: customerName, customerCode: customerCode, supplierId: supplierId, supplierName: supplierName, supplierCode: supplierCode).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -536,11 +596,17 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) 需要退回的发货/收货流转单 ID。 (optional)
-     - parameter number: (query)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - returns: RequestBuilder<PutV1DeliveryReturnReceipt200Response> 
      */
-    open class func putV1DeliveryReturnReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryReturnReceipt, id: String? = nil, number: String? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    open class func putV1DeliveryReturnReceiptWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryReturnReceipt, id: String? = nil, number: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil) -> RequestBuilder<PutV1DeliveryReturnReceipt200Response> {
         let localVariablePath = "/v1/delivery/ReturnReceipt"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -549,6 +615,12 @@ open class ApiDeliveryAPI {
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "id": (wrappedValue: id?.encodeToJSON(), isExplode: true),
             "number": (wrappedValue: number?.encodeToJSON(), isExplode: true),
+            "CustomerId": (wrappedValue: customerId?.encodeToJSON(), isExplode: true),
+            "CustomerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "CustomerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "SupplierId": (wrappedValue: supplierId?.encodeToJSON(), isExplode: true),
+            "SupplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
+            "SupplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -557,7 +629,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryReturnReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -574,13 +646,13 @@ open class ApiDeliveryAPI {
      修改发货单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsDeliveryNoteApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1DeliveryUpdate(xCredentialType: XCredentialType_putV1DeliveryUpdate, tacticChainApiServiceViewModelsDeliveryNoteApiDto: TacticChainApiServiceViewModelsDeliveryNoteApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return putV1DeliveryUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto: tacticChainApiServiceViewModelsDeliveryNoteApiDto).execute(apiResponseQueue) { result in
+    open class func putV1DeliveryUpdate(xCredentialType: XCredentialType_putV1DeliveryUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryConfirmReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return putV1DeliveryUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -593,7 +665,7 @@ open class ApiDeliveryAPI {
     /**
      修改发货单。
      - PUT /v1/delivery/Update
-     - 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 `UniqueCode`，传入 `Status = -1` 可删除明细。
+     - 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete=true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -607,13 +679,13 @@ open class ApiDeliveryAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsDeliveryNoteApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: (body)  
+     - returns: RequestBuilder<PutV1DeliveryConfirmReceipt200Response> 
      */
-    open class func putV1DeliveryUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryUpdate, tacticChainApiServiceViewModelsDeliveryNoteApiDto: TacticChainApiServiceViewModelsDeliveryNoteApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func putV1DeliveryUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1DeliveryUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest) -> RequestBuilder<PutV1DeliveryConfirmReceipt200Response> {
         let localVariablePath = "/v1/delivery/Update"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsDeliveryNoteApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -624,7 +696,7 @@ open class ApiDeliveryAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryConfirmReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

@@ -14,188 +14,90 @@ require 'date'
 require 'time'
 
 module TachainSdk
-  class GetV1EnumGetList200Response < ApiModelBase
-    attr_accessor :code
-
-    attr_accessor :message
-
-    attr_accessor :data
-
-    # Attribute mapping from ruby-style variable name to JSON key.
-    def self.attribute_map
-      {
-        :'code' => :'code',
-        :'message' => :'message',
-        :'data' => :'data'
-      }
-    end
-
-    # Returns attribute mapping this model knows about
-    def self.acceptable_attribute_map
-      attribute_map
-    end
-
-    # Returns all the JSON keys this model knows about
-    def self.acceptable_attributes
-      acceptable_attribute_map.values
-    end
-
-    # Attribute type mapping.
-    def self.openapi_types
-      {
-        :'code' => :'Integer',
-        :'message' => :'String',
-        :'data' => :'Array<ResultApiEnum>'
-      }
-    end
-
-    # List of attributes with nullable: true
-    def self.openapi_nullable
-      Set.new([
-      ])
-    end
-
-    # Initializes the object
-    # @param [Hash] attributes Model attributes in the form of hash
-    def initialize(attributes = {})
-      if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TachainSdk::GetV1EnumGetList200Response` initialize method"
+  module GetV1EnumGetList200Response
+    class << self
+      # List of class defined in anyOf (OpenAPI v3)
+      def openapi_any_of
+        [
+          :'ApiErrorResponse',
+          :'Object'
+        ]
       end
 
-      # check to see if the attribute exists and convert string to symbol for hash key
-      acceptable_attribute_map = self.class.acceptable_attribute_map
-      attributes = attributes.each_with_object({}) { |(k, v), h|
-        if (!acceptable_attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TachainSdk::GetV1EnumGetList200Response`. Please check the name to make sure it's valid. List of attributes: " + acceptable_attribute_map.keys.inspect
-        end
-        h[k.to_sym] = v
-      }
-
-      if attributes.key?(:'code')
-        self.code = attributes[:'code']
-      else
-        self.code = nil
-      end
-
-      if attributes.key?(:'message')
-        self.message = attributes[:'message']
-      else
-        self.message = nil
-      end
-
-      if attributes.key?(:'data')
-        if (value = attributes[:'data']).is_a?(Array)
-          self.data = value
-        end
-      end
-    end
-
-    # Show invalid properties with the reasons. Usually used together with valid?
-    # @return Array for valid properties with the reasons
-    def list_invalid_properties
-      warn '[DEPRECATED] the `list_invalid_properties` method is obsolete'
-      invalid_properties = Array.new
-      if @code.nil?
-        invalid_properties.push('invalid value for "code", code cannot be nil.')
-      end
-
-      if @message.nil?
-        invalid_properties.push('invalid value for "message", message cannot be nil.')
-      end
-
-      invalid_properties
-    end
-
-    # Check to see if the all the properties in the model are valid
-    # @return true if the model is valid
-    def valid?
-      warn '[DEPRECATED] the `valid?` method is obsolete'
-      return false if @code.nil?
-      return false if @message.nil?
-      true
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] code Value to be assigned
-    def code=(code)
-      if code.nil?
-        fail ArgumentError, 'code cannot be nil'
-      end
-
-      @code = code
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] message Value to be assigned
-    def message=(message)
-      if message.nil?
-        fail ArgumentError, 'message cannot be nil'
-      end
-
-      @message = message
-    end
-
-    # Checks equality by comparing each attribute.
-    # @param [Object] Object to be compared
-    def ==(o)
-      return true if self.equal?(o)
-      self.class == o.class &&
-          code == o.code &&
-          message == o.message &&
-          data == o.data
-    end
-
-    # @see the `==` method
-    # @param [Object] Object to be compared
-    def eql?(o)
-      self == o
-    end
-
-    # Calculates hash code according to all attributes.
-    # @return [Integer] Hash code
-    def hash
-      [code, message, data].hash
-    end
-
-    # Builds the object from hash
-    # @param [Hash] attributes Model attributes in the form of hash
-    # @return [Object] Returns the model itself
-    def self.build_from_hash(attributes)
-      return nil unless attributes.is_a?(Hash)
-      attributes = attributes.transform_keys(&:to_sym)
-      transformed_hash = {}
-      openapi_types.each_pair do |key, type|
-        if attributes.key?(attribute_map[key]) && attributes[attribute_map[key]].nil?
-          transformed_hash["#{key}"] = nil
-        elsif type =~ /\AArray<(.*)>/i
-          # check to ensure the input is an array given that the attribute
-          # is documented as an array but the input is not
-          if attributes[attribute_map[key]].is_a?(Array)
-            transformed_hash["#{key}"] = attributes[attribute_map[key]].map { |v| _deserialize($1, v) }
+      # Builds the object
+      # @param [Mixed] Data to be matched against the list of anyOf items
+      # @return [Object] Returns the model or the data itself
+      def build(data)
+        # Go through the list of anyOf items and attempt to identify the appropriate one.
+        # Note:
+        # - No advanced validation of types in some cases (e.g. "x: { type: string }" will happily match { x: 123 })
+        #   due to the way the deserialization is made in the base_object template (it just casts without verifying).
+        # - TODO: scalar values are de facto behaving as if they were nullable.
+        # - TODO: logging when debugging is set.
+        openapi_any_of.each do |klass|
+          begin
+            next if klass == :AnyType # "nullable: true"
+            return find_and_cast_into_type(klass, data)
+          rescue # rescue all errors so we keep iterating even if the current item lookup raises
           end
-        elsif !attributes[attribute_map[key]].nil?
-          transformed_hash["#{key}"] = _deserialize(type, attributes[attribute_map[key]])
-        end
-      end
-      new(transformed_hash)
-    end
-
-    # Returns the object in the form of hash
-    # @return [Hash] Returns the object in the form of hash
-    def to_hash
-      hash = {}
-      self.class.attribute_map.each_pair do |attr, param|
-        value = self.send(attr)
-        if value.nil?
-          is_nullable = self.class.openapi_nullable.include?(attr)
-          next if !is_nullable || (is_nullable && !instance_variable_defined?(:"@#{attr}"))
         end
 
-        hash[param] = _to_hash(value)
+        openapi_any_of.include?(:AnyType) ? data : nil
       end
-      hash
-    end
 
+      private
+
+      SchemaMismatchError = Class.new(StandardError)
+
+      # Note: 'File' is missing here because in the regular case we get the data _after_ a call to JSON.parse.
+      def find_and_cast_into_type(klass, data)
+        return if data.nil?
+
+        case klass.to_s
+        when 'Boolean'
+          return data if data.instance_of?(TrueClass) || data.instance_of?(FalseClass)
+        when 'Float'
+          return data if data.instance_of?(Float)
+        when 'Integer'
+          return data if data.instance_of?(Integer)
+        when 'Time'
+          return Time.parse(data)
+        when 'Date'
+          return Date.iso8601(data)
+        when 'String'
+          return data if data.instance_of?(String)
+        when 'Object' # "type: object"
+          return data if data.instance_of?(Hash)
+        when /\AArray<(?<sub_type>.+)>\z/ # "type: array"
+          if data.instance_of?(Array)
+            sub_type = Regexp.last_match[:sub_type]
+            return data.map { |item| find_and_cast_into_type(sub_type, item) }
+          end
+        when /\AHash<String, (?<sub_type>.+)>\z/ # "type: object" with "additionalProperties: { ... }"
+          if data.instance_of?(Hash) && data.keys.all? { |k| k.instance_of?(Symbol) || k.instance_of?(String) }
+            sub_type = Regexp.last_match[:sub_type]
+            return data.each_with_object({}) { |(k, v), hsh| hsh[k] = find_and_cast_into_type(sub_type, v) }
+          end
+        else # model
+          const = TachainSdk.const_get(klass)
+          if const
+            if const.respond_to?(:openapi_any_of) # nested anyOf model
+              model = const.build(data)
+              return model if model
+            else
+              # raise if data contains keys that are not known to the model
+              raise if const.respond_to?(:acceptable_attributes) && !(data.keys - const.acceptable_attributes).empty?
+              model = const.build_from_hash(data)
+              return model if model
+            end
+          end
+        end
+
+        raise # if no match by now, raise
+      rescue
+        raise SchemaMismatchError, "#{data} doesn't match the #{klass} type"
+      end
+    end
   end
 
 end

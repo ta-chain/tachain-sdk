@@ -12,6 +12,20 @@ from pathlib import Path
 METHODS = {"get", "post", "put", "patch", "delete", "head", "options"}
 PUBLIC_PREFIX = "/v1/"
 REF_PREFIX = "#/components/"
+INTEGRATION_SCHEMA_PREFIX = "TacticChainApiServiceControllersApiIntegrationV1"
+
+# Apifox exports some array item refs as its private numeric definitions IDs,
+# without exporting definitions. Resolve only these known schema/property pairs;
+# never guess the meaning of an unknown dangling ref.
+EXPORTED_ARRAY_ITEM_TYPES = {
+    ("ApiOrderCreateRequest", "orderLines"): "ApiOrderLineCreateRequest",
+    ("ApiOrderUpdateRequest", "orderLines"): "ApiOrderLineUpdateRequest",
+    ("ApiDeclarationSubmitRequest", "documentList"): "ApiDeclarationDocumentRequest",
+    ("ApiDeliveryCreateRequest", "deliveryNoteDetailList"): "ApiDeliveryDetailCreateRequest",
+    ("ApiDeliveryUpdateRequest", "deliveryNoteDetailList"): "ApiDeliveryDetailUpdateRequest",
+    ("ApiDeclarationDocumentRequest", "fileList"): "ApiDeclarationFileRequest",
+    ("ApiDeclarationDocumentRequest", "formDataList"): "ApiDeclarationFormRequest",
+}
 
 
 def walk_refs(value: object) -> set[str]:
@@ -29,16 +43,71 @@ def walk_refs(value: object) -> set[str]:
 
 
 def fix_invalid_null_type(value: object) -> None:
-    """The upstream 3.0 export contains one 3.1-only `type: null` schema."""
+    """Convert the upstream 3.1 nullable type syntax to OpenAPI 3.0 syntax."""
     if isinstance(value, dict):
-        if value.get("type") == "null":
+        schema_type = value.get("type")
+        if isinstance(schema_type, list):
+            non_null = [item for item in schema_type if item != "null"]
+            if len(non_null) != 1 or "null" not in schema_type:
+                raise ValueError(f"Unsupported exported type union: {schema_type}")
+            value["type"] = non_null[0]
+            value["nullable"] = True
+        elif schema_type == "null":
             del value["type"]
             value["nullable"] = True
-        for item in value.values():
+        examples = value.get("examples")
+        if isinstance(examples, list) and ("type" in value or "properties" in value):
+            # Schema.examples is 3.1-only. Keep the first interoperable example
+            # and retain the complete exported list as extension metadata.
+            value["x-export-examples"] = value.pop("examples")
+            if examples:
+                value.setdefault("example", copy.deepcopy(examples[0]))
+        for key, item in value.items():
+            if key.startswith("x-export-"):
+                continue
             fix_invalid_null_type(item)
     elif isinstance(value, list):
         for item in value:
             fix_invalid_null_type(item)
+
+
+def repair_exported_schemas(source: dict) -> None:
+    schemas = source.get("components", {}).get("schemas", {})
+    for (owner, property_name), target in EXPORTED_ARRAY_ITEM_TYPES.items():
+        field = schemas.get(INTEGRATION_SCHEMA_PREFIX + owner, {}).get("properties", {}).get(property_name, {})
+        item = field.get("items", {})
+        ref = item.get("$ref", "")
+        if not ref.startswith("#/definitions/"):
+            continue
+        name = INTEGRATION_SCHEMA_PREFIX + target
+        if name not in schemas:
+            raise ValueError(f"Missing replacement schema for {owner}.{property_name}: {name}")
+        item["$ref"] = "#/components/schemas/" + name
+
+    def string_choices(value: object) -> bool:
+        return isinstance(value, list) and bool(value) and all(item == {"type": "string"} for item in value)
+
+    for schema in schemas.values():
+        if schema.get("type") != "object":
+            continue
+        invalid = {}
+        if string_choices(schema.get("anyOf")):
+            invalid["anyOf"] = schema.pop("anyOf")
+        all_of = schema.get("allOf")
+        if isinstance(all_of, list):
+            broken = [item for item in all_of if isinstance(item, dict) and set(item) == {"anyOf"} and string_choices(item["anyOf"])]
+            if broken:
+                invalid["allOf"] = copy.deepcopy(all_of)
+                valid = [item for item in all_of if item not in broken]
+                if valid:
+                    schema["allOf"] = valid
+                else:
+                    del schema["allOf"]
+        if invalid:
+            # These exported string branches can never match an object. Preserve
+            # them for inspection, while keeping real required/conditional fields
+            # and valid compositions (including fileId/base64 oneOf) unchanged.
+            schema["x-export-invalid-composition"] = invalid
 
 
 def operation_id(method: str, path: str) -> str:
@@ -52,6 +121,9 @@ def normalize(source: dict) -> dict:
     source_paths = source.get("paths")
     if not isinstance(source_paths, dict):
         raise ValueError("Missing paths")
+    source = copy.deepcopy(source)
+    repair_exported_schemas(source)
+    source_paths = source["paths"]
 
     paths: dict[str, dict] = {}
     ids: set[str] = set()

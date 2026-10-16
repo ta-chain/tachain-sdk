@@ -35,30 +35,102 @@ namespace Tachain.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest" /> class.
-        /// </summary>
+        /// <param name="customerId">查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。.</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。.</param>
+        /// <param name="customerCode">当前公司维护的客户编码或启用的 Customer/Company 外部映射值。.</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。.</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。.</param>
+        /// <param name="supplierCode">当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。.</param>
+        /// <param name="customerExtNo">订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。.</param>
+        /// <param name="supplierExtNo">订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。.</param>
+        /// <param name="uniqueNo">订单明细的全局唯一系统流水号。.</param>
         /// <param name="orderId">订单主 ID；不传明细条件时处理全部有效明细。.</param>
         /// <param name="orderLineId">订单明细 ID；仅处理该明细。.</param>
-        /// <param name="orderNumber">订单号；不传任何内部 ID 时必填。.</param>
-        /// <param name="orderDate">订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。.</param>
+        /// <param name="orderNumber">订单号；不传 ID 或流水号时，与 OrderDate 一起必填。.</param>
+        /// <param name="orderDate">订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。.</param>
         /// <param name="lineNumber">订单行号；可不传，不传时处理整单。.</param>
-        /// <param name="customerId">买方公司 ID；业务键定位时与 CustomerName 至少传一个。.</param>
-        /// <param name="customerName">买方名称，支持英文名、当地语言名称或简称，精确匹配。.</param>
-        /// <param name="confirmWarnings">是否确认 Type&#x3D;0 的警告，默认 false；不能跳过 Type&#x3D;1 阻断错误。 (required).</param>
-        public TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest(string orderId = default, string orderLineId = default, string orderNumber = default, DateTime? orderDate = default, string lineNumber = default, string customerId = default, string customerName = default, bool confirmWarnings = default)
+        /// <param name="confirmWarnings">是否确认 Type&#x3D;0 的警告，默认 false；不能跳过 Type&#x3D;1 阻断错误。.</param>
+        public TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest(string customerId = default, string customerName = default, string customerCode = default, string supplierId = default, string supplierName = default, string supplierCode = default, string customerExtNo = default, string supplierExtNo = default, string uniqueNo = default, string orderId = default, string orderLineId = default, string orderNumber = default, DateTime? orderDate = default, string lineNumber = default, bool confirmWarnings = default)
         {
-            this.ConfirmWarnings = confirmWarnings;
+            this.CustomerId = customerId;
+            this.CustomerName = customerName;
+            this.CustomerCode = customerCode;
+            this.SupplierId = supplierId;
+            this.SupplierName = supplierName;
+            this.SupplierCode = supplierCode;
+            this.CustomerExtNo = customerExtNo;
+            this.SupplierExtNo = supplierExtNo;
+            this.UniqueNo = uniqueNo;
             this.OrderId = orderId;
             this.OrderLineId = orderLineId;
             this.OrderNumber = orderNumber;
             this.OrderDate = orderDate;
             this.LineNumber = lineNumber;
-            this.CustomerId = customerId;
-            this.CustomerName = customerName;
+            this.ConfirmWarnings = confirmWarnings;
         }
+
+        /// <summary>
+        /// 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+        /// </summary>
+        /// <value>查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。</value>
+        [DataMember(Name = "customerId", EmitDefaultValue = true)]
+        public string CustomerId { get; set; }
+
+        /// <summary>
+        /// 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+        /// </summary>
+        /// <value>客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。</value>
+        [DataMember(Name = "customerName", EmitDefaultValue = true)]
+        public string CustomerName { get; set; }
+
+        /// <summary>
+        /// 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+        /// </summary>
+        /// <value>当前公司维护的客户编码或启用的 Customer/Company 外部映射值。</value>
+        [DataMember(Name = "customerCode", EmitDefaultValue = true)]
+        public string CustomerCode { get; set; }
+
+        /// <summary>
+        /// 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+        /// </summary>
+        /// <value>查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。</value>
+        [DataMember(Name = "supplierId", EmitDefaultValue = true)]
+        public string SupplierId { get; set; }
+
+        /// <summary>
+        /// 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+        /// </summary>
+        /// <value>供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。</value>
+        [DataMember(Name = "supplierName", EmitDefaultValue = true)]
+        public string SupplierName { get; set; }
+
+        /// <summary>
+        /// 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+        /// </summary>
+        /// <value>当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。</value>
+        [DataMember(Name = "supplierCode", EmitDefaultValue = true)]
+        public string SupplierCode { get; set; }
+
+        /// <summary>
+        /// 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+        /// </summary>
+        /// <value>订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。</value>
+        [DataMember(Name = "customerExtNo", EmitDefaultValue = true)]
+        public string CustomerExtNo { get; set; }
+
+        /// <summary>
+        /// 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+        /// </summary>
+        /// <value>订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。</value>
+        [DataMember(Name = "supplierExtNo", EmitDefaultValue = true)]
+        public string SupplierExtNo { get; set; }
+
+        /// <summary>
+        /// 订单明细的全局唯一系统流水号。
+        /// </summary>
+        /// <value>订单明细的全局唯一系统流水号。</value>
+        [DataMember(Name = "uniqueNo", EmitDefaultValue = true)]
+        public string UniqueNo { get; set; }
 
         /// <summary>
         /// 订单主 ID；不传明细条件时处理全部有效明细。
@@ -75,16 +147,16 @@ namespace Tachain.Sdk.Model
         public string OrderLineId { get; set; }
 
         /// <summary>
-        /// 订单号；不传任何内部 ID 时必填。
+        /// 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。
         /// </summary>
-        /// <value>订单号；不传任何内部 ID 时必填。</value>
+        /// <value>订单号；不传 ID 或流水号时，与 OrderDate 一起必填。</value>
         [DataMember(Name = "orderNumber", EmitDefaultValue = true)]
         public string OrderNumber { get; set; }
 
         /// <summary>
-        /// 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。
+        /// 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。
         /// </summary>
-        /// <value>订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。</value>
+        /// <value>订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。</value>
         [DataMember(Name = "orderDate", EmitDefaultValue = true)]
         public DateTime? OrderDate { get; set; }
 
@@ -96,24 +168,10 @@ namespace Tachain.Sdk.Model
         public string LineNumber { get; set; }
 
         /// <summary>
-        /// 买方公司 ID；业务键定位时与 CustomerName 至少传一个。
-        /// </summary>
-        /// <value>买方公司 ID；业务键定位时与 CustomerName 至少传一个。</value>
-        [DataMember(Name = "customerId", EmitDefaultValue = true)]
-        public string CustomerId { get; set; }
-
-        /// <summary>
-        /// 买方名称，支持英文名、当地语言名称或简称，精确匹配。
-        /// </summary>
-        /// <value>买方名称，支持英文名、当地语言名称或简称，精确匹配。</value>
-        [DataMember(Name = "customerName", EmitDefaultValue = true)]
-        public string CustomerName { get; set; }
-
-        /// <summary>
         /// 是否确认 Type&#x3D;0 的警告，默认 false；不能跳过 Type&#x3D;1 阻断错误。
         /// </summary>
         /// <value>是否确认 Type&#x3D;0 的警告，默认 false；不能跳过 Type&#x3D;1 阻断错误。</value>
-        [DataMember(Name = "confirmWarnings", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "confirmWarnings", EmitDefaultValue = true)]
         public bool ConfirmWarnings { get; set; }
 
         /// <summary>
@@ -124,13 +182,20 @@ namespace Tachain.Sdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest {\n");
+            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
+            sb.Append("  CustomerName: ").Append(CustomerName).Append("\n");
+            sb.Append("  CustomerCode: ").Append(CustomerCode).Append("\n");
+            sb.Append("  SupplierId: ").Append(SupplierId).Append("\n");
+            sb.Append("  SupplierName: ").Append(SupplierName).Append("\n");
+            sb.Append("  SupplierCode: ").Append(SupplierCode).Append("\n");
+            sb.Append("  CustomerExtNo: ").Append(CustomerExtNo).Append("\n");
+            sb.Append("  SupplierExtNo: ").Append(SupplierExtNo).Append("\n");
+            sb.Append("  UniqueNo: ").Append(UniqueNo).Append("\n");
             sb.Append("  OrderId: ").Append(OrderId).Append("\n");
             sb.Append("  OrderLineId: ").Append(OrderLineId).Append("\n");
             sb.Append("  OrderNumber: ").Append(OrderNumber).Append("\n");
             sb.Append("  OrderDate: ").Append(OrderDate).Append("\n");
             sb.Append("  LineNumber: ").Append(LineNumber).Append("\n");
-            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
-            sb.Append("  CustomerName: ").Append(CustomerName).Append("\n");
             sb.Append("  ConfirmWarnings: ").Append(ConfirmWarnings).Append("\n");
             sb.Append("}\n");
             return sb.ToString();

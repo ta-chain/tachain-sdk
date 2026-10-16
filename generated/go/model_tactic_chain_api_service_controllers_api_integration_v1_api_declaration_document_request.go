@@ -12,7 +12,6 @@ package tachainsdk
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // checks if the TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest type satisfies the MappedNullable interface at compile time
@@ -20,18 +19,14 @@ var _ MappedNullable = &TacticChainApiServiceControllersApiIntegrationV1ApiDecla
 
 // TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest 外部集成申报资料明细。
 type TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest struct {
-	// 资料类型 ID，对应系统中的文档类型。
+	// 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
 	DocumentTypeId NullableString `json:"documentTypeId,omitempty"`
-	// 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+	// 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
 	DocumentTypeCode NullableString `json:"documentTypeCode,omitempty"`
-	// 单据日期，例如运输单日期、入库单日期。
-	DocumentDate NullableTime `json:"documentDate,omitempty"`
-	// 单据编号，例如运输单号、入库单号。
-	DocumentNumber NullableString `json:"documentNumber,omitempty"`
 	// 文件资料列表。只提交表单资料时可以为空。
-	FileList []TacticChainApiServiceViewModelsAttachmentInApiCreateDto `json:"fileList,omitempty"`
+	FileList []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest `json:"fileList,omitempty"`
 	// 表单资料列表。只提交文件资料时可以为空。
-	FormDataList []TacticChainApiServiceModelsOrderStageFormDto `json:"formDataList,omitempty"`
+	FormDataList []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest `json:"formDataList,omitempty"`
 }
 
 // NewTacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest instantiates a new TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest object
@@ -135,94 +130,10 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentR
 	o.DocumentTypeCode.Unset()
 }
 
-// GetDocumentDate returns the DocumentDate field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetDocumentDate() time.Time {
-	if o == nil || IsNil(o.DocumentDate.Get()) {
-		var ret time.Time
-		return ret
-	}
-	return *o.DocumentDate.Get()
-}
-
-// GetDocumentDateOk returns a tuple with the DocumentDate field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetDocumentDateOk() (*time.Time, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.DocumentDate.Get(), o.DocumentDate.IsSet()
-}
-
-// HasDocumentDate returns a boolean if a field has been set.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) HasDocumentDate() bool {
-	if o != nil && o.DocumentDate.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetDocumentDate gets a reference to the given NullableTime and assigns it to the DocumentDate field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetDocumentDate(v time.Time) {
-	o.DocumentDate.Set(&v)
-}
-// SetDocumentDateNil sets the value for DocumentDate to be an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetDocumentDateNil() {
-	o.DocumentDate.Set(nil)
-}
-
-// UnsetDocumentDate ensures that no value is present for DocumentDate, not even an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) UnsetDocumentDate() {
-	o.DocumentDate.Unset()
-}
-
-// GetDocumentNumber returns the DocumentNumber field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetDocumentNumber() string {
-	if o == nil || IsNil(o.DocumentNumber.Get()) {
-		var ret string
-		return ret
-	}
-	return *o.DocumentNumber.Get()
-}
-
-// GetDocumentNumberOk returns a tuple with the DocumentNumber field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetDocumentNumberOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.DocumentNumber.Get(), o.DocumentNumber.IsSet()
-}
-
-// HasDocumentNumber returns a boolean if a field has been set.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) HasDocumentNumber() bool {
-	if o != nil && o.DocumentNumber.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetDocumentNumber gets a reference to the given NullableString and assigns it to the DocumentNumber field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetDocumentNumber(v string) {
-	o.DocumentNumber.Set(&v)
-}
-// SetDocumentNumberNil sets the value for DocumentNumber to be an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetDocumentNumberNil() {
-	o.DocumentNumber.Set(nil)
-}
-
-// UnsetDocumentNumber ensures that no value is present for DocumentNumber, not even an explicit nil
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) UnsetDocumentNumber() {
-	o.DocumentNumber.Unset()
-}
-
 // GetFileList returns the FileList field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFileList() []TacticChainApiServiceViewModelsAttachmentInApiCreateDto {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFileList() []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest {
 	if o == nil {
-		var ret []TacticChainApiServiceViewModelsAttachmentInApiCreateDto
+		var ret []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest
 		return ret
 	}
 	return o.FileList
@@ -231,7 +142,7 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentR
 // GetFileListOk returns a tuple with the FileList field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFileListOk() ([]TacticChainApiServiceViewModelsAttachmentInApiCreateDto, bool) {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFileListOk() ([]TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest, bool) {
 	if o == nil || IsNil(o.FileList) {
 		return nil, false
 	}
@@ -247,15 +158,15 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentR
 	return false
 }
 
-// SetFileList gets a reference to the given []TacticChainApiServiceViewModelsAttachmentInApiCreateDto and assigns it to the FileList field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetFileList(v []TacticChainApiServiceViewModelsAttachmentInApiCreateDto) {
+// SetFileList gets a reference to the given []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest and assigns it to the FileList field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetFileList(v []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest) {
 	o.FileList = v
 }
 
 // GetFormDataList returns the FormDataList field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFormDataList() []TacticChainApiServiceModelsOrderStageFormDto {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFormDataList() []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest {
 	if o == nil {
-		var ret []TacticChainApiServiceModelsOrderStageFormDto
+		var ret []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest
 		return ret
 	}
 	return o.FormDataList
@@ -264,7 +175,7 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentR
 // GetFormDataListOk returns a tuple with the FormDataList field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFormDataListOk() ([]TacticChainApiServiceModelsOrderStageFormDto, bool) {
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) GetFormDataListOk() ([]TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest, bool) {
 	if o == nil || IsNil(o.FormDataList) {
 		return nil, false
 	}
@@ -280,8 +191,8 @@ func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentR
 	return false
 }
 
-// SetFormDataList gets a reference to the given []TacticChainApiServiceModelsOrderStageFormDto and assigns it to the FormDataList field.
-func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetFormDataList(v []TacticChainApiServiceModelsOrderStageFormDto) {
+// SetFormDataList gets a reference to the given []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest and assigns it to the FormDataList field.
+func (o *TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) SetFormDataList(v []TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest) {
 	o.FormDataList = v
 }
 
@@ -300,12 +211,6 @@ func (o TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRe
 	}
 	if o.DocumentTypeCode.IsSet() {
 		toSerialize["documentTypeCode"] = o.DocumentTypeCode.Get()
-	}
-	if o.DocumentDate.IsSet() {
-		toSerialize["documentDate"] = o.DocumentDate.Get()
-	}
-	if o.DocumentNumber.IsSet() {
-		toSerialize["documentNumber"] = o.DocumentNumber.Get()
 	}
 	if o.FileList != nil {
 		toSerialize["fileList"] = o.FileList

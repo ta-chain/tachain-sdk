@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { TacticChainApiServiceHelperResultApiEnum } from './TacticChainApiServiceHelperResultApiEnum';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse } from './TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 import {
-    TacticChainApiServiceHelperResultApiEnumFromJSON,
-    TacticChainApiServiceHelperResultApiEnumFromJSONTyped,
-    TacticChainApiServiceHelperResultApiEnumToJSON,
-    TacticChainApiServiceHelperResultApiEnumToJSONTyped,
-} from './TacticChainApiServiceHelperResultApiEnum';
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 
 /**
  * 
@@ -28,17 +28,17 @@ import {
  */
 export interface GetV1EnumGetList200Response {
     /**
-     * 
+     * 业务状态码。
      */
-    code: number;
+    readonly code: number;
     /**
-     * 
+     * 业务返回数据。
      */
-    message: string;
+    readonly data?: any | null;
     /**
-     * 
+     * 按请求语言返回的提示，未指定语言时默认中文。
      */
-    data?: Array<TacticChainApiServiceHelperResultApiEnum>;
+    readonly message?: string | null;
 }
 
 /**
@@ -46,7 +46,6 @@ export interface GetV1EnumGetList200Response {
  */
 export function instanceOfGetV1EnumGetList200Response(value: object): value is GetV1EnumGetList200Response {
     if (!('code' in value) || value['code'] === undefined) return false;
-    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -61,8 +60,8 @@ export function GetV1EnumGetList200ResponseFromJSONTyped(json: any, ignoreDiscri
     return {
         
         'code': json['code'],
-        'message': json['message'],
-        'data': json['data'] == null ? undefined : ((json['data'] as Array<any>).map(TacticChainApiServiceHelperResultApiEnumFromJSON)),
+        'data': json['data'] === undefined ? undefined : json['data'] === null ? null : json['data'],
+        'message': json['message'] === undefined ? undefined : json['message'] === null ? null : json['message'],
     };
 }
 
@@ -70,16 +69,13 @@ export function GetV1EnumGetList200ResponseToJSON(json: any): GetV1EnumGetList20
     return GetV1EnumGetList200ResponseToJSONTyped(json, false);
 }
 
-export function GetV1EnumGetList200ResponseToJSONTyped(value?: GetV1EnumGetList200Response | null, ignoreDiscriminator: boolean = false): any {
+export function GetV1EnumGetList200ResponseToJSONTyped(value?: Omit<GetV1EnumGetList200Response, 'code'|'data'|'message'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'code': value['code'],
-        'message': value['message'],
-        'data': value['data'] == null ? undefined : ((value['data'] as Array<any>).map(TacticChainApiServiceHelperResultApiEnumToJSON)),
     };
 }
 

@@ -13,73 +13,122 @@ import AnyCodable
 /** 采购方确认收货请求。 */
 public final class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: Codable, JSONEncodable, Hashable {
 
+    /** 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。 */
+    public var customerId: String?
+    /** 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 */
+    public var customerName: String?
+    /** 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。 */
+    public var customerCode: String?
+    /** 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 */
+    public var supplierId: String?
+    /** 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。 */
+    public var supplierName: String?
+    /** 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。 */
+    public var supplierCode: String?
+    /** 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。 */
+    public var customerExtNo: String?
+    /** 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。 */
+    public var supplierExtNo: String?
+    /** 订单明细的全局唯一系统流水号。 */
+    public var uniqueNo: String?
     /** 订单主 ID；不传明细条件时处理全部有效明细。 */
     public var orderId: String?
     /** 订单明细 ID；仅处理该明细。 */
     public var orderLineId: String?
-    /** 订单号；不传任何内部 ID 时必填。 */
+    /** 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。 */
     public var orderNumber: String?
-    /** 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。 */
+    /** 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。 */
     public var orderDate: Date?
     /** 订单行号；可不传，不传时处理整单。 */
     public var lineNumber: String?
-    /** 卖方公司 ID；业务键定位时与 SupplierName 至少传一个。 */
-    public var supplierId: String?
-    /** 卖方名称，支持英文名、当地语言名称或简称，精确匹配。 */
-    public var supplierName: String?
 
-    public init(orderId: String? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, supplierId: String? = nil, supplierName: String? = nil) {
+    public init(customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, orderId: String? = nil, orderLineId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil) {
+        self.customerId = customerId
+        self.customerName = customerName
+        self.customerCode = customerCode
+        self.supplierId = supplierId
+        self.supplierName = supplierName
+        self.supplierCode = supplierCode
+        self.customerExtNo = customerExtNo
+        self.supplierExtNo = supplierExtNo
+        self.uniqueNo = uniqueNo
         self.orderId = orderId
         self.orderLineId = orderLineId
         self.orderNumber = orderNumber
         self.orderDate = orderDate
         self.lineNumber = lineNumber
-        self.supplierId = supplierId
-        self.supplierName = supplierName
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case customerId
+        case customerName
+        case customerCode
+        case supplierId
+        case supplierName
+        case supplierCode
+        case customerExtNo
+        case supplierExtNo
+        case uniqueNo
         case orderId
         case orderLineId
         case orderNumber
         case orderDate
         case lineNumber
-        case supplierId
-        case supplierName
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(customerId, forKey: .customerId)
+        try container.encodeIfPresent(customerName, forKey: .customerName)
+        try container.encodeIfPresent(customerCode, forKey: .customerCode)
+        try container.encodeIfPresent(supplierId, forKey: .supplierId)
+        try container.encodeIfPresent(supplierName, forKey: .supplierName)
+        try container.encodeIfPresent(supplierCode, forKey: .supplierCode)
+        try container.encodeIfPresent(customerExtNo, forKey: .customerExtNo)
+        try container.encodeIfPresent(supplierExtNo, forKey: .supplierExtNo)
+        try container.encodeIfPresent(uniqueNo, forKey: .uniqueNo)
         try container.encodeIfPresent(orderId, forKey: .orderId)
         try container.encodeIfPresent(orderLineId, forKey: .orderLineId)
         try container.encodeIfPresent(orderNumber, forKey: .orderNumber)
         try container.encodeIfPresent(orderDate, forKey: .orderDate)
         try container.encodeIfPresent(lineNumber, forKey: .lineNumber)
-        try container.encodeIfPresent(supplierId, forKey: .supplierId)
-        try container.encodeIfPresent(supplierName, forKey: .supplierName)
     }
 
     public static func == (lhs: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, rhs: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) -> Bool {
+        lhs.customerId == rhs.customerId &&
+        lhs.customerName == rhs.customerName &&
+        lhs.customerCode == rhs.customerCode &&
+        lhs.supplierId == rhs.supplierId &&
+        lhs.supplierName == rhs.supplierName &&
+        lhs.supplierCode == rhs.supplierCode &&
+        lhs.customerExtNo == rhs.customerExtNo &&
+        lhs.supplierExtNo == rhs.supplierExtNo &&
+        lhs.uniqueNo == rhs.uniqueNo &&
         lhs.orderId == rhs.orderId &&
         lhs.orderLineId == rhs.orderLineId &&
         lhs.orderNumber == rhs.orderNumber &&
         lhs.orderDate == rhs.orderDate &&
-        lhs.lineNumber == rhs.lineNumber &&
-        lhs.supplierId == rhs.supplierId &&
-        lhs.supplierName == rhs.supplierName
+        lhs.lineNumber == rhs.lineNumber
         
     }
 
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(customerId?.hashValue)
+        hasher.combine(customerName?.hashValue)
+        hasher.combine(customerCode?.hashValue)
+        hasher.combine(supplierId?.hashValue)
+        hasher.combine(supplierName?.hashValue)
+        hasher.combine(supplierCode?.hashValue)
+        hasher.combine(customerExtNo?.hashValue)
+        hasher.combine(supplierExtNo?.hashValue)
+        hasher.combine(uniqueNo?.hashValue)
         hasher.combine(orderId?.hashValue)
         hasher.combine(orderLineId?.hashValue)
         hasher.combine(orderNumber?.hashValue)
         hasher.combine(orderDate?.hashValue)
         hasher.combine(lineNumber?.hashValue)
-        hasher.combine(supplierId?.hashValue)
-        hasher.combine(supplierName?.hashValue)
         
     }
 }

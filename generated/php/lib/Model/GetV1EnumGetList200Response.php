@@ -58,8 +58,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $openAPITypes = [
         'code' => 'int',
-        'message' => 'string',
-        'data' => '\TachainSdk\Model\TacticChainApiServiceHelperResultApiEnum[]'
+        'data' => 'mixed',
+        'message' => 'string'
     ];
 
     /**
@@ -71,8 +71,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $openAPIFormats = [
         'code' => 'int32',
-        'message' => null,
-        'data' => null
+        'data' => null,
+        'message' => null
     ];
 
     /**
@@ -82,8 +82,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static array $openAPINullables = [
         'code' => false,
-        'message' => false,
-        'data' => false
+        'data' => true,
+        'message' => true
     ];
 
     /**
@@ -173,8 +173,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $attributeMap = [
         'code' => 'code',
-        'message' => 'message',
-        'data' => 'data'
+        'data' => 'data',
+        'message' => 'message'
     ];
 
     /**
@@ -184,8 +184,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $setters = [
         'code' => 'setCode',
-        'message' => 'setMessage',
-        'data' => 'setData'
+        'data' => 'setData',
+        'message' => 'setMessage'
     ];
 
     /**
@@ -195,8 +195,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
      */
     protected static $getters = [
         'code' => 'getCode',
-        'message' => 'getMessage',
-        'data' => 'getData'
+        'data' => 'getData',
+        'message' => 'getMessage'
     ];
 
     /**
@@ -257,8 +257,8 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
     public function __construct(?array $data = null)
     {
         $this->setIfExists('code', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
     }
 
     /**
@@ -291,9 +291,6 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
         if ($this->container['code'] === null) {
             $invalidProperties[] = "'code' can't be null";
         }
-        if ($this->container['message'] === null) {
-            $invalidProperties[] = "'message' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -322,7 +319,7 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets code
      *
-     * @param int $code code
+     * @param int $code 业务状态码。
      *
      * @return self
      */
@@ -337,36 +334,9 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
     }
 
     /**
-     * Gets message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->container['message'];
-    }
-
-    /**
-     * Sets message
-     *
-     * @param string $message message
-     *
-     * @return self
-     */
-    public function setMessage($message)
-    {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
-        }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
      * Gets data
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceHelperResultApiEnum[]|null
+     * @return mixed|null
      */
     public function getData()
     {
@@ -376,16 +346,57 @@ class GetV1EnumGetList200Response implements ModelInterface, ArrayAccess, \JsonS
     /**
      * Sets data
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceHelperResultApiEnum[]|null $data data
+     * @param mixed|null $data 业务返回数据。
      *
      * @return self
      */
     public function setData($data)
     {
         if (is_null($data)) {
-            throw new \InvalidArgumentException('non-nullable data cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'data');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('data', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
         $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message 按请求语言返回的提示，未指定语言时默认中文。
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            array_push($this->openAPINullablesSetToNull, 'message');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('message', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['message'] = $message;
 
         return $this;
     }

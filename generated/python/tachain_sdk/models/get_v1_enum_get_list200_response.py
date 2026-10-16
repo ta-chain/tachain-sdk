@@ -13,87 +13,124 @@
 
 
 from __future__ import annotations
+from inspect import getfullargspec
+import json
 import pprint
 import re  # noqa: F401
-import json
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
+from typing import Any, Dict, Optional
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_error_response import TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
+from typing_extensions import Literal, Self
+from pydantic import Field
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
-from tachain_sdk.models.tactic_chain_api_service_helper_result_api_enum import TacticChainApiServiceHelperResultApiEnum
-from typing import Optional, Set
-from typing_extensions import Self
-from pydantic_core import to_jsonable_python
+GETV1ENUMGETLIST200RESPONSE_ANY_OF_SCHEMAS = ["TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse", "object"]
 
 class GetV1EnumGetList200Response(BaseModel):
     """
     GetV1EnumGetList200Response
-    """ # noqa: E501
-    code: StrictInt
-    message: StrictStr
-    data: Optional[List[TacticChainApiServiceHelperResultApiEnum]] = None
-    __properties: ClassVar[List[str]] = ["code", "message", "data"]
+    """
 
-    model_config = ConfigDict(
-        validate_by_name=True,
-        validate_by_alias=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-    )
+    # data type: object
+    anyof_schema_1_validator: Optional[Dict[str, Any]] = None
+    # data type: TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+    anyof_schema_2_validator: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse] = None
+    if TYPE_CHECKING:
+        actual_instance: Optional[Union[TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, object]] = None
+    else:
+        actual_instance: Any = None
+    any_of_schemas: Set[str] = { "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse", "object" }
 
+    model_config = {
+        "validate_assignment": True,
+        "protected_namespaces": (),
+    }
 
-    def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
+    def __init__(self, *args, **kwargs) -> None:
+        if args:
+            if len(args) > 1:
+                raise ValueError("If a position argument is used, only 1 is allowed to set `actual_instance`")
+            if kwargs:
+                raise ValueError("If a position argument is used, keyword arguments cannot be used.")
+            super().__init__(actual_instance=args[0])
+        else:
+            super().__init__(**kwargs)
+
+    @field_validator('actual_instance')
+    def actual_instance_must_validate_anyof(cls, v):
+        instance = GetV1EnumGetList200Response.model_construct()
+        error_messages = []
+        # validate data type: object
+        try:
+            instance.anyof_schema_1_validator = v
+            return v
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # validate data type: TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+        if not isinstance(v, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`")
+        else:
+            return v
+
+        if error_messages:
+            # no match
+            raise ValueError("No match found when setting the actual_instance in GetV1EnumGetList200Response with anyOf schemas: TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, object. Details: " + ", ".join(error_messages))
+        else:
+            return v
+
+    @classmethod
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
+        return cls.from_json(json.dumps(obj))
+
+    @classmethod
+    def from_json(cls, json_str: str) -> Self:
+        """Returns the object represented by the json string"""
+        instance = cls.model_construct()
+        error_messages = []
+        # deserialize data into object
+        try:
+            # validation
+            instance.anyof_schema_1_validator = json.loads(json_str)
+            # assign value to actual_instance
+            instance.actual_instance = instance.anyof_schema_1_validator
+            return instance
+        except (ValidationError, ValueError) as e:
+            error_messages.append(str(e))
+        # anyof_schema_2_validator: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse] = None
+        try:
+            instance.actual_instance = TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.from_json(json_str)
+            return instance
+        except (ValidationError, ValueError) as e:
+             error_messages.append(str(e))
+
+        if error_messages:
+            # no match
+            raise ValueError("No match found when deserializing the JSON string into GetV1EnumGetList200Response with anyOf schemas: TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, object. Details: " + ", ".join(error_messages))
+        else:
+            return instance
 
     def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        return json.dumps(to_jsonable_python(self.to_dict()))
+        """Returns the JSON representation of the actual instance"""
+        if self.actual_instance is None:
+            return "null"
 
-    @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GetV1EnumGetList200Response from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
+            return self.actual_instance.to_json()
+        else:
+            return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: Set[str] = set([
-        ])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
-        _items = []
-        if self.data:
-            for _item_data in self.data:
-                _items.append(_item_data.to_dict() if _item_data is not None else None)
-            _dict['data'] = _items
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GetV1EnumGetList200Response from a dict"""
-        if obj is None:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, object]]:
+        """Returns the dict representation of the actual instance"""
+        if self.actual_instance is None:
             return None
 
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
+            return self.actual_instance.to_dict()
+        else:
+            return self.actual_instance
 
-        _obj = cls.model_validate({
-            "code": obj.get("code"),
-            "message": obj.get("message"),
-            "data": [TacticChainApiServiceHelperResultApiEnum.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
-        })
-        return _obj
+    def to_str(self) -> str:
+        """Returns the string representation of the actual instance"""
+        return pprint.pformat(self.model_dump())
 
 

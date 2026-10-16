@@ -16,11 +16,540 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 
 // ApiOrderWorkflowAPIService ApiOrderWorkflowAPI service
 type ApiOrderWorkflowAPIService service
+
+type ApiGetV1OrderReceiptPendingRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderWorkflowAPIService
+	xCredentialType *string
+	orderId *string
+	orderLineId *string
+	orderNumber *string
+	orderDate *time.Time
+	lineNumber *string
+	customerExtNo *string
+	supplierExtNo *string
+	uniqueNo *string
+	customerId *string
+	customerName *string
+	customerCode *string
+	supplierId *string
+	supplierName *string
+	supplierCode *string
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiGetV1OrderReceiptPendingRequest) XCredentialType(xCredentialType string) ApiGetV1OrderReceiptPendingRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+// 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+func (r ApiGetV1OrderReceiptPendingRequest) OrderId(orderId string) ApiGetV1OrderReceiptPendingRequest {
+	r.orderId = &orderId
+	return r
+}
+
+// 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+func (r ApiGetV1OrderReceiptPendingRequest) OrderLineId(orderLineId string) ApiGetV1OrderReceiptPendingRequest {
+	r.orderLineId = &orderLineId
+	return r
+}
+
+// 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+func (r ApiGetV1OrderReceiptPendingRequest) OrderNumber(orderNumber string) ApiGetV1OrderReceiptPendingRequest {
+	r.orderNumber = &orderNumber
+	return r
+}
+
+// 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+func (r ApiGetV1OrderReceiptPendingRequest) OrderDate(orderDate time.Time) ApiGetV1OrderReceiptPendingRequest {
+	r.orderDate = &orderDate
+	return r
+}
+
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+func (r ApiGetV1OrderReceiptPendingRequest) LineNumber(lineNumber string) ApiGetV1OrderReceiptPendingRequest {
+	r.lineNumber = &lineNumber
+	return r
+}
+
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderReceiptPendingRequest) CustomerExtNo(customerExtNo string) ApiGetV1OrderReceiptPendingRequest {
+	r.customerExtNo = &customerExtNo
+	return r
+}
+
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderReceiptPendingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1OrderReceiptPendingRequest {
+	r.supplierExtNo = &supplierExtNo
+	return r
+}
+
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+func (r ApiGetV1OrderReceiptPendingRequest) UniqueNo(uniqueNo string) ApiGetV1OrderReceiptPendingRequest {
+	r.uniqueNo = &uniqueNo
+	return r
+}
+
+// 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+func (r ApiGetV1OrderReceiptPendingRequest) CustomerId(customerId string) ApiGetV1OrderReceiptPendingRequest {
+	r.customerId = &customerId
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+func (r ApiGetV1OrderReceiptPendingRequest) CustomerName(customerName string) ApiGetV1OrderReceiptPendingRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1OrderReceiptPendingRequest) CustomerCode(customerCode string) ApiGetV1OrderReceiptPendingRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+func (r ApiGetV1OrderReceiptPendingRequest) SupplierId(supplierId string) ApiGetV1OrderReceiptPendingRequest {
+	r.supplierId = &supplierId
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+func (r ApiGetV1OrderReceiptPendingRequest) SupplierName(supplierName string) ApiGetV1OrderReceiptPendingRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+// 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+func (r ApiGetV1OrderReceiptPendingRequest) SupplierCode(supplierCode string) ApiGetV1OrderReceiptPendingRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+func (r ApiGetV1OrderReceiptPendingRequest) Execute() (*GetV1OrderReceiptPending200Response, *http.Response, error) {
+	return r.ApiService.GetV1OrderReceiptPendingExecute(r)
+}
+
+/*
+GetV1OrderReceiptPending 采购订单确认收货待办项查询。
+
+当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。
+无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。
+支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。
+复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。
+HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetV1OrderReceiptPendingRequest
+*/
+func (a *ApiOrderWorkflowAPIService) GetV1OrderReceiptPending(ctx context.Context) ApiGetV1OrderReceiptPendingRequest {
+	return ApiGetV1OrderReceiptPendingRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return GetV1OrderReceiptPending200Response
+func (a *ApiOrderWorkflowAPIService) GetV1OrderReceiptPendingExecute(r ApiGetV1OrderReceiptPendingRequest) (*GetV1OrderReceiptPending200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetV1OrderReceiptPending200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderWorkflowAPIService.GetV1OrderReceiptPending")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/ReceiptPending"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+
+	if r.orderId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "OrderId", r.orderId, "form", "")
+	}
+	if r.orderLineId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "OrderLineId", r.orderLineId, "form", "")
+	}
+	if r.orderNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "OrderNumber", r.orderNumber, "form", "")
+	}
+	if r.orderDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "OrderDate", r.orderDate, "form", "")
+	}
+	if r.lineNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "LineNumber", r.lineNumber, "form", "")
+	}
+	if r.customerExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerExtNo", r.customerExtNo, "form", "")
+	}
+	if r.supplierExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierExtNo", r.supplierExtNo, "form", "")
+	}
+	if r.uniqueNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "UniqueNo", r.uniqueNo, "form", "")
+	}
+	if r.customerId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerId", r.customerId, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerName", r.customerName, "form", "")
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerCode", r.customerCode, "form", "")
+	}
+	if r.supplierId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierId", r.supplierId, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierName", r.supplierName, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierCode", r.supplierCode, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostV1OrderDeclarationVerificationRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderWorkflowAPIService
+	xCredentialType *string
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiPostV1OrderDeclarationVerificationRequest) XCredentialType(xCredentialType string) ApiPostV1OrderDeclarationVerificationRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+func (r ApiPostV1OrderDeclarationVerificationRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest) ApiPostV1OrderDeclarationVerificationRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+	return r
+}
+
+func (r ApiPostV1OrderDeclarationVerificationRequest) Execute() (*PostV1OrderDeclarationVerification200Response, *http.Response, error) {
+	return r.ApiService.PostV1OrderDeclarationVerificationExecute(r)
+}
+
+/*
+PostV1OrderDeclarationVerification 销售订单提交审核前一键校验。
+
+当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。
+无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。
+支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。
+复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。
+Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。
+Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostV1OrderDeclarationVerificationRequest
+*/
+func (a *ApiOrderWorkflowAPIService) PostV1OrderDeclarationVerification(ctx context.Context) ApiPostV1OrderDeclarationVerificationRequest {
+	return ApiPostV1OrderDeclarationVerificationRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PostV1OrderDeclarationVerification200Response
+func (a *ApiOrderWorkflowAPIService) PostV1OrderDeclarationVerificationExecute(r ApiPostV1OrderDeclarationVerificationRequest) (*PostV1OrderDeclarationVerification200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PostV1OrderDeclarationVerification200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderWorkflowAPIService.PostV1OrderDeclarationVerification")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/DeclarationVerification"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	// body params
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiPostV1OrderSubmitAuditRequest struct {
 	ctx context.Context
@@ -40,14 +569,16 @@ func (r ApiPostV1OrderSubmitAuditRequest) TacticChainApiServiceControllersApiInt
 	return r
 }
 
-func (r ApiPostV1OrderSubmitAuditRequest) Execute() (*http.Response, error) {
+func (r ApiPostV1OrderSubmitAuditRequest) Execute() (*PostV1OrderSubmitAudit200Response, *http.Response, error) {
 	return r.ApiService.PostV1OrderSubmitAuditExecute(r)
 }
 
 /*
 PostV1OrderSubmitAudit 销售方根据已入库的订单、生产、发货及申报资料提交审核。
 
-支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。
+支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。
+无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。
+买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。
 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。
 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
 
@@ -62,16 +593,18 @@ func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAudit(ctx context.Context)
 }
 
 // Execute executes the request
-func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1OrderSubmitAuditRequest) (*http.Response, error) {
+//  @return PostV1OrderSubmitAudit200Response
+func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1OrderSubmitAuditRequest) (*PostV1OrderSubmitAudit200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *PostV1OrderSubmitAudit200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderWorkflowAPIService.PostV1OrderSubmitAudit")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/v1/order/SubmitAudit"
@@ -80,7 +613,10 @@ func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1Or
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
-		return nil, reportError("xCredentialType is required and must be specified")
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -93,7 +629,7 @@ func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1Or
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -147,19 +683,19 @@ func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1Or
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -167,10 +703,51 @@ func (a *ApiOrderWorkflowAPIService) PostV1OrderSubmitAuditExecute(r ApiPostV1Or
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiPutV1OrderConfirmReceiptRequest struct {
@@ -191,14 +768,16 @@ func (r ApiPutV1OrderConfirmReceiptRequest) TacticChainApiServiceControllersApiI
 	return r
 }
 
-func (r ApiPutV1OrderConfirmReceiptRequest) Execute() (*http.Response, error) {
+func (r ApiPutV1OrderConfirmReceiptRequest) Execute() (*PutV1OrderConfirmReceipt200Response, *http.Response, error) {
 	return r.ApiService.PutV1OrderConfirmReceiptExecute(r)
 }
 
 /*
 PutV1OrderConfirmReceipt 采购方按整单或单条订单明细确认收货。
 
-支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。
+支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。
+无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。
+买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。
 LineNumber 可选，不传时处理整单；提供多个条件时取交集。
 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。
 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
@@ -214,16 +793,18 @@ func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceipt(ctx context.Contex
 }
 
 // Execute executes the request
-func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1OrderConfirmReceiptRequest) (*http.Response, error) {
+//  @return PutV1OrderConfirmReceipt200Response
+func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1OrderConfirmReceiptRequest) (*PutV1OrderConfirmReceipt200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
+		localVarReturnValue  *PutV1OrderConfirmReceipt200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderWorkflowAPIService.PutV1OrderConfirmReceipt")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/v1/order/ConfirmReceipt"
@@ -232,7 +813,10 @@ func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1O
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
-		return nil, reportError("xCredentialType is required and must be specified")
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -245,7 +829,7 @@ func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1O
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -299,19 +883,19 @@ func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1O
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -319,8 +903,49 @@ func (a *ApiOrderWorkflowAPIService) PutV1OrderConfirmReceiptExecute(r ApiPutV1O
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarHTTPResponse, newErr
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }

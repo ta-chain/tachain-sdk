@@ -14,20 +14,25 @@
 
 import * as runtime from '../runtime';
 import {
-    type MicrosoftAspNetCoreMvcProblemDetails,
-    MicrosoftAspNetCoreMvcProblemDetailsFromJSON,
-    MicrosoftAspNetCoreMvcProblemDetailsToJSON,
-} from '../models/MicrosoftAspNetCoreMvcProblemDetails';
+    type DeleteV1DeclarationDelete200Response,
+    DeleteV1DeclarationDelete200ResponseFromJSON,
+    DeleteV1DeclarationDelete200ResponseToJSON,
+} from '../models/DeleteV1DeclarationDelete200Response';
 import {
-    type Model3,
-    Model3FromJSON,
-    Model3ToJSON,
-} from '../models/Model3';
+    type GetV1DeclarationListPaging200Response,
+    GetV1DeclarationListPaging200ResponseFromJSON,
+    GetV1DeclarationListPaging200ResponseToJSON,
+} from '../models/GetV1DeclarationListPaging200Response';
 import {
-    type Model4,
-    Model4FromJSON,
-    Model4ToJSON,
-} from '../models/Model4';
+    type GetV1DeclarationRequiredDocuments200Response,
+    GetV1DeclarationRequiredDocuments200ResponseFromJSON,
+    GetV1DeclarationRequiredDocuments200ResponseToJSON,
+} from '../models/GetV1DeclarationRequiredDocuments200Response';
+import {
+    type PostV1DeclarationSubmit200Response,
+    PostV1DeclarationSubmit200ResponseFromJSON,
+    PostV1DeclarationSubmit200ResponseToJSON,
+} from '../models/PostV1DeclarationSubmit200Response';
 import {
     type TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest,
     TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequestFromJSON,
@@ -39,15 +44,10 @@ import {
     TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequestToJSON,
 } from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest';
 import {
-    type TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-import {
-    type TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON,
-    TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullToJSON,
-} from '../models/TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 
 export interface DeleteV1DeclarationDeleteRequest {
     /**
@@ -55,11 +55,11 @@ export interface DeleteV1DeclarationDeleteRequest {
      */
     xCredentialType: DeleteV1DeclarationDeleteXCredentialTypeEnum;
     /**
-     * query 方式传入的单个附件申报 ID。
+     * 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
      */
     attachmentId?: string;
     /**
-     * query 方式传入的单个表单申报 ID。
+     * 查询返回的表单记录标识；也可在 Body 按业务键删除。
      */
     formDataId?: string;
     /**
@@ -74,116 +74,200 @@ export interface GetV1DeclarationListPagingRequest {
      */
     xCredentialType: GetV1DeclarationListPagingXCredentialTypeEnum;
     /**
-     * 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+     * 关键词搜索，具体匹配范围见本接口说明。
      */
     searchText?: string;
     /**
-     * 
+     * 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
      */
     extendId?: Array<string>;
     /**
-     * 
+     * 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
      */
     stageId?: Array<string>;
     /**
-     * 
+     * RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
      */
     documentTypeId?: Array<string>;
     /**
-     * 
+     * 资料类型业务代码或当前公司启用的外部映射。
      */
     documentTypeCode?: string;
     /**
-     * 
+     * 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
      */
     extendNumber?: string;
     /**
-     * 
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
      */
-    extendDate?: string;
+    orderDate?: string;
     /**
-     * 
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
      */
-    extendLineNumber?: string;
+    lineNumber?: string;
     /**
-     * 
+     * PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
      */
     orderSide?: string;
     /**
-     * 
+     * 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
      */
     productCode?: string;
     /**
-     * 
+     * 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
      */
     productionType?: number;
     /**
-     * 
+     * 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
      */
     deliveryNumber?: string;
     /**
-     * 
+     * 查询状态过滤，不作为写入状态字段开放。
      */
     status?: number;
     /**
-     * 
+     * 可选业务筛选条件；与其他条件同时生效。
      */
     riskWarning?: Array<number>;
     /**
-     * 
+     * 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
      */
     sortBy?: string;
     /**
-     * 
+     * 页码，默认 1；小于等于 0 时调整为 1。
      */
     page?: number;
     /**
-     * 
+     * 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
      */
     pageSize?: number;
+    /**
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    customerExtNo?: string;
+    /**
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    supplierExtNo?: string;
+    /**
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+     */
+    uniqueNo?: string;
+    /**
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+     */
+    customerId?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配。
+     */
+    customerName?: string;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+     */
+    supplierId?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配。
+     */
+    supplierName?: string;
+    /**
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string;
+    /**
+     * 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+     */
+    receiptNumber?: string;
 }
 
 export interface GetV1DeclarationRequiredDocumentsRequest {
+    /**
+     * 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。
+     */
+    stageCode: string;
     /**
      * Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.
      */
     xCredentialType: GetV1DeclarationRequiredDocumentsXCredentialTypeEnum;
     /**
-     * 申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。
-     */
-    stageCode?: string;
-    /**
-     * 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
+     * 查询返回的单据 ID，可选；优先使用本文业务组合。
      */
     id?: string;
     /**
-     * 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
+     * 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
      */
     orderNumber?: string;
     /**
-     * 订单日期；订单阶段按订单号定位时必传。
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
      */
     orderDate?: string;
     /**
-     * 订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。
+     * PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
      */
     orderSide?: string;
     /**
-     * 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
+     * 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
      */
     productionNumber?: string;
     /**
-     * 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
+     * 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
      */
     productCode?: string;
     /**
-     * 生产类型；生产阶段默认 0，入库阶段默认 1。
+     * 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
      */
     productionType?: number;
     /**
-     * 发货单号；发货阶段未传 id 时用于定位发货单。
+     * 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
      */
     deliveryNumber?: string;
+    /**
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    customerExtNo?: string;
+    /**
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    supplierExtNo?: string;
+    /**
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+     */
+    uniqueNo?: string;
+    /**
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+     */
+    customerId?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配。
+     */
+    customerName?: string;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+     */
+    supplierId?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配。
+     */
+    supplierName?: string;
+    /**
+     * 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string;
+    /**
+     * 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+     */
+    receiptNumber?: string;
+    /**
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+     */
+    lineNumber?: string;
 }
 
 export interface PostV1DeclarationSubmitRequest {
@@ -194,7 +278,7 @@ export interface PostV1DeclarationSubmitRequest {
     /**
      * 
      */
-    tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest;
+    tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest;
 }
 
 /**
@@ -267,18 +351,18 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
      * 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 `StageId + ExtendId` 重新计算申报完成度。
      * 申报信息删除接口。
      */
-    async deleteV1DeclarationDeleteRaw(requestParameters: DeleteV1DeclarationDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model4>> {
+    async deleteV1DeclarationDeleteRaw(requestParameters: DeleteV1DeclarationDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteV1DeclarationDelete200Response>> {
         const requestOptions = await this.deleteV1DeclarationDeleteRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => Model4FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteV1DeclarationDelete200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 `StageId + ExtendId` 重新计算申报完成度。
      * 申报信息删除接口。
      */
-    async deleteV1DeclarationDelete(requestParameters: DeleteV1DeclarationDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model4> {
+    async deleteV1DeclarationDelete(requestParameters: DeleteV1DeclarationDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteV1DeclarationDelete200Response> {
         const response = await this.deleteV1DeclarationDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -320,12 +404,12 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
             queryParameters['extendNumber'] = requestParameters['extendNumber'];
         }
 
-        if (requestParameters['extendDate'] != null) {
-            queryParameters['extendDate'] = requestParameters['extendDate'];
+        if (requestParameters['orderDate'] != null) {
+            queryParameters['orderDate'] = requestParameters['orderDate'];
         }
 
-        if (requestParameters['extendLineNumber'] != null) {
-            queryParameters['extendLineNumber'] = requestParameters['extendLineNumber'];
+        if (requestParameters['lineNumber'] != null) {
+            queryParameters['lineNumber'] = requestParameters['lineNumber'];
         }
 
         if (requestParameters['orderSide'] != null) {
@@ -362,6 +446,46 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
 
         if (requestParameters['pageSize'] != null) {
             queryParameters['pageSize'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['customerExtNo'] != null) {
+            queryParameters['CustomerExtNo'] = requestParameters['customerExtNo'];
+        }
+
+        if (requestParameters['supplierExtNo'] != null) {
+            queryParameters['SupplierExtNo'] = requestParameters['supplierExtNo'];
+        }
+
+        if (requestParameters['uniqueNo'] != null) {
+            queryParameters['UniqueNo'] = requestParameters['uniqueNo'];
+        }
+
+        if (requestParameters['customerId'] != null) {
+            queryParameters['CustomerId'] = requestParameters['customerId'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['CustomerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['CustomerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierId'] != null) {
+            queryParameters['SupplierId'] = requestParameters['supplierId'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['SupplierName'] = requestParameters['supplierName'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['SupplierCode'] = requestParameters['supplierCode'];
+        }
+
+        if (requestParameters['receiptNumber'] != null) {
+            queryParameters['receiptNumber'] = requestParameters['receiptNumber'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -405,18 +529,18 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
      * 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 `extendId` 和 `stageId`，以便精确查询某个业务单据的申报资料。
      * 申报信息查询接口。
      */
-    async getV1DeclarationListPagingRaw(requestParameters: GetV1DeclarationListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async getV1DeclarationListPagingRaw(requestParameters: GetV1DeclarationListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1DeclarationListPaging200Response>> {
         const requestOptions = await this.getV1DeclarationListPagingRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1DeclarationListPaging200ResponseFromJSON(jsonValue));
     }
 
     /**
      * 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 `extendId` 和 `stageId`，以便精确查询某个业务单据的申报资料。
      * 申报信息查询接口。
      */
-    async getV1DeclarationListPaging(requestParameters: GetV1DeclarationListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async getV1DeclarationListPaging(requestParameters: GetV1DeclarationListPagingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1DeclarationListPaging200Response> {
         const response = await this.getV1DeclarationListPagingRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -425,6 +549,13 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
      * Creates request options for getV1DeclarationRequiredDocuments without sending the request
      */
     async getV1DeclarationRequiredDocumentsRequestOpts(requestParameters: GetV1DeclarationRequiredDocumentsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['stageCode'] == null) {
+            throw new runtime.RequiredError(
+                'stageCode',
+                'Required parameter "stageCode" was null or undefined when calling getV1DeclarationRequiredDocuments().'
+            );
+        }
+
         if (requestParameters['xCredentialType'] == null) {
             throw new runtime.RequiredError(
                 'xCredentialType',
@@ -470,6 +601,50 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
             queryParameters['deliveryNumber'] = requestParameters['deliveryNumber'];
         }
 
+        if (requestParameters['customerExtNo'] != null) {
+            queryParameters['CustomerExtNo'] = requestParameters['customerExtNo'];
+        }
+
+        if (requestParameters['supplierExtNo'] != null) {
+            queryParameters['SupplierExtNo'] = requestParameters['supplierExtNo'];
+        }
+
+        if (requestParameters['uniqueNo'] != null) {
+            queryParameters['UniqueNo'] = requestParameters['uniqueNo'];
+        }
+
+        if (requestParameters['customerId'] != null) {
+            queryParameters['CustomerId'] = requestParameters['customerId'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['CustomerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['CustomerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierId'] != null) {
+            queryParameters['SupplierId'] = requestParameters['supplierId'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['SupplierName'] = requestParameters['supplierName'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['SupplierCode'] = requestParameters['supplierCode'];
+        }
+
+        if (requestParameters['receiptNumber'] != null) {
+            queryParameters['receiptNumber'] = requestParameters['receiptNumber'];
+        }
+
+        if (requestParameters['lineNumber'] != null) {
+            queryParameters['lineNumber'] = requestParameters['lineNumber'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters['xCredentialType'] != null) {
@@ -508,21 +683,21 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
     }
 
     /**
-     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
      * 单据所需申报信息查询接口。
      */
-    async getV1DeclarationRequiredDocumentsRaw(requestParameters: GetV1DeclarationRequiredDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Model3>> {
+    async getV1DeclarationRequiredDocumentsRaw(requestParameters: GetV1DeclarationRequiredDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1DeclarationRequiredDocuments200Response>> {
         const requestOptions = await this.getV1DeclarationRequiredDocumentsRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => Model3FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1DeclarationRequiredDocuments200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
      * 单据所需申报信息查询接口。
      */
-    async getV1DeclarationRequiredDocuments(requestParameters: GetV1DeclarationRequiredDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Model3> {
+    async getV1DeclarationRequiredDocuments(requestParameters: GetV1DeclarationRequiredDocumentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1DeclarationRequiredDocuments200Response> {
         const response = await this.getV1DeclarationRequiredDocumentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -535,6 +710,13 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling postV1DeclarationSubmit().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest" was null or undefined when calling postV1DeclarationSubmit().'
             );
         }
 
@@ -581,21 +763,21 @@ export class ApiDeclarationApi extends runtime.BaseAPI {
     }
 
     /**
-     *  入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     *  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      * 申报文件/表单提交接口。
      */
-    async postV1DeclarationSubmitRaw(requestParameters: PostV1DeclarationSubmitRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> {
+    async postV1DeclarationSubmitRaw(requestParameters: PostV1DeclarationSubmitRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostV1DeclarationSubmit200Response>> {
         const requestOptions = await this.postV1DeclarationSubmitRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNullFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PostV1DeclarationSubmit200ResponseFromJSON(jsonValue));
     }
 
     /**
-     *  入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     *  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      * 申报文件/表单提交接口。
      */
-    async postV1DeclarationSubmit(requestParameters: PostV1DeclarationSubmitRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    async postV1DeclarationSubmit(requestParameters: PostV1DeclarationSubmitRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostV1DeclarationSubmit200Response> {
         const response = await this.postV1DeclarationSubmitRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -32,7 +32,7 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <returns>GetV1EnumGetList200Response</returns>
         GetV1EnumGetList200Response GetV1EnumGetList(string xCredentialType, List<string>? enumTypes = default);
 
@@ -44,7 +44,7 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <returns>ApiResponse of GetV1EnumGetList200Response</returns>
         ApiResponse<GetV1EnumGetList200Response> GetV1EnumGetListWithHttpInfo(string xCredentialType, List<string>? enumTypes = default);
         #endregion Synchronous Operations
@@ -64,7 +64,7 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetV1EnumGetList200Response</returns>
         System.Threading.Tasks.Task<GetV1EnumGetList200Response> GetV1EnumGetListAsync(string xCredentialType, List<string>? enumTypes = default, System.Threading.CancellationToken cancellationToken = default);
@@ -77,7 +77,7 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetV1EnumGetList200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<GetV1EnumGetList200Response>> GetV1EnumGetListWithHttpInfoAsync(string xCredentialType, List<string>? enumTypes = default, System.Threading.CancellationToken cancellationToken = default);
@@ -299,7 +299,7 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <returns>GetV1EnumGetList200Response</returns>
         public GetV1EnumGetList200Response GetV1EnumGetList(string xCredentialType, List<string>? enumTypes = default)
         {
@@ -312,7 +312,7 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <returns>ApiResponse of GetV1EnumGetList200Response</returns>
         public Tachain.Sdk.Client.ApiResponse<GetV1EnumGetList200Response> GetV1EnumGetListWithHttpInfo(string xCredentialType, List<string>? enumTypes = default)
         {
@@ -381,7 +381,7 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of GetV1EnumGetList200Response</returns>
         public async System.Threading.Tasks.Task<GetV1EnumGetList200Response> GetV1EnumGetListAsync(string xCredentialType, List<string>? enumTypes = default, System.Threading.CancellationToken cancellationToken = default)
@@ -395,7 +395,7 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="enumTypes">枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)</param>
+        /// <param name="enumTypes">枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (GetV1EnumGetList200Response)</returns>
         public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1EnumGetList200Response>> GetV1EnumGetListWithHttpInfoAsync(string xCredentialType, List<string>? enumTypes = default, System.Threading.CancellationToken cancellationToken = default)

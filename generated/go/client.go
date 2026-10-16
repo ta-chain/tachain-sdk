@@ -51,15 +51,25 @@ type APIClient struct {
 
 	ApiDeclarationAPI *ApiDeclarationAPIService
 
+	ApiDeclarationUploadAPI *ApiDeclarationUploadAPIService
+
 	ApiDeliveryAPI *ApiDeliveryAPIService
 
 	ApiEnumAPI *ApiEnumAPIService
+
+	ApiMaterialAPI *ApiMaterialAPIService
 
 	ApiOrderAPI *ApiOrderAPIService
 
 	ApiOrderWorkflowAPI *ApiOrderWorkflowAPIService
 
+	ApiProcessRouteAPI *ApiProcessRouteAPIService
+
+	ApiProductAPI *ApiProductAPIService
+
 	ApiProductionAPI *ApiProductionAPIService
+
+	ApiReferenceAPI *ApiReferenceAPIService
 }
 
 type service struct {
@@ -79,11 +89,16 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.ApiDeclarationAPI = (*ApiDeclarationAPIService)(&c.common)
+	c.ApiDeclarationUploadAPI = (*ApiDeclarationUploadAPIService)(&c.common)
 	c.ApiDeliveryAPI = (*ApiDeliveryAPIService)(&c.common)
 	c.ApiEnumAPI = (*ApiEnumAPIService)(&c.common)
+	c.ApiMaterialAPI = (*ApiMaterialAPIService)(&c.common)
 	c.ApiOrderAPI = (*ApiOrderAPIService)(&c.common)
 	c.ApiOrderWorkflowAPI = (*ApiOrderWorkflowAPIService)(&c.common)
+	c.ApiProcessRouteAPI = (*ApiProcessRouteAPIService)(&c.common)
+	c.ApiProductAPI = (*ApiProductAPIService)(&c.common)
 	c.ApiProductionAPI = (*ApiProductionAPIService)(&c.common)
+	c.ApiReferenceAPI = (*ApiReferenceAPIService)(&c.common)
 
 	return c
 }

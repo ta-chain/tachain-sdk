@@ -16,37 +16,65 @@ require 'time'
 module TachainSdk
   # 采购方确认收货请求。
   class ApiOrderConfirmReceiptRequest < ApiModelBase
+    # 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+    attr_accessor :customer_id
+
+    # 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+    attr_accessor :customer_name
+
+    # 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+    attr_accessor :customer_code
+
+    # 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+    attr_accessor :supplier_id
+
+    # 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+    attr_accessor :supplier_name
+
+    # 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+    attr_accessor :supplier_code
+
+    # 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+    attr_accessor :customer_ext_no
+
+    # 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+    attr_accessor :supplier_ext_no
+
+    # 订单明细的全局唯一系统流水号。
+    attr_accessor :unique_no
+
     # 订单主 ID；不传明细条件时处理全部有效明细。
     attr_accessor :order_id
 
     # 订单明细 ID；仅处理该明细。
     attr_accessor :order_line_id
 
-    # 订单号；不传任何内部 ID 时必填。
+    # 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。
     attr_accessor :order_number
 
-    # 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。
+    # 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。
     attr_accessor :order_date
 
     # 订单行号；可不传，不传时处理整单。
     attr_accessor :line_number
 
-    # 卖方公司 ID；业务键定位时与 SupplierName 至少传一个。
-    attr_accessor :supplier_id
-
-    # 卖方名称，支持英文名、当地语言名称或简称，精确匹配。
-    attr_accessor :supplier_name
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'customer_id' => :'customerId',
+        :'customer_name' => :'customerName',
+        :'customer_code' => :'customerCode',
+        :'supplier_id' => :'supplierId',
+        :'supplier_name' => :'supplierName',
+        :'supplier_code' => :'supplierCode',
+        :'customer_ext_no' => :'customerExtNo',
+        :'supplier_ext_no' => :'supplierExtNo',
+        :'unique_no' => :'uniqueNo',
         :'order_id' => :'orderId',
         :'order_line_id' => :'orderLineId',
         :'order_number' => :'orderNumber',
         :'order_date' => :'orderDate',
-        :'line_number' => :'lineNumber',
-        :'supplier_id' => :'supplierId',
-        :'supplier_name' => :'supplierName'
+        :'line_number' => :'lineNumber'
       }
     end
 
@@ -63,26 +91,40 @@ module TachainSdk
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'customer_id' => :'String',
+        :'customer_name' => :'String',
+        :'customer_code' => :'String',
+        :'supplier_id' => :'String',
+        :'supplier_name' => :'String',
+        :'supplier_code' => :'String',
+        :'customer_ext_no' => :'String',
+        :'supplier_ext_no' => :'String',
+        :'unique_no' => :'String',
         :'order_id' => :'String',
         :'order_line_id' => :'String',
         :'order_number' => :'String',
         :'order_date' => :'Time',
-        :'line_number' => :'String',
-        :'supplier_id' => :'String',
-        :'supplier_name' => :'String'
+        :'line_number' => :'String'
       }
     end
 
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'customer_id',
+        :'customer_name',
+        :'customer_code',
+        :'supplier_id',
+        :'supplier_name',
+        :'supplier_code',
+        :'customer_ext_no',
+        :'supplier_ext_no',
+        :'unique_no',
         :'order_id',
         :'order_line_id',
         :'order_number',
         :'order_date',
-        :'line_number',
-        :'supplier_id',
-        :'supplier_name'
+        :'line_number'
       ])
     end
 
@@ -102,6 +144,42 @@ module TachainSdk
         h[k.to_sym] = v
       }
 
+      if attributes.key?(:'customer_id')
+        self.customer_id = attributes[:'customer_id']
+      end
+
+      if attributes.key?(:'customer_name')
+        self.customer_name = attributes[:'customer_name']
+      end
+
+      if attributes.key?(:'customer_code')
+        self.customer_code = attributes[:'customer_code']
+      end
+
+      if attributes.key?(:'supplier_id')
+        self.supplier_id = attributes[:'supplier_id']
+      end
+
+      if attributes.key?(:'supplier_name')
+        self.supplier_name = attributes[:'supplier_name']
+      end
+
+      if attributes.key?(:'supplier_code')
+        self.supplier_code = attributes[:'supplier_code']
+      end
+
+      if attributes.key?(:'customer_ext_no')
+        self.customer_ext_no = attributes[:'customer_ext_no']
+      end
+
+      if attributes.key?(:'supplier_ext_no')
+        self.supplier_ext_no = attributes[:'supplier_ext_no']
+      end
+
+      if attributes.key?(:'unique_no')
+        self.unique_no = attributes[:'unique_no']
+      end
+
       if attributes.key?(:'order_id')
         self.order_id = attributes[:'order_id']
       end
@@ -120,14 +198,6 @@ module TachainSdk
 
       if attributes.key?(:'line_number')
         self.line_number = attributes[:'line_number']
-      end
-
-      if attributes.key?(:'supplier_id')
-        self.supplier_id = attributes[:'supplier_id']
-      end
-
-      if attributes.key?(:'supplier_name')
-        self.supplier_name = attributes[:'supplier_name']
       end
     end
 
@@ -151,13 +221,20 @@ module TachainSdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          customer_id == o.customer_id &&
+          customer_name == o.customer_name &&
+          customer_code == o.customer_code &&
+          supplier_id == o.supplier_id &&
+          supplier_name == o.supplier_name &&
+          supplier_code == o.supplier_code &&
+          customer_ext_no == o.customer_ext_no &&
+          supplier_ext_no == o.supplier_ext_no &&
+          unique_no == o.unique_no &&
           order_id == o.order_id &&
           order_line_id == o.order_line_id &&
           order_number == o.order_number &&
           order_date == o.order_date &&
-          line_number == o.line_number &&
-          supplier_id == o.supplier_id &&
-          supplier_name == o.supplier_name
+          line_number == o.line_number
     end
 
     # @see the `==` method
@@ -169,7 +246,7 @@ module TachainSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [order_id, order_line_id, order_number, order_date, line_number, supplier_id, supplier_name].hash
+      [customer_id, customer_name, customer_code, supplier_id, supplier_name, supplier_code, customer_ext_no, supplier_ext_no, unique_no, order_id, order_line_id, order_number, order_date, line_number].hash
     end
 
     # Builds the object from hash

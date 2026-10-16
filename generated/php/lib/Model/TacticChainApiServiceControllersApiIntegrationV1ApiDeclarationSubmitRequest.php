@@ -58,13 +58,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @var string[]
      */
     protected static $openAPITypes = [
+        'customer_id' => 'string',
+        'customer_name' => 'string',
+        'customer_code' => 'string',
+        'supplier_id' => 'string',
+        'supplier_name' => 'string',
+        'supplier_code' => 'string',
+        'customer_ext_no' => 'string',
+        'supplier_ext_no' => 'string',
+        'unique_no' => 'string',
         'extend_id' => 'string',
         'extend_number' => 'string',
-        'extend_date' => '\DateTime',
-        'extend_line_number' => 'string',
+        'order_date' => '\DateTime',
+        'line_number' => 'string',
         'order_side' => 'string',
         'product_code' => 'string',
         'production_type' => 'int',
+        'receipt_number' => 'string',
         'delivery_number' => 'string',
         'stage_id' => 'string',
         'document_list' => '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest[]'
@@ -78,13 +88,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @psalm-var array<string, string|null>
      */
     protected static $openAPIFormats = [
+        'customer_id' => null,
+        'customer_name' => null,
+        'customer_code' => null,
+        'supplier_id' => null,
+        'supplier_name' => null,
+        'supplier_code' => null,
+        'customer_ext_no' => null,
+        'supplier_ext_no' => null,
+        'unique_no' => null,
         'extend_id' => null,
         'extend_number' => null,
-        'extend_date' => 'date-time',
-        'extend_line_number' => null,
+        'order_date' => 'date-time',
+        'line_number' => null,
         'order_side' => null,
         'product_code' => null,
         'production_type' => 'int32',
+        'receipt_number' => null,
         'delivery_number' => null,
         'stage_id' => null,
         'document_list' => null
@@ -96,16 +116,26 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @var boolean[]
      */
     protected static array $openAPINullables = [
+        'customer_id' => true,
+        'customer_name' => true,
+        'customer_code' => true,
+        'supplier_id' => true,
+        'supplier_name' => true,
+        'supplier_code' => true,
+        'customer_ext_no' => true,
+        'supplier_ext_no' => true,
+        'unique_no' => true,
         'extend_id' => true,
         'extend_number' => true,
-        'extend_date' => true,
-        'extend_line_number' => true,
+        'order_date' => true,
+        'line_number' => true,
         'order_side' => true,
         'product_code' => true,
         'production_type' => true,
+        'receipt_number' => true,
         'delivery_number' => true,
-        'stage_id' => true,
-        'document_list' => true
+        'stage_id' => false,
+        'document_list' => false
     ];
 
     /**
@@ -194,13 +224,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @var string[]
      */
     protected static $attributeMap = [
+        'customer_id' => 'customerId',
+        'customer_name' => 'customerName',
+        'customer_code' => 'customerCode',
+        'supplier_id' => 'supplierId',
+        'supplier_name' => 'supplierName',
+        'supplier_code' => 'supplierCode',
+        'customer_ext_no' => 'customerExtNo',
+        'supplier_ext_no' => 'supplierExtNo',
+        'unique_no' => 'uniqueNo',
         'extend_id' => 'extendId',
         'extend_number' => 'extendNumber',
-        'extend_date' => 'extendDate',
-        'extend_line_number' => 'extendLineNumber',
+        'order_date' => 'orderDate',
+        'line_number' => 'lineNumber',
         'order_side' => 'orderSide',
         'product_code' => 'productCode',
         'production_type' => 'productionType',
+        'receipt_number' => 'receiptNumber',
         'delivery_number' => 'deliveryNumber',
         'stage_id' => 'stageId',
         'document_list' => 'documentList'
@@ -212,13 +252,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @var string[]
      */
     protected static $setters = [
+        'customer_id' => 'setCustomerId',
+        'customer_name' => 'setCustomerName',
+        'customer_code' => 'setCustomerCode',
+        'supplier_id' => 'setSupplierId',
+        'supplier_name' => 'setSupplierName',
+        'supplier_code' => 'setSupplierCode',
+        'customer_ext_no' => 'setCustomerExtNo',
+        'supplier_ext_no' => 'setSupplierExtNo',
+        'unique_no' => 'setUniqueNo',
         'extend_id' => 'setExtendId',
         'extend_number' => 'setExtendNumber',
-        'extend_date' => 'setExtendDate',
-        'extend_line_number' => 'setExtendLineNumber',
+        'order_date' => 'setOrderDate',
+        'line_number' => 'setLineNumber',
         'order_side' => 'setOrderSide',
         'product_code' => 'setProductCode',
         'production_type' => 'setProductionType',
+        'receipt_number' => 'setReceiptNumber',
         'delivery_number' => 'setDeliveryNumber',
         'stage_id' => 'setStageId',
         'document_list' => 'setDocumentList'
@@ -230,13 +280,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      * @var string[]
      */
     protected static $getters = [
+        'customer_id' => 'getCustomerId',
+        'customer_name' => 'getCustomerName',
+        'customer_code' => 'getCustomerCode',
+        'supplier_id' => 'getSupplierId',
+        'supplier_name' => 'getSupplierName',
+        'supplier_code' => 'getSupplierCode',
+        'customer_ext_no' => 'getCustomerExtNo',
+        'supplier_ext_no' => 'getSupplierExtNo',
+        'unique_no' => 'getUniqueNo',
         'extend_id' => 'getExtendId',
         'extend_number' => 'getExtendNumber',
-        'extend_date' => 'getExtendDate',
-        'extend_line_number' => 'getExtendLineNumber',
+        'order_date' => 'getOrderDate',
+        'line_number' => 'getLineNumber',
         'order_side' => 'getOrderSide',
         'product_code' => 'getProductCode',
         'production_type' => 'getProductionType',
+        'receipt_number' => 'getReceiptNumber',
         'delivery_number' => 'getDeliveryNumber',
         'stage_id' => 'getStageId',
         'document_list' => 'getDocumentList'
@@ -299,13 +359,23 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
      */
     public function __construct(?array $data = null)
     {
+        $this->setIfExists('customer_id', $data ?? [], null);
+        $this->setIfExists('customer_name', $data ?? [], null);
+        $this->setIfExists('customer_code', $data ?? [], null);
+        $this->setIfExists('supplier_id', $data ?? [], null);
+        $this->setIfExists('supplier_name', $data ?? [], null);
+        $this->setIfExists('supplier_code', $data ?? [], null);
+        $this->setIfExists('customer_ext_no', $data ?? [], null);
+        $this->setIfExists('supplier_ext_no', $data ?? [], null);
+        $this->setIfExists('unique_no', $data ?? [], null);
         $this->setIfExists('extend_id', $data ?? [], null);
         $this->setIfExists('extend_number', $data ?? [], null);
-        $this->setIfExists('extend_date', $data ?? [], null);
-        $this->setIfExists('extend_line_number', $data ?? [], null);
+        $this->setIfExists('order_date', $data ?? [], null);
+        $this->setIfExists('line_number', $data ?? [], null);
         $this->setIfExists('order_side', $data ?? [], null);
         $this->setIfExists('product_code', $data ?? [], null);
         $this->setIfExists('production_type', $data ?? [], null);
+        $this->setIfExists('receipt_number', $data ?? [], null);
         $this->setIfExists('delivery_number', $data ?? [], null);
         $this->setIfExists('stage_id', $data ?? [], null);
         $this->setIfExists('document_list', $data ?? [], null);
@@ -338,6 +408,16 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     {
         $invalidProperties = [];
 
+        if ($this->container['stage_id'] === null) {
+            $invalidProperties[] = "'stage_id' can't be null";
+        }
+        if ($this->container['document_list'] === null) {
+            $invalidProperties[] = "'document_list' can't be null";
+        }
+        if ((count($this->container['document_list']) < 1)) {
+            $invalidProperties[] = "invalid value for 'document_list', number of items must be greater than or equal to 1.";
+        }
+
         return $invalidProperties;
     }
 
@@ -352,6 +432,312 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
         return count($this->listInvalidProperties()) === 0;
     }
 
+
+    /**
+     * Gets customer_id
+     *
+     * @return string|null
+     */
+    public function getCustomerId()
+    {
+        return $this->container['customer_id'];
+    }
+
+    /**
+     * Sets customer_id
+     *
+     * @param string|null $customer_id 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+     *
+     * @return self
+     */
+    public function setCustomerId($customer_id)
+    {
+        if (is_null($customer_id)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_id'] = $customer_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_name
+     *
+     * @return string|null
+     */
+    public function getCustomerName()
+    {
+        return $this->container['customer_name'];
+    }
+
+    /**
+     * Sets customer_name
+     *
+     * @param string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     *
+     * @return self
+     */
+    public function setCustomerName($customer_name)
+    {
+        if (is_null($customer_name)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_name'] = $customer_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_code
+     *
+     * @return string|null
+     */
+    public function getCustomerCode()
+    {
+        return $this->container['customer_code'];
+    }
+
+    /**
+     * Sets customer_code
+     *
+     * @param string|null $customer_code 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+     *
+     * @return self
+     */
+    public function setCustomerCode($customer_code)
+    {
+        if (is_null($customer_code)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_code'] = $customer_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_id
+     *
+     * @return string|null
+     */
+    public function getSupplierId()
+    {
+        return $this->container['supplier_id'];
+    }
+
+    /**
+     * Sets supplier_id
+     *
+     * @param string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     *
+     * @return self
+     */
+    public function setSupplierId($supplier_id)
+    {
+        if (is_null($supplier_id)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_id'] = $supplier_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_name
+     *
+     * @return string|null
+     */
+    public function getSupplierName()
+    {
+        return $this->container['supplier_name'];
+    }
+
+    /**
+     * Sets supplier_name
+     *
+     * @param string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+     *
+     * @return self
+     */
+    public function setSupplierName($supplier_name)
+    {
+        if (is_null($supplier_name)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_name');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_name', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_name'] = $supplier_name;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_code
+     *
+     * @return string|null
+     */
+    public function getSupplierCode()
+    {
+        return $this->container['supplier_code'];
+    }
+
+    /**
+     * Sets supplier_code
+     *
+     * @param string|null $supplier_code 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+     *
+     * @return self
+     */
+    public function setSupplierCode($supplier_code)
+    {
+        if (is_null($supplier_code)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_code');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_code', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_code'] = $supplier_code;
+
+        return $this;
+    }
+
+    /**
+     * Gets customer_ext_no
+     *
+     * @return string|null
+     */
+    public function getCustomerExtNo()
+    {
+        return $this->container['customer_ext_no'];
+    }
+
+    /**
+     * Sets customer_ext_no
+     *
+     * @param string|null $customer_ext_no 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+     *
+     * @return self
+     */
+    public function setCustomerExtNo($customer_ext_no)
+    {
+        if (is_null($customer_ext_no)) {
+            array_push($this->openAPINullablesSetToNull, 'customer_ext_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('customer_ext_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['customer_ext_no'] = $customer_ext_no;
+
+        return $this;
+    }
+
+    /**
+     * Gets supplier_ext_no
+     *
+     * @return string|null
+     */
+    public function getSupplierExtNo()
+    {
+        return $this->container['supplier_ext_no'];
+    }
+
+    /**
+     * Sets supplier_ext_no
+     *
+     * @param string|null $supplier_ext_no 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+     *
+     * @return self
+     */
+    public function setSupplierExtNo($supplier_ext_no)
+    {
+        if (is_null($supplier_ext_no)) {
+            array_push($this->openAPINullablesSetToNull, 'supplier_ext_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('supplier_ext_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['supplier_ext_no'] = $supplier_ext_no;
+
+        return $this;
+    }
+
+    /**
+     * Gets unique_no
+     *
+     * @return string|null
+     */
+    public function getUniqueNo()
+    {
+        return $this->container['unique_no'];
+    }
+
+    /**
+     * Sets unique_no
+     *
+     * @param string|null $unique_no 订单明细的全局唯一系统流水号。
+     *
+     * @return self
+     */
+    public function setUniqueNo($unique_no)
+    {
+        if (is_null($unique_no)) {
+            array_push($this->openAPINullablesSetToNull, 'unique_no');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('unique_no', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['unique_no'] = $unique_no;
+
+        return $this;
+    }
 
     /**
      * Gets extend_id
@@ -422,69 +808,69 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     }
 
     /**
-     * Gets extend_date
+     * Gets order_date
      *
      * @return \DateTime|null
      */
-    public function getExtendDate()
+    public function getOrderDate()
     {
-        return $this->container['extend_date'];
+        return $this->container['order_date'];
     }
 
     /**
-     * Sets extend_date
+     * Sets order_date
      *
-     * @param \DateTime|null $extend_date 业务单日期。订单阶段用于和 ExtendNumber 一起定位订单。
+     * @param \DateTime|null $order_date 业务单日期。订单阶段用于和 ExtendNumber 一起定位订单。
      *
      * @return self
      */
-    public function setExtendDate($extend_date)
+    public function setOrderDate($order_date)
     {
-        if (is_null($extend_date)) {
-            array_push($this->openAPINullablesSetToNull, 'extend_date');
+        if (is_null($order_date)) {
+            array_push($this->openAPINullablesSetToNull, 'order_date');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('extend_date', $nullablesSetToNull);
+            $index = array_search('order_date', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['extend_date'] = $extend_date;
+        $this->container['order_date'] = $order_date;
 
         return $this;
     }
 
     /**
-     * Gets extend_line_number
+     * Gets line_number
      *
      * @return string|null
      */
-    public function getExtendLineNumber()
+    public function getLineNumber()
     {
-        return $this->container['extend_line_number'];
+        return $this->container['line_number'];
     }
 
     /**
-     * Sets extend_line_number
+     * Sets line_number
      *
-     * @param string|null $extend_line_number 订单行号。订单阶段需要按行定位时与 ExtendNumber、ExtendDate 一起使用。
+     * @param string|null $line_number 订单行号。订单阶段需要按行定位时与 ExtendNumber、OrderDate 一起使用。
      *
      * @return self
      */
-    public function setExtendLineNumber($extend_line_number)
+    public function setLineNumber($line_number)
     {
-        if (is_null($extend_line_number)) {
-            array_push($this->openAPINullablesSetToNull, 'extend_line_number');
+        if (is_null($line_number)) {
+            array_push($this->openAPINullablesSetToNull, 'line_number');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('extend_line_number', $nullablesSetToNull);
+            $index = array_search('line_number', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['extend_line_number'] = $extend_line_number;
+        $this->container['line_number'] = $line_number;
 
         return $this;
     }
@@ -536,7 +922,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Sets product_code
      *
-     * @param string|null $product_code 产品编码。生产/入库阶段按生产单号定位时需要配合生产类型使用。
+     * @param string|null $product_code 成品编码、名称或外部映射。生产/入库阶段配合生产编号定位。
      *
      * @return self
      */
@@ -570,7 +956,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Sets production_type
      *
-     * @param int|null $production_type 生产类型。生产阶段默认 0，入库阶段默认 1；显式传入时参与生产单唯一定位。
+     * @param int|null $production_type 生产类型校验。生产阶段默认 0，入库阶段默认 1；不属于生产单唯一键。
      *
      * @return self
      */
@@ -587,6 +973,40 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
             }
         }
         $this->container['production_type'] = $production_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets receipt_number
+     *
+     * @return string|null
+     */
+    public function getReceiptNumber()
+    {
+        return $this->container['receipt_number'];
+    }
+
+    /**
+     * Sets receipt_number
+     *
+     * @param string|null $receipt_number 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+     *
+     * @return self
+     */
+    public function setReceiptNumber($receipt_number)
+    {
+        if (is_null($receipt_number)) {
+            array_push($this->openAPINullablesSetToNull, 'receipt_number');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('receipt_number', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        $this->container['receipt_number'] = $receipt_number;
 
         return $this;
     }
@@ -628,7 +1048,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Gets stage_id
      *
-     * @return string|null
+     * @return string
      */
     public function getStageId()
     {
@@ -638,21 +1058,14 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Sets stage_id
      *
-     * @param string|null $stage_id 申报阶段 ID。
+     * @param string $stage_id 申报阶段 ID。
      *
      * @return self
      */
     public function setStageId($stage_id)
     {
         if (is_null($stage_id)) {
-            array_push($this->openAPINullablesSetToNull, 'stage_id');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('stage_id', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable stage_id cannot be null');
         }
         $this->container['stage_id'] = $stage_id;
 
@@ -662,7 +1075,7 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Gets document_list
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest[]|null
+     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest[]
      */
     public function getDocumentList()
     {
@@ -672,21 +1085,18 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitReques
     /**
      * Sets document_list
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest[]|null $document_list 申报资料明细集合，每条明细对应一种资料类型。
+     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest[] $document_list 申报资料明细集合，每条明细对应一种资料类型。
      *
      * @return self
      */
     public function setDocumentList($document_list)
     {
         if (is_null($document_list)) {
-            array_push($this->openAPINullablesSetToNull, 'document_list');
-        } else {
-            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('document_list', $nullablesSetToNull);
-            if ($index !== FALSE) {
-                unset($nullablesSetToNull[$index]);
-                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
-            }
+            throw new \InvalidArgumentException('non-nullable document_list cannot be null');
+        }
+
+        if ((count($document_list) < 1)) {
+            throw new \InvalidArgumentException('invalid length for $document_list when calling TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest., number of items must be greater than or equal to 1.');
         }
         $this->container['document_list'] = $document_list;
 

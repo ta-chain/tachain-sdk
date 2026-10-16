@@ -35,6 +35,7 @@ use \TachainSdk\ObjectSerializer;
  * Model3 Class Doc Comment
  *
  * @category Class
+ * @description 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  * @package  TachainSdk
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -58,8 +59,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPITypes = [
         'code' => 'int',
-        'message' => 'string',
-        'data' => '\TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto[]'
+        'data' => '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+        'message' => 'string'
     ];
 
     /**
@@ -71,8 +72,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $openAPIFormats = [
         'code' => 'int32',
-        'message' => null,
-        'data' => null
+        'data' => null,
+        'message' => null
     ];
 
     /**
@@ -82,8 +83,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static array $openAPINullables = [
         'code' => false,
-        'message' => false,
-        'data' => true
+        'data' => false,
+        'message' => true
     ];
 
     /**
@@ -173,8 +174,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $attributeMap = [
         'code' => 'code',
-        'message' => 'message',
-        'data' => 'data'
+        'data' => 'data',
+        'message' => 'message'
     ];
 
     /**
@@ -184,8 +185,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $setters = [
         'code' => 'setCode',
-        'message' => 'setMessage',
-        'data' => 'setData'
+        'data' => 'setData',
+        'message' => 'setMessage'
     ];
 
     /**
@@ -195,8 +196,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
      */
     protected static $getters = [
         'code' => 'getCode',
-        'message' => 'getMessage',
-        'data' => 'getData'
+        'data' => 'getData',
+        'message' => 'getMessage'
     ];
 
     /**
@@ -257,8 +258,8 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
     public function __construct(?array $data = null)
     {
         $this->setIfExists('code', $data ?? [], null);
-        $this->setIfExists('message', $data ?? [], null);
         $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('message', $data ?? [], null);
     }
 
     /**
@@ -291,9 +292,6 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
         if ($this->container['code'] === null) {
             $invalidProperties[] = "'code' can't be null";
         }
-        if ($this->container['message'] === null) {
-            $invalidProperties[] = "'message' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -322,7 +320,7 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets code
      *
-     * @param int $code code
+     * @param int $code 业务状态码。
      *
      * @return self
      */
@@ -337,36 +335,9 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
     }
 
     /**
-     * Gets message
-     *
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->container['message'];
-    }
-
-    /**
-     * Sets message
-     *
-     * @param string $message message
-     *
-     * @return self
-     */
-    public function setMessage($message)
-    {
-        if (is_null($message)) {
-            throw new \InvalidArgumentException('non-nullable message cannot be null');
-        }
-        $this->container['message'] = $message;
-
-        return $this;
-    }
-
-    /**
      * Gets data
      *
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto[]|null
+     * @return \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|null
      */
     public function getData()
     {
@@ -376,23 +347,50 @@ class Model3 implements ModelInterface, ArrayAccess, \JsonSerializable
     /**
      * Sets data
      *
-     * @param \TachainSdk\Model\TacticChainApiServiceViewModelsDocumentTypeApiDto[]|null $data data
+     * @param \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiMappingResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|null $data data
      *
      * @return self
      */
     public function setData($data)
     {
         if (is_null($data)) {
-            array_push($this->openAPINullablesSetToNull, 'data');
+            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        }
+        $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets message
+     *
+     * @return string|null
+     */
+    public function getMessage()
+    {
+        return $this->container['message'];
+    }
+
+    /**
+     * Sets message
+     *
+     * @param string|null $message 按请求语言返回的提示，未指定语言时默认中文。
+     *
+     * @return self
+     */
+    public function setMessage($message)
+    {
+        if (is_null($message)) {
+            array_push($this->openAPINullablesSetToNull, 'message');
         } else {
             $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
-            $index = array_search('data', $nullablesSetToNull);
+            $index = array_search('message', $nullablesSetToNull);
             if ($index !== FALSE) {
                 unset($nullablesSetToNull[$index]);
                 $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
             }
         }
-        $this->container['data'] = $data;
+        $this->container['message'] = $message;
 
         return $this;
     }

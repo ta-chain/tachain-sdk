@@ -19,10 +19,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -50,7 +49,7 @@ import java.util.Set;
 import com.tachain.sdk.client.JSON;
 
 /**
- * Model4
+ * 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0")
 public class Model4 {
@@ -59,26 +58,30 @@ public class Model4 {
   @javax.annotation.Nonnull
   private Integer code;
 
-  public static final String SERIALIZED_NAME_MESSAGE = "message";
-  @SerializedName(SERIALIZED_NAME_MESSAGE)
-  @javax.annotation.Nonnull
-  private String message;
-
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nullable
-  private List<String> data;
+  private TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull data;
+
+  public static final String SERIALIZED_NAME_MESSAGE = "message";
+  @SerializedName(SERIALIZED_NAME_MESSAGE)
+  @javax.annotation.Nullable
+  private String message;
 
   public Model4() {
   }
 
-  public Model4 code(@javax.annotation.Nonnull Integer code) {
+  public Model4(
+     Integer code, 
+     String message
+  ) {
+    this();
     this.code = code;
-    return this;
+    this.message = message;
   }
 
   /**
-   * Get code
+   * 业务状态码。
    * @return code
    */
   @javax.annotation.Nonnull
@@ -86,40 +89,10 @@ public class Model4 {
     return code;
   }
 
-  public void setCode(@javax.annotation.Nonnull Integer code) {
-    this.code = code;
-  }
 
 
-  public Model4 message(@javax.annotation.Nonnull String message) {
-    this.message = message;
-    return this;
-  }
-
-  /**
-   * Get message
-   * @return message
-   */
-  @javax.annotation.Nonnull
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(@javax.annotation.Nonnull String message) {
-    this.message = message;
-  }
-
-
-  public Model4 data(@javax.annotation.Nullable List<String> data) {
+  public Model4 data(@javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull data) {
     this.data = data;
-    return this;
-  }
-
-  public Model4 addDataItem(String dataItem) {
-    if (this.data == null) {
-      this.data = new ArrayList<>();
-    }
-    this.data.add(dataItem);
     return this;
   }
 
@@ -128,13 +101,24 @@ public class Model4 {
    * @return data
    */
   @javax.annotation.Nullable
-  public List<String> getData() {
+  public TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull getData() {
     return data;
   }
 
-  public void setData(@javax.annotation.Nullable List<String> data) {
+  public void setData(@javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull data) {
     this.data = data;
   }
+
+
+  /**
+   * 按请求语言返回的提示，未指定语言时默认中文。
+   * @return message
+   */
+  @javax.annotation.Nullable
+  public String getMessage() {
+    return message;
+  }
+
 
 
 
@@ -148,8 +132,8 @@ public class Model4 {
     }
     Model4 _4 = (Model4) o;
     return Objects.equals(this.code, _4.code) &&
-        Objects.equals(this.message, _4.message) &&
-        Objects.equals(this.data, _4.data);
+        Objects.equals(this.data, _4.data) &&
+        Objects.equals(this.message, _4.message);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -158,7 +142,7 @@ public class Model4 {
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, data);
+    return Objects.hash(code, data, message);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -173,8 +157,8 @@ public class Model4 {
     StringBuilder sb = new StringBuilder();
     sb.append("class Model4 {\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -193,10 +177,10 @@ public class Model4 {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "data"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "data", "message"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "message"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("code"));
   }
 
   /**
@@ -227,12 +211,12 @@ public class Model4 {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("message").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
+      // validate the optional field `data`
+      if (jsonObj.get("data") != null && !jsonObj.get("data").isJsonNull()) {
+        TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.validateJsonElement(jsonObj.get("data"));
       }
-      // ensure the optional json data is an array if present
-      if (jsonObj.get("data") != null && !jsonObj.get("data").isJsonNull() && !jsonObj.get("data").isJsonArray()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `data` to be an array in the JSON string but got `%s`", jsonObj.get("data").toString()));
+      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
       }
   }
 

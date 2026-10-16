@@ -28,7 +28,7 @@ type ApiDeleteV1OrderDeleteRequest struct {
 	ctx context.Context
 	ApiService *ApiOrderAPIService
 	xCredentialType *string
-	tacticChainApiServiceHelperResultMappingOrderSelect *TacticChainApiServiceHelperResultMappingOrderSelect
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -37,12 +37,12 @@ func (r ApiDeleteV1OrderDeleteRequest) XCredentialType(xCredentialType string) A
 	return r
 }
 
-func (r ApiDeleteV1OrderDeleteRequest) TacticChainApiServiceHelperResultMappingOrderSelect(tacticChainApiServiceHelperResultMappingOrderSelect TacticChainApiServiceHelperResultMappingOrderSelect) ApiDeleteV1OrderDeleteRequest {
-	r.tacticChainApiServiceHelperResultMappingOrderSelect = &tacticChainApiServiceHelperResultMappingOrderSelect
+func (r ApiDeleteV1OrderDeleteRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest) ApiDeleteV1OrderDeleteRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest
 	return r
 }
 
-func (r ApiDeleteV1OrderDeleteRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+func (r ApiDeleteV1OrderDeleteRequest) Execute() (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	return r.ApiService.DeleteV1OrderDeleteExecute(r)
 }
 
@@ -50,6 +50,7 @@ func (r ApiDeleteV1OrderDeleteRequest) Execute() (*TacticChainApiServiceViewMode
 DeleteV1OrderDelete 第三方-更新订单状态（通过匹配条件获取订单ID）
 
 
+存在不允许删除的后续业务时返回 code=400；须先处理相关业务。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteV1OrderDeleteRequest
@@ -62,13 +63,13 @@ func (a *ApiOrderAPIService) DeleteV1OrderDelete(ctx context.Context) ApiDeleteV
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
-func (a *ApiOrderAPIService) DeleteV1OrderDeleteExecute(r ApiDeleteV1OrderDeleteRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+//  @return PutV1DeliveryReturnReceipt200Response
+func (a *ApiOrderAPIService) DeleteV1OrderDeleteExecute(r ApiDeleteV1OrderDeleteRequest) (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+		localVarReturnValue  *PutV1DeliveryReturnReceipt200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.DeleteV1OrderDelete")
@@ -104,1747 +105,7 @@ func (a *ApiOrderAPIService) DeleteV1OrderDeleteExecute(r ApiDeleteV1OrderDelete
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceHelperResultMappingOrderSelect
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKey"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Signature"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Signature"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Timestamp"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Timestamp"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiDeleteV1OrderDeleteLineRequest struct {
-	ctx context.Context
-	ApiService *ApiOrderAPIService
-	xCredentialType *string
-	tacticChainApiServiceHelperResultMappingOrderSelect *TacticChainApiServiceHelperResultMappingOrderSelect
-}
-
-// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
-func (r ApiDeleteV1OrderDeleteLineRequest) XCredentialType(xCredentialType string) ApiDeleteV1OrderDeleteLineRequest {
-	r.xCredentialType = &xCredentialType
-	return r
-}
-
-func (r ApiDeleteV1OrderDeleteLineRequest) TacticChainApiServiceHelperResultMappingOrderSelect(tacticChainApiServiceHelperResultMappingOrderSelect TacticChainApiServiceHelperResultMappingOrderSelect) ApiDeleteV1OrderDeleteLineRequest {
-	r.tacticChainApiServiceHelperResultMappingOrderSelect = &tacticChainApiServiceHelperResultMappingOrderSelect
-	return r
-}
-
-func (r ApiDeleteV1OrderDeleteLineRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
-	return r.ApiService.DeleteV1OrderDeleteLineExecute(r)
-}
-
-/*
-DeleteV1OrderDeleteLine 第三方-更新订单明细状态（通过匹配条件获取明细ID）
-
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDeleteV1OrderDeleteLineRequest
-*/
-func (a *ApiOrderAPIService) DeleteV1OrderDeleteLine(ctx context.Context) ApiDeleteV1OrderDeleteLineRequest {
-	return ApiDeleteV1OrderDeleteLineRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
-func (a *ApiOrderAPIService) DeleteV1OrderDeleteLineExecute(r ApiDeleteV1OrderDeleteLineRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.DeleteV1OrderDeleteLine")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/order/DeleteLine"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.xCredentialType == nil {
-		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
-	// body params
-	localVarPostBody = r.tacticChainApiServiceHelperResultMappingOrderSelect
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKey"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Signature"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Signature"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Timestamp"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Timestamp"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetV1OrderPOListPagingRequest struct {
-	ctx context.Context
-	ApiService *ApiOrderAPIService
-	xCredentialType *string
-	searchText *string
-	orderNumber *string
-	orderDateStart *time.Time
-	orderDateEnd *time.Time
-	orderType *int32
-	customerId *string
-	supplierId *string
-	facilityId *string
-	brand *string
-	contractNo *string
-	customerTenantId *string
-	supplierTenantId *string
-	createdBy *string
-	divisionId *string
-	createdAtStart *time.Time
-	createdAtEnd *time.Time
-	id *string
-	uniqueNo *string
-	orderName *string
-	lineNumber *string
-	productCategory *string
-	materialId *string
-	materialCode *string
-	materialName *string
-	productId *string
-	productCode *string
-	productName *string
-	batch *string
-	destinationCountry *string
-	customerExtNo *string
-	supplierExtNo *string
-	originCountry *string
-	estimatedTimeOfDepartureStart *time.Time
-	estimatedTimeOfDepartureEnd *time.Time
-	season *string
-	seasonYear *string
-	lastUpdatedAtStart *time.Time
-	lastUpdatedAtEnd *time.Time
-	color *string
-	soStatus *int32
-	poStatus *int32
-	status *[]int32
-	orderChainStatus *bool
-	chainStatus *bool
-	masterApproveStatus *[]int32
-	customerConfirmStatus *[]int32
-	mixedStatus *[]int32
-	riskLevel *[]int32
-	sortBy *string
-	page *int32
-	pageSize *int32
-}
-
-// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
-func (r ApiGetV1OrderPOListPagingRequest) XCredentialType(xCredentialType string) ApiGetV1OrderPOListPagingRequest {
-	r.xCredentialType = &xCredentialType
-	return r
-}
-
-// 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-func (r ApiGetV1OrderPOListPagingRequest) SearchText(searchText string) ApiGetV1OrderPOListPagingRequest {
-	r.searchText = &searchText
-	return r
-}
-
-// 订单编号
-func (r ApiGetV1OrderPOListPagingRequest) OrderNumber(orderNumber string) ApiGetV1OrderPOListPagingRequest {
-	r.orderNumber = &orderNumber
-	return r
-}
-
-// 订单日期起始
-func (r ApiGetV1OrderPOListPagingRequest) OrderDateStart(orderDateStart time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.orderDateStart = &orderDateStart
-	return r
-}
-
-// 订单日期结束
-func (r ApiGetV1OrderPOListPagingRequest) OrderDateEnd(orderDateEnd time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.orderDateEnd = &orderDateEnd
-	return r
-}
-
-// 订单类型
-func (r ApiGetV1OrderPOListPagingRequest) OrderType(orderType int32) ApiGetV1OrderPOListPagingRequest {
-	r.orderType = &orderType
-	return r
-}
-
-// 客户ID
-func (r ApiGetV1OrderPOListPagingRequest) CustomerId(customerId string) ApiGetV1OrderPOListPagingRequest {
-	r.customerId = &customerId
-	return r
-}
-
-// 供应商ID
-func (r ApiGetV1OrderPOListPagingRequest) SupplierId(supplierId string) ApiGetV1OrderPOListPagingRequest {
-	r.supplierId = &supplierId
-	return r
-}
-
-// 工厂ID
-func (r ApiGetV1OrderPOListPagingRequest) FacilityId(facilityId string) ApiGetV1OrderPOListPagingRequest {
-	r.facilityId = &facilityId
-	return r
-}
-
-// 品牌
-func (r ApiGetV1OrderPOListPagingRequest) Brand(brand string) ApiGetV1OrderPOListPagingRequest {
-	r.brand = &brand
-	return r
-}
-
-// 合同号
-func (r ApiGetV1OrderPOListPagingRequest) ContractNo(contractNo string) ApiGetV1OrderPOListPagingRequest {
-	r.contractNo = &contractNo
-	return r
-}
-
-// 客户租户ID
-func (r ApiGetV1OrderPOListPagingRequest) CustomerTenantId(customerTenantId string) ApiGetV1OrderPOListPagingRequest {
-	r.customerTenantId = &customerTenantId
-	return r
-}
-
-// 供应商租户ID
-func (r ApiGetV1OrderPOListPagingRequest) SupplierTenantId(supplierTenantId string) ApiGetV1OrderPOListPagingRequest {
-	r.supplierTenantId = &supplierTenantId
-	return r
-}
-
-// 创建人
-func (r ApiGetV1OrderPOListPagingRequest) CreatedBy(createdBy string) ApiGetV1OrderPOListPagingRequest {
-	r.createdBy = &createdBy
-	return r
-}
-
-// 部门ID
-func (r ApiGetV1OrderPOListPagingRequest) DivisionId(divisionId string) ApiGetV1OrderPOListPagingRequest {
-	r.divisionId = &divisionId
-	return r
-}
-
-// 创建时间起始
-func (r ApiGetV1OrderPOListPagingRequest) CreatedAtStart(createdAtStart time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.createdAtStart = &createdAtStart
-	return r
-}
-
-// 创建时间结束
-func (r ApiGetV1OrderPOListPagingRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.createdAtEnd = &createdAtEnd
-	return r
-}
-
-// 订单ID
-func (r ApiGetV1OrderPOListPagingRequest) Id(id string) ApiGetV1OrderPOListPagingRequest {
-	r.id = &id
-	return r
-}
-
-// 系统流水号
-func (r ApiGetV1OrderPOListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1OrderPOListPagingRequest {
-	r.uniqueNo = &uniqueNo
-	return r
-}
-
-// 
-func (r ApiGetV1OrderPOListPagingRequest) OrderName(orderName string) ApiGetV1OrderPOListPagingRequest {
-	r.orderName = &orderName
-	return r
-}
-
-// 行项目序号
-func (r ApiGetV1OrderPOListPagingRequest) LineNumber(lineNumber string) ApiGetV1OrderPOListPagingRequest {
-	r.lineNumber = &lineNumber
-	return r
-}
-
-// 成品分类
-func (r ApiGetV1OrderPOListPagingRequest) ProductCategory(productCategory string) ApiGetV1OrderPOListPagingRequest {
-	r.productCategory = &productCategory
-	return r
-}
-
-// 原料ID
-func (r ApiGetV1OrderPOListPagingRequest) MaterialId(materialId string) ApiGetV1OrderPOListPagingRequest {
-	r.materialId = &materialId
-	return r
-}
-
-// 原料编码
-func (r ApiGetV1OrderPOListPagingRequest) MaterialCode(materialCode string) ApiGetV1OrderPOListPagingRequest {
-	r.materialCode = &materialCode
-	return r
-}
-
-// 原料名称
-func (r ApiGetV1OrderPOListPagingRequest) MaterialName(materialName string) ApiGetV1OrderPOListPagingRequest {
-	r.materialName = &materialName
-	return r
-}
-
-// 成品ID
-func (r ApiGetV1OrderPOListPagingRequest) ProductId(productId string) ApiGetV1OrderPOListPagingRequest {
-	r.productId = &productId
-	return r
-}
-
-// 成品编码
-func (r ApiGetV1OrderPOListPagingRequest) ProductCode(productCode string) ApiGetV1OrderPOListPagingRequest {
-	r.productCode = &productCode
-	return r
-}
-
-// 成品名称
-func (r ApiGetV1OrderPOListPagingRequest) ProductName(productName string) ApiGetV1OrderPOListPagingRequest {
-	r.productName = &productName
-	return r
-}
-
-// 物料批次号
-func (r ApiGetV1OrderPOListPagingRequest) Batch(batch string) ApiGetV1OrderPOListPagingRequest {
-	r.batch = &batch
-	return r
-}
-
-// 目的国家
-func (r ApiGetV1OrderPOListPagingRequest) DestinationCountry(destinationCountry string) ApiGetV1OrderPOListPagingRequest {
-	r.destinationCountry = &destinationCountry
-	return r
-}
-
-// 客户外部系统流水号
-func (r ApiGetV1OrderPOListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1OrderPOListPagingRequest {
-	r.customerExtNo = &customerExtNo
-	return r
-}
-
-// 供应商外部系统流水号
-func (r ApiGetV1OrderPOListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1OrderPOListPagingRequest {
-	r.supplierExtNo = &supplierExtNo
-	return r
-}
-
-// 原产国
-func (r ApiGetV1OrderPOListPagingRequest) OriginCountry(originCountry string) ApiGetV1OrderPOListPagingRequest {
-	r.originCountry = &originCountry
-	return r
-}
-
-// 预计发货日期-开始
-func (r ApiGetV1OrderPOListPagingRequest) EstimatedTimeOfDepartureStart(estimatedTimeOfDepartureStart time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.estimatedTimeOfDepartureStart = &estimatedTimeOfDepartureStart
-	return r
-}
-
-// 预计发货日期-结束
-func (r ApiGetV1OrderPOListPagingRequest) EstimatedTimeOfDepartureEnd(estimatedTimeOfDepartureEnd time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.estimatedTimeOfDepartureEnd = &estimatedTimeOfDepartureEnd
-	return r
-}
-
-// 季度
-func (r ApiGetV1OrderPOListPagingRequest) Season(season string) ApiGetV1OrderPOListPagingRequest {
-	r.season = &season
-	return r
-}
-
-// 年份
-func (r ApiGetV1OrderPOListPagingRequest) SeasonYear(seasonYear string) ApiGetV1OrderPOListPagingRequest {
-	r.seasonYear = &seasonYear
-	return r
-}
-
-// 最后更新日期-开始
-func (r ApiGetV1OrderPOListPagingRequest) LastUpdatedAtStart(lastUpdatedAtStart time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.lastUpdatedAtStart = &lastUpdatedAtStart
-	return r
-}
-
-// 最后更新日期-结束
-func (r ApiGetV1OrderPOListPagingRequest) LastUpdatedAtEnd(lastUpdatedAtEnd time.Time) ApiGetV1OrderPOListPagingRequest {
-	r.lastUpdatedAtEnd = &lastUpdatedAtEnd
-	return r
-}
-
-// 颜色
-func (r ApiGetV1OrderPOListPagingRequest) Color(color string) ApiGetV1OrderPOListPagingRequest {
-	r.color = &color
-	return r
-}
-
-//  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
-func (r ApiGetV1OrderPOListPagingRequest) SoStatus(soStatus int32) ApiGetV1OrderPOListPagingRequest {
-	r.soStatus = &soStatus
-	return r
-}
-
-//  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
-func (r ApiGetV1OrderPOListPagingRequest) PoStatus(poStatus int32) ApiGetV1OrderPOListPagingRequest {
-	r.poStatus = &poStatus
-	return r
-}
-
-//  订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-func (r ApiGetV1OrderPOListPagingRequest) Status(status []int32) ApiGetV1OrderPOListPagingRequest {
-	r.status = &status
-	return r
-}
-
-// 订单链状态
-func (r ApiGetV1OrderPOListPagingRequest) OrderChainStatus(orderChainStatus bool) ApiGetV1OrderPOListPagingRequest {
-	r.orderChainStatus = &orderChainStatus
-	return r
-}
-
-// 
-func (r ApiGetV1OrderPOListPagingRequest) ChainStatus(chainStatus bool) ApiGetV1OrderPOListPagingRequest {
-	r.chainStatus = &chainStatus
-	return r
-}
-
-// 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。
-func (r ApiGetV1OrderPOListPagingRequest) MasterApproveStatus(masterApproveStatus []int32) ApiGetV1OrderPOListPagingRequest {
-	r.masterApproveStatus = &masterApproveStatus
-	return r
-}
-
-// 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
-func (r ApiGetV1OrderPOListPagingRequest) CustomerConfirmStatus(customerConfirmStatus []int32) ApiGetV1OrderPOListPagingRequest {
-	r.customerConfirmStatus = &customerConfirmStatus
-	return r
-}
-
-//  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-func (r ApiGetV1OrderPOListPagingRequest) MixedStatus(mixedStatus []int32) ApiGetV1OrderPOListPagingRequest {
-	r.mixedStatus = &mixedStatus
-	return r
-}
-
-// 
-func (r ApiGetV1OrderPOListPagingRequest) RiskLevel(riskLevel []int32) ApiGetV1OrderPOListPagingRequest {
-	r.riskLevel = &riskLevel
-	return r
-}
-
-// 排序字段
-func (r ApiGetV1OrderPOListPagingRequest) SortBy(sortBy string) ApiGetV1OrderPOListPagingRequest {
-	r.sortBy = &sortBy
-	return r
-}
-
-// 页码
-func (r ApiGetV1OrderPOListPagingRequest) Page(page int32) ApiGetV1OrderPOListPagingRequest {
-	r.page = &page
-	return r
-}
-
-// 每页数量
-func (r ApiGetV1OrderPOListPagingRequest) PageSize(pageSize int32) ApiGetV1OrderPOListPagingRequest {
-	r.pageSize = &pageSize
-	return r
-}
-
-func (r ApiGetV1OrderPOListPagingRequest) Execute() (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	return r.ApiService.GetV1OrderPOListPagingExecute(r)
-}
-
-/*
-GetV1OrderPOListPaging 第三方-获取采购订单分页列表（含明细）
-
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetV1OrderPOListPagingRequest
-*/
-func (a *ApiOrderAPIService) GetV1OrderPOListPaging(ctx context.Context) ApiGetV1OrderPOListPagingRequest {
-	return ApiGetV1OrderPOListPagingRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiOrderAPIService) GetV1OrderPOListPagingExecute(r ApiGetV1OrderPOListPagingRequest) (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.GetV1OrderPOListPaging")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/order/POListPaging"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.xCredentialType == nil {
-		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
-	}
-
-	if r.searchText != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "searchText", r.searchText, "form", "")
-	}
-	if r.orderNumber != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderNumber", r.orderNumber, "form", "")
-	}
-	if r.orderDateStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateStart", r.orderDateStart, "form", "")
-	}
-	if r.orderDateEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateEnd", r.orderDateEnd, "form", "")
-	}
-	if r.orderType != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderType", r.orderType, "form", "")
-	}
-	if r.customerId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "form", "")
-	}
-	if r.supplierId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierId", r.supplierId, "form", "")
-	}
-	if r.facilityId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "facilityId", r.facilityId, "form", "")
-	}
-	if r.brand != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "brand", r.brand, "form", "")
-	}
-	if r.contractNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "contractNo", r.contractNo, "form", "")
-	}
-	if r.customerTenantId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerTenantId", r.customerTenantId, "form", "")
-	}
-	if r.supplierTenantId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierTenantId", r.supplierTenantId, "form", "")
-	}
-	if r.createdBy != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdBy", r.createdBy, "form", "")
-	}
-	if r.divisionId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "divisionId", r.divisionId, "form", "")
-	}
-	if r.createdAtStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtStart", r.createdAtStart, "form", "")
-	}
-	if r.createdAtEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtEnd", r.createdAtEnd, "form", "")
-	}
-	if r.id != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
-	}
-	if r.uniqueNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueNo", r.uniqueNo, "form", "")
-	}
-	if r.orderName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderName", r.orderName, "form", "")
-	}
-	if r.lineNumber != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
-	}
-	if r.productCategory != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productCategory", r.productCategory, "form", "")
-	}
-	if r.materialId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialId", r.materialId, "form", "")
-	}
-	if r.materialCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialCode", r.materialCode, "form", "")
-	}
-	if r.materialName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialName", r.materialName, "form", "")
-	}
-	if r.productId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productId", r.productId, "form", "")
-	}
-	if r.productCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productCode", r.productCode, "form", "")
-	}
-	if r.productName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productName", r.productName, "form", "")
-	}
-	if r.batch != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "batch", r.batch, "form", "")
-	}
-	if r.destinationCountry != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "destinationCountry", r.destinationCountry, "form", "")
-	}
-	if r.customerExtNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerExtNo", r.customerExtNo, "form", "")
-	}
-	if r.supplierExtNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierExtNo", r.supplierExtNo, "form", "")
-	}
-	if r.originCountry != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "originCountry", r.originCountry, "form", "")
-	}
-	if r.estimatedTimeOfDepartureStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureStart", r.estimatedTimeOfDepartureStart, "form", "")
-	}
-	if r.estimatedTimeOfDepartureEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureEnd", r.estimatedTimeOfDepartureEnd, "form", "")
-	}
-	if r.season != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "season", r.season, "form", "")
-	}
-	if r.seasonYear != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "seasonYear", r.seasonYear, "form", "")
-	}
-	if r.lastUpdatedAtStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtStart", r.lastUpdatedAtStart, "form", "")
-	}
-	if r.lastUpdatedAtEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtEnd", r.lastUpdatedAtEnd, "form", "")
-	}
-	if r.color != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "color", r.color, "form", "")
-	}
-	if r.soStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "soStatus", r.soStatus, "form", "")
-	}
-	if r.poStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "poStatus", r.poStatus, "form", "")
-	}
-	if r.status != nil {
-		t := *r.status
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "status", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "status", t, "form", "multi")
-		}
-	}
-	if r.orderChainStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderChainStatus", r.orderChainStatus, "form", "")
-	}
-	if r.chainStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "chainStatus", r.chainStatus, "form", "")
-	}
-	if r.masterApproveStatus != nil {
-		t := *r.masterApproveStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", t, "form", "multi")
-		}
-	}
-	if r.customerConfirmStatus != nil {
-		t := *r.customerConfirmStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", t, "form", "multi")
-		}
-	}
-	if r.mixedStatus != nil {
-		t := *r.mixedStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", t, "form", "multi")
-		}
-	}
-	if r.riskLevel != nil {
-		t := *r.riskLevel
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", t, "form", "multi")
-		}
-	}
-	if r.sortBy != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "form", "")
-	}
-	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
-	} else {
-		var defaultValue int32 = 1
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
-		r.page = &defaultValue
-	}
-	if r.pageSize != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
-	} else {
-		var defaultValue int32 = 10
-		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
-		r.pageSize = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKey"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Signature"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Signature"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Timestamp"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Timestamp"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetV1OrderSOListPagingRequest struct {
-	ctx context.Context
-	ApiService *ApiOrderAPIService
-	xCredentialType *string
-	searchText *string
-	orderNumber *string
-	orderDateStart *time.Time
-	orderDateEnd *time.Time
-	orderType *int32
-	customerId *string
-	supplierId *string
-	facilityId *string
-	brand *string
-	contractNo *string
-	customerTenantId *string
-	supplierTenantId *string
-	createdBy *string
-	divisionId *string
-	createdAtStart *time.Time
-	createdAtEnd *time.Time
-	id *string
-	uniqueNo *string
-	orderName *string
-	lineNumber *string
-	productCategory *string
-	materialId *string
-	materialCode *string
-	materialName *string
-	productId *string
-	productCode *string
-	productName *string
-	batch *string
-	destinationCountry *string
-	customerExtNo *string
-	supplierExtNo *string
-	originCountry *string
-	estimatedTimeOfDepartureStart *time.Time
-	estimatedTimeOfDepartureEnd *time.Time
-	season *string
-	seasonYear *string
-	lastUpdatedAtStart *time.Time
-	lastUpdatedAtEnd *time.Time
-	color *string
-	soStatus *int32
-	poStatus *int32
-	status *[]int32
-	orderChainStatus *bool
-	chainStatus *bool
-	masterApproveStatus *[]int32
-	customerConfirmStatus *[]int32
-	mixedStatus *[]int32
-	riskLevel *[]int32
-	sortBy *string
-	page *int32
-	pageSize *int32
-}
-
-// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
-func (r ApiGetV1OrderSOListPagingRequest) XCredentialType(xCredentialType string) ApiGetV1OrderSOListPagingRequest {
-	r.xCredentialType = &xCredentialType
-	return r
-}
-
-// 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-func (r ApiGetV1OrderSOListPagingRequest) SearchText(searchText string) ApiGetV1OrderSOListPagingRequest {
-	r.searchText = &searchText
-	return r
-}
-
-// 订单编号
-func (r ApiGetV1OrderSOListPagingRequest) OrderNumber(orderNumber string) ApiGetV1OrderSOListPagingRequest {
-	r.orderNumber = &orderNumber
-	return r
-}
-
-// 订单日期起始
-func (r ApiGetV1OrderSOListPagingRequest) OrderDateStart(orderDateStart time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.orderDateStart = &orderDateStart
-	return r
-}
-
-// 订单日期结束
-func (r ApiGetV1OrderSOListPagingRequest) OrderDateEnd(orderDateEnd time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.orderDateEnd = &orderDateEnd
-	return r
-}
-
-// 订单类型
-func (r ApiGetV1OrderSOListPagingRequest) OrderType(orderType int32) ApiGetV1OrderSOListPagingRequest {
-	r.orderType = &orderType
-	return r
-}
-
-// 客户ID
-func (r ApiGetV1OrderSOListPagingRequest) CustomerId(customerId string) ApiGetV1OrderSOListPagingRequest {
-	r.customerId = &customerId
-	return r
-}
-
-// 供应商ID
-func (r ApiGetV1OrderSOListPagingRequest) SupplierId(supplierId string) ApiGetV1OrderSOListPagingRequest {
-	r.supplierId = &supplierId
-	return r
-}
-
-// 工厂ID
-func (r ApiGetV1OrderSOListPagingRequest) FacilityId(facilityId string) ApiGetV1OrderSOListPagingRequest {
-	r.facilityId = &facilityId
-	return r
-}
-
-// 品牌
-func (r ApiGetV1OrderSOListPagingRequest) Brand(brand string) ApiGetV1OrderSOListPagingRequest {
-	r.brand = &brand
-	return r
-}
-
-// 合同号
-func (r ApiGetV1OrderSOListPagingRequest) ContractNo(contractNo string) ApiGetV1OrderSOListPagingRequest {
-	r.contractNo = &contractNo
-	return r
-}
-
-// 客户租户ID
-func (r ApiGetV1OrderSOListPagingRequest) CustomerTenantId(customerTenantId string) ApiGetV1OrderSOListPagingRequest {
-	r.customerTenantId = &customerTenantId
-	return r
-}
-
-// 供应商租户ID
-func (r ApiGetV1OrderSOListPagingRequest) SupplierTenantId(supplierTenantId string) ApiGetV1OrderSOListPagingRequest {
-	r.supplierTenantId = &supplierTenantId
-	return r
-}
-
-// 创建人
-func (r ApiGetV1OrderSOListPagingRequest) CreatedBy(createdBy string) ApiGetV1OrderSOListPagingRequest {
-	r.createdBy = &createdBy
-	return r
-}
-
-// 部门ID
-func (r ApiGetV1OrderSOListPagingRequest) DivisionId(divisionId string) ApiGetV1OrderSOListPagingRequest {
-	r.divisionId = &divisionId
-	return r
-}
-
-// 创建时间起始
-func (r ApiGetV1OrderSOListPagingRequest) CreatedAtStart(createdAtStart time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.createdAtStart = &createdAtStart
-	return r
-}
-
-// 创建时间结束
-func (r ApiGetV1OrderSOListPagingRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.createdAtEnd = &createdAtEnd
-	return r
-}
-
-// 订单ID
-func (r ApiGetV1OrderSOListPagingRequest) Id(id string) ApiGetV1OrderSOListPagingRequest {
-	r.id = &id
-	return r
-}
-
-// 系统流水号
-func (r ApiGetV1OrderSOListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1OrderSOListPagingRequest {
-	r.uniqueNo = &uniqueNo
-	return r
-}
-
-// 
-func (r ApiGetV1OrderSOListPagingRequest) OrderName(orderName string) ApiGetV1OrderSOListPagingRequest {
-	r.orderName = &orderName
-	return r
-}
-
-// 行项目序号
-func (r ApiGetV1OrderSOListPagingRequest) LineNumber(lineNumber string) ApiGetV1OrderSOListPagingRequest {
-	r.lineNumber = &lineNumber
-	return r
-}
-
-// 成品分类
-func (r ApiGetV1OrderSOListPagingRequest) ProductCategory(productCategory string) ApiGetV1OrderSOListPagingRequest {
-	r.productCategory = &productCategory
-	return r
-}
-
-// 原料ID
-func (r ApiGetV1OrderSOListPagingRequest) MaterialId(materialId string) ApiGetV1OrderSOListPagingRequest {
-	r.materialId = &materialId
-	return r
-}
-
-// 原料编码
-func (r ApiGetV1OrderSOListPagingRequest) MaterialCode(materialCode string) ApiGetV1OrderSOListPagingRequest {
-	r.materialCode = &materialCode
-	return r
-}
-
-// 原料名称
-func (r ApiGetV1OrderSOListPagingRequest) MaterialName(materialName string) ApiGetV1OrderSOListPagingRequest {
-	r.materialName = &materialName
-	return r
-}
-
-// 成品ID
-func (r ApiGetV1OrderSOListPagingRequest) ProductId(productId string) ApiGetV1OrderSOListPagingRequest {
-	r.productId = &productId
-	return r
-}
-
-// 成品编码
-func (r ApiGetV1OrderSOListPagingRequest) ProductCode(productCode string) ApiGetV1OrderSOListPagingRequest {
-	r.productCode = &productCode
-	return r
-}
-
-// 成品名称
-func (r ApiGetV1OrderSOListPagingRequest) ProductName(productName string) ApiGetV1OrderSOListPagingRequest {
-	r.productName = &productName
-	return r
-}
-
-// 物料批次号
-func (r ApiGetV1OrderSOListPagingRequest) Batch(batch string) ApiGetV1OrderSOListPagingRequest {
-	r.batch = &batch
-	return r
-}
-
-// 目的国家
-func (r ApiGetV1OrderSOListPagingRequest) DestinationCountry(destinationCountry string) ApiGetV1OrderSOListPagingRequest {
-	r.destinationCountry = &destinationCountry
-	return r
-}
-
-// 客户外部系统流水号
-func (r ApiGetV1OrderSOListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1OrderSOListPagingRequest {
-	r.customerExtNo = &customerExtNo
-	return r
-}
-
-// 供应商外部系统流水号
-func (r ApiGetV1OrderSOListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1OrderSOListPagingRequest {
-	r.supplierExtNo = &supplierExtNo
-	return r
-}
-
-// 原产国
-func (r ApiGetV1OrderSOListPagingRequest) OriginCountry(originCountry string) ApiGetV1OrderSOListPagingRequest {
-	r.originCountry = &originCountry
-	return r
-}
-
-// 预计发货日期-开始
-func (r ApiGetV1OrderSOListPagingRequest) EstimatedTimeOfDepartureStart(estimatedTimeOfDepartureStart time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.estimatedTimeOfDepartureStart = &estimatedTimeOfDepartureStart
-	return r
-}
-
-// 预计发货日期-结束
-func (r ApiGetV1OrderSOListPagingRequest) EstimatedTimeOfDepartureEnd(estimatedTimeOfDepartureEnd time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.estimatedTimeOfDepartureEnd = &estimatedTimeOfDepartureEnd
-	return r
-}
-
-// 季度
-func (r ApiGetV1OrderSOListPagingRequest) Season(season string) ApiGetV1OrderSOListPagingRequest {
-	r.season = &season
-	return r
-}
-
-// 年份
-func (r ApiGetV1OrderSOListPagingRequest) SeasonYear(seasonYear string) ApiGetV1OrderSOListPagingRequest {
-	r.seasonYear = &seasonYear
-	return r
-}
-
-// 最后更新日期-开始
-func (r ApiGetV1OrderSOListPagingRequest) LastUpdatedAtStart(lastUpdatedAtStart time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.lastUpdatedAtStart = &lastUpdatedAtStart
-	return r
-}
-
-// 最后更新日期-结束
-func (r ApiGetV1OrderSOListPagingRequest) LastUpdatedAtEnd(lastUpdatedAtEnd time.Time) ApiGetV1OrderSOListPagingRequest {
-	r.lastUpdatedAtEnd = &lastUpdatedAtEnd
-	return r
-}
-
-// 颜色
-func (r ApiGetV1OrderSOListPagingRequest) Color(color string) ApiGetV1OrderSOListPagingRequest {
-	r.color = &color
-	return r
-}
-
-//  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
-func (r ApiGetV1OrderSOListPagingRequest) SoStatus(soStatus int32) ApiGetV1OrderSOListPagingRequest {
-	r.soStatus = &soStatus
-	return r
-}
-
-//  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
-func (r ApiGetV1OrderSOListPagingRequest) PoStatus(poStatus int32) ApiGetV1OrderSOListPagingRequest {
-	r.poStatus = &poStatus
-	return r
-}
-
-//  订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-func (r ApiGetV1OrderSOListPagingRequest) Status(status []int32) ApiGetV1OrderSOListPagingRequest {
-	r.status = &status
-	return r
-}
-
-// 订单链状态
-func (r ApiGetV1OrderSOListPagingRequest) OrderChainStatus(orderChainStatus bool) ApiGetV1OrderSOListPagingRequest {
-	r.orderChainStatus = &orderChainStatus
-	return r
-}
-
-// 
-func (r ApiGetV1OrderSOListPagingRequest) ChainStatus(chainStatus bool) ApiGetV1OrderSOListPagingRequest {
-	r.chainStatus = &chainStatus
-	return r
-}
-
-// 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。
-func (r ApiGetV1OrderSOListPagingRequest) MasterApproveStatus(masterApproveStatus []int32) ApiGetV1OrderSOListPagingRequest {
-	r.masterApproveStatus = &masterApproveStatus
-	return r
-}
-
-// 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
-func (r ApiGetV1OrderSOListPagingRequest) CustomerConfirmStatus(customerConfirmStatus []int32) ApiGetV1OrderSOListPagingRequest {
-	r.customerConfirmStatus = &customerConfirmStatus
-	return r
-}
-
-//  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
-func (r ApiGetV1OrderSOListPagingRequest) MixedStatus(mixedStatus []int32) ApiGetV1OrderSOListPagingRequest {
-	r.mixedStatus = &mixedStatus
-	return r
-}
-
-// 
-func (r ApiGetV1OrderSOListPagingRequest) RiskLevel(riskLevel []int32) ApiGetV1OrderSOListPagingRequest {
-	r.riskLevel = &riskLevel
-	return r
-}
-
-// 排序字段
-func (r ApiGetV1OrderSOListPagingRequest) SortBy(sortBy string) ApiGetV1OrderSOListPagingRequest {
-	r.sortBy = &sortBy
-	return r
-}
-
-// 页码
-func (r ApiGetV1OrderSOListPagingRequest) Page(page int32) ApiGetV1OrderSOListPagingRequest {
-	r.page = &page
-	return r
-}
-
-// 每页数量
-func (r ApiGetV1OrderSOListPagingRequest) PageSize(pageSize int32) ApiGetV1OrderSOListPagingRequest {
-	r.pageSize = &pageSize
-	return r
-}
-
-func (r ApiGetV1OrderSOListPagingRequest) Execute() (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	return r.ApiService.GetV1OrderSOListPagingExecute(r)
-}
-
-/*
-GetV1OrderSOListPaging 第三方-获取销售订单分页列表（含明细）
-
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetV1OrderSOListPagingRequest
-*/
-func (a *ApiOrderAPIService) GetV1OrderSOListPaging(ctx context.Context) ApiGetV1OrderSOListPagingRequest {
-	return ApiGetV1OrderSOListPagingRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiOrderAPIService) GetV1OrderSOListPagingExecute(r ApiGetV1OrderSOListPagingRequest) (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.GetV1OrderSOListPaging")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/order/SOListPaging"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.xCredentialType == nil {
-		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
-	}
-
-	if r.searchText != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "searchText", r.searchText, "form", "")
-	}
-	if r.orderNumber != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderNumber", r.orderNumber, "form", "")
-	}
-	if r.orderDateStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateStart", r.orderDateStart, "form", "")
-	}
-	if r.orderDateEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateEnd", r.orderDateEnd, "form", "")
-	}
-	if r.orderType != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderType", r.orderType, "form", "")
-	}
-	if r.customerId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "form", "")
-	}
-	if r.supplierId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierId", r.supplierId, "form", "")
-	}
-	if r.facilityId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "facilityId", r.facilityId, "form", "")
-	}
-	if r.brand != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "brand", r.brand, "form", "")
-	}
-	if r.contractNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "contractNo", r.contractNo, "form", "")
-	}
-	if r.customerTenantId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerTenantId", r.customerTenantId, "form", "")
-	}
-	if r.supplierTenantId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierTenantId", r.supplierTenantId, "form", "")
-	}
-	if r.createdBy != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdBy", r.createdBy, "form", "")
-	}
-	if r.divisionId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "divisionId", r.divisionId, "form", "")
-	}
-	if r.createdAtStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtStart", r.createdAtStart, "form", "")
-	}
-	if r.createdAtEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtEnd", r.createdAtEnd, "form", "")
-	}
-	if r.id != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
-	}
-	if r.uniqueNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueNo", r.uniqueNo, "form", "")
-	}
-	if r.orderName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderName", r.orderName, "form", "")
-	}
-	if r.lineNumber != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
-	}
-	if r.productCategory != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productCategory", r.productCategory, "form", "")
-	}
-	if r.materialId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialId", r.materialId, "form", "")
-	}
-	if r.materialCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialCode", r.materialCode, "form", "")
-	}
-	if r.materialName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "materialName", r.materialName, "form", "")
-	}
-	if r.productId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productId", r.productId, "form", "")
-	}
-	if r.productCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productCode", r.productCode, "form", "")
-	}
-	if r.productName != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "productName", r.productName, "form", "")
-	}
-	if r.batch != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "batch", r.batch, "form", "")
-	}
-	if r.destinationCountry != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "destinationCountry", r.destinationCountry, "form", "")
-	}
-	if r.customerExtNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "customerExtNo", r.customerExtNo, "form", "")
-	}
-	if r.supplierExtNo != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierExtNo", r.supplierExtNo, "form", "")
-	}
-	if r.originCountry != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "originCountry", r.originCountry, "form", "")
-	}
-	if r.estimatedTimeOfDepartureStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureStart", r.estimatedTimeOfDepartureStart, "form", "")
-	}
-	if r.estimatedTimeOfDepartureEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureEnd", r.estimatedTimeOfDepartureEnd, "form", "")
-	}
-	if r.season != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "season", r.season, "form", "")
-	}
-	if r.seasonYear != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "seasonYear", r.seasonYear, "form", "")
-	}
-	if r.lastUpdatedAtStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtStart", r.lastUpdatedAtStart, "form", "")
-	}
-	if r.lastUpdatedAtEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtEnd", r.lastUpdatedAtEnd, "form", "")
-	}
-	if r.color != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "color", r.color, "form", "")
-	}
-	if r.soStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "soStatus", r.soStatus, "form", "")
-	}
-	if r.poStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "poStatus", r.poStatus, "form", "")
-	}
-	if r.status != nil {
-		t := *r.status
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "status", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "status", t, "form", "multi")
-		}
-	}
-	if r.orderChainStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "orderChainStatus", r.orderChainStatus, "form", "")
-	}
-	if r.chainStatus != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "chainStatus", r.chainStatus, "form", "")
-	}
-	if r.masterApproveStatus != nil {
-		t := *r.masterApproveStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", t, "form", "multi")
-		}
-	}
-	if r.customerConfirmStatus != nil {
-		t := *r.customerConfirmStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", t, "form", "multi")
-		}
-	}
-	if r.mixedStatus != nil {
-		t := *r.mixedStatus
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", t, "form", "multi")
-		}
-	}
-	if r.riskLevel != nil {
-		t := *r.riskLevel
-		if reflect.TypeOf(t).Kind() == reflect.Slice {
-			s := reflect.ValueOf(t)
-			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", s.Index(i).Interface(), "form", "multi")
-			}
-		} else {
-			parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", t, "form", "multi")
-		}
-	}
-	if r.sortBy != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "form", "")
-	}
-	if r.page != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
-	} else {
-		var defaultValue int32 = 1
-		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
-		r.page = &defaultValue
-	}
-	if r.pageSize != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
-	} else {
-		var defaultValue int32 = 10
-		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
-		r.pageSize = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiKey"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Signature"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Signature"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["Timestamp"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-Timestamp"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiPostV1OrderCreateRequest struct {
-	ctx context.Context
-	ApiService *ApiOrderAPIService
-	xCredentialType *string
-	tacticChainApiServiceViewModelsOrderApiDto *TacticChainApiServiceViewModelsOrderApiDto
-}
-
-// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
-func (r ApiPostV1OrderCreateRequest) XCredentialType(xCredentialType string) ApiPostV1OrderCreateRequest {
-	r.xCredentialType = &xCredentialType
-	return r
-}
-
-func (r ApiPostV1OrderCreateRequest) TacticChainApiServiceViewModelsOrderApiDto(tacticChainApiServiceViewModelsOrderApiDto TacticChainApiServiceViewModelsOrderApiDto) ApiPostV1OrderCreateRequest {
-	r.tacticChainApiServiceViewModelsOrderApiDto = &tacticChainApiServiceViewModelsOrderApiDto
-	return r
-}
-
-func (r ApiPostV1OrderCreateRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	return r.ApiService.PostV1OrderCreateExecute(r)
-}
-
-/*
-PostV1OrderCreate 第三方-创建订单（含明细）
-
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostV1OrderCreateRequest
-*/
-func (a *ApiOrderAPIService) PostV1OrderCreate(ctx context.Context) ApiPostV1OrderCreateRequest {
-	return ApiPostV1OrderCreateRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiOrderAPIService) PostV1OrderCreateExecute(r ApiPostV1OrderCreateRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.PostV1OrderCreate")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/v1/order/Create"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.xCredentialType == nil {
-		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
-	// body params
-	localVarPostBody = r.tacticChainApiServiceViewModelsOrderApiDto
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1910,7 +171,1922 @@ func (a *ApiOrderAPIService) PostV1OrderCreateExecute(r ApiPostV1OrderCreateRequ
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v MicrosoftAspNetCoreMvcProblemDetails
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteV1OrderDeleteLineRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderAPIService
+	xCredentialType *string
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiDeleteV1OrderDeleteLineRequest) XCredentialType(xCredentialType string) ApiDeleteV1OrderDeleteLineRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+func (r ApiDeleteV1OrderDeleteLineRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest) ApiDeleteV1OrderDeleteLineRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest
+	return r
+}
+
+func (r ApiDeleteV1OrderDeleteLineRequest) Execute() (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
+	return r.ApiService.DeleteV1OrderDeleteLineExecute(r)
+}
+
+/*
+DeleteV1OrderDeleteLine 第三方-更新订单明细状态（通过匹配条件获取明细ID）
+
+
+存在不允许删除的后续业务时返回 code=400；须先处理相关业务。
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiDeleteV1OrderDeleteLineRequest
+*/
+func (a *ApiOrderAPIService) DeleteV1OrderDeleteLine(ctx context.Context) ApiDeleteV1OrderDeleteLineRequest {
+	return ApiDeleteV1OrderDeleteLineRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PutV1DeliveryReturnReceipt200Response
+func (a *ApiOrderAPIService) DeleteV1OrderDeleteLineExecute(r ApiDeleteV1OrderDeleteLineRequest) (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PutV1DeliveryReturnReceipt200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.DeleteV1OrderDeleteLine")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/DeleteLine"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	// body params
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetV1OrderPOListPagingRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderAPIService
+	xCredentialType *string
+	searchText *string
+	orderNumber *string
+	orderDateStart *time.Time
+	orderDateEnd *time.Time
+	orderType *int32
+	customerId *string
+	supplierId *string
+	facilityId *string
+	brand *string
+	contractNo *string
+	divisionId *string
+	createdAtStart *time.Time
+	createdAtEnd *time.Time
+	id *string
+	uniqueNo *string
+	orderName *string
+	lineNumber *string
+	productCategory *string
+	materialId *string
+	materialCode *string
+	materialName *string
+	productId *string
+	productCode *string
+	productName *string
+	batch *string
+	destinationCountry *string
+	customerExtNo *string
+	supplierExtNo *string
+	originCountry *string
+	estimatedTimeOfDepartureStart *time.Time
+	estimatedTimeOfDepartureEnd *time.Time
+	season *string
+	seasonYear *string
+	lastUpdatedAtStart *time.Time
+	lastUpdatedAtEnd *time.Time
+	color *string
+	soStatus *int32
+	poStatus *int32
+	status *[]int32
+	orderChainStatus *bool
+	chainStatus *bool
+	masterApproveStatus *[]int32
+	customerConfirmStatus *[]int32
+	mixedStatus *[]int32
+	riskLevel *[]int32
+	sortBy *string
+	page *int32
+	pageSize *int32
+	customerCode *string
+	supplierCode *string
+	customerName *string
+	supplierName *string
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiGetV1OrderPOListPagingRequest) XCredentialType(xCredentialType string) ApiGetV1OrderPOListPagingRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+// 关键词搜索，具体匹配范围见本接口说明。
+func (r ApiGetV1OrderPOListPagingRequest) SearchText(searchText string) ApiGetV1OrderPOListPagingRequest {
+	r.searchText = &searchText
+	return r
+}
+
+// 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+func (r ApiGetV1OrderPOListPagingRequest) OrderNumber(orderNumber string) ApiGetV1OrderPOListPagingRequest {
+	r.orderNumber = &orderNumber
+	return r
+}
+
+// 订单日期下限。
+func (r ApiGetV1OrderPOListPagingRequest) OrderDateStart(orderDateStart time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.orderDateStart = &orderDateStart
+	return r
+}
+
+// 订单日期上限。
+func (r ApiGetV1OrderPOListPagingRequest) OrderDateEnd(orderDateEnd time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.orderDateEnd = &orderDateEnd
+	return r
+}
+
+// 订单类型
+func (r ApiGetV1OrderPOListPagingRequest) OrderType(orderType int32) ApiGetV1OrderPOListPagingRequest {
+	r.orderType = &orderType
+	return r
+}
+
+// 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+func (r ApiGetV1OrderPOListPagingRequest) CustomerId(customerId string) ApiGetV1OrderPOListPagingRequest {
+	r.customerId = &customerId
+	return r
+}
+
+// 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+func (r ApiGetV1OrderPOListPagingRequest) SupplierId(supplierId string) ApiGetV1OrderPOListPagingRequest {
+	r.supplierId = &supplierId
+	return r
+}
+
+// 工厂ID
+func (r ApiGetV1OrderPOListPagingRequest) FacilityId(facilityId string) ApiGetV1OrderPOListPagingRequest {
+	r.facilityId = &facilityId
+	return r
+}
+
+// 品牌
+func (r ApiGetV1OrderPOListPagingRequest) Brand(brand string) ApiGetV1OrderPOListPagingRequest {
+	r.brand = &brand
+	return r
+}
+
+// 合同号
+func (r ApiGetV1OrderPOListPagingRequest) ContractNo(contractNo string) ApiGetV1OrderPOListPagingRequest {
+	r.contractNo = &contractNo
+	return r
+}
+
+// 部门ID
+func (r ApiGetV1OrderPOListPagingRequest) DivisionId(divisionId string) ApiGetV1OrderPOListPagingRequest {
+	r.divisionId = &divisionId
+	return r
+}
+
+// 创建时间下限。
+func (r ApiGetV1OrderPOListPagingRequest) CreatedAtStart(createdAtStart time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.createdAtStart = &createdAtStart
+	return r
+}
+
+// 创建时间上限。
+func (r ApiGetV1OrderPOListPagingRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.createdAtEnd = &createdAtEnd
+	return r
+}
+
+// 查询返回的单据 ID，可选；优先使用本文业务组合。
+func (r ApiGetV1OrderPOListPagingRequest) Id(id string) ApiGetV1OrderPOListPagingRequest {
+	r.id = &id
+	return r
+}
+
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+func (r ApiGetV1OrderPOListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1OrderPOListPagingRequest {
+	r.uniqueNo = &uniqueNo
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderPOListPagingRequest) OrderName(orderName string) ApiGetV1OrderPOListPagingRequest {
+	r.orderName = &orderName
+	return r
+}
+
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+func (r ApiGetV1OrderPOListPagingRequest) LineNumber(lineNumber string) ApiGetV1OrderPOListPagingRequest {
+	r.lineNumber = &lineNumber
+	return r
+}
+
+// 成品分类
+func (r ApiGetV1OrderPOListPagingRequest) ProductCategory(productCategory string) ApiGetV1OrderPOListPagingRequest {
+	r.productCategory = &productCategory
+	return r
+}
+
+// 原料ID
+func (r ApiGetV1OrderPOListPagingRequest) MaterialId(materialId string) ApiGetV1OrderPOListPagingRequest {
+	r.materialId = &materialId
+	return r
+}
+
+// 原料编码
+func (r ApiGetV1OrderPOListPagingRequest) MaterialCode(materialCode string) ApiGetV1OrderPOListPagingRequest {
+	r.materialCode = &materialCode
+	return r
+}
+
+// 原料名称
+func (r ApiGetV1OrderPOListPagingRequest) MaterialName(materialName string) ApiGetV1OrderPOListPagingRequest {
+	r.materialName = &materialName
+	return r
+}
+
+// 成品ID
+func (r ApiGetV1OrderPOListPagingRequest) ProductId(productId string) ApiGetV1OrderPOListPagingRequest {
+	r.productId = &productId
+	return r
+}
+
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+func (r ApiGetV1OrderPOListPagingRequest) ProductCode(productCode string) ApiGetV1OrderPOListPagingRequest {
+	r.productCode = &productCode
+	return r
+}
+
+// 成品名称
+func (r ApiGetV1OrderPOListPagingRequest) ProductName(productName string) ApiGetV1OrderPOListPagingRequest {
+	r.productName = &productName
+	return r
+}
+
+// 物料批次号
+func (r ApiGetV1OrderPOListPagingRequest) Batch(batch string) ApiGetV1OrderPOListPagingRequest {
+	r.batch = &batch
+	return r
+}
+
+// 目的国家
+func (r ApiGetV1OrderPOListPagingRequest) DestinationCountry(destinationCountry string) ApiGetV1OrderPOListPagingRequest {
+	r.destinationCountry = &destinationCountry
+	return r
+}
+
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderPOListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1OrderPOListPagingRequest {
+	r.customerExtNo = &customerExtNo
+	return r
+}
+
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderPOListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1OrderPOListPagingRequest {
+	r.supplierExtNo = &supplierExtNo
+	return r
+}
+
+// 原产国
+func (r ApiGetV1OrderPOListPagingRequest) OriginCountry(originCountry string) ApiGetV1OrderPOListPagingRequest {
+	r.originCountry = &originCountry
+	return r
+}
+
+// 预计发货日期-开始
+func (r ApiGetV1OrderPOListPagingRequest) EstimatedTimeOfDepartureStart(estimatedTimeOfDepartureStart time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.estimatedTimeOfDepartureStart = &estimatedTimeOfDepartureStart
+	return r
+}
+
+// 预计发货日期-结束
+func (r ApiGetV1OrderPOListPagingRequest) EstimatedTimeOfDepartureEnd(estimatedTimeOfDepartureEnd time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.estimatedTimeOfDepartureEnd = &estimatedTimeOfDepartureEnd
+	return r
+}
+
+// 季度
+func (r ApiGetV1OrderPOListPagingRequest) Season(season string) ApiGetV1OrderPOListPagingRequest {
+	r.season = &season
+	return r
+}
+
+// 年份
+func (r ApiGetV1OrderPOListPagingRequest) SeasonYear(seasonYear string) ApiGetV1OrderPOListPagingRequest {
+	r.seasonYear = &seasonYear
+	return r
+}
+
+// 最后更新日期-开始
+func (r ApiGetV1OrderPOListPagingRequest) LastUpdatedAtStart(lastUpdatedAtStart time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.lastUpdatedAtStart = &lastUpdatedAtStart
+	return r
+}
+
+// 最后更新日期-结束
+func (r ApiGetV1OrderPOListPagingRequest) LastUpdatedAtEnd(lastUpdatedAtEnd time.Time) ApiGetV1OrderPOListPagingRequest {
+	r.lastUpdatedAtEnd = &lastUpdatedAtEnd
+	return r
+}
+
+// 颜色
+func (r ApiGetV1OrderPOListPagingRequest) Color(color string) ApiGetV1OrderPOListPagingRequest {
+	r.color = &color
+	return r
+}
+
+// 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
+func (r ApiGetV1OrderPOListPagingRequest) SoStatus(soStatus int32) ApiGetV1OrderPOListPagingRequest {
+	r.soStatus = &soStatus
+	return r
+}
+
+// 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
+func (r ApiGetV1OrderPOListPagingRequest) PoStatus(poStatus int32) ApiGetV1OrderPOListPagingRequest {
+	r.poStatus = &poStatus
+	return r
+}
+
+// 查询状态过滤，不作为写入状态字段开放。
+func (r ApiGetV1OrderPOListPagingRequest) Status(status []int32) ApiGetV1OrderPOListPagingRequest {
+	r.status = &status
+	return r
+}
+
+// 订单链状态
+func (r ApiGetV1OrderPOListPagingRequest) OrderChainStatus(orderChainStatus bool) ApiGetV1OrderPOListPagingRequest {
+	r.orderChainStatus = &orderChainStatus
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderPOListPagingRequest) ChainStatus(chainStatus bool) ApiGetV1OrderPOListPagingRequest {
+	r.chainStatus = &chainStatus
+	return r
+}
+
+// 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。
+func (r ApiGetV1OrderPOListPagingRequest) MasterApproveStatus(masterApproveStatus []int32) ApiGetV1OrderPOListPagingRequest {
+	r.masterApproveStatus = &masterApproveStatus
+	return r
+}
+
+// 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
+func (r ApiGetV1OrderPOListPagingRequest) CustomerConfirmStatus(customerConfirmStatus []int32) ApiGetV1OrderPOListPagingRequest {
+	r.customerConfirmStatus = &customerConfirmStatus
+	return r
+}
+
+// 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
+func (r ApiGetV1OrderPOListPagingRequest) MixedStatus(mixedStatus []int32) ApiGetV1OrderPOListPagingRequest {
+	r.mixedStatus = &mixedStatus
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderPOListPagingRequest) RiskLevel(riskLevel []int32) ApiGetV1OrderPOListPagingRequest {
+	r.riskLevel = &riskLevel
+	return r
+}
+
+// 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+func (r ApiGetV1OrderPOListPagingRequest) SortBy(sortBy string) ApiGetV1OrderPOListPagingRequest {
+	r.sortBy = &sortBy
+	return r
+}
+
+// 页码，默认 1；小于等于 0 时调整为 1。
+func (r ApiGetV1OrderPOListPagingRequest) Page(page int32) ApiGetV1OrderPOListPagingRequest {
+	r.page = &page
+	return r
+}
+
+// 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
+func (r ApiGetV1OrderPOListPagingRequest) PageSize(pageSize int32) ApiGetV1OrderPOListPagingRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1OrderPOListPagingRequest) CustomerCode(customerCode string) ApiGetV1OrderPOListPagingRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+func (r ApiGetV1OrderPOListPagingRequest) SupplierCode(supplierCode string) ApiGetV1OrderPOListPagingRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1OrderPOListPagingRequest) CustomerName(customerName string) ApiGetV1OrderPOListPagingRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1OrderPOListPagingRequest) SupplierName(supplierName string) ApiGetV1OrderPOListPagingRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+func (r ApiGetV1OrderPOListPagingRequest) Execute() (*GetV1OrderPOListPaging200Response, *http.Response, error) {
+	return r.ApiService.GetV1OrderPOListPagingExecute(r)
+}
+
+/*
+GetV1OrderPOListPaging 第三方-获取采购订单分页列表（含明细）
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetV1OrderPOListPagingRequest
+*/
+func (a *ApiOrderAPIService) GetV1OrderPOListPaging(ctx context.Context) ApiGetV1OrderPOListPagingRequest {
+	return ApiGetV1OrderPOListPagingRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return GetV1OrderPOListPaging200Response
+func (a *ApiOrderAPIService) GetV1OrderPOListPagingExecute(r ApiGetV1OrderPOListPagingRequest) (*GetV1OrderPOListPaging200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetV1OrderPOListPaging200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.GetV1OrderPOListPaging")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/POListPaging"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+
+	if r.searchText != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "searchText", r.searchText, "form", "")
+	}
+	if r.orderNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderNumber", r.orderNumber, "form", "")
+	}
+	if r.orderDateStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateStart", r.orderDateStart, "form", "")
+	}
+	if r.orderDateEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateEnd", r.orderDateEnd, "form", "")
+	}
+	if r.orderType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderType", r.orderType, "form", "")
+	}
+	if r.customerId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "form", "")
+	}
+	if r.supplierId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierId", r.supplierId, "form", "")
+	}
+	if r.facilityId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "facilityId", r.facilityId, "form", "")
+	}
+	if r.brand != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "brand", r.brand, "form", "")
+	}
+	if r.contractNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "contractNo", r.contractNo, "form", "")
+	}
+	if r.divisionId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "divisionId", r.divisionId, "form", "")
+	}
+	if r.createdAtStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtStart", r.createdAtStart, "form", "")
+	}
+	if r.createdAtEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtEnd", r.createdAtEnd, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
+	}
+	if r.uniqueNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueNo", r.uniqueNo, "form", "")
+	}
+	if r.orderName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderName", r.orderName, "form", "")
+	}
+	if r.lineNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
+	}
+	if r.productCategory != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productCategory", r.productCategory, "form", "")
+	}
+	if r.materialId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialId", r.materialId, "form", "")
+	}
+	if r.materialCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialCode", r.materialCode, "form", "")
+	}
+	if r.materialName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialName", r.materialName, "form", "")
+	}
+	if r.productId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productId", r.productId, "form", "")
+	}
+	if r.productCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productCode", r.productCode, "form", "")
+	}
+	if r.productName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productName", r.productName, "form", "")
+	}
+	if r.batch != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "batch", r.batch, "form", "")
+	}
+	if r.destinationCountry != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "destinationCountry", r.destinationCountry, "form", "")
+	}
+	if r.customerExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerExtNo", r.customerExtNo, "form", "")
+	}
+	if r.supplierExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierExtNo", r.supplierExtNo, "form", "")
+	}
+	if r.originCountry != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "originCountry", r.originCountry, "form", "")
+	}
+	if r.estimatedTimeOfDepartureStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureStart", r.estimatedTimeOfDepartureStart, "form", "")
+	}
+	if r.estimatedTimeOfDepartureEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureEnd", r.estimatedTimeOfDepartureEnd, "form", "")
+	}
+	if r.season != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "season", r.season, "form", "")
+	}
+	if r.seasonYear != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "seasonYear", r.seasonYear, "form", "")
+	}
+	if r.lastUpdatedAtStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtStart", r.lastUpdatedAtStart, "form", "")
+	}
+	if r.lastUpdatedAtEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtEnd", r.lastUpdatedAtEnd, "form", "")
+	}
+	if r.color != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "color", r.color, "form", "")
+	}
+	if r.soStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "soStatus", r.soStatus, "form", "")
+	}
+	if r.poStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "poStatus", r.poStatus, "form", "")
+	}
+	if r.status != nil {
+		t := *r.status
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "status", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "status", t, "form", "multi")
+		}
+	}
+	if r.orderChainStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderChainStatus", r.orderChainStatus, "form", "")
+	}
+	if r.chainStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "chainStatus", r.chainStatus, "form", "")
+	}
+	if r.masterApproveStatus != nil {
+		t := *r.masterApproveStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", t, "form", "multi")
+		}
+	}
+	if r.customerConfirmStatus != nil {
+		t := *r.customerConfirmStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", t, "form", "multi")
+		}
+	}
+	if r.mixedStatus != nil {
+		t := *r.mixedStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", t, "form", "multi")
+		}
+	}
+	if r.riskLevel != nil {
+		t := *r.riskLevel
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", t, "form", "multi")
+		}
+	}
+	if r.sortBy != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	} else {
+		var defaultValue int32 = 10
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
+		r.pageSize = &defaultValue
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerCode", r.customerCode, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierCode", r.supplierCode, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerName", r.customerName, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierName", r.supplierName, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetV1OrderSOListPagingRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderAPIService
+	xCredentialType *string
+	searchText *string
+	orderNumber *string
+	orderDateStart *time.Time
+	orderDateEnd *time.Time
+	orderType *int32
+	customerId *string
+	supplierId *string
+	facilityId *string
+	brand *string
+	contractNo *string
+	divisionId *string
+	createdAtStart *time.Time
+	createdAtEnd *time.Time
+	id *string
+	uniqueNo *string
+	orderName *string
+	lineNumber *string
+	productCategory *string
+	materialId *string
+	materialCode *string
+	materialName *string
+	productId *string
+	productCode *string
+	productName *string
+	batch *string
+	destinationCountry *string
+	customerExtNo *string
+	supplierExtNo *string
+	originCountry *string
+	estimatedTimeOfDepartureStart *time.Time
+	estimatedTimeOfDepartureEnd *time.Time
+	season *string
+	seasonYear *string
+	lastUpdatedAtStart *time.Time
+	lastUpdatedAtEnd *time.Time
+	color *string
+	soStatus *int32
+	poStatus *int32
+	status *[]int32
+	orderChainStatus *bool
+	chainStatus *bool
+	masterApproveStatus *[]int32
+	customerConfirmStatus *[]int32
+	mixedStatus *[]int32
+	riskLevel *[]int32
+	sortBy *string
+	page *int32
+	pageSize *int32
+	customerCode *string
+	supplierCode *string
+	customerName *string
+	supplierName *string
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiGetV1OrderSOListPagingRequest) XCredentialType(xCredentialType string) ApiGetV1OrderSOListPagingRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+// 关键词搜索，具体匹配范围见本接口说明。
+func (r ApiGetV1OrderSOListPagingRequest) SearchText(searchText string) ApiGetV1OrderSOListPagingRequest {
+	r.searchText = &searchText
+	return r
+}
+
+// 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+func (r ApiGetV1OrderSOListPagingRequest) OrderNumber(orderNumber string) ApiGetV1OrderSOListPagingRequest {
+	r.orderNumber = &orderNumber
+	return r
+}
+
+// 订单日期下限。
+func (r ApiGetV1OrderSOListPagingRequest) OrderDateStart(orderDateStart time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.orderDateStart = &orderDateStart
+	return r
+}
+
+// 订单日期上限。
+func (r ApiGetV1OrderSOListPagingRequest) OrderDateEnd(orderDateEnd time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.orderDateEnd = &orderDateEnd
+	return r
+}
+
+// 订单类型
+func (r ApiGetV1OrderSOListPagingRequest) OrderType(orderType int32) ApiGetV1OrderSOListPagingRequest {
+	r.orderType = &orderType
+	return r
+}
+
+// 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+func (r ApiGetV1OrderSOListPagingRequest) CustomerId(customerId string) ApiGetV1OrderSOListPagingRequest {
+	r.customerId = &customerId
+	return r
+}
+
+// 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+func (r ApiGetV1OrderSOListPagingRequest) SupplierId(supplierId string) ApiGetV1OrderSOListPagingRequest {
+	r.supplierId = &supplierId
+	return r
+}
+
+// 工厂ID
+func (r ApiGetV1OrderSOListPagingRequest) FacilityId(facilityId string) ApiGetV1OrderSOListPagingRequest {
+	r.facilityId = &facilityId
+	return r
+}
+
+// 品牌
+func (r ApiGetV1OrderSOListPagingRequest) Brand(brand string) ApiGetV1OrderSOListPagingRequest {
+	r.brand = &brand
+	return r
+}
+
+// 合同号
+func (r ApiGetV1OrderSOListPagingRequest) ContractNo(contractNo string) ApiGetV1OrderSOListPagingRequest {
+	r.contractNo = &contractNo
+	return r
+}
+
+// 部门ID
+func (r ApiGetV1OrderSOListPagingRequest) DivisionId(divisionId string) ApiGetV1OrderSOListPagingRequest {
+	r.divisionId = &divisionId
+	return r
+}
+
+// 创建时间下限。
+func (r ApiGetV1OrderSOListPagingRequest) CreatedAtStart(createdAtStart time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.createdAtStart = &createdAtStart
+	return r
+}
+
+// 创建时间上限。
+func (r ApiGetV1OrderSOListPagingRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.createdAtEnd = &createdAtEnd
+	return r
+}
+
+// 查询返回的单据 ID，可选；优先使用本文业务组合。
+func (r ApiGetV1OrderSOListPagingRequest) Id(id string) ApiGetV1OrderSOListPagingRequest {
+	r.id = &id
+	return r
+}
+
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+func (r ApiGetV1OrderSOListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1OrderSOListPagingRequest {
+	r.uniqueNo = &uniqueNo
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderSOListPagingRequest) OrderName(orderName string) ApiGetV1OrderSOListPagingRequest {
+	r.orderName = &orderName
+	return r
+}
+
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+func (r ApiGetV1OrderSOListPagingRequest) LineNumber(lineNumber string) ApiGetV1OrderSOListPagingRequest {
+	r.lineNumber = &lineNumber
+	return r
+}
+
+// 成品分类
+func (r ApiGetV1OrderSOListPagingRequest) ProductCategory(productCategory string) ApiGetV1OrderSOListPagingRequest {
+	r.productCategory = &productCategory
+	return r
+}
+
+// 原料ID
+func (r ApiGetV1OrderSOListPagingRequest) MaterialId(materialId string) ApiGetV1OrderSOListPagingRequest {
+	r.materialId = &materialId
+	return r
+}
+
+// 原料编码
+func (r ApiGetV1OrderSOListPagingRequest) MaterialCode(materialCode string) ApiGetV1OrderSOListPagingRequest {
+	r.materialCode = &materialCode
+	return r
+}
+
+// 原料名称
+func (r ApiGetV1OrderSOListPagingRequest) MaterialName(materialName string) ApiGetV1OrderSOListPagingRequest {
+	r.materialName = &materialName
+	return r
+}
+
+// 成品ID
+func (r ApiGetV1OrderSOListPagingRequest) ProductId(productId string) ApiGetV1OrderSOListPagingRequest {
+	r.productId = &productId
+	return r
+}
+
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+func (r ApiGetV1OrderSOListPagingRequest) ProductCode(productCode string) ApiGetV1OrderSOListPagingRequest {
+	r.productCode = &productCode
+	return r
+}
+
+// 成品名称
+func (r ApiGetV1OrderSOListPagingRequest) ProductName(productName string) ApiGetV1OrderSOListPagingRequest {
+	r.productName = &productName
+	return r
+}
+
+// 物料批次号
+func (r ApiGetV1OrderSOListPagingRequest) Batch(batch string) ApiGetV1OrderSOListPagingRequest {
+	r.batch = &batch
+	return r
+}
+
+// 目的国家
+func (r ApiGetV1OrderSOListPagingRequest) DestinationCountry(destinationCountry string) ApiGetV1OrderSOListPagingRequest {
+	r.destinationCountry = &destinationCountry
+	return r
+}
+
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderSOListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1OrderSOListPagingRequest {
+	r.customerExtNo = &customerExtNo
+	return r
+}
+
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1OrderSOListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1OrderSOListPagingRequest {
+	r.supplierExtNo = &supplierExtNo
+	return r
+}
+
+// 原产国
+func (r ApiGetV1OrderSOListPagingRequest) OriginCountry(originCountry string) ApiGetV1OrderSOListPagingRequest {
+	r.originCountry = &originCountry
+	return r
+}
+
+// 预计发货日期-开始
+func (r ApiGetV1OrderSOListPagingRequest) EstimatedTimeOfDepartureStart(estimatedTimeOfDepartureStart time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.estimatedTimeOfDepartureStart = &estimatedTimeOfDepartureStart
+	return r
+}
+
+// 预计发货日期-结束
+func (r ApiGetV1OrderSOListPagingRequest) EstimatedTimeOfDepartureEnd(estimatedTimeOfDepartureEnd time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.estimatedTimeOfDepartureEnd = &estimatedTimeOfDepartureEnd
+	return r
+}
+
+// 季度
+func (r ApiGetV1OrderSOListPagingRequest) Season(season string) ApiGetV1OrderSOListPagingRequest {
+	r.season = &season
+	return r
+}
+
+// 年份
+func (r ApiGetV1OrderSOListPagingRequest) SeasonYear(seasonYear string) ApiGetV1OrderSOListPagingRequest {
+	r.seasonYear = &seasonYear
+	return r
+}
+
+// 最后更新日期-开始
+func (r ApiGetV1OrderSOListPagingRequest) LastUpdatedAtStart(lastUpdatedAtStart time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.lastUpdatedAtStart = &lastUpdatedAtStart
+	return r
+}
+
+// 最后更新日期-结束
+func (r ApiGetV1OrderSOListPagingRequest) LastUpdatedAtEnd(lastUpdatedAtEnd time.Time) ApiGetV1OrderSOListPagingRequest {
+	r.lastUpdatedAtEnd = &lastUpdatedAtEnd
+	return r
+}
+
+// 颜色
+func (r ApiGetV1OrderSOListPagingRequest) Color(color string) ApiGetV1OrderSOListPagingRequest {
+	r.color = &color
+	return r
+}
+
+// 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
+func (r ApiGetV1OrderSOListPagingRequest) SoStatus(soStatus int32) ApiGetV1OrderSOListPagingRequest {
+	r.soStatus = &soStatus
+	return r
+}
+
+// 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。
+func (r ApiGetV1OrderSOListPagingRequest) PoStatus(poStatus int32) ApiGetV1OrderSOListPagingRequest {
+	r.poStatus = &poStatus
+	return r
+}
+
+// 查询状态过滤，不作为写入状态字段开放。
+func (r ApiGetV1OrderSOListPagingRequest) Status(status []int32) ApiGetV1OrderSOListPagingRequest {
+	r.status = &status
+	return r
+}
+
+// 订单链状态
+func (r ApiGetV1OrderSOListPagingRequest) OrderChainStatus(orderChainStatus bool) ApiGetV1OrderSOListPagingRequest {
+	r.orderChainStatus = &orderChainStatus
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderSOListPagingRequest) ChainStatus(chainStatus bool) ApiGetV1OrderSOListPagingRequest {
+	r.chainStatus = &chainStatus
+	return r
+}
+
+// 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。
+func (r ApiGetV1OrderSOListPagingRequest) MasterApproveStatus(masterApproveStatus []int32) ApiGetV1OrderSOListPagingRequest {
+	r.masterApproveStatus = &masterApproveStatus
+	return r
+}
+
+// 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。
+func (r ApiGetV1OrderSOListPagingRequest) CustomerConfirmStatus(customerConfirmStatus []int32) ApiGetV1OrderSOListPagingRequest {
+	r.customerConfirmStatus = &customerConfirmStatus
+	return r
+}
+
+// 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。
+func (r ApiGetV1OrderSOListPagingRequest) MixedStatus(mixedStatus []int32) ApiGetV1OrderSOListPagingRequest {
+	r.mixedStatus = &mixedStatus
+	return r
+}
+
+// 可选业务筛选条件；与其他条件同时生效。
+func (r ApiGetV1OrderSOListPagingRequest) RiskLevel(riskLevel []int32) ApiGetV1OrderSOListPagingRequest {
+	r.riskLevel = &riskLevel
+	return r
+}
+
+// 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+func (r ApiGetV1OrderSOListPagingRequest) SortBy(sortBy string) ApiGetV1OrderSOListPagingRequest {
+	r.sortBy = &sortBy
+	return r
+}
+
+// 页码，默认 1；小于等于 0 时调整为 1。
+func (r ApiGetV1OrderSOListPagingRequest) Page(page int32) ApiGetV1OrderSOListPagingRequest {
+	r.page = &page
+	return r
+}
+
+// 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
+func (r ApiGetV1OrderSOListPagingRequest) PageSize(pageSize int32) ApiGetV1OrderSOListPagingRequest {
+	r.pageSize = &pageSize
+	return r
+}
+
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1OrderSOListPagingRequest) CustomerCode(customerCode string) ApiGetV1OrderSOListPagingRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+func (r ApiGetV1OrderSOListPagingRequest) SupplierCode(supplierCode string) ApiGetV1OrderSOListPagingRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1OrderSOListPagingRequest) CustomerName(customerName string) ApiGetV1OrderSOListPagingRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1OrderSOListPagingRequest) SupplierName(supplierName string) ApiGetV1OrderSOListPagingRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+func (r ApiGetV1OrderSOListPagingRequest) Execute() (*GetV1OrderPOListPaging200Response, *http.Response, error) {
+	return r.ApiService.GetV1OrderSOListPagingExecute(r)
+}
+
+/*
+GetV1OrderSOListPaging 第三方-获取销售订单分页列表（含明细）
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetV1OrderSOListPagingRequest
+*/
+func (a *ApiOrderAPIService) GetV1OrderSOListPaging(ctx context.Context) ApiGetV1OrderSOListPagingRequest {
+	return ApiGetV1OrderSOListPagingRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return GetV1OrderPOListPaging200Response
+func (a *ApiOrderAPIService) GetV1OrderSOListPagingExecute(r ApiGetV1OrderSOListPagingRequest) (*GetV1OrderPOListPaging200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetV1OrderPOListPaging200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.GetV1OrderSOListPaging")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/SOListPaging"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+
+	if r.searchText != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "searchText", r.searchText, "form", "")
+	}
+	if r.orderNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderNumber", r.orderNumber, "form", "")
+	}
+	if r.orderDateStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateStart", r.orderDateStart, "form", "")
+	}
+	if r.orderDateEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDateEnd", r.orderDateEnd, "form", "")
+	}
+	if r.orderType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderType", r.orderType, "form", "")
+	}
+	if r.customerId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerId", r.customerId, "form", "")
+	}
+	if r.supplierId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierId", r.supplierId, "form", "")
+	}
+	if r.facilityId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "facilityId", r.facilityId, "form", "")
+	}
+	if r.brand != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "brand", r.brand, "form", "")
+	}
+	if r.contractNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "contractNo", r.contractNo, "form", "")
+	}
+	if r.divisionId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "divisionId", r.divisionId, "form", "")
+	}
+	if r.createdAtStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtStart", r.createdAtStart, "form", "")
+	}
+	if r.createdAtEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtEnd", r.createdAtEnd, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
+	}
+	if r.uniqueNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueNo", r.uniqueNo, "form", "")
+	}
+	if r.orderName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderName", r.orderName, "form", "")
+	}
+	if r.lineNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
+	}
+	if r.productCategory != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productCategory", r.productCategory, "form", "")
+	}
+	if r.materialId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialId", r.materialId, "form", "")
+	}
+	if r.materialCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialCode", r.materialCode, "form", "")
+	}
+	if r.materialName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "materialName", r.materialName, "form", "")
+	}
+	if r.productId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productId", r.productId, "form", "")
+	}
+	if r.productCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productCode", r.productCode, "form", "")
+	}
+	if r.productName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "productName", r.productName, "form", "")
+	}
+	if r.batch != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "batch", r.batch, "form", "")
+	}
+	if r.destinationCountry != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "destinationCountry", r.destinationCountry, "form", "")
+	}
+	if r.customerExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerExtNo", r.customerExtNo, "form", "")
+	}
+	if r.supplierExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierExtNo", r.supplierExtNo, "form", "")
+	}
+	if r.originCountry != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "originCountry", r.originCountry, "form", "")
+	}
+	if r.estimatedTimeOfDepartureStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureStart", r.estimatedTimeOfDepartureStart, "form", "")
+	}
+	if r.estimatedTimeOfDepartureEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureEnd", r.estimatedTimeOfDepartureEnd, "form", "")
+	}
+	if r.season != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "season", r.season, "form", "")
+	}
+	if r.seasonYear != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "seasonYear", r.seasonYear, "form", "")
+	}
+	if r.lastUpdatedAtStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtStart", r.lastUpdatedAtStart, "form", "")
+	}
+	if r.lastUpdatedAtEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtEnd", r.lastUpdatedAtEnd, "form", "")
+	}
+	if r.color != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "color", r.color, "form", "")
+	}
+	if r.soStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "soStatus", r.soStatus, "form", "")
+	}
+	if r.poStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "poStatus", r.poStatus, "form", "")
+	}
+	if r.status != nil {
+		t := *r.status
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "status", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "status", t, "form", "multi")
+		}
+	}
+	if r.orderChainStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderChainStatus", r.orderChainStatus, "form", "")
+	}
+	if r.chainStatus != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "chainStatus", r.chainStatus, "form", "")
+	}
+	if r.masterApproveStatus != nil {
+		t := *r.masterApproveStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "masterApproveStatus", t, "form", "multi")
+		}
+	}
+	if r.customerConfirmStatus != nil {
+		t := *r.customerConfirmStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "customerConfirmStatus", t, "form", "multi")
+		}
+	}
+	if r.mixedStatus != nil {
+		t := *r.mixedStatus
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "mixedStatus", t, "form", "multi")
+		}
+	}
+	if r.riskLevel != nil {
+		t := *r.riskLevel
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", s.Index(i).Interface(), "form", "multi")
+			}
+		} else {
+			parameterAddToHeaderOrQuery(localVarQueryParams, "riskLevel", t, "form", "multi")
+		}
+	}
+	if r.sortBy != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "form", "")
+	}
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 1
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
+	if r.pageSize != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", r.pageSize, "form", "")
+	} else {
+		var defaultValue int32 = 10
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
+		r.pageSize = &defaultValue
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerCode", r.customerCode, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierCode", r.supplierCode, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerName", r.customerName, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierName", r.supplierName, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostV1OrderCreateRequest struct {
+	ctx context.Context
+	ApiService *ApiOrderAPIService
+	xCredentialType *string
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest
+}
+
+// Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+func (r ApiPostV1OrderCreateRequest) XCredentialType(xCredentialType string) ApiPostV1OrderCreateRequest {
+	r.xCredentialType = &xCredentialType
+	return r
+}
+
+func (r ApiPostV1OrderCreateRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest) ApiPostV1OrderCreateRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest
+	return r
+}
+
+func (r ApiPostV1OrderCreateRequest) Execute() (*PostV1OrderCreate200Response, *http.Response, error) {
+	return r.ApiService.PostV1OrderCreateExecute(r)
+}
+
+/*
+PostV1OrderCreate 第三方-创建订单（含明细）
+
+
+保存或删除已执行，但申报完成度或结果读取失败时，响应体 code=207，data 保留已操作记录。请查询最新状态并联系管理员，不要重复执行。
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostV1OrderCreateRequest
+*/
+func (a *ApiOrderAPIService) PostV1OrderCreate(ctx context.Context) ApiPostV1OrderCreateRequest {
+	return ApiPostV1OrderCreateRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PostV1OrderCreate200Response
+func (a *ApiOrderAPIService) PostV1OrderCreateExecute(r ApiPostV1OrderCreateRequest) (*PostV1OrderCreate200Response, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PostV1OrderCreate200Response
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.PostV1OrderCreate")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/order/Create"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.xCredentialType == nil {
+		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
+	// body params
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiKey"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Signature"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Signature"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["Timestamp"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Timestamp"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1938,7 +2114,7 @@ type ApiPostV1OrderSoAcceptRequest struct {
 	ctx context.Context
 	ApiService *ApiOrderAPIService
 	xCredentialType *string
-	tacticChainApiServiceHelperResultMappingOrderSelect *TacticChainApiServiceHelperResultMappingOrderSelect
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -1947,12 +2123,12 @@ func (r ApiPostV1OrderSoAcceptRequest) XCredentialType(xCredentialType string) A
 	return r
 }
 
-func (r ApiPostV1OrderSoAcceptRequest) TacticChainApiServiceHelperResultMappingOrderSelect(tacticChainApiServiceHelperResultMappingOrderSelect TacticChainApiServiceHelperResultMappingOrderSelect) ApiPostV1OrderSoAcceptRequest {
-	r.tacticChainApiServiceHelperResultMappingOrderSelect = &tacticChainApiServiceHelperResultMappingOrderSelect
+func (r ApiPostV1OrderSoAcceptRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest) ApiPostV1OrderSoAcceptRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest
 	return r
 }
 
-func (r ApiPostV1OrderSoAcceptRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+func (r ApiPostV1OrderSoAcceptRequest) Execute() (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	return r.ApiService.PostV1OrderSoAcceptExecute(r)
 }
 
@@ -1972,13 +2148,13 @@ func (a *ApiOrderAPIService) PostV1OrderSoAccept(ctx context.Context) ApiPostV1O
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
-func (a *ApiOrderAPIService) PostV1OrderSoAcceptExecute(r ApiPostV1OrderSoAcceptRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+//  @return PutV1DeliveryReturnReceipt200Response
+func (a *ApiOrderAPIService) PostV1OrderSoAcceptExecute(r ApiPostV1OrderSoAcceptRequest) (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+		localVarReturnValue  *PutV1DeliveryReturnReceipt200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.PostV1OrderSoAccept")
@@ -1993,6 +2169,9 @@ func (a *ApiOrderAPIService) PostV1OrderSoAcceptExecute(r ApiPostV1OrderSoAccept
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -2014,7 +2193,7 @@ func (a *ApiOrderAPIService) PostV1OrderSoAcceptExecute(r ApiPostV1OrderSoAccept
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceHelperResultMappingOrderSelect
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -2078,6 +2257,38 @@ func (a *ApiOrderAPIService) PostV1OrderSoAcceptExecute(r ApiPostV1OrderSoAccept
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -2098,7 +2309,7 @@ type ApiPutV1OrderUpdateRequest struct {
 	ctx context.Context
 	ApiService *ApiOrderAPIService
 	xCredentialType *string
-	tacticChainApiServiceViewModelsOrderApiDto *TacticChainApiServiceViewModelsOrderApiDto
+	tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest *TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -2107,19 +2318,19 @@ func (r ApiPutV1OrderUpdateRequest) XCredentialType(xCredentialType string) ApiP
 	return r
 }
 
-func (r ApiPutV1OrderUpdateRequest) TacticChainApiServiceViewModelsOrderApiDto(tacticChainApiServiceViewModelsOrderApiDto TacticChainApiServiceViewModelsOrderApiDto) ApiPutV1OrderUpdateRequest {
-	r.tacticChainApiServiceViewModelsOrderApiDto = &tacticChainApiServiceViewModelsOrderApiDto
+func (r ApiPutV1OrderUpdateRequest) TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest(tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest) ApiPutV1OrderUpdateRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest
 	return r
 }
 
-func (r ApiPutV1OrderUpdateRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+func (r ApiPutV1OrderUpdateRequest) Execute() (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	return r.ApiService.PutV1OrderUpdateExecute(r)
 }
 
 /*
 PutV1OrderUpdate 第三方-更新订单（部分字段）
 
-
+省略的字段和明细保持原值。需要销售方确认的采购变更只提交申请；此时 Code=200、Data 为变更申请 ID，Message 提示等待确认，不表示业务字段已生效。保存后的申报或结果刷新失败返回 Code=207，勿重复提交。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPutV1OrderUpdateRequest
@@ -2132,13 +2343,13 @@ func (a *ApiOrderAPIService) PutV1OrderUpdate(ctx context.Context) ApiPutV1Order
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
-func (a *ApiOrderAPIService) PutV1OrderUpdateExecute(r ApiPutV1OrderUpdateRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, *http.Response, error) {
+//  @return PutV1DeliveryReturnReceipt200Response
+func (a *ApiOrderAPIService) PutV1OrderUpdateExecute(r ApiPutV1OrderUpdateRequest) (*PutV1DeliveryReturnReceipt200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+		localVarReturnValue  *PutV1DeliveryReturnReceipt200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiOrderAPIService.PutV1OrderUpdate")
@@ -2153,6 +2364,9 @@ func (a *ApiOrderAPIService) PutV1OrderUpdateExecute(r ApiPutV1OrderUpdateReques
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -2174,7 +2388,7 @@ func (a *ApiOrderAPIService) PutV1OrderUpdateExecute(r ApiPutV1OrderUpdateReques
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceViewModelsOrderApiDto
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -2238,6 +2452,38 @@ func (a *ApiOrderAPIService) PutV1OrderUpdateExecute(r ApiPutV1OrderUpdateReques
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

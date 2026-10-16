@@ -24,17 +24,17 @@ open class ApiProductionAPI {
      删除生产记录单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) query 方式传入的单个 ID，便于简单调用。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter type: (query)  (optional)
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: (body)  (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter type: (query) 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest: (body)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteV1ProductionDelete(xCredentialType: XCredentialType_deleteV1ProductionDelete, id: String? = nil, number: String? = nil, productCode: String? = nil, type: Int? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Model4?, _ error: Error?) -> Void)) -> RequestTask {
-        return deleteV1ProductionDeleteWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, productCode: productCode, type: type, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest).execute(apiResponseQueue) { result in
+    open class func deleteV1ProductionDelete(xCredentialType: XCredentialType_deleteV1ProductionDelete, id: String? = nil, number: String? = nil, productCode: String? = nil, type: Int? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: DeleteV1DeclarationDelete200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteV1ProductionDeleteWithRequestBuilder(xCredentialType: xCredentialType, id: id, number: number, productCode: productCode, type: type, tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -61,17 +61,17 @@ open class ApiProductionAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter id: (query) query 方式传入的单个 ID，便于简单调用。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter type: (query)  (optional)
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: (body)  (optional)
-     - returns: RequestBuilder<Model4> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter type: (query) 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest: (body)  (optional)
+     - returns: RequestBuilder<DeleteV1DeclarationDelete200Response> 
      */
-    open class func deleteV1ProductionDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1ProductionDelete, id: String? = nil, number: String? = nil, productCode: String? = nil, type: Int? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? = nil) -> RequestBuilder<Model4> {
+    open class func deleteV1ProductionDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1ProductionDelete, id: String? = nil, number: String? = nil, productCode: String? = nil, type: Int? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? = nil) -> RequestBuilder<DeleteV1DeclarationDelete200Response> {
         let localVariablePath = "/v1/production/Delete"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest)
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -88,7 +88,7 @@ open class ApiProductionAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Model4>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeleteV1DeclarationDelete200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -105,57 +105,56 @@ open class ApiProductionAPI {
      查询生产记录单及详细领料信息。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter productName: (query)  (optional)
-     - parameter productionDateStart: (query)  (optional)
-     - parameter productionDateEnd: (query)  (optional)
-     - parameter batch: (query)  (optional)
-     - parameter type: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter facilityId: (query)  (optional)
-     - parameter facilityCode: (query)  (optional)
-     - parameter processRouteId: (query)  (optional)
-     - parameter processRouteCode: (query)  (optional)
-     - parameter createdBy: (query)  (optional)
-     - parameter createdAtStart: (query)  (optional)
-     - parameter createdAtEnd: (query)  (optional)
-     - parameter salesOrderLineId: (query)  (optional)
-     - parameter quantityProduced: (query)  (optional)
-     - parameter unit: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter productCategory: (query)  (optional)
-     - parameter materialId: (query)  (optional)
-     - parameter materialCode: (query)  (optional)
-     - parameter materialName: (query)  (optional)
-     - parameter productId: (query)  (optional)
-     - parameter destinationCountry: (query)  (optional)
-     - parameter customerExtNo: (query)  (optional)
-     - parameter supplierExtNo: (query)  (optional)
-     - parameter originCountry: (query)  (optional)
-     - parameter estimatedTimeOfDepartureStart: (query)  (optional)
-     - parameter estimatedTimeOfDepartureEnd: (query)  (optional)
-     - parameter season: (query)  (optional)
-     - parameter seasonYear: (query)  (optional)
-     - parameter lastUpdatedAtStart: (query)  (optional)
-     - parameter lastUpdatedAtEnd: (query)  (optional)
-     - parameter color: (query)  (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productionDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productionDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter batch: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter type: (query) 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter facilityId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter facilityCode: (query) 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)
+     - parameter processRouteId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter processRouteCode: (query) 工艺路线 Code/Name 或外部映射。 (optional)
+     - parameter createdBy: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter salesOrderLineId: (query) 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)
+     - parameter quantityProduced: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter unit: (query) 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter productCategory: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialCode: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter destinationCountry: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter originCountry: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter season: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter seasonYear: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter color: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1ProductionListPaging(xCredentialType: XCredentialType_getV1ProductionListPaging, searchText: String? = nil, number: String? = nil, productCode: String? = nil, productName: String? = nil, productionDateStart: Date? = nil, productionDateEnd: Date? = nil, batch: String? = nil, type: Int? = nil, status: Int? = nil, facilityId: String? = nil, facilityCode: String? = nil, processRouteId: Int64? = nil, processRouteCode: String? = nil, createdBy: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, salesOrderLineId: String? = nil, quantityProduced: Double? = nil, unit: String? = nil, sortBy: String? = nil, uniqueNo: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, orderId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1ProductionListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, number: number, productCode: productCode, productName: productName, productionDateStart: productionDateStart, productionDateEnd: productionDateEnd, batch: batch, type: type, status: status, facilityId: facilityId, facilityCode: facilityCode, processRouteId: processRouteId, processRouteCode: processRouteCode, createdBy: createdBy, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, salesOrderLineId: salesOrderLineId, quantityProduced: quantityProduced, unit: unit, sortBy: sortBy, uniqueNo: uniqueNo, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, estimatedTimeOfDepartureStart: estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd: estimatedTimeOfDepartureEnd, season: season, seasonYear: seasonYear, lastUpdatedAtStart: lastUpdatedAtStart, lastUpdatedAtEnd: lastUpdatedAtEnd, color: color, soStatus: soStatus, poStatus: poStatus, orderId: orderId, orderNumber: orderNumber, orderDate: orderDate, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1ProductionListPaging(xCredentialType: XCredentialType_getV1ProductionListPaging, searchText: String? = nil, number: String? = nil, productCode: String? = nil, productName: String? = nil, productionDateStart: Date? = nil, productionDateEnd: Date? = nil, batch: String? = nil, type: Int? = nil, status: Int? = nil, facilityId: String? = nil, facilityCode: String? = nil, processRouteId: Int64? = nil, processRouteCode: String? = nil, createdBy: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, salesOrderLineId: String? = nil, quantityProduced: Double? = nil, unit: String? = nil, uniqueNo: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, season: String? = nil, seasonYear: String? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, orderId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1ProductionListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1ProductionListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, number: number, productCode: productCode, productName: productName, productionDateStart: productionDateStart, productionDateEnd: productionDateEnd, batch: batch, type: type, status: status, facilityId: facilityId, facilityCode: facilityCode, processRouteId: processRouteId, processRouteCode: processRouteCode, createdBy: createdBy, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, salesOrderLineId: salesOrderLineId, quantityProduced: quantityProduced, unit: unit, uniqueNo: uniqueNo, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, season: season, seasonYear: seasonYear, color: color, soStatus: soStatus, poStatus: poStatus, orderId: orderId, orderNumber: orderNumber, orderDate: orderDate, page: page, pageSize: pageSize, customerCode: customerCode, supplierCode: supplierCode, customerName: customerName, supplierName: supplierName).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -168,7 +167,7 @@ open class ApiProductionAPI {
     /**
      查询生产记录单及详细领料信息。
      - GET /v1/production/ListPaging
-     - 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+     - 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -182,54 +181,53 @@ open class ApiProductionAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter number: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter productName: (query)  (optional)
-     - parameter productionDateStart: (query)  (optional)
-     - parameter productionDateEnd: (query)  (optional)
-     - parameter batch: (query)  (optional)
-     - parameter type: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter facilityId: (query)  (optional)
-     - parameter facilityCode: (query)  (optional)
-     - parameter processRouteId: (query)  (optional)
-     - parameter processRouteCode: (query)  (optional)
-     - parameter createdBy: (query)  (optional)
-     - parameter createdAtStart: (query)  (optional)
-     - parameter createdAtEnd: (query)  (optional)
-     - parameter salesOrderLineId: (query)  (optional)
-     - parameter quantityProduced: (query)  (optional)
-     - parameter unit: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter uniqueNo: (query)  (optional)
-     - parameter lineNumber: (query)  (optional)
-     - parameter productCategory: (query)  (optional)
-     - parameter materialId: (query)  (optional)
-     - parameter materialCode: (query)  (optional)
-     - parameter materialName: (query)  (optional)
-     - parameter productId: (query)  (optional)
-     - parameter destinationCountry: (query)  (optional)
-     - parameter customerExtNo: (query)  (optional)
-     - parameter supplierExtNo: (query)  (optional)
-     - parameter originCountry: (query)  (optional)
-     - parameter estimatedTimeOfDepartureStart: (query)  (optional)
-     - parameter estimatedTimeOfDepartureEnd: (query)  (optional)
-     - parameter season: (query)  (optional)
-     - parameter seasonYear: (query)  (optional)
-     - parameter lastUpdatedAtStart: (query)  (optional)
-     - parameter lastUpdatedAtEnd: (query)  (optional)
-     - parameter color: (query)  (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
-     - parameter orderId: (query)  (optional)
-     - parameter orderNumber: (query)  (optional)
-     - parameter orderDate: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter number: (query) 生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productionDateStart: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productionDateEnd: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter batch: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter type: (query) 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter facilityId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter facilityCode: (query) 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)
+     - parameter processRouteId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter processRouteCode: (query) 工艺路线 Code/Name 或外部映射。 (optional)
+     - parameter createdBy: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter salesOrderLineId: (query) 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)
+     - parameter quantityProduced: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter unit: (query) 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter productCategory: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialCode: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter materialName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter productId: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter destinationCountry: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter originCountry: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter season: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter seasonYear: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter color: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)
+     - parameter orderId: (query) 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - returns: RequestBuilder<GetV1ProductionListPaging200Response> 
      */
-    open class func getV1ProductionListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1ProductionListPaging, searchText: String? = nil, number: String? = nil, productCode: String? = nil, productName: String? = nil, productionDateStart: Date? = nil, productionDateEnd: Date? = nil, batch: String? = nil, type: Int? = nil, status: Int? = nil, facilityId: String? = nil, facilityCode: String? = nil, processRouteId: Int64? = nil, processRouteCode: String? = nil, createdBy: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, salesOrderLineId: String? = nil, quantityProduced: Double? = nil, unit: String? = nil, sortBy: String? = nil, uniqueNo: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, orderId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1ProductionListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1ProductionListPaging, searchText: String? = nil, number: String? = nil, productCode: String? = nil, productName: String? = nil, productionDateStart: Date? = nil, productionDateEnd: Date? = nil, batch: String? = nil, type: Int? = nil, status: Int? = nil, facilityId: String? = nil, facilityCode: String? = nil, processRouteId: Int64? = nil, processRouteCode: String? = nil, createdBy: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, salesOrderLineId: String? = nil, quantityProduced: Double? = nil, unit: String? = nil, uniqueNo: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, season: String? = nil, seasonYear: String? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, orderId: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil) -> RequestBuilder<GetV1ProductionListPaging200Response> {
         let localVariablePath = "/v1/production/ListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -255,7 +253,6 @@ open class ApiProductionAPI {
             "salesOrderLineId": (wrappedValue: salesOrderLineId?.encodeToJSON(), isExplode: true),
             "quantityProduced": (wrappedValue: quantityProduced?.encodeToJSON(), isExplode: true),
             "unit": (wrappedValue: unit?.encodeToJSON(), isExplode: true),
-            "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "uniqueNo": (wrappedValue: uniqueNo?.encodeToJSON(), isExplode: true),
             "lineNumber": (wrappedValue: lineNumber?.encodeToJSON(), isExplode: true),
             "productCategory": (wrappedValue: productCategory?.encodeToJSON(), isExplode: true),
@@ -267,12 +264,8 @@ open class ApiProductionAPI {
             "customerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
             "supplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
             "originCountry": (wrappedValue: originCountry?.encodeToJSON(), isExplode: true),
-            "estimatedTimeOfDepartureStart": (wrappedValue: estimatedTimeOfDepartureStart?.encodeToJSON(), isExplode: true),
-            "estimatedTimeOfDepartureEnd": (wrappedValue: estimatedTimeOfDepartureEnd?.encodeToJSON(), isExplode: true),
             "season": (wrappedValue: season?.encodeToJSON(), isExplode: true),
             "seasonYear": (wrappedValue: seasonYear?.encodeToJSON(), isExplode: true),
-            "lastUpdatedAtStart": (wrappedValue: lastUpdatedAtStart?.encodeToJSON(), isExplode: true),
-            "lastUpdatedAtEnd": (wrappedValue: lastUpdatedAtEnd?.encodeToJSON(), isExplode: true),
             "color": (wrappedValue: color?.encodeToJSON(), isExplode: true),
             "soStatus": (wrappedValue: soStatus?.encodeToJSON(), isExplode: true),
             "poStatus": (wrappedValue: poStatus?.encodeToJSON(), isExplode: true),
@@ -281,6 +274,10 @@ open class ApiProductionAPI {
             "orderDate": (wrappedValue: orderDate?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "customerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "supplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+            "customerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "supplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -289,7 +286,7 @@ open class ApiProductionAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1ProductionListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -306,13 +303,13 @@ open class ApiProductionAPI {
      创建生产记录单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsProductionApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1ProductionCreate(xCredentialType: XCredentialType_postV1ProductionCreate, tacticChainApiServiceViewModelsProductionApiDto: TacticChainApiServiceViewModelsProductionApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return postV1ProductionCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsProductionApiDto: tacticChainApiServiceViewModelsProductionApiDto).execute(apiResponseQueue) { result in
+    open class func postV1ProductionCreate(xCredentialType: XCredentialType_postV1ProductionCreate, tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1ProductionCreate200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1ProductionCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -325,7 +322,7 @@ open class ApiProductionAPI {
     /**
      创建生产记录单。
      - POST /v1/production/Create
-     - 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+     - 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -339,13 +336,13 @@ open class ApiProductionAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsProductionApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: (body)  
+     - returns: RequestBuilder<PostV1ProductionCreate200Response> 
      */
-    open class func postV1ProductionCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1ProductionCreate, tacticChainApiServiceViewModelsProductionApiDto: TacticChainApiServiceViewModelsProductionApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func postV1ProductionCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1ProductionCreate, tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest) -> RequestBuilder<PostV1ProductionCreate200Response> {
         let localVariablePath = "/v1/production/Create"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsProductionApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -356,7 +353,7 @@ open class ApiProductionAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PostV1ProductionCreate200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -373,13 +370,13 @@ open class ApiProductionAPI {
      修改生产记录单。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsProductionApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1ProductionUpdate(xCredentialType: XCredentialType_putV1ProductionUpdate, tacticChainApiServiceViewModelsProductionApiDto: TacticChainApiServiceViewModelsProductionApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return putV1ProductionUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsProductionApiDto: tacticChainApiServiceViewModelsProductionApiDto).execute(apiResponseQueue) { result in
+    open class func putV1ProductionUpdate(xCredentialType: XCredentialType_putV1ProductionUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1ProductionCreate200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return putV1ProductionUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -392,7 +389,7 @@ open class ApiProductionAPI {
     /**
      修改生产记录单。
      - PUT /v1/production/Update
-     - 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+     - 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -406,13 +403,13 @@ open class ApiProductionAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsProductionApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: (body)  
+     - returns: RequestBuilder<PostV1ProductionCreate200Response> 
      */
-    open class func putV1ProductionUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1ProductionUpdate, tacticChainApiServiceViewModelsProductionApiDto: TacticChainApiServiceViewModelsProductionApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func putV1ProductionUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1ProductionUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest) -> RequestBuilder<PostV1ProductionCreate200Response> {
         let localVariablePath = "/v1/production/Update"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsProductionApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -423,7 +420,7 @@ open class ApiProductionAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PostV1ProductionCreate200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

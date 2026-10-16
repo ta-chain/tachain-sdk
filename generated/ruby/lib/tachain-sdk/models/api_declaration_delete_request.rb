@@ -16,6 +16,33 @@ require 'time'
 module TachainSdk
   # 申报资料删除请求。
   class ApiDeclarationDeleteRequest < ApiModelBase
+    # 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+    attr_accessor :customer_id
+
+    # 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+    attr_accessor :customer_name
+
+    # 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+    attr_accessor :customer_code
+
+    # 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+    attr_accessor :supplier_id
+
+    # 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+    attr_accessor :supplier_name
+
+    # 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+    attr_accessor :supplier_code
+
+    # 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+    attr_accessor :customer_ext_no
+
+    # 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+    attr_accessor :supplier_ext_no
+
+    # 订单明细的全局唯一系统流水号。
+    attr_accessor :unique_no
+
     # 单个附件申报记录 ID。
     attr_accessor :attachment_id
 
@@ -34,14 +61,14 @@ module TachainSdk
     # 业务扩展 ID，例如订单 ID、生产单 ID、发货单 ID。
     attr_accessor :extend_id
 
-    # 业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。
+    # 业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。
     attr_accessor :extend_number
 
     # 业务单日期。订单阶段按订单号定位时使用。
-    attr_accessor :extend_date
+    attr_accessor :order_date
 
     # 订单行号。订单阶段按订单行定位时使用。
-    attr_accessor :extend_line_number
+    attr_accessor :line_number
 
     # 订单侧别，常用 PO 或 SO。
     attr_accessor :order_side
@@ -49,8 +76,11 @@ module TachainSdk
     # 产品编码。生产/入库阶段按生产单号删除申报资料时参与定位生产单。
     attr_accessor :product_code
 
-    # 生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。
+    # 生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。
     attr_accessor :production_type
+
+    # 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+    attr_accessor :receipt_number
 
     # 发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。
     attr_accessor :delivery_number
@@ -73,6 +103,15 @@ module TachainSdk
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'customer_id' => :'customerId',
+        :'customer_name' => :'customerName',
+        :'customer_code' => :'customerCode',
+        :'supplier_id' => :'supplierId',
+        :'supplier_name' => :'supplierName',
+        :'supplier_code' => :'supplierCode',
+        :'customer_ext_no' => :'customerExtNo',
+        :'supplier_ext_no' => :'supplierExtNo',
+        :'unique_no' => :'uniqueNo',
         :'attachment_id' => :'attachmentId',
         :'attachment_ids' => :'attachmentIds',
         :'form_data_id' => :'formDataId',
@@ -80,11 +119,12 @@ module TachainSdk
         :'stage_id' => :'stageId',
         :'extend_id' => :'extendId',
         :'extend_number' => :'extendNumber',
-        :'extend_date' => :'extendDate',
-        :'extend_line_number' => :'extendLineNumber',
+        :'order_date' => :'orderDate',
+        :'line_number' => :'lineNumber',
         :'order_side' => :'orderSide',
         :'product_code' => :'productCode',
         :'production_type' => :'productionType',
+        :'receipt_number' => :'receiptNumber',
         :'delivery_number' => :'deliveryNumber',
         :'document_type_id' => :'documentTypeId',
         :'document_type_code' => :'documentTypeCode',
@@ -107,6 +147,15 @@ module TachainSdk
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'customer_id' => :'String',
+        :'customer_name' => :'String',
+        :'customer_code' => :'String',
+        :'supplier_id' => :'String',
+        :'supplier_name' => :'String',
+        :'supplier_code' => :'String',
+        :'customer_ext_no' => :'String',
+        :'supplier_ext_no' => :'String',
+        :'unique_no' => :'String',
         :'attachment_id' => :'String',
         :'attachment_ids' => :'Array<String>',
         :'form_data_id' => :'String',
@@ -114,11 +163,12 @@ module TachainSdk
         :'stage_id' => :'String',
         :'extend_id' => :'String',
         :'extend_number' => :'String',
-        :'extend_date' => :'Time',
-        :'extend_line_number' => :'String',
+        :'order_date' => :'Time',
+        :'line_number' => :'String',
         :'order_side' => :'String',
         :'product_code' => :'String',
         :'production_type' => :'Integer',
+        :'receipt_number' => :'String',
         :'delivery_number' => :'String',
         :'document_type_id' => :'String',
         :'document_type_code' => :'String',
@@ -131,6 +181,15 @@ module TachainSdk
     # List of attributes with nullable: true
     def self.openapi_nullable
       Set.new([
+        :'customer_id',
+        :'customer_name',
+        :'customer_code',
+        :'supplier_id',
+        :'supplier_name',
+        :'supplier_code',
+        :'customer_ext_no',
+        :'supplier_ext_no',
+        :'unique_no',
         :'attachment_id',
         :'attachment_ids',
         :'form_data_id',
@@ -138,11 +197,12 @@ module TachainSdk
         :'stage_id',
         :'extend_id',
         :'extend_number',
-        :'extend_date',
-        :'extend_line_number',
+        :'order_date',
+        :'line_number',
         :'order_side',
         :'product_code',
         :'production_type',
+        :'receipt_number',
         :'delivery_number',
         :'document_type_id',
         :'document_type_code',
@@ -167,6 +227,42 @@ module TachainSdk
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'customer_id')
+        self.customer_id = attributes[:'customer_id']
+      end
+
+      if attributes.key?(:'customer_name')
+        self.customer_name = attributes[:'customer_name']
+      end
+
+      if attributes.key?(:'customer_code')
+        self.customer_code = attributes[:'customer_code']
+      end
+
+      if attributes.key?(:'supplier_id')
+        self.supplier_id = attributes[:'supplier_id']
+      end
+
+      if attributes.key?(:'supplier_name')
+        self.supplier_name = attributes[:'supplier_name']
+      end
+
+      if attributes.key?(:'supplier_code')
+        self.supplier_code = attributes[:'supplier_code']
+      end
+
+      if attributes.key?(:'customer_ext_no')
+        self.customer_ext_no = attributes[:'customer_ext_no']
+      end
+
+      if attributes.key?(:'supplier_ext_no')
+        self.supplier_ext_no = attributes[:'supplier_ext_no']
+      end
+
+      if attributes.key?(:'unique_no')
+        self.unique_no = attributes[:'unique_no']
+      end
 
       if attributes.key?(:'attachment_id')
         self.attachment_id = attributes[:'attachment_id']
@@ -200,12 +296,12 @@ module TachainSdk
         self.extend_number = attributes[:'extend_number']
       end
 
-      if attributes.key?(:'extend_date')
-        self.extend_date = attributes[:'extend_date']
+      if attributes.key?(:'order_date')
+        self.order_date = attributes[:'order_date']
       end
 
-      if attributes.key?(:'extend_line_number')
-        self.extend_line_number = attributes[:'extend_line_number']
+      if attributes.key?(:'line_number')
+        self.line_number = attributes[:'line_number']
       end
 
       if attributes.key?(:'order_side')
@@ -218,6 +314,10 @@ module TachainSdk
 
       if attributes.key?(:'production_type')
         self.production_type = attributes[:'production_type']
+      end
+
+      if attributes.key?(:'receipt_number')
+        self.receipt_number = attributes[:'receipt_number']
       end
 
       if attributes.key?(:'delivery_number')
@@ -265,6 +365,15 @@ module TachainSdk
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          customer_id == o.customer_id &&
+          customer_name == o.customer_name &&
+          customer_code == o.customer_code &&
+          supplier_id == o.supplier_id &&
+          supplier_name == o.supplier_name &&
+          supplier_code == o.supplier_code &&
+          customer_ext_no == o.customer_ext_no &&
+          supplier_ext_no == o.supplier_ext_no &&
+          unique_no == o.unique_no &&
           attachment_id == o.attachment_id &&
           attachment_ids == o.attachment_ids &&
           form_data_id == o.form_data_id &&
@@ -272,11 +381,12 @@ module TachainSdk
           stage_id == o.stage_id &&
           extend_id == o.extend_id &&
           extend_number == o.extend_number &&
-          extend_date == o.extend_date &&
-          extend_line_number == o.extend_line_number &&
+          order_date == o.order_date &&
+          line_number == o.line_number &&
           order_side == o.order_side &&
           product_code == o.product_code &&
           production_type == o.production_type &&
+          receipt_number == o.receipt_number &&
           delivery_number == o.delivery_number &&
           document_type_id == o.document_type_id &&
           document_type_code == o.document_type_code &&
@@ -294,7 +404,7 @@ module TachainSdk
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [attachment_id, attachment_ids, form_data_id, form_data_ids, stage_id, extend_id, extend_number, extend_date, extend_line_number, order_side, product_code, production_type, delivery_number, document_type_id, document_type_code, document_number, delete_attachments, delete_forms].hash
+      [customer_id, customer_name, customer_code, supplier_id, supplier_name, supplier_code, customer_ext_no, supplier_ext_no, unique_no, attachment_id, attachment_ids, form_data_id, form_data_ids, stage_id, extend_id, extend_number, order_date, line_number, order_side, product_code, production_type, receipt_number, delivery_number, document_type_id, document_type_code, document_number, delete_attachments, delete_forms].hash
     end
 
     # Builds the object from hash

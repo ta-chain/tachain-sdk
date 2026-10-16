@@ -12,176 +12,61 @@ package tachainsdk
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
-// checks if the GetV1EnumGetList200Response type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &GetV1EnumGetList200Response{}
 
 // GetV1EnumGetList200Response struct for GetV1EnumGetList200Response
 type GetV1EnumGetList200Response struct {
-	Code int32 `json:"code"`
-	Message string `json:"message"`
-	Data []TacticChainApiServiceHelperResultApiEnum `json:"data,omitempty"`
+	TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse *TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+	MapmapOfStringAny *map[string]interface{}
 }
 
-type _GetV1EnumGetList200Response GetV1EnumGetList200Response
-
-// NewGetV1EnumGetList200Response instantiates a new GetV1EnumGetList200Response object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewGetV1EnumGetList200Response(code int32, message string) *GetV1EnumGetList200Response {
-	this := GetV1EnumGetList200Response{}
-	this.Code = code
-	this.Message = message
-	return &this
-}
-
-// NewGetV1EnumGetList200ResponseWithDefaults instantiates a new GetV1EnumGetList200Response object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewGetV1EnumGetList200ResponseWithDefaults() *GetV1EnumGetList200Response {
-	this := GetV1EnumGetList200Response{}
-	return &this
-}
-
-// GetCode returns the Code field value
-func (o *GetV1EnumGetList200Response) GetCode() int32 {
-	if o == nil {
-		var ret int32
-		return ret
-	}
-
-	return o.Code
-}
-
-// GetCodeOk returns a tuple with the Code field value
-// and a boolean to check if the value has been set.
-func (o *GetV1EnumGetList200Response) GetCodeOk() (*int32, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Code, true
-}
-
-// SetCode sets field value
-func (o *GetV1EnumGetList200Response) SetCode(v int32) {
-	o.Code = v
-}
-
-// GetMessage returns the Message field value
-func (o *GetV1EnumGetList200Response) GetMessage() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value
-// and a boolean to check if the value has been set.
-func (o *GetV1EnumGetList200Response) GetMessageOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Message, true
-}
-
-// SetMessage sets field value
-func (o *GetV1EnumGetList200Response) SetMessage(v string) {
-	o.Message = v
-}
-
-// GetData returns the Data field value if set, zero value otherwise.
-func (o *GetV1EnumGetList200Response) GetData() []TacticChainApiServiceHelperResultApiEnum {
-	if o == nil || IsNil(o.Data) {
-		var ret []TacticChainApiServiceHelperResultApiEnum
-		return ret
-	}
-	return o.Data
-}
-
-// GetDataOk returns a tuple with the Data field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *GetV1EnumGetList200Response) GetDataOk() ([]TacticChainApiServiceHelperResultApiEnum, bool) {
-	if o == nil || IsNil(o.Data) {
-		return nil, false
-	}
-	return o.Data, true
-}
-
-// HasData returns a boolean if a field has been set.
-func (o *GetV1EnumGetList200Response) HasData() bool {
-	if o != nil && !IsNil(o.Data) {
-		return true
-	}
-
-	return false
-}
-
-// SetData gets a reference to the given []TacticChainApiServiceHelperResultApiEnum and assigns it to the Data field.
-func (o *GetV1EnumGetList200Response) SetData(v []TacticChainApiServiceHelperResultApiEnum) {
-	o.Data = v
-}
-
-func (o GetV1EnumGetList200Response) MarshalJSON() ([]byte, error) {
-	toSerialize,err := o.ToMap()
-	if err != nil {
-		return []byte{}, err
-	}
-	return json.Marshal(toSerialize)
-}
-
-func (o GetV1EnumGetList200Response) ToMap() (map[string]interface{}, error) {
-	toSerialize := map[string]interface{}{}
-	toSerialize["code"] = o.Code
-	toSerialize["message"] = o.Message
-	if !IsNil(o.Data) {
-		toSerialize["data"] = o.Data
-	}
-	return toSerialize, nil
-}
-
-func (o *GetV1EnumGetList200Response) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"code",
-		"message",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
+// Unmarshal JSON data into any of the pointers in the struct
+func (dst *GetV1EnumGetList200Response) UnmarshalJSON(data []byte) error {
+	var err error
+	// try to unmarshal JSON data into TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+	err = json.Unmarshal(data, &dst.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse);
+	if err == nil {
+		jsonTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, _ := json.Marshal(dst.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse)
+		if string(jsonTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse) == "{}" { // empty struct
+			dst.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse = nil
+		} else {
+			return nil // data stored in dst.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, return on the first match
 		}
+	} else {
+		dst.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse = nil
 	}
 
-	varGetV1EnumGetList200Response := _GetV1EnumGetList200Response{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varGetV1EnumGetList200Response)
-
-	if err != nil {
-		return err
+	// try to unmarshal JSON data into MapmapOfStringAny
+	err = json.Unmarshal(data, &dst.MapmapOfStringAny);
+	if err == nil {
+		jsonMapmapOfStringAny, _ := json.Marshal(dst.MapmapOfStringAny)
+		if string(jsonMapmapOfStringAny) == "{}" { // empty struct
+			dst.MapmapOfStringAny = nil
+		} else {
+			return nil // data stored in dst.MapmapOfStringAny, return on the first match
+		}
+	} else {
+		dst.MapmapOfStringAny = nil
 	}
 
-	*o = GetV1EnumGetList200Response(varGetV1EnumGetList200Response)
-
-	return err
+	return fmt.Errorf("data failed to match schemas in anyOf(GetV1EnumGetList200Response)")
 }
+
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src GetV1EnumGetList200Response) MarshalJSON() ([]byte, error) {
+	if src.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse != nil {
+		return json.Marshal(&src.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse)
+	}
+
+	if src.MapmapOfStringAny != nil {
+		return json.Marshal(&src.MapmapOfStringAny)
+	}
+
+	return nil, nil // no data in anyOf schemas
+}
+
 
 type NullableGetV1EnumGetList200Response struct {
 	value *GetV1EnumGetList200Response

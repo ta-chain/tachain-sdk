@@ -13,34 +13,39 @@
  */
 
 import { mapValues } from '../runtime';
-import type { TacticChainApiServiceViewModelsDocumentTypeApiDto } from './TacticChainApiServiceViewModelsDocumentTypeApiDto';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse } from './TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse';
 import {
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSON,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSONTyped,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSON,
-    TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSONTyped,
-} from './TacticChainApiServiceViewModelsDocumentTypeApiDto';
+    TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponseFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponseToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponseToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse';
 
 /**
- * 
+ * 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
  * @export
  * @interface Model1
  */
 export interface Model1 {
     /**
-     * 
+     * 业务状态码。
      */
-    key?: string | null;
+    readonly code: number;
     /**
-     * 
+     * 业务返回数据。
      */
-    value?: TacticChainApiServiceViewModelsDocumentTypeApiDto;
+    readonly data?: Array<TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse> | null;
+    /**
+     * 按请求语言返回的提示，未指定语言时默认中文。
+     */
+    readonly message?: string | null;
 }
 
 /**
  * Check if a given object implements the Model1 interface.
  */
 export function instanceOfModel1(value: object): value is Model1 {
+    if (!('code' in value) || value['code'] === undefined) return false;
     return true;
 }
 
@@ -54,8 +59,9 @@ export function Model1FromJSONTyped(json: any, ignoreDiscriminator: boolean): Mo
     }
     return {
         
-        'key': json['key'] === undefined ? undefined : json['key'] === null ? null : json['key'],
-        'value': json['value'] == null ? undefined : TacticChainApiServiceViewModelsDocumentTypeApiDtoFromJSON(json['value']),
+        'code': json['code'],
+        'data': json['data'] === undefined ? undefined : json['data'] === null ? null : ((json['data'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponseFromJSON)),
+        'message': json['message'] === undefined ? undefined : json['message'] === null ? null : json['message'],
     };
 }
 
@@ -63,15 +69,13 @@ export function Model1ToJSON(json: any): Model1 {
     return Model1ToJSONTyped(json, false);
 }
 
-export function Model1ToJSONTyped(value?: Model1 | null, ignoreDiscriminator: boolean = false): any {
+export function Model1ToJSONTyped(value?: Omit<Model1, 'code'|'data'|'message'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-        'key': value['key'],
-        'value': TacticChainApiServiceViewModelsDocumentTypeApiDtoToJSON(value['value']),
     };
 }
 

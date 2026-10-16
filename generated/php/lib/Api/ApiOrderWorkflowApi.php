@@ -74,6 +74,12 @@ class ApiOrderWorkflowApi
 
     /** @var string[] $contentTypes **/
     public const contentTypes = [
+        'getV1OrderReceiptPending' => [
+            'application/json',
+        ],
+        'postV1OrderDeclarationVerification' => [
+            'application/json',
+        ],
         'postV1OrderSubmitAudit' => [
             'application/json',
         ],
@@ -129,21 +135,913 @@ class ApiOrderWorkflowApi
     }
 
     /**
+     * Operation getV1OrderReceiptPending
+     *
+     * 采购订单确认收货待办项查询。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  string|null $order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param  string|null $order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderReceiptPending'] to see the possible values for this operation
+     *
+     * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \TachainSdk\Model\GetV1OrderReceiptPending200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+     */
+    public function getV1OrderReceiptPending($x_credential_type, $order_id = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $customer_ext_no = null, $supplier_ext_no = null, $unique_no = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['getV1OrderReceiptPending'][0])
+    {
+        list($response) = $this->getV1OrderReceiptPendingWithHttpInfo($x_credential_type, $order_id, $order_line_id, $order_number, $order_date, $line_number, $customer_ext_no, $supplier_ext_no, $unique_no, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation getV1OrderReceiptPendingWithHttpInfo
+     *
+     * 采购订单确认收货待办项查询。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  string|null $order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param  string|null $order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderReceiptPending'] to see the possible values for this operation
+     *
+     * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \TachainSdk\Model\GetV1OrderReceiptPending200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getV1OrderReceiptPendingWithHttpInfo($x_credential_type, $order_id = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $customer_ext_no = null, $supplier_ext_no = null, $unique_no = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['getV1OrderReceiptPending'][0])
+    {
+        $request = $this->getV1OrderReceiptPendingRequest($x_credential_type, $order_id, $order_line_id, $order_number, $order_date, $line_number, $customer_ext_no, $supplier_ext_no, $unique_no, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\GetV1OrderReceiptPending200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\TachainSdk\Model\GetV1OrderReceiptPending200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\GetV1OrderReceiptPending200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getV1OrderReceiptPendingAsync
+     *
+     * 采购订单确认收货待办项查询。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  string|null $order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param  string|null $order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderReceiptPending'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getV1OrderReceiptPendingAsync($x_credential_type, $order_id = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $customer_ext_no = null, $supplier_ext_no = null, $unique_no = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['getV1OrderReceiptPending'][0])
+    {
+        return $this->getV1OrderReceiptPendingAsyncWithHttpInfo($x_credential_type, $order_id, $order_line_id, $order_number, $order_date, $line_number, $customer_ext_no, $supplier_ext_no, $unique_no, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getV1OrderReceiptPendingAsyncWithHttpInfo
+     *
+     * 采购订单确认收货待办项查询。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  string|null $order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param  string|null $order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderReceiptPending'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getV1OrderReceiptPendingAsyncWithHttpInfo($x_credential_type, $order_id = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $customer_ext_no = null, $supplier_ext_no = null, $unique_no = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['getV1OrderReceiptPending'][0])
+    {
+        $returnType = '\TachainSdk\Model\GetV1OrderReceiptPending200Response';
+        $request = $this->getV1OrderReceiptPendingRequest($x_credential_type, $order_id, $order_line_id, $order_number, $order_date, $line_number, $customer_ext_no, $supplier_ext_no, $unique_no, $customer_id, $customer_name, $customer_code, $supplier_id, $supplier_name, $supplier_code, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getV1OrderReceiptPending'
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  string|null $order_id 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param  string|null $order_line_id 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderReceiptPending'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function getV1OrderReceiptPendingRequest($x_credential_type, $order_id = null, $order_line_id = null, $order_number = null, $order_date = null, $line_number = null, $customer_ext_no = null, $supplier_ext_no = null, $unique_no = null, $customer_id = null, $customer_name = null, $customer_code = null, $supplier_id = null, $supplier_name = null, $supplier_code = null, string $contentType = self::contentTypes['getV1OrderReceiptPending'][0])
+    {
+
+        // verify the required parameter 'x_credential_type' is set
+        if ($x_credential_type === null || (is_array($x_credential_type) && count($x_credential_type) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $x_credential_type when calling getV1OrderReceiptPending'
+            );
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        $resourcePath = '/v1/order/ReceiptPending';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_id,
+            'OrderId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_line_id,
+            'OrderLineId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_number,
+            'OrderNumber', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $order_date,
+            'OrderDate', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $line_number,
+            'LineNumber', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_ext_no,
+            'CustomerExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_ext_no,
+            'SupplierExtNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $unique_no,
+            'UniqueNo', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_id,
+            'CustomerId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_name,
+            'CustomerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_code,
+            'CustomerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_id,
+            'SupplierId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_name,
+            'SupplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_code,
+            'SupplierCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+        // header params
+        if ($x_credential_type !== null) {
+            $headerParams['X-Credential-Type'] = ObjectSerializer::toHeaderValue($x_credential_type);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-API-Key');
+        if ($apiKey !== null) {
+            $headers['X-API-Key'] = $apiKey;
+        }
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-Signature');
+        if ($apiKey !== null) {
+            $headers['X-Signature'] = $apiKey;
+        }
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-Timestamp');
+        if ($apiKey !== null) {
+            $headers['X-Timestamp'] = $apiKey;
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation postV1OrderDeclarationVerification
+     *
+     * 销售订单提交审核前一键校验。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderDeclarationVerification'] to see the possible values for this operation
+     *
+     * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \TachainSdk\Model\PostV1OrderDeclarationVerification200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+     */
+    public function postV1OrderDeclarationVerification($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, string $contentType = self::contentTypes['postV1OrderDeclarationVerification'][0])
+    {
+        list($response) = $this->postV1OrderDeclarationVerificationWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation postV1OrderDeclarationVerificationWithHttpInfo
+     *
+     * 销售订单提交审核前一键校验。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderDeclarationVerification'] to see the possible values for this operation
+     *
+     * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \TachainSdk\Model\PostV1OrderDeclarationVerification200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function postV1OrderDeclarationVerificationWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, string $contentType = self::contentTypes['postV1OrderDeclarationVerification'][0])
+    {
+        $request = $this->postV1OrderDeclarationVerificationRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\PostV1OrderDeclarationVerification200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\TachainSdk\Model\PostV1OrderDeclarationVerification200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\PostV1OrderDeclarationVerification200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation postV1OrderDeclarationVerificationAsync
+     *
+     * 销售订单提交审核前一键校验。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderDeclarationVerification'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function postV1OrderDeclarationVerificationAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, string $contentType = self::contentTypes['postV1OrderDeclarationVerification'][0])
+    {
+        return $this->postV1OrderDeclarationVerificationAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation postV1OrderDeclarationVerificationAsyncWithHttpInfo
+     *
+     * 销售订单提交审核前一键校验。
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderDeclarationVerification'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function postV1OrderDeclarationVerificationAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, string $contentType = self::contentTypes['postV1OrderDeclarationVerification'][0])
+    {
+        $returnType = '\TachainSdk\Model\PostV1OrderDeclarationVerification200Response';
+        $request = $this->postV1OrderDeclarationVerificationRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'postV1OrderDeclarationVerification'
+     *
+     * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderDeclarationVerification'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function postV1OrderDeclarationVerificationRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request, string $contentType = self::contentTypes['postV1OrderDeclarationVerification'][0])
+    {
+
+        // verify the required parameter 'x_credential_type' is set
+        if ($x_credential_type === null || (is_array($x_credential_type) && count($x_credential_type) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $x_credential_type when calling postV1OrderDeclarationVerification'
+            );
+        }
+
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request when calling postV1OrderDeclarationVerification'
+            );
+        }
+
+
+        $resourcePath = '/v1/order/DeclarationVerification';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+        // header params
+        if ($x_credential_type !== null) {
+            $headerParams['X-Credential-Type'] = ObjectSerializer::toHeaderValue($x_credential_type);
+        }
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                try {
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request), JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                try {
+                    $httpBody = json_encode($formParams, JSON_THROW_ON_ERROR);
+                } catch (\JsonException $e) {
+                    throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
+                }
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-API-Key');
+        if ($apiKey !== null) {
+            $headers['X-API-Key'] = $apiKey;
+        }
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-Signature');
+        if ($apiKey !== null) {
+            $headers['X-Signature'] = $apiKey;
+        }
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('X-Timestamp');
+        if ($apiKey !== null) {
+            $headers['X-Timestamp'] = $apiKey;
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation postV1OrderSubmitAudit
      *
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSubmitAudit'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \TachainSdk\Model\PostV1OrderSubmitAudit200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function postV1OrderSubmitAudit($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request = null, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
+    public function postV1OrderSubmitAudit($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
     {
-        $this->postV1OrderSubmitAuditWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, $contentType);
+        list($response) = $this->postV1OrderSubmitAuditWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, $contentType);
+        return $response;
     }
 
     /**
@@ -152,14 +1050,14 @@ class ApiOrderWorkflowApi
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSubmitAudit'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PostV1OrderSubmitAudit200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postV1OrderSubmitAuditWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request = null, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
+    public function postV1OrderSubmitAuditWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
     {
         $request = $this->postV1OrderSubmitAuditRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, $contentType);
 
@@ -186,9 +1084,87 @@ class ApiOrderWorkflowApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\PostV1OrderSubmitAudit200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\TachainSdk\Model\PostV1OrderSubmitAudit200Response',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\PostV1OrderSubmitAudit200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -202,13 +1178,13 @@ class ApiOrderWorkflowApi
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSubmitAudit'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderSubmitAuditAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request = null, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
+    public function postV1OrderSubmitAuditAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
     {
         return $this->postV1OrderSubmitAuditAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, $contentType)
             ->then(
@@ -224,22 +1200,35 @@ class ApiOrderWorkflowApi
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSubmitAudit'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderSubmitAuditAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request = null, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
+    public function postV1OrderSubmitAuditAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
     {
-        $returnType = '';
+        $returnType = '\TachainSdk\Model\PostV1OrderSubmitAudit200Response';
         $request = $this->postV1OrderSubmitAuditRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -262,13 +1251,13 @@ class ApiOrderWorkflowApi
      * Create request for operation 'postV1OrderSubmitAudit'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSubmitAudit'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function postV1OrderSubmitAuditRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request = null, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
+    public function postV1OrderSubmitAuditRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request, string $contentType = self::contentTypes['postV1OrderSubmitAudit'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -278,6 +1267,12 @@ class ApiOrderWorkflowApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request when calling postV1OrderSubmitAudit'
+            );
+        }
 
 
         $resourcePath = '/v1/order/SubmitAudit';
@@ -296,7 +1291,7 @@ class ApiOrderWorkflowApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );
@@ -388,16 +1383,17 @@ class ApiOrderWorkflowApi
      * 采购方按整单或单条订单明细确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return void
+     * @return \TachainSdk\Model\PutV1OrderConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function putV1OrderConfirmReceipt($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request = null, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
+    public function putV1OrderConfirmReceipt($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
     {
-        $this->putV1OrderConfirmReceiptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, $contentType);
+        list($response) = $this->putV1OrderConfirmReceiptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, $contentType);
+        return $response;
     }
 
     /**
@@ -406,14 +1402,14 @@ class ApiOrderWorkflowApi
      * 采购方按整单或单条订单明细确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1OrderConfirmReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function putV1OrderConfirmReceiptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request = null, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
+    public function putV1OrderConfirmReceiptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
     {
         $request = $this->putV1OrderConfirmReceiptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, $contentType);
 
@@ -440,9 +1436,87 @@ class ApiOrderWorkflowApi
             $statusCode = $response->getStatusCode();
 
 
-            return [null, $statusCode, $response->getHeaders()];
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\PutV1OrderConfirmReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\TachainSdk\Model\PutV1OrderConfirmReceipt200Response',
+                $request,
+                $response,
+            );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\PutV1OrderConfirmReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
             }
         
 
@@ -456,13 +1530,13 @@ class ApiOrderWorkflowApi
      * 采购方按整单或单条订单明细确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1OrderConfirmReceiptAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request = null, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
+    public function putV1OrderConfirmReceiptAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
     {
         return $this->putV1OrderConfirmReceiptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, $contentType)
             ->then(
@@ -478,22 +1552,35 @@ class ApiOrderWorkflowApi
      * 采购方按整单或单条订单明细确认收货。
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1OrderConfirmReceiptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request = null, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
+    public function putV1OrderConfirmReceiptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
     {
-        $returnType = '';
+        $returnType = '\TachainSdk\Model\PutV1OrderConfirmReceipt200Response';
         $request = $this->putV1OrderConfirmReceiptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
             ->then(
                 function ($response) use ($returnType) {
-                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
                 },
                 function ($exception) {
                     $response = $exception->getResponse();
@@ -516,13 +1603,13 @@ class ApiOrderWorkflowApi
      * Create request for operation 'putV1OrderConfirmReceipt'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderConfirmReceipt'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function putV1OrderConfirmReceiptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request = null, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
+    public function putV1OrderConfirmReceiptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request, string $contentType = self::contentTypes['putV1OrderConfirmReceipt'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -532,6 +1619,12 @@ class ApiOrderWorkflowApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request when calling putV1OrderConfirmReceipt'
+            );
+        }
 
 
         $resourcePath = '/v1/order/ConfirmReceipt';
@@ -550,7 +1643,7 @@ class ApiOrderWorkflowApi
 
 
         $headers = $this->headerSelector->selectHeaders(
-            [],
+            ['application/json', ],
             $contentType,
             $multipart
         );

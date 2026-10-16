@@ -20,6 +20,42 @@ import { mapValues } from '../runtime';
  */
 export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest {
     /**
+     * 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+     */
+    customerId?: string | null;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     */
+    customerName?: string | null;
+    /**
+     * 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string | null;
+    /**
+     * 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     */
+    supplierId?: string | null;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+     */
+    supplierName?: string | null;
+    /**
+     * 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string | null;
+    /**
+     * 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+     */
+    customerExtNo?: string | null;
+    /**
+     * 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+     */
+    supplierExtNo?: string | null;
+    /**
+     * 订单明细的全局唯一系统流水号。
+     */
+    uniqueNo?: string | null;
+    /**
      * 单个附件申报记录 ID。
      */
     attachmentId?: string | null;
@@ -44,17 +80,17 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationD
      */
     extendId?: string | null;
     /**
-     * 业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。
+     * 业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。
      */
     extendNumber?: string | null;
     /**
      * 业务单日期。订单阶段按订单号定位时使用。
      */
-    extendDate?: string | null;
+    orderDate?: string | null;
     /**
      * 订单行号。订单阶段按订单行定位时使用。
      */
-    extendLineNumber?: string | null;
+    lineNumber?: string | null;
     /**
      * 订单侧别，常用 PO 或 SO。
      */
@@ -64,9 +100,13 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationD
      */
     productCode?: string | null;
     /**
-     * 生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。
+     * 生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。
      */
     productionType?: number | null;
+    /**
+     * 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+     */
+    receiptNumber?: string | null;
     /**
      * 发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。
      */
@@ -110,6 +150,15 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDe
     }
     return {
         
+        'customerId': json['customerId'] === undefined ? undefined : json['customerId'] === null ? null : json['customerId'],
+        'customerName': json['customerName'] === undefined ? undefined : json['customerName'] === null ? null : json['customerName'],
+        'customerCode': json['customerCode'] === undefined ? undefined : json['customerCode'] === null ? null : json['customerCode'],
+        'supplierId': json['supplierId'] === undefined ? undefined : json['supplierId'] === null ? null : json['supplierId'],
+        'supplierName': json['supplierName'] === undefined ? undefined : json['supplierName'] === null ? null : json['supplierName'],
+        'supplierCode': json['supplierCode'] === undefined ? undefined : json['supplierCode'] === null ? null : json['supplierCode'],
+        'customerExtNo': json['customerExtNo'] === undefined ? undefined : json['customerExtNo'] === null ? null : json['customerExtNo'],
+        'supplierExtNo': json['supplierExtNo'] === undefined ? undefined : json['supplierExtNo'] === null ? null : json['supplierExtNo'],
+        'uniqueNo': json['uniqueNo'] === undefined ? undefined : json['uniqueNo'] === null ? null : json['uniqueNo'],
         'attachmentId': json['attachmentId'] === undefined ? undefined : json['attachmentId'] === null ? null : json['attachmentId'],
         'attachmentIds': json['attachmentIds'] === undefined ? undefined : json['attachmentIds'] === null ? null : json['attachmentIds'],
         'formDataId': json['formDataId'] === undefined ? undefined : json['formDataId'] === null ? null : json['formDataId'],
@@ -117,11 +166,12 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDe
         'stageId': json['stageId'] === undefined ? undefined : json['stageId'] === null ? null : json['stageId'],
         'extendId': json['extendId'] === undefined ? undefined : json['extendId'] === null ? null : json['extendId'],
         'extendNumber': json['extendNumber'] === undefined ? undefined : json['extendNumber'] === null ? null : json['extendNumber'],
-        'extendDate': json['extendDate'] === undefined ? undefined : json['extendDate'] === null ? null : json['extendDate'],
-        'extendLineNumber': json['extendLineNumber'] === undefined ? undefined : json['extendLineNumber'] === null ? null : json['extendLineNumber'],
+        'orderDate': json['orderDate'] === undefined ? undefined : json['orderDate'] === null ? null : json['orderDate'],
+        'lineNumber': json['lineNumber'] === undefined ? undefined : json['lineNumber'] === null ? null : json['lineNumber'],
         'orderSide': json['orderSide'] === undefined ? undefined : json['orderSide'] === null ? null : json['orderSide'],
         'productCode': json['productCode'] === undefined ? undefined : json['productCode'] === null ? null : json['productCode'],
         'productionType': json['productionType'] === undefined ? undefined : json['productionType'] === null ? null : json['productionType'],
+        'receiptNumber': json['receiptNumber'] === undefined ? undefined : json['receiptNumber'] === null ? null : json['receiptNumber'],
         'deliveryNumber': json['deliveryNumber'] === undefined ? undefined : json['deliveryNumber'] === null ? null : json['deliveryNumber'],
         'documentTypeId': json['documentTypeId'] === undefined ? undefined : json['documentTypeId'] === null ? null : json['documentTypeId'],
         'documentTypeCode': json['documentTypeCode'] === undefined ? undefined : json['documentTypeCode'] === null ? null : json['documentTypeCode'],
@@ -142,6 +192,15 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDe
 
     return {
         
+        'customerId': value['customerId'],
+        'customerName': value['customerName'],
+        'customerCode': value['customerCode'],
+        'supplierId': value['supplierId'],
+        'supplierName': value['supplierName'],
+        'supplierCode': value['supplierCode'],
+        'customerExtNo': value['customerExtNo'],
+        'supplierExtNo': value['supplierExtNo'],
+        'uniqueNo': value['uniqueNo'],
         'attachmentId': value['attachmentId'],
         'attachmentIds': value['attachmentIds'],
         'formDataId': value['formDataId'],
@@ -149,11 +208,12 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDe
         'stageId': value['stageId'],
         'extendId': value['extendId'],
         'extendNumber': value['extendNumber'],
-        'extendDate': value['extendDate'],
-        'extendLineNumber': value['extendLineNumber'],
+        'orderDate': value['orderDate'],
+        'lineNumber': value['lineNumber'],
         'orderSide': value['orderSide'],
         'productCode': value['productCode'],
         'productionType': value['productionType'],
+        'receiptNumber': value['receiptNumber'],
         'deliveryNumber': value['deliveryNumber'],
         'documentTypeId': value['documentTypeId'],
         'documentTypeCode': value['documentTypeCode'],

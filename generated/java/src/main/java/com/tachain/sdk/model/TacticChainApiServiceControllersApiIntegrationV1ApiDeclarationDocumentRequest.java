@@ -19,10 +19,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.tachain.sdk.model.TacticChainApiServiceModelsOrderStageFormDto;
-import com.tachain.sdk.model.TacticChainApiServiceViewModelsAttachmentInApiCreateDto;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest;
 import java.io.IOException;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,25 +66,15 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
   @javax.annotation.Nullable
   private String documentTypeCode;
 
-  public static final String SERIALIZED_NAME_DOCUMENT_DATE = "documentDate";
-  @SerializedName(SERIALIZED_NAME_DOCUMENT_DATE)
-  @javax.annotation.Nullable
-  private OffsetDateTime documentDate;
-
-  public static final String SERIALIZED_NAME_DOCUMENT_NUMBER = "documentNumber";
-  @SerializedName(SERIALIZED_NAME_DOCUMENT_NUMBER)
-  @javax.annotation.Nullable
-  private String documentNumber;
-
   public static final String SERIALIZED_NAME_FILE_LIST = "fileList";
   @SerializedName(SERIALIZED_NAME_FILE_LIST)
   @javax.annotation.Nullable
-  private List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> fileList;
+  private List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> fileList;
 
   public static final String SERIALIZED_NAME_FORM_DATA_LIST = "formDataList";
   @SerializedName(SERIALIZED_NAME_FORM_DATA_LIST)
   @javax.annotation.Nullable
-  private List<TacticChainApiServiceModelsOrderStageFormDto> formDataList;
+  private List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> formDataList;
 
   public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest() {
   }
@@ -96,7 +85,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
   }
 
   /**
-   * 资料类型 ID，对应系统中的文档类型。
+   * 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
    * @return documentTypeId
    */
   @javax.annotation.Nullable
@@ -115,7 +104,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
   }
 
   /**
-   * 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+   * 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
    * @return documentTypeCode
    */
   @javax.annotation.Nullable
@@ -128,50 +117,12 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
   }
 
 
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest documentDate(@javax.annotation.Nullable OffsetDateTime documentDate) {
-    this.documentDate = documentDate;
-    return this;
-  }
-
-  /**
-   * 单据日期，例如运输单日期、入库单日期。
-   * @return documentDate
-   */
-  @javax.annotation.Nullable
-  public OffsetDateTime getDocumentDate() {
-    return documentDate;
-  }
-
-  public void setDocumentDate(@javax.annotation.Nullable OffsetDateTime documentDate) {
-    this.documentDate = documentDate;
-  }
-
-
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest documentNumber(@javax.annotation.Nullable String documentNumber) {
-    this.documentNumber = documentNumber;
-    return this;
-  }
-
-  /**
-   * 单据编号，例如运输单号、入库单号。
-   * @return documentNumber
-   */
-  @javax.annotation.Nullable
-  public String getDocumentNumber() {
-    return documentNumber;
-  }
-
-  public void setDocumentNumber(@javax.annotation.Nullable String documentNumber) {
-    this.documentNumber = documentNumber;
-  }
-
-
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest fileList(@javax.annotation.Nullable List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> fileList) {
+  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest fileList(@javax.annotation.Nullable List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> fileList) {
     this.fileList = fileList;
     return this;
   }
 
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest addFileListItem(TacticChainApiServiceViewModelsAttachmentInApiCreateDto fileListItem) {
+  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest addFileListItem(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest fileListItem) {
     if (this.fileList == null) {
       this.fileList = new ArrayList<>();
     }
@@ -184,21 +135,21 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
    * @return fileList
    */
   @javax.annotation.Nullable
-  public List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> getFileList() {
+  public List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> getFileList() {
     return fileList;
   }
 
-  public void setFileList(@javax.annotation.Nullable List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> fileList) {
+  public void setFileList(@javax.annotation.Nullable List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> fileList) {
     this.fileList = fileList;
   }
 
 
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest formDataList(@javax.annotation.Nullable List<TacticChainApiServiceModelsOrderStageFormDto> formDataList) {
+  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest formDataList(@javax.annotation.Nullable List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> formDataList) {
     this.formDataList = formDataList;
     return this;
   }
 
-  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest addFormDataListItem(TacticChainApiServiceModelsOrderStageFormDto formDataListItem) {
+  public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest addFormDataListItem(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest formDataListItem) {
     if (this.formDataList == null) {
       this.formDataList = new ArrayList<>();
     }
@@ -211,11 +162,11 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
    * @return formDataList
    */
   @javax.annotation.Nullable
-  public List<TacticChainApiServiceModelsOrderStageFormDto> getFormDataList() {
+  public List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> getFormDataList() {
     return formDataList;
   }
 
-  public void setFormDataList(@javax.annotation.Nullable List<TacticChainApiServiceModelsOrderStageFormDto> formDataList) {
+  public void setFormDataList(@javax.annotation.Nullable List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> formDataList) {
     this.formDataList = formDataList;
   }
 
@@ -232,8 +183,6 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
     TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest = (TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) o;
     return Objects.equals(this.documentTypeId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.documentTypeId) &&
         Objects.equals(this.documentTypeCode, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.documentTypeCode) &&
-        Objects.equals(this.documentDate, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.documentDate) &&
-        Objects.equals(this.documentNumber, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.documentNumber) &&
         Objects.equals(this.fileList, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.fileList) &&
         Objects.equals(this.formDataList, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest.formDataList);
   }
@@ -244,7 +193,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
 
   @Override
   public int hashCode() {
-    return Objects.hash(documentTypeId, documentTypeCode, documentDate, documentNumber, fileList, formDataList);
+    return Objects.hash(documentTypeId, documentTypeCode, fileList, formDataList);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -260,8 +209,6 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
     sb.append("class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest {\n");
     sb.append("    documentTypeId: ").append(toIndentedString(documentTypeId)).append("\n");
     sb.append("    documentTypeCode: ").append(toIndentedString(documentTypeCode)).append("\n");
-    sb.append("    documentDate: ").append(toIndentedString(documentDate)).append("\n");
-    sb.append("    documentNumber: ").append(toIndentedString(documentNumber)).append("\n");
     sb.append("    fileList: ").append(toIndentedString(fileList)).append("\n");
     sb.append("    formDataList: ").append(toIndentedString(formDataList)).append("\n");
     sb.append("}");
@@ -282,7 +229,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("documentTypeId", "documentTypeCode", "documentDate", "documentNumber", "fileList", "formDataList"));
+    openapiFields = new HashSet<String>(Arrays.asList("documentTypeId", "documentTypeCode", "fileList", "formDataList"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -315,9 +262,6 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
       if ((jsonObj.get("documentTypeCode") != null && !jsonObj.get("documentTypeCode").isJsonNull()) && !jsonObj.get("documentTypeCode").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentTypeCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentTypeCode").toString()));
       }
-      if ((jsonObj.get("documentNumber") != null && !jsonObj.get("documentNumber").isJsonNull()) && !jsonObj.get("documentNumber").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `documentNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("documentNumber").toString()));
-      }
       if (jsonObj.get("fileList") != null && !jsonObj.get("fileList").isJsonNull()) {
         JsonArray jsonArrayfileList = jsonObj.getAsJsonArray("fileList");
         if (jsonArrayfileList != null) {
@@ -328,7 +272,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
 
           // validate the optional field `fileList` (array)
           for (int i = 0; i < jsonArrayfileList.size(); i++) {
-            TacticChainApiServiceViewModelsAttachmentInApiCreateDto.validateJsonElement(jsonArrayfileList.get(i));
+            TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest.validateJsonElement(jsonArrayfileList.get(i));
           };
         }
       }
@@ -342,7 +286,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocum
 
           // validate the optional field `formDataList` (array)
           for (int i = 0; i < jsonArrayformDataList.size(); i++) {
-            TacticChainApiServiceModelsOrderStageFormDto.validateJsonElement(jsonArrayformDataList.get(i));
+            TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest.validateJsonElement(jsonArrayformDataList.get(i));
           };
         }
       }

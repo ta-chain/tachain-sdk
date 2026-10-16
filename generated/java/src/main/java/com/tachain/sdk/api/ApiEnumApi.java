@@ -28,7 +28,7 @@ import java.io.IOException;
 
 
 import com.tachain.sdk.model.GetV1EnumGetList200Response;
-import com.tachain.sdk.model.MicrosoftAspNetCoreMvcProblemDetails;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class ApiEnumApi {
     /**
      * Build call for getV1EnumGetList
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param enumTypes 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param enumTypes 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -84,9 +84,10 @@ public class ApiEnumApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getV1EnumGetListCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable List<String> enumTypes, final ApiCallback _callback) throws ApiException {
@@ -157,16 +158,17 @@ public class ApiEnumApi {
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      * 
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param enumTypes 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param enumTypes 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @return GetV1EnumGetList200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
     public GetV1EnumGetList200Response getV1EnumGetList(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable List<String> enumTypes) throws ApiException {
@@ -178,16 +180,17 @@ public class ApiEnumApi {
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      * 
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param enumTypes 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param enumTypes 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @return ApiResponse&lt;GetV1EnumGetList200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
     public ApiResponse<GetV1EnumGetList200Response> getV1EnumGetListWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable List<String> enumTypes) throws ApiException {
@@ -200,7 +203,7 @@ public class ApiEnumApi {
      * 第三方-获取统一枚举列表（支持批量查询/查询所有） (asynchronously)
      * 
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param enumTypes 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param enumTypes 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -208,9 +211,10 @@ public class ApiEnumApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call getV1EnumGetListAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable List<String> enumTypes, final ApiCallback<GetV1EnumGetList200Response> _callback) throws ApiException {

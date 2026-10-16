@@ -19,269 +19,253 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.tachain.sdk.model.TacticChainApiServiceHelperResultApiEnum;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
+
+
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonParseException;
+import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.TypeAdapter;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import java.io.IOException;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParseException;
 
 import com.tachain.sdk.client.JSON;
 
-/**
- * GetV1EnumGetList200Response
- */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0")
-public class GetV1EnumGetList200Response {
-  public static final String SERIALIZED_NAME_CODE = "code";
-  @SerializedName(SERIALIZED_NAME_CODE)
-  @javax.annotation.Nonnull
-  private Integer code;
+public class GetV1EnumGetList200Response extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(GetV1EnumGetList200Response.class.getName());
 
-  public static final String SERIALIZED_NAME_MESSAGE = "message";
-  @SerializedName(SERIALIZED_NAME_MESSAGE)
-  @javax.annotation.Nonnull
-  private String message;
+    public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+        @SuppressWarnings("unchecked")
+        @Override
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            if (!GetV1EnumGetList200Response.class.isAssignableFrom(type.getRawType())) {
+                return null; // this class only serializes 'GetV1EnumGetList200Response' and its subtypes
+            }
+            final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
+            final TypeAdapter<Object> adapterObject = gson.getDelegateAdapter(this, TypeToken.get(Object.class));
+            final TypeAdapter<TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse> adapterTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse = gson.getDelegateAdapter(this, TypeToken.get(TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.class));
 
-  public static final String SERIALIZED_NAME_DATA = "data";
-  @SerializedName(SERIALIZED_NAME_DATA)
-  @javax.annotation.Nullable
-  private List<TacticChainApiServiceHelperResultApiEnum> data = new ArrayList<>();
+            return (TypeAdapter<T>) new TypeAdapter<GetV1EnumGetList200Response>() {
+                @Override
+                public void write(JsonWriter out, GetV1EnumGetList200Response value) throws IOException {
+                    if (value == null || value.getActualInstance() == null) {
+                        elementAdapter.write(out, null);
+                        return;
+                    }
 
-  public GetV1EnumGetList200Response() {
-  }
+                    // check if the actual instance is of the type `Object`
+                    if (value.getActualInstance() instanceof Object) {
+                        JsonPrimitive primitive = adapterObject.toJsonTree((Object)value.getActualInstance()).getAsJsonPrimitive();
+                        elementAdapter.write(out, primitive);
+                        return;
+                    }
+                    // check if the actual instance is of the type `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`
+                    if (value.getActualInstance() instanceof TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse) {
+                        JsonElement element = adapterTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.toJsonTree((TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse)value.getActualInstance());
+                        elementAdapter.write(out, element);
+                        return;
+                    }
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemas: Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse");
+                }
 
-  public GetV1EnumGetList200Response code(@javax.annotation.Nonnull Integer code) {
-    this.code = code;
-    return this;
-  }
+                @Override
+                public GetV1EnumGetList200Response read(JsonReader in) throws IOException {
+                    Object deserialized = null;
+                    JsonElement jsonElement = elementAdapter.read(in);
 
-  /**
-   * Get code
-   * @return code
-   */
-  @javax.annotation.Nonnull
-  public Integer getCode() {
-    return code;
-  }
+                    ArrayList<String> errorMessages = new ArrayList<>();
+                    TypeAdapter actualAdapter = elementAdapter;
 
-  public void setCode(@javax.annotation.Nonnull Integer code) {
-    this.code = code;
-  }
+                    // deserialize Object
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                        }
+                        actualAdapter = adapterObject;
+                        GetV1EnumGetList200Response ret = new GetV1EnumGetList200Response();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Object failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'Object'", e);
+                    }
+                    // deserialize TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+                    try {
+                        // validate the JSON object to see if any exception is thrown
+                        TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.validateJsonElement(jsonElement);
+                        actualAdapter = adapterTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse;
+                        GetV1EnumGetList200Response ret = new GetV1EnumGetList200Response();
+                        ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                        return ret;
+                    } catch (Exception e) {
+                        // deserialization failed, continue
+                        errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse failed with `%s`.", e.getMessage()));
+                        log.log(Level.FINER, "Input data does not match schema 'TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse'", e);
+                    }
 
-
-  public GetV1EnumGetList200Response message(@javax.annotation.Nonnull String message) {
-    this.message = message;
-    return this;
-  }
-
-  /**
-   * Get message
-   * @return message
-   */
-  @javax.annotation.Nonnull
-  public String getMessage() {
-    return message;
-  }
-
-  public void setMessage(@javax.annotation.Nonnull String message) {
-    this.message = message;
-  }
-
-
-  public GetV1EnumGetList200Response data(@javax.annotation.Nullable List<TacticChainApiServiceHelperResultApiEnum> data) {
-    this.data = data;
-    return this;
-  }
-
-  public GetV1EnumGetList200Response addDataItem(TacticChainApiServiceHelperResultApiEnum dataItem) {
-    if (this.data == null) {
-      this.data = new ArrayList<>();
+                    throw new IOException(String.format(java.util.Locale.ROOT, "Failed deserialization for GetV1EnumGetList200Response: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+                }
+            }.nullSafe();
+        }
     }
-    this.data.add(dataItem);
-    return this;
-  }
 
-  /**
-   * Get data
-   * @return data
-   */
-  @javax.annotation.Nullable
-  public List<TacticChainApiServiceHelperResultApiEnum> getData() {
-    return data;
-  }
+    // store a list of schema names defined in anyOf
+    public static final Map<String, Class<?>> schemas = new HashMap<String, Class<?>>();
 
-  public void setData(@javax.annotation.Nullable List<TacticChainApiServiceHelperResultApiEnum> data) {
-    this.data = data;
-  }
-
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public GetV1EnumGetList200Response() {
+        super("anyOf", Boolean.FALSE);
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public GetV1EnumGetList200Response(Object o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
     }
-    GetV1EnumGetList200Response getV1EnumGetList200Response = (GetV1EnumGetList200Response) o;
-    return Objects.equals(this.code, getV1EnumGetList200Response.code) &&
-        Objects.equals(this.message, getV1EnumGetList200Response.message) &&
-        Objects.equals(this.data, getV1EnumGetList200Response.data);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(code, message, data);
-  }
+    static {
+        schemas.put("Object", Object.class);
+        schemas.put("TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse", TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.class);
+    }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class GetV1EnumGetList200Response {\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    message: ").append(toIndentedString(message)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+    @Override
+    public Map<String, Class<?>> getSchemas() {
+        return GetV1EnumGetList200Response.schemas;
+    }
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    return o == null ? "null" : o.toString().replace("\n", "\n    ");
-  }
-
-
-  public static HashSet<String> openapiFields;
-  public static HashSet<String> openapiRequiredFields;
-
-  static {
-    // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "data"));
-
-    // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "message"));
-  }
-
-  /**
-   * Validates the JSON Element and throws an exception if issues found
-   *
-   * @param jsonElement JSON Element
-   * @throws IOException if the JSON Element is invalid with respect to GetV1EnumGetList200Response
-   */
-  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      if (jsonElement == null) {
-        if (!GetV1EnumGetList200Response.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field(s) %s in GetV1EnumGetList200Response is not found in the empty JSON string", GetV1EnumGetList200Response.openapiRequiredFields.toString()));
+    /**
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+     *
+     * It could be an instance of the 'anyOf' schemas.
+     */
+    @Override
+    public void setActualInstance(Object instance) {
+        if (instance instanceof Object) {
+            super.setActualInstance(instance);
+            return;
         }
-      }
 
-      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Map.Entry<String, JsonElement> entry : entries) {
-        if (!GetV1EnumGetList200Response.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The field `%s` in the JSON string is not defined in the `GetV1EnumGetList200Response` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
+        if (instance instanceof TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse) {
+            super.setActualInstance(instance);
+            return;
         }
-      }
 
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : GetV1EnumGetList200Response.openapiRequiredFields) {
-        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
-        }
-      }
-        JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("message").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
-      }
-      if (jsonObj.get("data") != null && !jsonObj.get("data").isJsonNull()) {
-        JsonArray jsonArraydata = jsonObj.getAsJsonArray("data");
-        if (jsonArraydata != null) {
-          // ensure the json data is an array
-          if (!jsonObj.get("data").isJsonArray()) {
-            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `data` to be an array in the JSON string but got `%s`", jsonObj.get("data").toString()));
-          }
+        throw new RuntimeException("Invalid instance type. Must be Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse");
+    }
 
-          // validate the optional field `data` (array)
-          for (int i = 0; i < jsonArraydata.size(); i++) {
-            TacticChainApiServiceHelperResultApiEnum.validateJsonElement(jsonArraydata.get(i));
-          };
-        }
-      }
-  }
-
-  public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
+    /**
+     * Get the actual instance, which can be the following:
+     * Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+     *
+     * @return The actual instance (Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse)
+     */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!GetV1EnumGetList200Response.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'GetV1EnumGetList200Response' and its subtypes
-       }
-       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<GetV1EnumGetList200Response> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(GetV1EnumGetList200Response.class));
-
-       return (TypeAdapter<T>) new TypeAdapter<GetV1EnumGetList200Response>() {
-           @Override
-           public void write(JsonWriter out, GetV1EnumGetList200Response value) throws IOException {
-             JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
-             elementAdapter.write(out, obj);
-           }
-
-           @Override
-           public GetV1EnumGetList200Response read(JsonReader in) throws IOException {
-             JsonElement jsonElement = elementAdapter.read(in);
-             validateJsonElement(jsonElement);
-             return thisAdapter.fromJsonTree(jsonElement);
-           }
-
-       }.nullSafe();
+    public Object getActualInstance() {
+        return super.getActualInstance();
     }
-  }
 
-  /**
-   * Create an instance of GetV1EnumGetList200Response given an JSON string
-   *
-   * @param jsonString JSON string
-   * @return An instance of GetV1EnumGetList200Response
-   * @throws IOException if the JSON string is invalid with respect to GetV1EnumGetList200Response
-   */
-  public static GetV1EnumGetList200Response fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, GetV1EnumGetList200Response.class);
-  }
+    /**
+     * Get the actual instance of `Object`. If the actual instance is not `Object`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Object`
+     * @throws ClassCastException if the instance is not `Object`
+     */
+    public Object getObject() throws ClassCastException {
+        return (Object)super.getActualInstance();
+    }
 
-  /**
-   * Convert an instance of GetV1EnumGetList200Response to an JSON string
-   *
-   * @return JSON string
-   */
-  public String toJson() {
-    return JSON.getGson().toJson(this);
-  }
+    /**
+     * Get the actual instance of `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`. If the actual instance is not `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`
+     * @throws ClassCastException if the instance is not `TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse`
+     */
+    public TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse getTacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse() throws ClassCastException {
+        return (TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse)super.getActualInstance();
+    }
+
+    /**
+     * Validates the JSON Element and throws an exception if issues found
+     *
+     * @param jsonElement JSON Element
+     * @throws IOException if the JSON Element is invalid with respect to GetV1EnumGetList200Response
+     */
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+        // validate anyOf schemas one by one
+        ArrayList<String> errorMessages = new ArrayList<>();
+        // validate the json string with Object
+        try {
+            if (!jsonElement.getAsJsonPrimitive().isNumber()) {
+                throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+            }
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for Object failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        // validate the json string with TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+        try {
+            TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse.validateJsonElement(jsonElement);
+            return;
+        } catch (Exception e) {
+            errorMessages.add(String.format(java.util.Locale.ROOT, "Deserialization for TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse failed with `%s`.", e.getMessage()));
+            // continue to the next one
+        }
+        throw new IOException(String.format(java.util.Locale.ROOT, "The JSON string is invalid for GetV1EnumGetList200Response with anyOf schemas: Object, TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+    }
+
+    /**
+     * Create an instance of GetV1EnumGetList200Response given an JSON string
+     *
+     * @param jsonString JSON string
+     * @return An instance of GetV1EnumGetList200Response
+     * @throws IOException if the JSON string is invalid with respect to GetV1EnumGetList200Response
+     */
+    public static GetV1EnumGetList200Response fromJson(String jsonString) throws IOException {
+        return JSON.getGson().fromJson(jsonString, GetV1EnumGetList200Response.class);
+    }
+
+    /**
+     * Convert an instance of GetV1EnumGetList200Response to an JSON string
+     *
+     * @return JSON string
+     */
+    public String toJson() {
+        return JSON.getGson().toJson(this);
+    }
 }
 

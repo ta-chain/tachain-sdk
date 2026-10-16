@@ -15,10 +15,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from datetime import datetime
 from pydantic import Field, StrictStr, field_validator
 from typing import Optional
 from typing_extensions import Annotated
+from tachain_sdk.models.get_v1_order_receipt_pending200_response import GetV1OrderReceiptPending200Response
+from tachain_sdk.models.post_v1_order_declaration_verification200_response import PostV1OrderDeclarationVerification200Response
+from tachain_sdk.models.post_v1_order_submit_audit200_response import PostV1OrderSubmitAudit200Response
+from tachain_sdk.models.put_v1_order_confirm_receipt200_response import PutV1OrderConfirmReceipt200Response
 from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request import TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request import TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
 from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request import TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
 
 from tachain_sdk.api_client import ApiClient, RequestSerialized
@@ -40,10 +46,23 @@ class ApiOrderWorkflowApi:
 
 
     @validate_call
-    def post_v1_order_submit_audit(
+    def get_v1_order_receipt_pending(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest] = None,
+        order_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单主 ID；不指定明细时查询整单各明细待办。")] = None,
+        order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56,14 +75,822 @@ class ApiOrderWorkflowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """销售方根据已入库的订单、生产、发货及申报资料提交审核。
+    ) -> GetV1OrderReceiptPending200Response:
+        """采购订单确认收货待办项查询。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request:
+        :param order_id: 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+        :type order_id: str
+        :param order_line_id: 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+        :type order_line_id: str
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+        :type order_number: str
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_code: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_order_receipt_pending_serialize(
+            x_credential_type=x_credential_type,
+            order_id=order_id,
+            order_line_id=order_line_id,
+            order_number=order_number,
+            order_date=order_date,
+            line_number=line_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetV1OrderReceiptPending200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_order_receipt_pending_with_http_info(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        order_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单主 ID；不指定明细时查询整单各明细待办。")] = None,
+        order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GetV1OrderReceiptPending200Response]:
+        """采购订单确认收货待办项查询。
+
+        当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param order_id: 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+        :type order_id: str
+        :param order_line_id: 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+        :type order_line_id: str
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+        :type order_number: str
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_code: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_order_receipt_pending_serialize(
+            x_credential_type=x_credential_type,
+            order_id=order_id,
+            order_line_id=order_line_id,
+            order_number=order_number,
+            order_date=order_date,
+            line_number=line_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetV1OrderReceiptPending200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_order_receipt_pending_without_preload_content(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        order_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单主 ID；不指定明细时查询整单各明细待办。")] = None,
+        order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """采购订单确认收货待办项查询。
+
+        当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param order_id: 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+        :type order_id: str
+        :param order_line_id: 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+        :type order_line_id: str
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+        :type order_number: str
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+        :type supplier_code: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_order_receipt_pending_serialize(
+            x_credential_type=x_credential_type,
+            order_id=order_id,
+            order_line_id=order_line_id,
+            order_number=order_number,
+            order_date=order_date,
+            line_number=line_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetV1OrderReceiptPending200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_order_receipt_pending_serialize(
+        self,
+        x_credential_type,
+        order_id,
+        order_line_id,
+        order_number,
+        order_date,
+        line_number,
+        customer_ext_no,
+        supplier_ext_no,
+        unique_no,
+        customer_id,
+        customer_name,
+        customer_code,
+        supplier_id,
+        supplier_name,
+        supplier_code,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if order_id is not None:
+            
+            _query_params.append(('OrderId', order_id))
+            
+        if order_line_id is not None:
+            
+            _query_params.append(('OrderLineId', order_line_id))
+            
+        if order_number is not None:
+            
+            _query_params.append(('OrderNumber', order_number))
+            
+        if order_date is not None:
+            if isinstance(order_date, datetime):
+                _query_params.append(
+                    (
+                        'OrderDate',
+                        order_date.strftime(
+                            self.api_client.configuration.datetime_format
+                        )
+                    )
+                )
+            else:
+                _query_params.append(('OrderDate', order_date))
+            
+        if line_number is not None:
+            
+            _query_params.append(('LineNumber', line_number))
+            
+        if customer_ext_no is not None:
+            
+            _query_params.append(('CustomerExtNo', customer_ext_no))
+            
+        if supplier_ext_no is not None:
+            
+            _query_params.append(('SupplierExtNo', supplier_ext_no))
+            
+        if unique_no is not None:
+            
+            _query_params.append(('UniqueNo', unique_no))
+            
+        if customer_id is not None:
+            
+            _query_params.append(('CustomerId', customer_id))
+            
+        if customer_name is not None:
+            
+            _query_params.append(('CustomerName', customer_name))
+            
+        if customer_code is not None:
+            
+            _query_params.append(('CustomerCode', customer_code))
+            
+        if supplier_id is not None:
+            
+            _query_params.append(('SupplierId', supplier_id))
+            
+        if supplier_name is not None:
+            
+            _query_params.append(('SupplierName', supplier_name))
+            
+        if supplier_code is not None:
+            
+            _query_params.append(('SupplierCode', supplier_code))
+            
+        # process the header parameters
+        if x_credential_type is not None:
+            _header_params['X-Credential-Type'] = x_credential_type
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKey', 
+            'Signature', 
+            'BearerToken', 
+            'Timestamp'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/order/ReceiptPending',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_order_declaration_verification(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PostV1OrderDeclarationVerification200Response:
+        """销售订单提交审核前一键校验。
+
+        当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_order_declaration_verification_serialize(
+            x_credential_type=x_credential_type,
+            tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request=tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostV1OrderDeclarationVerification200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_order_declaration_verification_with_http_info(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PostV1OrderDeclarationVerification200Response]:
+        """销售订单提交审核前一键校验。
+
+        当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_order_declaration_verification_serialize(
+            x_credential_type=x_credential_type,
+            tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request=tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostV1OrderDeclarationVerification200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_order_declaration_verification_without_preload_content(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """销售订单提交审核前一键校验。
+
+        当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_order_declaration_verification_serialize(
+            x_credential_type=x_credential_type,
+            tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request=tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostV1OrderDeclarationVerification200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_order_declaration_verification_serialize(
+        self,
+        x_credential_type,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if x_credential_type is not None:
+            _header_params['X-Credential-Type'] = x_credential_type
+        # process the form parameters
+        # process the body parameter
+        if tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request is not None:
+            _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_order_declaration_verification_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKey', 
+            'Signature', 
+            'BearerToken', 
+            'Timestamp'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/order/DeclarationVerification',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_order_submit_audit(
+        self,
+        x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PostV1OrderSubmitAudit200Response:
+        """销售方根据已入库的订单、生产、发货及申报资料提交审核。
+
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+
+        :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
+        :type x_credential_type: str
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -97,7 +924,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PostV1OrderSubmitAudit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -114,7 +944,7 @@ class ApiOrderWorkflowApi:
     def post_v1_order_submit_audit_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -127,14 +957,14 @@ class ApiOrderWorkflowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostV1OrderSubmitAudit200Response]:
         """销售方根据已入库的订单、生产、发货及申报资料提交审核。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -168,7 +998,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PostV1OrderSubmitAudit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -185,7 +1018,7 @@ class ApiOrderWorkflowApi:
     def post_v1_order_submit_audit_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -201,11 +1034,11 @@ class ApiOrderWorkflowApi:
     ) -> RESTResponseType:
         """销售方根据已入库的订单、生产、发货及申报资料提交审核。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -239,7 +1072,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PostV1OrderSubmitAudit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -283,6 +1119,13 @@ class ApiOrderWorkflowApi:
             _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_order_submit_audit_request
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -328,7 +1171,7 @@ class ApiOrderWorkflowApi:
     def put_v1_order_confirm_receipt(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -341,14 +1184,14 @@ class ApiOrderWorkflowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PutV1OrderConfirmReceipt200Response:
         """采购方按整单或单条订单明细确认收货。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -382,7 +1225,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PutV1OrderConfirmReceipt200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -399,7 +1245,7 @@ class ApiOrderWorkflowApi:
     def put_v1_order_confirm_receipt_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -412,14 +1258,14 @@ class ApiOrderWorkflowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PutV1OrderConfirmReceipt200Response]:
         """采购方按整单或单条订单明细确认收货。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -453,7 +1299,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PutV1OrderConfirmReceipt200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -470,7 +1319,7 @@ class ApiOrderWorkflowApi:
     def put_v1_order_confirm_receipt_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -486,11 +1335,11 @@ class ApiOrderWorkflowApi:
     ) -> RESTResponseType:
         """采购方按整单或单条订单明细确认收货。
 
-        支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+        支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -524,7 +1373,10 @@ class ApiOrderWorkflowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '200': "PutV1OrderConfirmReceipt200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -568,6 +1420,13 @@ class ApiOrderWorkflowApi:
             _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_order_confirm_receipt_request
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:

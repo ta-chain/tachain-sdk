@@ -28,6 +28,42 @@ import {
  */
 export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest {
     /**
+     * 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+     */
+    customerId?: string | null;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     */
+    customerName?: string | null;
+    /**
+     * 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string | null;
+    /**
+     * 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     */
+    supplierId?: string | null;
+    /**
+     * 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+     */
+    supplierName?: string | null;
+    /**
+     * 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+     */
+    supplierCode?: string | null;
+    /**
+     * 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+     */
+    customerExtNo?: string | null;
+    /**
+     * 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+     */
+    supplierExtNo?: string | null;
+    /**
+     * 订单明细的全局唯一系统流水号。
+     */
+    uniqueNo?: string | null;
+    /**
      * 业务扩展 ID，例如订单、生产单、发货单等业务单据 ID。
      */
     extendId?: string | null;
@@ -38,23 +74,27 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationS
     /**
      * 业务单日期。订单阶段用于和 ExtendNumber 一起定位订单。
      */
-    extendDate?: string | null;
+    orderDate?: string | null;
     /**
-     * 订单行号。订单阶段需要按行定位时与 ExtendNumber、ExtendDate 一起使用。
+     * 订单行号。订单阶段需要按行定位时与 ExtendNumber、OrderDate 一起使用。
      */
-    extendLineNumber?: string | null;
+    lineNumber?: string | null;
     /**
      * 订单侧别，常用 PO 或 SO；订单号重复时用于区分采购订单和销售订单。
      */
     orderSide?: string | null;
     /**
-     * 产品编码。生产/入库阶段按生产单号定位时需要配合生产类型使用。
+     * 成品编码、名称或外部映射。生产/入库阶段配合生产编号定位。
      */
     productCode?: string | null;
     /**
-     * 生产类型。生产阶段默认 0，入库阶段默认 1；显式传入时参与生产单唯一定位。
+     * 生产类型校验。生产阶段默认 0，入库阶段默认 1；不属于生产单唯一键。
      */
     productionType?: number | null;
+    /**
+     * 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+     */
+    receiptNumber?: string | null;
     /**
      * 发货单号。发货阶段优先用该字段定位发货单。
      */
@@ -62,17 +102,19 @@ export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationS
     /**
      * 申报阶段 ID。
      */
-    stageId?: string | null;
+    stageId: string;
     /**
      * 申报资料明细集合，每条明细对应一种资料类型。
      */
-    documentList?: Array<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest> | null;
+    documentList: Array<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest>;
 }
 
 /**
  * Check if a given object implements the TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest interface.
  */
 export function instanceOfTacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest(value: object): value is TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest {
+    if (!('stageId' in value) || value['stageId'] === undefined) return false;
+    if (!('documentList' in value) || value['documentList'] === undefined) return false;
     return true;
 }
 
@@ -86,16 +128,26 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSu
     }
     return {
         
+        'customerId': json['customerId'] === undefined ? undefined : json['customerId'] === null ? null : json['customerId'],
+        'customerName': json['customerName'] === undefined ? undefined : json['customerName'] === null ? null : json['customerName'],
+        'customerCode': json['customerCode'] === undefined ? undefined : json['customerCode'] === null ? null : json['customerCode'],
+        'supplierId': json['supplierId'] === undefined ? undefined : json['supplierId'] === null ? null : json['supplierId'],
+        'supplierName': json['supplierName'] === undefined ? undefined : json['supplierName'] === null ? null : json['supplierName'],
+        'supplierCode': json['supplierCode'] === undefined ? undefined : json['supplierCode'] === null ? null : json['supplierCode'],
+        'customerExtNo': json['customerExtNo'] === undefined ? undefined : json['customerExtNo'] === null ? null : json['customerExtNo'],
+        'supplierExtNo': json['supplierExtNo'] === undefined ? undefined : json['supplierExtNo'] === null ? null : json['supplierExtNo'],
+        'uniqueNo': json['uniqueNo'] === undefined ? undefined : json['uniqueNo'] === null ? null : json['uniqueNo'],
         'extendId': json['extendId'] === undefined ? undefined : json['extendId'] === null ? null : json['extendId'],
         'extendNumber': json['extendNumber'] === undefined ? undefined : json['extendNumber'] === null ? null : json['extendNumber'],
-        'extendDate': json['extendDate'] === undefined ? undefined : json['extendDate'] === null ? null : json['extendDate'],
-        'extendLineNumber': json['extendLineNumber'] === undefined ? undefined : json['extendLineNumber'] === null ? null : json['extendLineNumber'],
+        'orderDate': json['orderDate'] === undefined ? undefined : json['orderDate'] === null ? null : json['orderDate'],
+        'lineNumber': json['lineNumber'] === undefined ? undefined : json['lineNumber'] === null ? null : json['lineNumber'],
         'orderSide': json['orderSide'] === undefined ? undefined : json['orderSide'] === null ? null : json['orderSide'],
         'productCode': json['productCode'] === undefined ? undefined : json['productCode'] === null ? null : json['productCode'],
         'productionType': json['productionType'] === undefined ? undefined : json['productionType'] === null ? null : json['productionType'],
+        'receiptNumber': json['receiptNumber'] === undefined ? undefined : json['receiptNumber'] === null ? null : json['receiptNumber'],
         'deliveryNumber': json['deliveryNumber'] === undefined ? undefined : json['deliveryNumber'] === null ? null : json['deliveryNumber'],
-        'stageId': json['stageId'] === undefined ? undefined : json['stageId'] === null ? null : json['stageId'],
-        'documentList': json['documentList'] === undefined ? undefined : json['documentList'] === null ? null : ((json['documentList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequestFromJSON)),
+        'stageId': json['stageId'],
+        'documentList': ((json['documentList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequestFromJSON)),
     };
 }
 
@@ -110,16 +162,26 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSu
 
     return {
         
+        'customerId': value['customerId'],
+        'customerName': value['customerName'],
+        'customerCode': value['customerCode'],
+        'supplierId': value['supplierId'],
+        'supplierName': value['supplierName'],
+        'supplierCode': value['supplierCode'],
+        'customerExtNo': value['customerExtNo'],
+        'supplierExtNo': value['supplierExtNo'],
+        'uniqueNo': value['uniqueNo'],
         'extendId': value['extendId'],
         'extendNumber': value['extendNumber'],
-        'extendDate': value['extendDate'],
-        'extendLineNumber': value['extendLineNumber'],
+        'orderDate': value['orderDate'],
+        'lineNumber': value['lineNumber'],
         'orderSide': value['orderSide'],
         'productCode': value['productCode'],
         'productionType': value['productionType'],
+        'receiptNumber': value['receiptNumber'],
         'deliveryNumber': value['deliveryNumber'],
         'stageId': value['stageId'],
-        'documentList': value['documentList'] == null ? undefined : ((value['documentList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequestToJSON)),
+        'documentList': ((value['documentList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequestToJSON)),
     };
 }
 

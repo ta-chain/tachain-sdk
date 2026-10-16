@@ -28,14 +28,21 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequ
     """
     采购方确认收货请求。
     """ # noqa: E501
+    customer_id: Optional[StrictStr] = Field(default=None, description="查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。", alias="customerId")
+    customer_name: Optional[StrictStr] = Field(default=None, description="客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。", alias="customerName")
+    customer_code: Optional[StrictStr] = Field(default=None, description="当前公司维护的客户编码或启用的 Customer/Company 外部映射值。", alias="customerCode")
+    supplier_id: Optional[StrictStr] = Field(default=None, description="查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。", alias="supplierId")
+    supplier_name: Optional[StrictStr] = Field(default=None, description="供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。", alias="supplierName")
+    supplier_code: Optional[StrictStr] = Field(default=None, description="当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。", alias="supplierCode")
+    customer_ext_no: Optional[StrictStr] = Field(default=None, description="订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。", alias="customerExtNo")
+    supplier_ext_no: Optional[StrictStr] = Field(default=None, description="订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。", alias="supplierExtNo")
+    unique_no: Optional[StrictStr] = Field(default=None, description="订单明细的全局唯一系统流水号。", alias="uniqueNo")
     order_id: Optional[StrictStr] = Field(default=None, description="订单主 ID；不传明细条件时处理全部有效明细。", alias="orderId")
     order_line_id: Optional[StrictStr] = Field(default=None, description="订单明细 ID；仅处理该明细。", alias="orderLineId")
-    order_number: Optional[StrictStr] = Field(default=None, description="订单号；不传任何内部 ID 时必填。", alias="orderNumber")
-    order_date: Optional[datetime] = Field(default=None, description="订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。", alias="orderDate")
+    order_number: Optional[StrictStr] = Field(default=None, description="订单号；不传 ID 或流水号时，与 OrderDate 一起必填。", alias="orderNumber")
+    order_date: Optional[datetime] = Field(default=None, description="订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。", alias="orderDate")
     line_number: Optional[StrictStr] = Field(default=None, description="订单行号；可不传，不传时处理整单。", alias="lineNumber")
-    supplier_id: Optional[StrictStr] = Field(default=None, description="卖方公司 ID；业务键定位时与 SupplierName 至少传一个。", alias="supplierId")
-    supplier_name: Optional[StrictStr] = Field(default=None, description="卖方名称，支持英文名、当地语言名称或简称，精确匹配。", alias="supplierName")
-    __properties: ClassVar[List[str]] = ["orderId", "orderLineId", "orderNumber", "orderDate", "lineNumber", "supplierId", "supplierName"]
+    __properties: ClassVar[List[str]] = ["customerId", "customerName", "customerCode", "supplierId", "supplierName", "supplierCode", "customerExtNo", "supplierExtNo", "uniqueNo", "orderId", "orderLineId", "orderNumber", "orderDate", "lineNumber"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -76,41 +83,78 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequ
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if order_id (nullable) is None
+                                                                                                                
+        # set to None if customer_id (nullable) is None
         # and model_fields_set contains the field
-        if self.order_id is None and "order_id" in self.model_fields_set:
-            _dict['orderId'] = None
+        if self.customer_id is None and "customer_id" in self.model_fields_set:
+            _dict['customerId'] = None
 
-        # set to None if order_line_id (nullable) is None
+                # set to None if customer_name (nullable) is None
         # and model_fields_set contains the field
-        if self.order_line_id is None and "order_line_id" in self.model_fields_set:
-            _dict['orderLineId'] = None
+        if self.customer_name is None and "customer_name" in self.model_fields_set:
+            _dict['customerName'] = None
 
-        # set to None if order_number (nullable) is None
+                # set to None if customer_code (nullable) is None
         # and model_fields_set contains the field
-        if self.order_number is None and "order_number" in self.model_fields_set:
-            _dict['orderNumber'] = None
+        if self.customer_code is None and "customer_code" in self.model_fields_set:
+            _dict['customerCode'] = None
 
-        # set to None if order_date (nullable) is None
-        # and model_fields_set contains the field
-        if self.order_date is None and "order_date" in self.model_fields_set:
-            _dict['orderDate'] = None
-
-        # set to None if line_number (nullable) is None
-        # and model_fields_set contains the field
-        if self.line_number is None and "line_number" in self.model_fields_set:
-            _dict['lineNumber'] = None
-
-        # set to None if supplier_id (nullable) is None
+                # set to None if supplier_id (nullable) is None
         # and model_fields_set contains the field
         if self.supplier_id is None and "supplier_id" in self.model_fields_set:
             _dict['supplierId'] = None
 
-        # set to None if supplier_name (nullable) is None
+                # set to None if supplier_name (nullable) is None
         # and model_fields_set contains the field
         if self.supplier_name is None and "supplier_name" in self.model_fields_set:
             _dict['supplierName'] = None
 
+                # set to None if supplier_code (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_code is None and "supplier_code" in self.model_fields_set:
+            _dict['supplierCode'] = None
+
+                # set to None if customer_ext_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.customer_ext_no is None and "customer_ext_no" in self.model_fields_set:
+            _dict['customerExtNo'] = None
+
+                # set to None if supplier_ext_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_ext_no is None and "supplier_ext_no" in self.model_fields_set:
+            _dict['supplierExtNo'] = None
+
+                # set to None if unique_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.unique_no is None and "unique_no" in self.model_fields_set:
+            _dict['uniqueNo'] = None
+
+                # set to None if order_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.order_id is None and "order_id" in self.model_fields_set:
+            _dict['orderId'] = None
+
+                # set to None if order_line_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.order_line_id is None and "order_line_id" in self.model_fields_set:
+            _dict['orderLineId'] = None
+
+                # set to None if order_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.order_number is None and "order_number" in self.model_fields_set:
+            _dict['orderNumber'] = None
+
+                # set to None if order_date (nullable) is None
+        # and model_fields_set contains the field
+        if self.order_date is None and "order_date" in self.model_fields_set:
+            _dict['orderDate'] = None
+
+                # set to None if line_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.line_number is None and "line_number" in self.model_fields_set:
+            _dict['lineNumber'] = None
+
+        
         return _dict
 
     @classmethod
@@ -123,13 +167,21 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequ
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "orderId": obj.get("orderId"),
-            "orderLineId": obj.get("orderLineId"),
-            "orderNumber": obj.get("orderNumber"),
-            "orderDate": obj.get("orderDate"),
-            "lineNumber": obj.get("lineNumber"),
-            "supplierId": obj.get("supplierId"),
-            "supplierName": obj.get("supplierName")
+            "customerId": obj.get("customerId"),
+                        "customerName": obj.get("customerName"),
+                        "customerCode": obj.get("customerCode"),
+                        "supplierId": obj.get("supplierId"),
+                        "supplierName": obj.get("supplierName"),
+                        "supplierCode": obj.get("supplierCode"),
+                        "customerExtNo": obj.get("customerExtNo"),
+                        "supplierExtNo": obj.get("supplierExtNo"),
+                        "uniqueNo": obj.get("uniqueNo"),
+                        "orderId": obj.get("orderId"),
+                        "orderLineId": obj.get("orderLineId"),
+                        "orderNumber": obj.get("orderNumber"),
+                        "orderDate": obj.get("orderDate"),
+                        "lineNumber": obj.get("lineNumber")
+            
         })
         return _obj
 

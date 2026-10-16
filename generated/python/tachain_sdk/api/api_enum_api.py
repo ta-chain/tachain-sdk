@@ -42,7 +42,7 @@ class ApiEnumApi:
     def get_v1_enum_get_list(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）")] = None,
+        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62,7 +62,7 @@ class ApiEnumApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param enum_types: 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+        :param enum_types: 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
         :type enum_types: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -97,8 +97,9 @@ class ApiEnumApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetV1EnumGetList200Response",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
-            '500': None,
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +116,7 @@ class ApiEnumApi:
     def get_v1_enum_get_list_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）")] = None,
+        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -135,7 +136,7 @@ class ApiEnumApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param enum_types: 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+        :param enum_types: 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
         :type enum_types: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -170,8 +171,9 @@ class ApiEnumApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetV1EnumGetList200Response",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
-            '500': None,
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -188,7 +190,7 @@ class ApiEnumApi:
     def get_v1_enum_get_list_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）")] = None,
+        enum_types: Annotated[Optional[List[StrictStr]], Field(description="枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -208,7 +210,7 @@ class ApiEnumApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param enum_types: 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+        :param enum_types: 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
         :type enum_types: List[str]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -243,8 +245,9 @@ class ApiEnumApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "GetV1EnumGetList200Response",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
-            '500': None,
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,

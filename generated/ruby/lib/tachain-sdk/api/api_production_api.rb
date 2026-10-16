@@ -23,12 +23,12 @@ module TachainSdk
     # 删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id query 方式传入的单个 ID，便于简单调用。
-    # @option opts [String] :number 
-    # @option opts [String] :product_code 
-    # @option opts [Integer] :type 
-    # @option opts [ApiIntegrationDeleteRequest] :api_integration_delete_request 
-    # @return [Model4]
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :type 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
+    # @option opts [ApiProductionDeleteRequest] :api_production_delete_request 
+    # @return [DeleteV1DeclarationDelete200Response]
     def delete_v1_production_delete(x_credential_type, opts = {})
       data, _status_code, _headers = delete_v1_production_delete_with_http_info(x_credential_type, opts)
       data
@@ -38,12 +38,12 @@ module TachainSdk
     # 删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id query 方式传入的单个 ID，便于简单调用。
-    # @option opts [String] :number 
-    # @option opts [String] :product_code 
-    # @option opts [Integer] :type 
-    # @option opts [ApiIntegrationDeleteRequest] :api_integration_delete_request 
-    # @return [Array<(Model4, Integer, Hash)>] Model4 data, response status code and response headers
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [Integer] :type 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
+    # @option opts [ApiProductionDeleteRequest] :api_production_delete_request 
+    # @return [Array<(DeleteV1DeclarationDelete200Response, Integer, Hash)>] DeleteV1DeclarationDelete200Response data, response status code and response headers
     def delete_v1_production_delete_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiProductionApi.delete_v1_production_delete ...'
@@ -82,10 +82,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_integration_delete_request'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_production_delete_request'])
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Model4'
+      return_type = opts[:debug_return_type] || 'DeleteV1DeclarationDelete200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -108,110 +108,108 @@ module TachainSdk
     end
 
     # 查询生产记录单及详细领料信息。
-    # 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+    # 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :search_text 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :product_code 
-    # @option opts [String] :product_name 
-    # @option opts [Time] :production_date_start 
-    # @option opts [Time] :production_date_end 
-    # @option opts [String] :batch 
-    # @option opts [Integer] :type 
-    # @option opts [Integer] :status 
-    # @option opts [String] :facility_id 
-    # @option opts [String] :facility_code 
-    # @option opts [Integer] :process_route_id 
-    # @option opts [String] :process_route_code 
-    # @option opts [String] :created_by 
-    # @option opts [Time] :created_at_start 
-    # @option opts [Time] :created_at_end 
-    # @option opts [String] :sales_order_line_id 
-    # @option opts [Float] :quantity_produced 
-    # @option opts [String] :unit 
-    # @option opts [String] :sort_by 
-    # @option opts [String] :unique_no 
-    # @option opts [String] :line_number 
-    # @option opts [String] :product_category 
-    # @option opts [String] :material_id 
-    # @option opts [String] :material_code 
-    # @option opts [String] :material_name 
-    # @option opts [String] :product_id 
-    # @option opts [String] :destination_country 
-    # @option opts [String] :customer_ext_no 
-    # @option opts [String] :supplier_ext_no 
-    # @option opts [String] :origin_country 
-    # @option opts [Time] :estimated_time_of_departure_start 
-    # @option opts [Time] :estimated_time_of_departure_end 
-    # @option opts [String] :season 
-    # @option opts [String] :season_year 
-    # @option opts [Time] :last_updated_at_start 
-    # @option opts [Time] :last_updated_at_end 
-    # @option opts [String] :color 
-    # @option opts [Integer] :so_status  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
-    # @option opts [Integer] :po_status  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
-    # @option opts [String] :order_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [PagedResponseProductionApiDto]
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [String] :product_name 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :production_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :production_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :batch 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Integer] :type 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
+    # @option opts [Integer] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [String] :facility_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :facility_code 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
+    # @option opts [Integer] :process_route_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :process_route_code 工艺路线 Code/Name 或外部映射。
+    # @option opts [String] :created_by 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :created_at_start 创建时间下限。
+    # @option opts [Time] :created_at_end 创建时间上限。
+    # @option opts [String] :sales_order_line_id 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
+    # @option opts [Float] :quantity_produced 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :unit 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :product_category 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_code 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_name 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :product_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :destination_country 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :origin_country 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :season 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :season_year 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :color 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Integer] :so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+    # @option opts [Integer] :po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @return [GetV1ProductionListPaging200Response]
     def get_v1_production_list_paging(x_credential_type, opts = {})
       data, _status_code, _headers = get_v1_production_list_paging_with_http_info(x_credential_type, opts)
       data
     end
 
     # 查询生产记录单及详细领料信息。
-    # 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+    # 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :search_text 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :product_code 
-    # @option opts [String] :product_name 
-    # @option opts [Time] :production_date_start 
-    # @option opts [Time] :production_date_end 
-    # @option opts [String] :batch 
-    # @option opts [Integer] :type 
-    # @option opts [Integer] :status 
-    # @option opts [String] :facility_id 
-    # @option opts [String] :facility_code 
-    # @option opts [Integer] :process_route_id 
-    # @option opts [String] :process_route_code 
-    # @option opts [String] :created_by 
-    # @option opts [Time] :created_at_start 
-    # @option opts [Time] :created_at_end 
-    # @option opts [String] :sales_order_line_id 
-    # @option opts [Float] :quantity_produced 
-    # @option opts [String] :unit 
-    # @option opts [String] :sort_by 
-    # @option opts [String] :unique_no 
-    # @option opts [String] :line_number 
-    # @option opts [String] :product_category 
-    # @option opts [String] :material_id 
-    # @option opts [String] :material_code 
-    # @option opts [String] :material_name 
-    # @option opts [String] :product_id 
-    # @option opts [String] :destination_country 
-    # @option opts [String] :customer_ext_no 
-    # @option opts [String] :supplier_ext_no 
-    # @option opts [String] :origin_country 
-    # @option opts [Time] :estimated_time_of_departure_start 
-    # @option opts [Time] :estimated_time_of_departure_end 
-    # @option opts [String] :season 
-    # @option opts [String] :season_year 
-    # @option opts [Time] :last_updated_at_start 
-    # @option opts [Time] :last_updated_at_end 
-    # @option opts [String] :color 
-    # @option opts [Integer] :so_status  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
-    # @option opts [Integer] :po_status  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
-    # @option opts [String] :order_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [Array<(PagedResponseProductionApiDto, Integer, Hash)>] PagedResponseProductionApiDto data, response status code and response headers
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
+    # @option opts [String] :product_name 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :production_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :production_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :batch 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Integer] :type 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
+    # @option opts [Integer] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [String] :facility_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :facility_code 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
+    # @option opts [Integer] :process_route_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :process_route_code 工艺路线 Code/Name 或外部映射。
+    # @option opts [String] :created_by 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :created_at_start 创建时间下限。
+    # @option opts [Time] :created_at_end 创建时间上限。
+    # @option opts [String] :sales_order_line_id 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
+    # @option opts [Float] :quantity_produced 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :unit 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :product_category 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_code 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :material_name 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :product_id 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :destination_country 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :origin_country 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :season 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :season_year 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :color 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Integer] :so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+    # @option opts [Integer] :po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @return [Array<(GetV1ProductionListPaging200Response, Integer, Hash)>] GetV1ProductionListPaging200Response data, response status code and response headers
     def get_v1_production_list_paging_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiProductionApi.get_v1_production_list_paging ...'
@@ -249,7 +247,6 @@ module TachainSdk
       query_params[:'salesOrderLineId'] = opts[:'sales_order_line_id'] if !opts[:'sales_order_line_id'].nil?
       query_params[:'quantityProduced'] = opts[:'quantity_produced'] if !opts[:'quantity_produced'].nil?
       query_params[:'unit'] = opts[:'unit'] if !opts[:'unit'].nil?
-      query_params[:'sortBy'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
       query_params[:'uniqueNo'] = opts[:'unique_no'] if !opts[:'unique_no'].nil?
       query_params[:'lineNumber'] = opts[:'line_number'] if !opts[:'line_number'].nil?
       query_params[:'productCategory'] = opts[:'product_category'] if !opts[:'product_category'].nil?
@@ -261,12 +258,8 @@ module TachainSdk
       query_params[:'customerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
       query_params[:'supplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
       query_params[:'originCountry'] = opts[:'origin_country'] if !opts[:'origin_country'].nil?
-      query_params[:'estimatedTimeOfDepartureStart'] = opts[:'estimated_time_of_departure_start'] if !opts[:'estimated_time_of_departure_start'].nil?
-      query_params[:'estimatedTimeOfDepartureEnd'] = opts[:'estimated_time_of_departure_end'] if !opts[:'estimated_time_of_departure_end'].nil?
       query_params[:'season'] = opts[:'season'] if !opts[:'season'].nil?
       query_params[:'seasonYear'] = opts[:'season_year'] if !opts[:'season_year'].nil?
-      query_params[:'lastUpdatedAtStart'] = opts[:'last_updated_at_start'] if !opts[:'last_updated_at_start'].nil?
-      query_params[:'lastUpdatedAtEnd'] = opts[:'last_updated_at_end'] if !opts[:'last_updated_at_end'].nil?
       query_params[:'color'] = opts[:'color'] if !opts[:'color'].nil?
       query_params[:'soStatus'] = opts[:'so_status'] if !opts[:'so_status'].nil?
       query_params[:'poStatus'] = opts[:'po_status'] if !opts[:'po_status'].nil?
@@ -275,6 +268,10 @@ module TachainSdk
       query_params[:'orderDate'] = opts[:'order_date'] if !opts[:'order_date'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'pageSize'] = opts[:'page_size'] if !opts[:'page_size'].nil?
+      query_params[:'customerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'supplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
+      query_params[:'customerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'supplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -289,7 +286,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'PagedResponseProductionApiDto'
+      return_type = opts[:debug_return_type] || 'GetV1ProductionListPaging200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -312,23 +309,23 @@ module TachainSdk
     end
 
     # 创建生产记录单。
-    # 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+    # 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_production_create_request [ApiProductionCreateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ProductionApiDto] :production_api_dto 
-    # @return [ApiResponseProductionApiDto]
-    def post_v1_production_create(x_credential_type, opts = {})
-      data, _status_code, _headers = post_v1_production_create_with_http_info(x_credential_type, opts)
+    # @return [PostV1ProductionCreate200Response]
+    def post_v1_production_create(x_credential_type, api_production_create_request, opts = {})
+      data, _status_code, _headers = post_v1_production_create_with_http_info(x_credential_type, api_production_create_request, opts)
       data
     end
 
     # 创建生产记录单。
-    # 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+    # 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_production_create_request [ApiProductionCreateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ProductionApiDto] :production_api_dto 
-    # @return [Array<(ApiResponseProductionApiDto, Integer, Hash)>] ApiResponseProductionApiDto data, response status code and response headers
-    def post_v1_production_create_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PostV1ProductionCreate200Response, Integer, Hash)>] PostV1ProductionCreate200Response data, response status code and response headers
+    def post_v1_production_create_with_http_info(x_credential_type, api_production_create_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiProductionApi.post_v1_production_create ...'
       end
@@ -340,6 +337,10 @@ module TachainSdk
       allowable_values = ["Token", "API Key"]
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_production_create_request' is set
+      if @api_client.config.client_side_validation && api_production_create_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_production_create_request' when calling ApiProductionApi.post_v1_production_create"
       end
       # resource path
       local_var_path = '/v1/production/Create'
@@ -362,10 +363,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'production_api_dto'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_production_create_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseProductionApiDto'
+      return_type = opts[:debug_return_type] || 'PostV1ProductionCreate200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -388,23 +389,23 @@ module TachainSdk
     end
 
     # 修改生产记录单。
-    # 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+    # 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_production_update_request [ApiProductionUpdateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ProductionApiDto] :production_api_dto 
-    # @return [ApiResponseProductionApiDto]
-    def put_v1_production_update(x_credential_type, opts = {})
-      data, _status_code, _headers = put_v1_production_update_with_http_info(x_credential_type, opts)
+    # @return [PostV1ProductionCreate200Response]
+    def put_v1_production_update(x_credential_type, api_production_update_request, opts = {})
+      data, _status_code, _headers = put_v1_production_update_with_http_info(x_credential_type, api_production_update_request, opts)
       data
     end
 
     # 修改生产记录单。
-    # 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+    # 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_production_update_request [ApiProductionUpdateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [ProductionApiDto] :production_api_dto 
-    # @return [Array<(ApiResponseProductionApiDto, Integer, Hash)>] ApiResponseProductionApiDto data, response status code and response headers
-    def put_v1_production_update_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PostV1ProductionCreate200Response, Integer, Hash)>] PostV1ProductionCreate200Response data, response status code and response headers
+    def put_v1_production_update_with_http_info(x_credential_type, api_production_update_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiProductionApi.put_v1_production_update ...'
       end
@@ -416,6 +417,10 @@ module TachainSdk
       allowable_values = ["Token", "API Key"]
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_production_update_request' is set
+      if @api_client.config.client_side_validation && api_production_update_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_production_update_request' when calling ApiProductionApi.put_v1_production_update"
       end
       # resource path
       local_var_path = '/v1/production/Update'
@@ -438,10 +443,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'production_api_dto'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_production_update_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseProductionApiDto'
+      return_type = opts[:debug_return_type] || 'PostV1ProductionCreate200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']

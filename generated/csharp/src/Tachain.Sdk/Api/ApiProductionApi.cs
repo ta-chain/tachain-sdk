@@ -35,13 +35,13 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        Model4 DeleteV1ProductionDelete(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        DeleteV1DeclarationDelete200Response DeleteV1ProductionDelete(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default);
 
         /// <summary>
         /// 删除生产记录单。
@@ -51,170 +51,168 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        ApiResponse<Model4> DeleteV1ProductionDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1ProductionDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default);
         /// <summary>
         /// 查询生产记录单及详细领料信息。
         /// </summary>
         /// <remarks>
-        /// 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1ProductionListPaging(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default);
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <returns>GetV1ProductionListPaging200Response</returns>
+        GetV1ProductionListPaging200Response GetV1ProductionListPaging(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default);
 
         /// <summary>
         /// 查询生产记录单及详细领料信息。
         /// </summary>
         /// <remarks>
-        /// 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1ProductionListPagingWithHttpInfo(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default);
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <returns>ApiResponse of GetV1ProductionListPaging200Response</returns>
+        ApiResponse<GetV1ProductionListPaging200Response> GetV1ProductionListPagingWithHttpInfo(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default);
         /// <summary>
         /// 创建生产记录单。
         /// </summary>
         /// <remarks>
-        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1ProductionCreate(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
+        /// <returns>PostV1ProductionCreate200Response</returns>
+        PostV1ProductionCreate200Response PostV1ProductionCreate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest);
 
         /// <summary>
         /// 创建生产记录单。
         /// </summary>
         /// <remarks>
-        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1ProductionCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
+        /// <returns>ApiResponse of PostV1ProductionCreate200Response</returns>
+        ApiResponse<PostV1ProductionCreate200Response> PostV1ProductionCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest);
         /// <summary>
         /// 修改生产记录单。
         /// </summary>
         /// <remarks>
-        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1ProductionUpdate(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
+        /// <returns>PostV1ProductionCreate200Response</returns>
+        PostV1ProductionCreate200Response PutV1ProductionUpdate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest);
 
         /// <summary>
         /// 修改生产记录单。
         /// </summary>
         /// <remarks>
-        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1ProductionUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
+        /// <returns>ApiResponse of PostV1ProductionCreate200Response</returns>
+        ApiResponse<PostV1ProductionCreate200Response> PutV1ProductionUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest);
         #endregion Synchronous Operations
     }
 
@@ -232,14 +230,14 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        System.Threading.Tasks.Task<Model4> DeleteV1ProductionDeleteAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1ProductionDeleteAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 删除生产记录单。
@@ -249,177 +247,175 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Model4>> DeleteV1ProductionDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1ProductionDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 查询生产记录单及详细领料信息。
         /// </summary>
         /// <remarks>
-        /// 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1ProductionListPagingAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1ProductionListPaging200Response</returns>
+        System.Threading.Tasks.Task<GetV1ProductionListPaging200Response> GetV1ProductionListPagingAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询生产记录单及详细领料信息。
         /// </summary>
         /// <remarks>
-        /// 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1ProductionListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (GetV1ProductionListPaging200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1ProductionListPaging200Response>> GetV1ProductionListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 创建生产记录单。
         /// </summary>
         /// <remarks>
-        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1ProductionCreateAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PostV1ProductionCreate200Response</returns>
+        System.Threading.Tasks.Task<PostV1ProductionCreate200Response> PostV1ProductionCreateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 创建生产记录单。
         /// </summary>
         /// <remarks>
-        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1ProductionCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PostV1ProductionCreate200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PostV1ProductionCreate200Response>> PostV1ProductionCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 修改生产记录单。
         /// </summary>
         /// <remarks>
-        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1ProductionUpdateAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PostV1ProductionCreate200Response</returns>
+        System.Threading.Tasks.Task<PostV1ProductionCreate200Response> PutV1ProductionUpdateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 修改生产记录单。
         /// </summary>
         /// <remarks>
-        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1ProductionUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PostV1ProductionCreate200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PostV1ProductionCreate200Response>> PutV1ProductionUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -638,15 +634,15 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        public Model4 DeleteV1ProductionDelete(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        public DeleteV1DeclarationDelete200Response DeleteV1ProductionDelete(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = DeleteV1ProductionDeleteWithHttpInfo(xCredentialType, id, number, productCode, type, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = DeleteV1ProductionDeleteWithHttpInfo(xCredentialType, id, number, productCode, type, tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest);
             return localVarResponse.Data;
         }
 
@@ -655,13 +651,13 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        public Tachain.Sdk.Client.ApiResponse<Model4> DeleteV1ProductionDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1ProductionDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -701,7 +697,7 @@ namespace Tachain.Sdk.Api
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
             }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -726,7 +722,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Model4>("/v1/production/Delete", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<DeleteV1DeclarationDelete200Response>("/v1/production/Delete", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -742,16 +738,16 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        public async System.Threading.Tasks.Task<Model4> DeleteV1ProductionDeleteAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        public async System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1ProductionDeleteAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = await DeleteV1ProductionDeleteWithHttpInfoAsync(xCredentialType, id, number, productCode, type, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = await DeleteV1ProductionDeleteWithHttpInfoAsync(xCredentialType, id, number, productCode, type, tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -760,14 +756,14 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID，便于简单调用。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Model4>> DeleteV1ProductionDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1ProductionDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? productCode = default, int? type = default, TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -809,7 +805,7 @@ namespace Tachain.Sdk.Api
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "type", type));
             }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -835,7 +831,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Model4>("/v1/production/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteV1DeclarationDelete200Response>("/v1/production/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -847,114 +843,112 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 查询生产记录单及详细领料信息。 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 查询生产记录单及详细领料信息。 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1ProductionListPaging(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default)
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <returns>GetV1ProductionListPaging200Response</returns>
+        public GetV1ProductionListPaging200Response GetV1ProductionListPaging(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = GetV1ProductionListPagingWithHttpInfo(xCredentialType, searchText, number, productCode, productName, productionDateStart, productionDateEnd, batch, type, status, facilityId, facilityCode, processRouteId, processRouteCode, createdBy, createdAtStart, createdAtEnd, salesOrderLineId, quantityProduced, unit, sortBy, uniqueNo, lineNumber, productCategory, materialId, materialCode, materialName, productId, destinationCountry, customerExtNo, supplierExtNo, originCountry, estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd, season, seasonYear, lastUpdatedAtStart, lastUpdatedAtEnd, color, soStatus, poStatus, orderId, orderNumber, orderDate, page, pageSize);
+            Tachain.Sdk.Client.ApiResponse<GetV1ProductionListPaging200Response> localVarResponse = GetV1ProductionListPagingWithHttpInfo(xCredentialType, searchText, number, productCode, productName, productionDateStart, productionDateEnd, batch, type, status, facilityId, facilityCode, processRouteId, processRouteCode, createdBy, createdAtStart, createdAtEnd, salesOrderLineId, quantityProduced, unit, uniqueNo, lineNumber, productCategory, materialId, materialCode, materialName, productId, destinationCountry, customerExtNo, supplierExtNo, originCountry, season, seasonYear, color, soStatus, poStatus, orderId, orderNumber, orderDate, page, pageSize, customerCode, supplierCode, customerName, supplierName);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 查询生产记录单及详细领料信息。 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 查询生产记录单及详细领料信息。 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1ProductionListPagingWithHttpInfo(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default)
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <returns>ApiResponse of GetV1ProductionListPaging200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1ProductionListPaging200Response> GetV1ProductionListPagingWithHttpInfo(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1052,10 +1046,6 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "unit", unit));
             }
-            if (sortBy != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "sortBy", sortBy));
-            }
             if (uniqueNo != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "uniqueNo", uniqueNo));
@@ -1100,14 +1090,6 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "originCountry", originCountry));
             }
-            if (estimatedTimeOfDepartureStart != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "estimatedTimeOfDepartureStart", estimatedTimeOfDepartureStart));
-            }
-            if (estimatedTimeOfDepartureEnd != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "estimatedTimeOfDepartureEnd", estimatedTimeOfDepartureEnd));
-            }
             if (season != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "season", season));
@@ -1115,14 +1097,6 @@ namespace Tachain.Sdk.Api
             if (seasonYear != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "seasonYear", seasonYear));
-            }
-            if (lastUpdatedAtStart != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lastUpdatedAtStart", lastUpdatedAtStart));
-            }
-            if (lastUpdatedAtEnd != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lastUpdatedAtEnd", lastUpdatedAtEnd));
             }
             if (color != null)
             {
@@ -1156,6 +1130,22 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerCode", customerCode));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierCode", supplierCode));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerName", customerName));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierName", supplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1181,7 +1171,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/ListPaging", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetV1ProductionListPaging200Response>("/v1/production/ListPaging", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1193,116 +1183,114 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 查询生产记录单及详细领料信息。 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 查询生产记录单及详细领料信息。 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1ProductionListPagingAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of GetV1ProductionListPaging200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1ProductionListPaging200Response> GetV1ProductionListPagingAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await GetV1ProductionListPagingWithHttpInfoAsync(xCredentialType, searchText, number, productCode, productName, productionDateStart, productionDateEnd, batch, type, status, facilityId, facilityCode, processRouteId, processRouteCode, createdBy, createdAtStart, createdAtEnd, salesOrderLineId, quantityProduced, unit, sortBy, uniqueNo, lineNumber, productCategory, materialId, materialCode, materialName, productId, destinationCountry, customerExtNo, supplierExtNo, originCountry, estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd, season, seasonYear, lastUpdatedAtStart, lastUpdatedAtEnd, color, soStatus, poStatus, orderId, orderNumber, orderDate, page, pageSize, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<GetV1ProductionListPaging200Response> localVarResponse = await GetV1ProductionListPagingWithHttpInfoAsync(xCredentialType, searchText, number, productCode, productName, productionDateStart, productionDateEnd, batch, type, status, facilityId, facilityCode, processRouteId, processRouteCode, createdBy, createdAtStart, createdAtEnd, salesOrderLineId, quantityProduced, unit, uniqueNo, lineNumber, productCategory, materialId, materialCode, materialName, productId, destinationCountry, customerExtNo, supplierExtNo, originCountry, season, seasonYear, color, soStatus, poStatus, orderId, orderNumber, orderDate, page, pageSize, customerCode, supplierCode, customerName, supplierName, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 查询生产记录单及详细领料信息。 返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 &#x60;ProductionRawMaterial&#x60; 表示当前展开的领料明细。
+        /// 查询生产记录单及详细领料信息。 按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="searchText">关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="productCode"> (optional)</param>
-        /// <param name="productName"> (optional)</param>
-        /// <param name="productionDateStart"> (optional)</param>
-        /// <param name="productionDateEnd"> (optional)</param>
-        /// <param name="batch"> (optional)</param>
-        /// <param name="type"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="facilityId"> (optional)</param>
-        /// <param name="facilityCode"> (optional)</param>
-        /// <param name="processRouteId"> (optional)</param>
-        /// <param name="processRouteCode"> (optional)</param>
-        /// <param name="createdBy"> (optional)</param>
-        /// <param name="createdAtStart"> (optional)</param>
-        /// <param name="createdAtEnd"> (optional)</param>
-        /// <param name="salesOrderLineId"> (optional)</param>
-        /// <param name="quantityProduced"> (optional)</param>
-        /// <param name="unit"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="productCategory"> (optional)</param>
-        /// <param name="materialId"> (optional)</param>
-        /// <param name="materialCode"> (optional)</param>
-        /// <param name="materialName"> (optional)</param>
-        /// <param name="productId"> (optional)</param>
-        /// <param name="destinationCountry"> (optional)</param>
-        /// <param name="customerExtNo"> (optional)</param>
-        /// <param name="supplierExtNo"> (optional)</param>
-        /// <param name="originCountry"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureStart"> (optional)</param>
-        /// <param name="estimatedTimeOfDepartureEnd"> (optional)</param>
-        /// <param name="season"> (optional)</param>
-        /// <param name="seasonYear"> (optional)</param>
-        /// <param name="lastUpdatedAtStart"> (optional)</param>
-        /// <param name="lastUpdatedAtEnd"> (optional)</param>
-        /// <param name="color"> (optional)</param>
-        /// <param name="soStatus"> 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="poStatus"> 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="productCode">当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)</param>
+        /// <param name="productName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productionDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="batch">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="type">生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="facilityId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="facilityCode">工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。 (optional)</param>
+        /// <param name="processRouteId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="processRouteCode">工艺路线 Code/Name 或外部映射。 (optional)</param>
+        /// <param name="createdBy">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="createdAtStart">创建时间下限。 (optional)</param>
+        /// <param name="createdAtEnd">创建时间上限。 (optional)</param>
+        /// <param name="salesOrderLineId">查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="quantityProduced">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="unit">单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="productCategory">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialCode">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="materialName">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="productId">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="destinationCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="originCountry">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="season">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="seasonYear">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="color">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="soStatus">销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="poStatus">采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1ProductionListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? sortBy = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, DateTime? estimatedTimeOfDepartureStart = default, DateTime? estimatedTimeOfDepartureEnd = default, string? season = default, string? seasonYear = default, DateTime? lastUpdatedAtStart = default, DateTime? lastUpdatedAtEnd = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (GetV1ProductionListPaging200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1ProductionListPaging200Response>> GetV1ProductionListPagingWithHttpInfoAsync(string xCredentialType, string? searchText = default, string? number = default, string? productCode = default, string? productName = default, DateTime? productionDateStart = default, DateTime? productionDateEnd = default, string? batch = default, int? type = default, int? status = default, string? facilityId = default, string? facilityCode = default, long? processRouteId = default, string? processRouteCode = default, string? createdBy = default, DateTime? createdAtStart = default, DateTime? createdAtEnd = default, string? salesOrderLineId = default, double? quantityProduced = default, string? unit = default, string? uniqueNo = default, string? lineNumber = default, string? productCategory = default, string? materialId = default, string? materialCode = default, string? materialName = default, string? productId = default, string? destinationCountry = default, string? customerExtNo = default, string? supplierExtNo = default, string? originCountry = default, string? season = default, string? seasonYear = default, string? color = default, int? soStatus = default, int? poStatus = default, string? orderId = default, string? orderNumber = default, DateTime? orderDate = default, int? page = default, int? pageSize = default, string? customerCode = default, string? supplierCode = default, string? customerName = default, string? supplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1402,10 +1390,6 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "unit", unit));
             }
-            if (sortBy != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "sortBy", sortBy));
-            }
             if (uniqueNo != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "uniqueNo", uniqueNo));
@@ -1450,14 +1434,6 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "originCountry", originCountry));
             }
-            if (estimatedTimeOfDepartureStart != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "estimatedTimeOfDepartureStart", estimatedTimeOfDepartureStart));
-            }
-            if (estimatedTimeOfDepartureEnd != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "estimatedTimeOfDepartureEnd", estimatedTimeOfDepartureEnd));
-            }
             if (season != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "season", season));
@@ -1465,14 +1441,6 @@ namespace Tachain.Sdk.Api
             if (seasonYear != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "seasonYear", seasonYear));
-            }
-            if (lastUpdatedAtStart != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lastUpdatedAtStart", lastUpdatedAtStart));
-            }
-            if (lastUpdatedAtEnd != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "lastUpdatedAtEnd", lastUpdatedAtEnd));
             }
             if (color != null)
             {
@@ -1506,6 +1474,22 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerCode", customerCode));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierCode", supplierCode));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerName", customerName));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierName", supplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1532,7 +1516,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1ProductionListPaging200Response>("/v1/production/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1544,30 +1528,34 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1ProductionCreate(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
+        /// <returns>PostV1ProductionCreate200Response</returns>
+        public PostV1ProductionCreate200Response PostV1ProductionCreate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PostV1ProductionCreateWithHttpInfo(xCredentialType, tacticChainApiServiceViewModelsProductionApiDto);
+            Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> localVarResponse = PostV1ProductionCreateWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1ProductionCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
+        /// <returns>ApiResponse of PostV1ProductionCreate200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> PostV1ProductionCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiProductionApi->PostV1ProductionCreate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest' when calling ApiProductionApi->PostV1ProductionCreate");
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
@@ -1587,7 +1575,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsProductionApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1612,7 +1600,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/Create", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<PostV1ProductionCreate200Response>("/v1/production/Create", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1624,32 +1612,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1ProductionCreateAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PostV1ProductionCreate200Response</returns>
+        public async System.Threading.Tasks.Task<PostV1ProductionCreate200Response> PostV1ProductionCreateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PostV1ProductionCreateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceViewModelsProductionApiDto, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> localVarResponse = await PostV1ProductionCreateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. &#x60;ProductBomGroupingList&#x60; 有值时，会展开为 &#x60;ProductionRawMaterialList&#x60;； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        /// 创建生产记录单。 重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1ProductionCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PostV1ProductionCreate200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response>> PostV1ProductionCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiProductionApi->PostV1ProductionCreate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest' when calling ApiProductionApi->PostV1ProductionCreate");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -1671,7 +1663,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsProductionApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1697,7 +1689,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/Create", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<PostV1ProductionCreate200Response>("/v1/production/Create", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1709,31 +1701,35 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1ProductionUpdate(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
+        /// <returns>PostV1ProductionCreate200Response</returns>
+        public PostV1ProductionCreate200Response PutV1ProductionUpdate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PutV1ProductionUpdateWithHttpInfo(xCredentialType, tacticChainApiServiceViewModelsProductionApiDto);
+            Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> localVarResponse = PutV1ProductionUpdateWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1ProductionUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
+        /// <returns>ApiResponse of PostV1ProductionCreate200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> PutV1ProductionUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiProductionApi->PutV1ProductionUpdate");
 
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest' when calling ApiProductionApi->PutV1ProductionUpdate");
+
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -1752,7 +1748,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsProductionApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1777,7 +1773,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/Update", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<PostV1ProductionCreate200Response>("/v1/production/Update", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1789,32 +1785,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1ProductionUpdateAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PostV1ProductionCreate200Response</returns>
+        public async System.Threading.Tasks.Task<PostV1ProductionCreate200Response> PutV1ProductionUpdateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PutV1ProductionUpdateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceViewModelsProductionApiDto, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response> localVarResponse = await PutV1ProductionUpdateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Status &#x3D; -1&#x60; 的明细表示删除该明细。
+        /// 修改生产记录单。 修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 &#x60;Delete &#x3D; true&#x60; 的明细表示删除已有明细；内部 ID 由订单业务键解析。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsProductionApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1ProductionUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsProductionApiDto? tacticChainApiServiceViewModelsProductionApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PostV1ProductionCreate200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PostV1ProductionCreate200Response>> PutV1ProductionUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiProductionApi->PutV1ProductionUpdate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest' when calling ApiProductionApi->PutV1ProductionUpdate");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -1836,7 +1836,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsProductionApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1862,7 +1862,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/production/Update", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<PostV1ProductionCreate200Response>("/v1/production/Update", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

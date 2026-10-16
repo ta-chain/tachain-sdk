@@ -10,22 +10,25 @@ import Foundation
 import AnyCodable
 #endif
 
+/** 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。 */
 public final class Model4: Codable, JSONEncodable, Hashable {
 
+    /** 业务状态码。 */
     public var code: Int
-    public var message: String
-    public var data: [String]?
+    public var data: TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?
+    /** 按请求语言返回的提示，未指定语言时默认中文。 */
+    public var message: String?
 
-    public init(code: Int, message: String, data: [String]? = nil) {
+    public init(code: Int, data: TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull? = nil, message: String? = nil) {
         self.code = code
-        self.message = message
         self.data = data
+        self.message = message
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
-        case message
         case data
+        case message
     }
 
     // Encodable protocol methods
@@ -33,21 +36,21 @@ public final class Model4: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
-        try container.encode(message, forKey: .message)
         try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(message, forKey: .message)
     }
 
     public static func == (lhs: Model4, rhs: Model4) -> Bool {
         lhs.code == rhs.code &&
-        lhs.message == rhs.message &&
-        lhs.data == rhs.data
+        lhs.data == rhs.data &&
+        lhs.message == rhs.message
         
     }
 
     public func hash(into hasher: inout Hasher) {
         hasher.combine(code.hashValue)
-        hasher.combine(message.hashValue)
         hasher.combine(data?.hashValue)
+        hasher.combine(message?.hashValue)
         
     }
 }

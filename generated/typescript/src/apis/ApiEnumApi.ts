@@ -19,10 +19,10 @@ import {
     GetV1EnumGetList200ResponseToJSON,
 } from '../models/GetV1EnumGetList200Response';
 import {
-    type MicrosoftAspNetCoreMvcProblemDetails,
-    MicrosoftAspNetCoreMvcProblemDetailsFromJSON,
-    MicrosoftAspNetCoreMvcProblemDetailsToJSON,
-} from '../models/MicrosoftAspNetCoreMvcProblemDetails';
+    type TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
 
 export interface GetV1EnumGetListRequest {
     /**
@@ -30,7 +30,7 @@ export interface GetV1EnumGetListRequest {
      */
     xCredentialType: GetV1EnumGetListXCredentialTypeEnum;
     /**
-     * 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+     * 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
      */
     enumTypes?: Array<string>;
 }

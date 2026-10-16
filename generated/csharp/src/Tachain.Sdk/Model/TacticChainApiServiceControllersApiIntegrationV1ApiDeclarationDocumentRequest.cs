@@ -35,63 +35,45 @@ namespace Tachain.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest" /> class.
         /// </summary>
-        /// <param name="documentTypeId">资料类型 ID，对应系统中的文档类型。.</param>
-        /// <param name="documentTypeCode">资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。.</param>
-        /// <param name="documentDate">单据日期，例如运输单日期、入库单日期。.</param>
-        /// <param name="documentNumber">单据编号，例如运输单号、入库单号。.</param>
+        /// <param name="documentTypeId">资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。.</param>
+        /// <param name="documentTypeCode">资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。.</param>
         /// <param name="fileList">文件资料列表。只提交表单资料时可以为空。.</param>
         /// <param name="formDataList">表单资料列表。只提交文件资料时可以为空。.</param>
-        public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest(string documentTypeId = default, string documentTypeCode = default, DateTime? documentDate = default, string documentNumber = default, List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> fileList = default, List<TacticChainApiServiceModelsOrderStageFormDto> formDataList = default)
+        public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest(string documentTypeId = default, string documentTypeCode = default, List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> fileList = default, List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> formDataList = default)
         {
             this.DocumentTypeId = documentTypeId;
             this.DocumentTypeCode = documentTypeCode;
-            this.DocumentDate = documentDate;
-            this.DocumentNumber = documentNumber;
             this.FileList = fileList;
             this.FormDataList = formDataList;
         }
 
         /// <summary>
-        /// 资料类型 ID，对应系统中的文档类型。
+        /// 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
         /// </summary>
-        /// <value>资料类型 ID，对应系统中的文档类型。</value>
+        /// <value>资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。</value>
         [DataMember(Name = "documentTypeId", EmitDefaultValue = true)]
         public string DocumentTypeId { get; set; }
 
         /// <summary>
-        /// 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+        /// 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
         /// </summary>
-        /// <value>资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。</value>
+        /// <value>资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。</value>
         [DataMember(Name = "documentTypeCode", EmitDefaultValue = true)]
         public string DocumentTypeCode { get; set; }
-
-        /// <summary>
-        /// 单据日期，例如运输单日期、入库单日期。
-        /// </summary>
-        /// <value>单据日期，例如运输单日期、入库单日期。</value>
-        [DataMember(Name = "documentDate", EmitDefaultValue = true)]
-        public DateTime? DocumentDate { get; set; }
-
-        /// <summary>
-        /// 单据编号，例如运输单号、入库单号。
-        /// </summary>
-        /// <value>单据编号，例如运输单号、入库单号。</value>
-        [DataMember(Name = "documentNumber", EmitDefaultValue = true)]
-        public string DocumentNumber { get; set; }
 
         /// <summary>
         /// 文件资料列表。只提交表单资料时可以为空。
         /// </summary>
         /// <value>文件资料列表。只提交表单资料时可以为空。</value>
         [DataMember(Name = "fileList", EmitDefaultValue = true)]
-        public List<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> FileList { get; set; }
+        public List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> FileList { get; set; }
 
         /// <summary>
         /// 表单资料列表。只提交文件资料时可以为空。
         /// </summary>
         /// <value>表单资料列表。只提交文件资料时可以为空。</value>
         [DataMember(Name = "formDataList", EmitDefaultValue = true)]
-        public List<TacticChainApiServiceModelsOrderStageFormDto> FormDataList { get; set; }
+        public List<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> FormDataList { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,8 +85,6 @@ namespace Tachain.Sdk.Model
             sb.Append("class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest {\n");
             sb.Append("  DocumentTypeId: ").Append(DocumentTypeId).Append("\n");
             sb.Append("  DocumentTypeCode: ").Append(DocumentTypeCode).Append("\n");
-            sb.Append("  DocumentDate: ").Append(DocumentDate).Append("\n");
-            sb.Append("  DocumentNumber: ").Append(DocumentNumber).Append("\n");
             sb.Append("  FileList: ").Append(FileList).Append("\n");
             sb.Append("  FormDataList: ").Append(FormDataList).Append("\n");
             sb.Append("}\n");

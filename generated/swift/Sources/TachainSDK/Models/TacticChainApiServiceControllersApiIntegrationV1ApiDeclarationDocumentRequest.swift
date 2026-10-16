@@ -13,24 +13,18 @@ import AnyCodable
 /** 外部集成申报资料明细。 */
 public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest: Codable, JSONEncodable, Hashable {
 
-    /** 资料类型 ID，对应系统中的文档类型。 */
+    /** 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。 */
     public var documentTypeId: String?
-    /** 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。 */
+    /** 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。 */
     public var documentTypeCode: String?
-    /** 单据日期，例如运输单日期、入库单日期。 */
-    public var documentDate: Date?
-    /** 单据编号，例如运输单号、入库单号。 */
-    public var documentNumber: String?
     /** 文件资料列表。只提交表单资料时可以为空。 */
-    public var fileList: [TacticChainApiServiceViewModelsAttachmentInApiCreateDto]?
+    public var fileList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest]?
     /** 表单资料列表。只提交文件资料时可以为空。 */
-    public var formDataList: [TacticChainApiServiceModelsOrderStageFormDto]?
+    public var formDataList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest]?
 
-    public init(documentTypeId: String? = nil, documentTypeCode: String? = nil, documentDate: Date? = nil, documentNumber: String? = nil, fileList: [TacticChainApiServiceViewModelsAttachmentInApiCreateDto]? = nil, formDataList: [TacticChainApiServiceModelsOrderStageFormDto]? = nil) {
+    public init(documentTypeId: String? = nil, documentTypeCode: String? = nil, fileList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest]? = nil, formDataList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest]? = nil) {
         self.documentTypeId = documentTypeId
         self.documentTypeCode = documentTypeCode
-        self.documentDate = documentDate
-        self.documentNumber = documentNumber
         self.fileList = fileList
         self.formDataList = formDataList
     }
@@ -38,8 +32,6 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case documentTypeId
         case documentTypeCode
-        case documentDate
-        case documentNumber
         case fileList
         case formDataList
     }
@@ -50,8 +42,6 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(documentTypeId, forKey: .documentTypeId)
         try container.encodeIfPresent(documentTypeCode, forKey: .documentTypeCode)
-        try container.encodeIfPresent(documentDate, forKey: .documentDate)
-        try container.encodeIfPresent(documentNumber, forKey: .documentNumber)
         try container.encodeIfPresent(fileList, forKey: .fileList)
         try container.encodeIfPresent(formDataList, forKey: .formDataList)
     }
@@ -59,8 +49,6 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
     public static func == (lhs: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest, rhs: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest) -> Bool {
         lhs.documentTypeId == rhs.documentTypeId &&
         lhs.documentTypeCode == rhs.documentTypeCode &&
-        lhs.documentDate == rhs.documentDate &&
-        lhs.documentNumber == rhs.documentNumber &&
         lhs.fileList == rhs.fileList &&
         lhs.formDataList == rhs.formDataList
         
@@ -69,8 +57,6 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
     public func hash(into hasher: inout Hasher) {
         hasher.combine(documentTypeId?.hashValue)
         hasher.combine(documentTypeCode?.hashValue)
-        hasher.combine(documentDate?.hashValue)
-        hasher.combine(documentNumber?.hashValue)
         hasher.combine(fileList?.hashValue)
         hasher.combine(formDataList?.hashValue)
         

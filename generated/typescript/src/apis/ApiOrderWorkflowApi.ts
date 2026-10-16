@@ -14,15 +14,119 @@
 
 import * as runtime from '../runtime';
 import {
+    type GetV1OrderReceiptPending200Response,
+    GetV1OrderReceiptPending200ResponseFromJSON,
+    GetV1OrderReceiptPending200ResponseToJSON,
+} from '../models/GetV1OrderReceiptPending200Response';
+import {
+    type PostV1OrderDeclarationVerification200Response,
+    PostV1OrderDeclarationVerification200ResponseFromJSON,
+    PostV1OrderDeclarationVerification200ResponseToJSON,
+} from '../models/PostV1OrderDeclarationVerification200Response';
+import {
+    type PostV1OrderSubmitAudit200Response,
+    PostV1OrderSubmitAudit200ResponseFromJSON,
+    PostV1OrderSubmitAudit200ResponseToJSON,
+} from '../models/PostV1OrderSubmitAudit200Response';
+import {
+    type PutV1OrderConfirmReceipt200Response,
+    PutV1OrderConfirmReceipt200ResponseFromJSON,
+    PutV1OrderConfirmReceipt200ResponseToJSON,
+} from '../models/PutV1OrderConfirmReceipt200Response';
+import {
+    type TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponseToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse';
+import {
     type TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest,
     TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequestFromJSON,
     TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequestToJSON,
 } from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest';
 import {
+    type TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest,
+    TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequestToJSON,
+} from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest';
+import {
     type TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest,
     TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequestFromJSON,
     TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequestToJSON,
 } from '../models/TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest';
+
+export interface GetV1OrderReceiptPendingRequest {
+    /**
+     * Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.
+     */
+    xCredentialType: GetV1OrderReceiptPendingXCredentialTypeEnum;
+    /**
+     * 查询返回的订单主 ID；不指定明细时查询整单各明细待办。
+     */
+    orderId?: string;
+    /**
+     * 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。
+     */
+    orderLineId?: string;
+    /**
+     * 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+     */
+    orderNumber?: string;
+    /**
+     * 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+     */
+    orderDate?: string;
+    /**
+     * 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+     */
+    lineNumber?: string;
+    /**
+     * 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    customerExtNo?: string;
+    /**
+     * 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+     */
+    supplierExtNo?: string;
+    /**
+     * 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+     */
+    uniqueNo?: string;
+    /**
+     * 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+     */
+    customerId?: string;
+    /**
+     * 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+     */
+    customerName?: string;
+    /**
+     * 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+     */
+    customerCode?: string;
+    /**
+     * 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+     */
+    supplierId?: string;
+    /**
+     * 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。
+     */
+    supplierName?: string;
+    /**
+     * 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。
+     */
+    supplierCode?: string;
+}
+
+export interface PostV1OrderDeclarationVerificationRequest {
+    /**
+     * Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.
+     */
+    xCredentialType: PostV1OrderDeclarationVerificationXCredentialTypeEnum;
+    /**
+     * 
+     */
+    tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest;
+}
 
 export interface PostV1OrderSubmitAuditRequest {
     /**
@@ -32,7 +136,7 @@ export interface PostV1OrderSubmitAuditRequest {
     /**
      * 
      */
-    tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest;
+    tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest;
 }
 
 export interface PutV1OrderConfirmReceiptRequest {
@@ -43,13 +147,219 @@ export interface PutV1OrderConfirmReceiptRequest {
     /**
      * 
      */
-    tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest?: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest;
+    tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest;
 }
 
 /**
  * 
  */
 export class ApiOrderWorkflowApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for getV1OrderReceiptPending without sending the request
+     */
+    async getV1OrderReceiptPendingRequestOpts(requestParameters: GetV1OrderReceiptPendingRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['xCredentialType'] == null) {
+            throw new runtime.RequiredError(
+                'xCredentialType',
+                'Required parameter "xCredentialType" was null or undefined when calling getV1OrderReceiptPending().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['orderId'] != null) {
+            queryParameters['OrderId'] = requestParameters['orderId'];
+        }
+
+        if (requestParameters['orderLineId'] != null) {
+            queryParameters['OrderLineId'] = requestParameters['orderLineId'];
+        }
+
+        if (requestParameters['orderNumber'] != null) {
+            queryParameters['OrderNumber'] = requestParameters['orderNumber'];
+        }
+
+        if (requestParameters['orderDate'] != null) {
+            queryParameters['OrderDate'] = requestParameters['orderDate'];
+        }
+
+        if (requestParameters['lineNumber'] != null) {
+            queryParameters['LineNumber'] = requestParameters['lineNumber'];
+        }
+
+        if (requestParameters['customerExtNo'] != null) {
+            queryParameters['CustomerExtNo'] = requestParameters['customerExtNo'];
+        }
+
+        if (requestParameters['supplierExtNo'] != null) {
+            queryParameters['SupplierExtNo'] = requestParameters['supplierExtNo'];
+        }
+
+        if (requestParameters['uniqueNo'] != null) {
+            queryParameters['UniqueNo'] = requestParameters['uniqueNo'];
+        }
+
+        if (requestParameters['customerId'] != null) {
+            queryParameters['CustomerId'] = requestParameters['customerId'];
+        }
+
+        if (requestParameters['customerName'] != null) {
+            queryParameters['CustomerName'] = requestParameters['customerName'];
+        }
+
+        if (requestParameters['customerCode'] != null) {
+            queryParameters['CustomerCode'] = requestParameters['customerCode'];
+        }
+
+        if (requestParameters['supplierId'] != null) {
+            queryParameters['SupplierId'] = requestParameters['supplierId'];
+        }
+
+        if (requestParameters['supplierName'] != null) {
+            queryParameters['SupplierName'] = requestParameters['supplierName'];
+        }
+
+        if (requestParameters['supplierCode'] != null) {
+            queryParameters['SupplierCode'] = requestParameters['supplierCode'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (requestParameters['xCredentialType'] != null) {
+            headerParameters['X-Credential-Type'] = String(requestParameters['xCredentialType']);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-Key"] = await this.configuration.apiKey("X-API-Key"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Signature"] = await this.configuration.apiKey("X-Signature"); // Signature authentication
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerToken", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Timestamp"] = await this.configuration.apiKey("X-Timestamp"); // Timestamp authentication
+        }
+
+
+        let urlPath = `/v1/order/ReceiptPending`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+     * 采购订单确认收货待办项查询。
+     */
+    async getV1OrderReceiptPendingRaw(requestParameters: GetV1OrderReceiptPendingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetV1OrderReceiptPending200Response>> {
+        const requestOptions = await this.getV1OrderReceiptPendingRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetV1OrderReceiptPending200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending=false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+     * 采购订单确认收货待办项查询。
+     */
+    async getV1OrderReceiptPending(requestParameters: GetV1OrderReceiptPendingRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetV1OrderReceiptPending200Response> {
+        const response = await this.getV1OrderReceiptPendingRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for postV1OrderDeclarationVerification without sending the request
+     */
+    async postV1OrderDeclarationVerificationRequestOpts(requestParameters: PostV1OrderDeclarationVerificationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['xCredentialType'] == null) {
+            throw new runtime.RequiredError(
+                'xCredentialType',
+                'Required parameter "xCredentialType" was null or undefined when calling postV1OrderDeclarationVerification().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest" was null or undefined when calling postV1OrderDeclarationVerification().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xCredentialType'] != null) {
+            headerParameters['X-Credential-Type'] = String(requestParameters['xCredentialType']);
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-API-Key"] = await this.configuration.apiKey("X-API-Key"); // ApiKey authentication
+        }
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Signature"] = await this.configuration.apiKey("X-Signature"); // Signature authentication
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("BearerToken", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Timestamp"] = await this.configuration.apiKey("X-Timestamp"); // Timestamp authentication
+        }
+
+
+        let urlPath = `/v1/order/DeclarationVerification`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequestToJSON(requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest']),
+        };
+    }
+
+    /**
+     * 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     * 销售订单提交审核前一键校验。
+     */
+    async postV1OrderDeclarationVerificationRaw(requestParameters: PostV1OrderDeclarationVerificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostV1OrderDeclarationVerification200Response>> {
+        const requestOptions = await this.postV1OrderDeclarationVerificationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PostV1OrderDeclarationVerification200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code=200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type=1 阻断，Type=0 警告，Type=2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     * 销售订单提交审核前一键校验。
+     */
+    async postV1OrderDeclarationVerification(requestParameters: PostV1OrderDeclarationVerificationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostV1OrderDeclarationVerification200Response> {
+        const response = await this.postV1OrderDeclarationVerificationRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for postV1OrderSubmitAudit without sending the request
@@ -59,6 +369,13 @@ export class ApiOrderWorkflowApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling postV1OrderSubmitAudit().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest" was null or undefined when calling postV1OrderSubmitAudit().'
             );
         }
 
@@ -105,22 +422,23 @@ export class ApiOrderWorkflowApi extends runtime.BaseAPI {
     }
 
     /**
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      */
-    async postV1OrderSubmitAuditRaw(requestParameters: PostV1OrderSubmitAuditRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postV1OrderSubmitAuditRaw(requestParameters: PostV1OrderSubmitAuditRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostV1OrderSubmitAudit200Response>> {
         const requestOptions = await this.postV1OrderSubmitAuditRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PostV1OrderSubmitAudit200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type=1 阻断，Type=0 返回 Code=409，确认后传 ConfirmWarnings=true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
      */
-    async postV1OrderSubmitAudit(requestParameters: PostV1OrderSubmitAuditRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postV1OrderSubmitAuditRaw(requestParameters, initOverrides);
+    async postV1OrderSubmitAudit(requestParameters: PostV1OrderSubmitAuditRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostV1OrderSubmitAudit200Response> {
+        const response = await this.postV1OrderSubmitAuditRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
@@ -131,6 +449,13 @@ export class ApiOrderWorkflowApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'xCredentialType',
                 'Required parameter "xCredentialType" was null or undefined when calling putV1OrderConfirmReceipt().'
+            );
+        }
+
+        if (requestParameters['tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest'] == null) {
+            throw new runtime.RequiredError(
+                'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest',
+                'Required parameter "tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest" was null or undefined when calling putV1OrderConfirmReceipt().'
             );
         }
 
@@ -177,26 +502,43 @@ export class ApiOrderWorkflowApi extends runtime.BaseAPI {
     }
 
     /**
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
      * 采购方按整单或单条订单明细确认收货。
      */
-    async putV1OrderConfirmReceiptRaw(requestParameters: PutV1OrderConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async putV1OrderConfirmReceiptRaw(requestParameters: PutV1OrderConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PutV1OrderConfirmReceipt200Response>> {
         const requestOptions = await this.putV1OrderConfirmReceiptRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PutV1OrderConfirmReceipt200ResponseFromJSON(jsonValue));
     }
 
     /**
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code=207 表示部分完成，需检查 PendingOrderLineIds；Code=200 表示本次所有明细均已确认。
      * 采购方按整单或单条订单明细确认收货。
      */
-    async putV1OrderConfirmReceipt(requestParameters: PutV1OrderConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.putV1OrderConfirmReceiptRaw(requestParameters, initOverrides);
+    async putV1OrderConfirmReceipt(requestParameters: PutV1OrderConfirmReceiptRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PutV1OrderConfirmReceipt200Response> {
+        const response = await this.putV1OrderConfirmReceiptRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
 }
 
+/**
+ * @export
+ */
+export const GetV1OrderReceiptPendingXCredentialTypeEnum = {
+    Token: 'Token',
+    ApiKey: 'API Key',
+} as const;
+export type GetV1OrderReceiptPendingXCredentialTypeEnum = typeof GetV1OrderReceiptPendingXCredentialTypeEnum[keyof typeof GetV1OrderReceiptPendingXCredentialTypeEnum];
+/**
+ * @export
+ */
+export const PostV1OrderDeclarationVerificationXCredentialTypeEnum = {
+    Token: 'Token',
+    ApiKey: 'API Key',
+} as const;
+export type PostV1OrderDeclarationVerificationXCredentialTypeEnum = typeof PostV1OrderDeclarationVerificationXCredentialTypeEnum[keyof typeof PostV1OrderDeclarationVerificationXCredentialTypeEnum];
 /**
  * @export
  */

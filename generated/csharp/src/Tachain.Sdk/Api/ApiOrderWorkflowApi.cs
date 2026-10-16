@@ -28,51 +28,123 @@ namespace Tachain.Sdk.Api
     {
         #region Synchronous Operations
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
+        /// 采购订单确认收货待办项查询。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
-        /// <returns></returns>
-        void PostV1OrderSubmitAudit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default);
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <returns>GetV1OrderReceiptPending200Response</returns>
+        GetV1OrderReceiptPending200Response GetV1OrderReceiptPending(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
+
+        /// <summary>
+        /// 采购订单确认收货待办项查询。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1OrderReceiptPending200Response</returns>
+        ApiResponse<GetV1OrderReceiptPending200Response> GetV1OrderReceiptPendingWithHttpInfo(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
+        /// <summary>
+        /// 销售订单提交审核前一键校验。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <returns>PostV1OrderDeclarationVerification200Response</returns>
+        PostV1OrderDeclarationVerification200Response PostV1OrderDeclarationVerification(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest);
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <returns>ApiResponse of PostV1OrderDeclarationVerification200Response</returns>
+        ApiResponse<PostV1OrderDeclarationVerification200Response> PostV1OrderDeclarationVerificationWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest);
+        /// <summary>
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
+        /// </summary>
+        /// <remarks>
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
+        /// <returns>PostV1OrderSubmitAudit200Response</returns>
+        PostV1OrderSubmitAudit200Response PostV1OrderSubmitAudit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
 
         /// <summary>
         /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PostV1OrderSubmitAuditWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
+        /// <returns>ApiResponse of PostV1OrderSubmitAudit200Response</returns>
+        ApiResponse<PostV1OrderSubmitAudit200Response> PostV1OrderSubmitAuditWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
         /// <summary>
         /// 采购方按整单或单条订单明细确认收货。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
-        /// <returns></returns>
-        void PutV1OrderConfirmReceipt(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
+        /// <returns>PutV1OrderConfirmReceipt200Response</returns>
+        PutV1OrderConfirmReceipt200Response PutV1OrderConfirmReceipt(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
 
         /// <summary>
         /// 采购方按整单或单条订单明细确认收货。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PutV1OrderConfirmReceiptWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
+        /// <returns>ApiResponse of PutV1OrderConfirmReceipt200Response</returns>
+        ApiResponse<PutV1OrderConfirmReceipt200Response> PutV1OrderConfirmReceiptWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
         #endregion Synchronous Operations
     }
 
@@ -83,55 +155,131 @@ namespace Tachain.Sdk.Api
     {
         #region Asynchronous Operations
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
+        /// 采购订单确认收货待办项查询。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PostV1OrderSubmitAuditAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1OrderReceiptPending200Response</returns>
+        System.Threading.Tasks.Task<GetV1OrderReceiptPending200Response> GetV1OrderReceiptPendingAsync(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 采购订单确认收货待办项查询。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetV1OrderReceiptPending200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1OrderReceiptPending200Response>> GetV1OrderReceiptPendingWithHttpInfoAsync(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// 销售订单提交审核前一键校验。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of PostV1OrderDeclarationVerification200Response</returns>
+        System.Threading.Tasks.Task<PostV1OrderDeclarationVerification200Response> PostV1OrderDeclarationVerificationAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。
+        /// </summary>
+        /// <remarks>
+        /// 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (PostV1OrderDeclarationVerification200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PostV1OrderDeclarationVerification200Response>> PostV1OrderDeclarationVerificationWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
+        /// </summary>
+        /// <remarks>
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// </remarks>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of PostV1OrderSubmitAudit200Response</returns>
+        System.Threading.Tasks.Task<PostV1OrderSubmitAudit200Response> PostV1OrderSubmitAuditAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PostV1OrderSubmitAuditWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PostV1OrderSubmitAudit200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PostV1OrderSubmitAudit200Response>> PostV1OrderSubmitAuditWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 采购方按整单或单条订单明细确认收货。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PutV1OrderConfirmReceiptAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PutV1OrderConfirmReceipt200Response</returns>
+        System.Threading.Tasks.Task<PutV1OrderConfirmReceipt200Response> PutV1OrderConfirmReceiptAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 采购方按整单或单条订单明细确认收货。
         /// </summary>
         /// <remarks>
-        /// 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PutV1OrderConfirmReceiptWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PutV1OrderConfirmReceipt200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PutV1OrderConfirmReceipt200Response>> PutV1OrderConfirmReceiptWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -346,29 +494,359 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 采购订单确认收货待办项查询。 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
-        /// <returns></returns>
-        public void PostV1OrderSubmitAudit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default)
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <returns>GetV1OrderReceiptPending200Response</returns>
+        public GetV1OrderReceiptPending200Response GetV1OrderReceiptPending(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
-            PostV1OrderSubmitAuditWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
+            Tachain.Sdk.Client.ApiResponse<GetV1OrderReceiptPending200Response> localVarResponse = GetV1OrderReceiptPendingWithHttpInfo(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 采购订单确认收货待办项查询。 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Tachain.Sdk.Client.ApiResponse<Object> PostV1OrderSubmitAuditWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default)
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1OrderReceiptPending200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1OrderReceiptPending200Response> GetV1OrderReceiptPendingWithHttpInfo(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
-                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PostV1OrderSubmitAudit");
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->GetV1OrderReceiptPending");
+
+            Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (orderId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderId", orderId));
+            }
+            if (orderLineId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderLineId", orderLineId));
+            }
+            if (orderNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderNumber", orderNumber));
+            }
+            if (orderDate != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderDate", orderDate));
+            }
+            if (lineNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "LineNumber", lineNumber));
+            }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
+
+            // authentication (ApiKey) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-API-Key", this.Configuration.GetApiKeyWithPrefix("X-API-Key"));
+            }
+            // authentication (Signature) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Signature")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Signature", this.Configuration.GetApiKeyWithPrefix("X-Signature"));
+            }
+            // authentication (BearerToken) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            // authentication (Timestamp) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Timestamp")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Timestamp", this.Configuration.GetApiKeyWithPrefix("X-Timestamp"));
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<GetV1OrderReceiptPending200Response>("/v1/order/ReceiptPending", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetV1OrderReceiptPending", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// 采购订单确认收货待办项查询。 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of GetV1OrderReceiptPending200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1OrderReceiptPending200Response> GetV1OrderReceiptPendingAsync(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Tachain.Sdk.Client.ApiResponse<GetV1OrderReceiptPending200Response> localVarResponse = await GetV1OrderReceiptPendingWithHttpInfoAsync(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// 采购订单确认收货待办项查询。 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="orderId">查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)</param>
+        /// <param name="orderLineId">查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (GetV1OrderReceiptPending200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1OrderReceiptPending200Response>> GetV1OrderReceiptPendingWithHttpInfoAsync(string xCredentialType, string? orderId = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? customerExtNo = default, string? supplierExtNo = default, string? uniqueNo = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'xCredentialType' is set
+            if (xCredentialType == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->GetV1OrderReceiptPending");
+
+
+            Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (orderId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderId", orderId));
+            }
+            if (orderLineId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderLineId", orderLineId));
+            }
+            if (orderNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderNumber", orderNumber));
+            }
+            if (orderDate != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "OrderDate", orderDate));
+            }
+            if (lineNumber != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "LineNumber", lineNumber));
+            }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierExtNo", supplierExtNo));
+            }
+            if (uniqueNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "UniqueNo", uniqueNo));
+            }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
+            localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
+
+            // authentication (ApiKey) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-API-Key", this.Configuration.GetApiKeyWithPrefix("X-API-Key"));
+            }
+            // authentication (Signature) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Signature")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Signature", this.Configuration.GetApiKeyWithPrefix("X-Signature"));
+            }
+            // authentication (BearerToken) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            // authentication (Timestamp) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Timestamp")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Timestamp", this.Configuration.GetApiKeyWithPrefix("X-Timestamp"));
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1OrderReceiptPending200Response>("/v1/order/ReceiptPending", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetV1OrderReceiptPending", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <returns>PostV1OrderDeclarationVerification200Response</returns>
+        public PostV1OrderDeclarationVerification200Response PostV1OrderDeclarationVerification(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest)
+        {
+            Tachain.Sdk.Client.ApiResponse<PostV1OrderDeclarationVerification200Response> localVarResponse = PostV1OrderDeclarationVerificationWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <returns>ApiResponse of PostV1OrderDeclarationVerification200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PostV1OrderDeclarationVerification200Response> PostV1OrderDeclarationVerificationWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest)
+        {
+            // verify the required parameter 'xCredentialType' is set
+            if (xCredentialType == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PostV1OrderDeclarationVerification");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' when calling ApiOrderWorkflowApi->PostV1OrderDeclarationVerification");
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
@@ -378,6 +856,180 @@ namespace Tachain.Sdk.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest;
+
+            // authentication (ApiKey) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-API-Key", this.Configuration.GetApiKeyWithPrefix("X-API-Key"));
+            }
+            // authentication (Signature) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Signature")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Signature", this.Configuration.GetApiKeyWithPrefix("X-Signature"));
+            }
+            // authentication (BearerToken) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            // authentication (Timestamp) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Timestamp")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Timestamp", this.Configuration.GetApiKeyWithPrefix("X-Timestamp"));
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<PostV1OrderDeclarationVerification200Response>("/v1/order/DeclarationVerification", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("PostV1OrderDeclarationVerification", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of PostV1OrderDeclarationVerification200Response</returns>
+        public async System.Threading.Tasks.Task<PostV1OrderDeclarationVerification200Response> PostV1OrderDeclarationVerificationAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Tachain.Sdk.Client.ApiResponse<PostV1OrderDeclarationVerification200Response> localVarResponse = await PostV1OrderDeclarationVerificationWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// 销售订单提交审核前一键校验。 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (PostV1OrderDeclarationVerification200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PostV1OrderDeclarationVerification200Response>> PostV1OrderDeclarationVerificationWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'xCredentialType' is set
+            if (xCredentialType == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PostV1OrderDeclarationVerification");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' when calling ApiOrderWorkflowApi->PostV1OrderDeclarationVerification");
+
+
+            Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Tachain.Sdk.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest;
+
+            // authentication (ApiKey) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-API-Key", this.Configuration.GetApiKeyWithPrefix("X-API-Key"));
+            }
+            // authentication (Signature) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Signature")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Signature", this.Configuration.GetApiKeyWithPrefix("X-Signature"));
+            }
+            // authentication (BearerToken) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+            // authentication (Timestamp) required
+            if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-Timestamp")))
+            {
+                localVarRequestOptions.HeaderParameters.Add("X-Timestamp", this.Configuration.GetApiKeyWithPrefix("X-Timestamp"));
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<PostV1OrderDeclarationVerification200Response>("/v1/order/DeclarationVerification", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("PostV1OrderDeclarationVerification", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
+        /// <returns>PostV1OrderSubmitAudit200Response</returns>
+        public PostV1OrderSubmitAudit200Response PostV1OrderSubmitAudit(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest)
+        {
+            Tachain.Sdk.Client.ApiResponse<PostV1OrderSubmitAudit200Response> localVarResponse = PostV1OrderSubmitAuditWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// </summary>
+        /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
+        /// <returns>ApiResponse of PostV1OrderSubmitAudit200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PostV1OrderSubmitAudit200Response> PostV1OrderSubmitAuditWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest)
+        {
+            // verify the required parameter 'xCredentialType' is set
+            if (xCredentialType == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PostV1OrderSubmitAudit");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' when calling ApiOrderWorkflowApi->PostV1OrderSubmitAudit");
+
+            Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -412,7 +1064,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<Object>("/v1/order/SubmitAudit", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<PostV1OrderSubmitAudit200Response>("/v1/order/SubmitAudit", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -424,31 +1076,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PostV1OrderSubmitAuditAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PostV1OrderSubmitAudit200Response</returns>
+        public async System.Threading.Tasks.Task<PostV1OrderSubmitAudit200Response> PostV1OrderSubmitAuditAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PostV1OrderSubmitAuditWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PostV1OrderSubmitAudit200Response> localVarResponse = await PostV1OrderSubmitAuditWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+        /// 销售方根据已入库的订单、生产、发货及申报资料提交审核。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Object>> PostV1OrderSubmitAuditWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PostV1OrderSubmitAudit200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PostV1OrderSubmitAudit200Response>> PostV1OrderSubmitAuditWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PostV1OrderSubmitAudit");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' when calling ApiOrderWorkflowApi->PostV1OrderSubmitAudit");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -459,6 +1116,7 @@ namespace Tachain.Sdk.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -495,7 +1153,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/v1/order/SubmitAudit", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<PostV1OrderSubmitAudit200Response>("/v1/order/SubmitAudit", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -507,30 +1165,35 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 采购方按整单或单条订单明细确认收货。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 采购方按整单或单条订单明细确认收货。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
-        /// <returns></returns>
-        public void PutV1OrderConfirmReceipt(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
+        /// <returns>PutV1OrderConfirmReceipt200Response</returns>
+        public PutV1OrderConfirmReceipt200Response PutV1OrderConfirmReceipt(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest)
         {
-            PutV1OrderConfirmReceiptWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
+            Tachain.Sdk.Client.ApiResponse<PutV1OrderConfirmReceipt200Response> localVarResponse = PutV1OrderConfirmReceiptWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 采购方按整单或单条订单明细确认收货。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 采购方按整单或单条订单明细确认收货。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Tachain.Sdk.Client.ApiResponse<Object> PutV1OrderConfirmReceiptWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
+        /// <returns>ApiResponse of PutV1OrderConfirmReceipt200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PutV1OrderConfirmReceipt200Response> PutV1OrderConfirmReceiptWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PutV1OrderConfirmReceipt");
 
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' when calling ApiOrderWorkflowApi->PutV1OrderConfirmReceipt");
+
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -539,6 +1202,7 @@ namespace Tachain.Sdk.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
             var localVarContentType = Tachain.Sdk.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
@@ -573,7 +1237,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<Object>("/v1/order/ConfirmReceipt", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<PutV1OrderConfirmReceipt200Response>("/v1/order/ConfirmReceipt", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -585,31 +1249,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 采购方按整单或单条订单明细确认收货。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 采购方按整单或单条订单明细确认收货。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PutV1OrderConfirmReceiptAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PutV1OrderConfirmReceipt200Response</returns>
+        public async System.Threading.Tasks.Task<PutV1OrderConfirmReceipt200Response> PutV1OrderConfirmReceiptAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            await PutV1OrderConfirmReceiptWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PutV1OrderConfirmReceipt200Response> localVarResponse = await PutV1OrderConfirmReceiptWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 采购方按整单或单条订单明细确认收货。 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+        /// 采购方按整单或单条订单明细确认收货。 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Object>> PutV1OrderConfirmReceiptWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest? tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PutV1OrderConfirmReceipt200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PutV1OrderConfirmReceipt200Response>> PutV1OrderConfirmReceiptWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiOrderWorkflowApi->PutV1OrderConfirmReceipt");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' when calling ApiOrderWorkflowApi->PutV1OrderConfirmReceipt");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -620,6 +1289,7 @@ namespace Tachain.Sdk.Api
 
             // to determine the Accept header
             string[] _accepts = new string[] {
+                "application/json"
             };
 
 
@@ -656,7 +1326,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/v1/order/ConfirmReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<PutV1OrderConfirmReceipt200Response>("/v1/order/ConfirmReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

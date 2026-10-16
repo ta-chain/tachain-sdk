@@ -19,12 +19,12 @@ from datetime import datetime
 from pydantic import Field, StrictInt, StrictStr, field_validator
 from typing import List, Optional
 from typing_extensions import Annotated
-from tachain_sdk.models.model3 import Model3
-from tachain_sdk.models.model4 import Model4
+from tachain_sdk.models.delete_v1_declaration_delete200_response import DeleteV1DeclarationDelete200Response
+from tachain_sdk.models.get_v1_declaration_list_paging200_response import GetV1DeclarationListPaging200Response
+from tachain_sdk.models.get_v1_declaration_required_documents200_response import GetV1DeclarationRequiredDocuments200Response
+from tachain_sdk.models.post_v1_declaration_submit200_response import PostV1DeclarationSubmit200Response
 from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request import TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest
 from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request import TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest
-from tachain_sdk.models.tactic_chain_api_service_view_models_common_api_response1_tactic_chain_api_service_controllers_api_integration_v1_api_declaration_list_dto_tactic_chain_api_service_version1000_culture_neutral_public_key_token_null import TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-from tachain_sdk.models.tactic_chain_api_service_view_models_common_api_response1_tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_result_dto_tactic_chain_api_service_version1000_culture_neutral_public_key_token_null import TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
 
 from tachain_sdk.api_client import ApiClient, RequestSerialized
 from tachain_sdk.api_response import ApiResponse
@@ -48,8 +48,8 @@ class ApiDeclarationApi:
     def delete_v1_declaration_delete(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        attachment_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个附件申报 ID。")] = None,
-        form_data_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个表单申报 ID。")] = None,
+        attachment_id: Annotated[Optional[StrictStr], Field(description="查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。")] = None,
+        form_data_id: Annotated[Optional[StrictStr], Field(description="查询返回的表单记录标识；也可在 Body 按业务键删除。")] = None,
         tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest] = None,
         _request_timeout: Union[
             None,
@@ -63,16 +63,16 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Model4:
+    ) -> DeleteV1DeclarationDelete200Response:
         """申报信息删除接口。
 
         删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 `StageId + ExtendId` 重新计算申报完成度。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param attachment_id: query 方式传入的单个附件申报 ID。
+        :param attachment_id: 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
         :type attachment_id: str
-        :param form_data_id: query 方式传入的单个表单申报 ID。
+        :param form_data_id: 查询返回的表单记录标识；也可在 Body 按业务键删除。
         :type form_data_id: str
         :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request:
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest
@@ -110,7 +110,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -127,8 +130,8 @@ class ApiDeclarationApi:
     def delete_v1_declaration_delete_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        attachment_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个附件申报 ID。")] = None,
-        form_data_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个表单申报 ID。")] = None,
+        attachment_id: Annotated[Optional[StrictStr], Field(description="查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。")] = None,
+        form_data_id: Annotated[Optional[StrictStr], Field(description="查询返回的表单记录标识；也可在 Body 按业务键删除。")] = None,
         tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest] = None,
         _request_timeout: Union[
             None,
@@ -142,16 +145,16 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Model4]:
+    ) -> ApiResponse[DeleteV1DeclarationDelete200Response]:
         """申报信息删除接口。
 
         删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 `StageId + ExtendId` 重新计算申报完成度。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param attachment_id: query 方式传入的单个附件申报 ID。
+        :param attachment_id: 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
         :type attachment_id: str
-        :param form_data_id: query 方式传入的单个表单申报 ID。
+        :param form_data_id: 查询返回的表单记录标识；也可在 Body 按业务键删除。
         :type form_data_id: str
         :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request:
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest
@@ -189,7 +192,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -206,8 +212,8 @@ class ApiDeclarationApi:
     def delete_v1_declaration_delete_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        attachment_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个附件申报 ID。")] = None,
-        form_data_id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个表单申报 ID。")] = None,
+        attachment_id: Annotated[Optional[StrictStr], Field(description="查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。")] = None,
+        form_data_id: Annotated[Optional[StrictStr], Field(description="查询返回的表单记录标识；也可在 Body 按业务键删除。")] = None,
         tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest] = None,
         _request_timeout: Union[
             None,
@@ -228,9 +234,9 @@ class ApiDeclarationApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param attachment_id: query 方式传入的单个附件申报 ID。
+        :param attachment_id: 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
         :type attachment_id: str
-        :param form_data_id: query 方式传入的单个表单申报 ID。
+        :param form_data_id: 查询返回的表单记录标识；也可在 Body 按业务键删除。
         :type form_data_id: str
         :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request:
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest
@@ -268,7 +274,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,23 +383,33 @@ class ApiDeclarationApi:
     def get_v1_declaration_list_paging(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        extend_id: Optional[List[StrictStr]] = None,
-        stage_id: Optional[List[StrictStr]] = None,
-        document_type_id: Optional[List[StrictStr]] = None,
-        document_type_code: Optional[StrictStr] = None,
-        extend_number: Optional[StrictStr] = None,
-        extend_date: Optional[datetime] = None,
-        extend_line_number: Optional[StrictStr] = None,
-        order_side: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        production_type: Optional[StrictInt] = None,
-        delivery_number: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        risk_warning: Optional[List[StrictInt]] = None,
-        sort_by: Optional[StrictStr] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        extend_id: Annotated[Optional[List[StrictStr]], Field(description="查询返回的业务单据 ID，可选；使用业务组合时无需传入。")] = None,
+        stage_id: Annotated[Optional[List[StrictStr]], Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。")] = None,
+        document_type_id: Annotated[Optional[List[StrictStr]], Field(description="RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。")] = None,
+        document_type_code: Annotated[Optional[StrictStr], Field(description="资料类型业务代码或当前公司启用的外部映射。")] = None,
+        extend_number: Annotated[Optional[StrictStr], Field(description="通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        risk_warning: Annotated[Optional[List[StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        sort_by: Annotated[Optional[StrictStr], Field(description="排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -403,47 +422,67 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull:
+    ) -> GetV1DeclarationListPaging200Response:
         """申报信息查询接口。
 
         附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 `extendId` 和 `stageId`，以便精确查询某个业务单据的申报资料。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param extend_id: 
+        :param extend_id: 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
         :type extend_id: List[str]
-        :param stage_id: 
+        :param stage_id: 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
         :type stage_id: List[str]
-        :param document_type_id: 
+        :param document_type_id: RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
         :type document_type_id: List[str]
-        :param document_type_code: 
+        :param document_type_code: 资料类型业务代码或当前公司启用的外部映射。
         :type document_type_code: str
-        :param extend_number: 
+        :param extend_number: 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
         :type extend_number: str
-        :param extend_date: 
-        :type extend_date: datetime
-        :param extend_line_number: 
-        :type extend_line_number: str
-        :param order_side: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param risk_warning: 
+        :param risk_warning: 可选业务筛选条件；与其他条件同时生效。
         :type risk_warning: List[int]
-        :param sort_by: 
+        :param sort_by: 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
         :type sort_by: str
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -474,8 +513,8 @@ class ApiDeclarationApi:
             document_type_id=document_type_id,
             document_type_code=document_type_code,
             extend_number=extend_number,
-            extend_date=extend_date,
-            extend_line_number=extend_line_number,
+            order_date=order_date,
+            line_number=line_number,
             order_side=order_side,
             product_code=product_code,
             production_type=production_type,
@@ -485,6 +524,16 @@ class ApiDeclarationApi:
             sort_by=sort_by,
             page=page,
             page_size=page_size,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -492,7 +541,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1DeclarationListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -509,23 +561,33 @@ class ApiDeclarationApi:
     def get_v1_declaration_list_paging_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        extend_id: Optional[List[StrictStr]] = None,
-        stage_id: Optional[List[StrictStr]] = None,
-        document_type_id: Optional[List[StrictStr]] = None,
-        document_type_code: Optional[StrictStr] = None,
-        extend_number: Optional[StrictStr] = None,
-        extend_date: Optional[datetime] = None,
-        extend_line_number: Optional[StrictStr] = None,
-        order_side: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        production_type: Optional[StrictInt] = None,
-        delivery_number: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        risk_warning: Optional[List[StrictInt]] = None,
-        sort_by: Optional[StrictStr] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        extend_id: Annotated[Optional[List[StrictStr]], Field(description="查询返回的业务单据 ID，可选；使用业务组合时无需传入。")] = None,
+        stage_id: Annotated[Optional[List[StrictStr]], Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。")] = None,
+        document_type_id: Annotated[Optional[List[StrictStr]], Field(description="RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。")] = None,
+        document_type_code: Annotated[Optional[StrictStr], Field(description="资料类型业务代码或当前公司启用的外部映射。")] = None,
+        extend_number: Annotated[Optional[StrictStr], Field(description="通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        risk_warning: Annotated[Optional[List[StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        sort_by: Annotated[Optional[StrictStr], Field(description="排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -538,47 +600,67 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull]:
+    ) -> ApiResponse[GetV1DeclarationListPaging200Response]:
         """申报信息查询接口。
 
         附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 `extendId` 和 `stageId`，以便精确查询某个业务单据的申报资料。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param extend_id: 
+        :param extend_id: 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
         :type extend_id: List[str]
-        :param stage_id: 
+        :param stage_id: 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
         :type stage_id: List[str]
-        :param document_type_id: 
+        :param document_type_id: RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
         :type document_type_id: List[str]
-        :param document_type_code: 
+        :param document_type_code: 资料类型业务代码或当前公司启用的外部映射。
         :type document_type_code: str
-        :param extend_number: 
+        :param extend_number: 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
         :type extend_number: str
-        :param extend_date: 
-        :type extend_date: datetime
-        :param extend_line_number: 
-        :type extend_line_number: str
-        :param order_side: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param risk_warning: 
+        :param risk_warning: 可选业务筛选条件；与其他条件同时生效。
         :type risk_warning: List[int]
-        :param sort_by: 
+        :param sort_by: 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
         :type sort_by: str
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -609,8 +691,8 @@ class ApiDeclarationApi:
             document_type_id=document_type_id,
             document_type_code=document_type_code,
             extend_number=extend_number,
-            extend_date=extend_date,
-            extend_line_number=extend_line_number,
+            order_date=order_date,
+            line_number=line_number,
             order_side=order_side,
             product_code=product_code,
             production_type=production_type,
@@ -620,6 +702,16 @@ class ApiDeclarationApi:
             sort_by=sort_by,
             page=page,
             page_size=page_size,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -627,7 +719,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1DeclarationListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -644,23 +739,33 @@ class ApiDeclarationApi:
     def get_v1_declaration_list_paging_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        extend_id: Optional[List[StrictStr]] = None,
-        stage_id: Optional[List[StrictStr]] = None,
-        document_type_id: Optional[List[StrictStr]] = None,
-        document_type_code: Optional[StrictStr] = None,
-        extend_number: Optional[StrictStr] = None,
-        extend_date: Optional[datetime] = None,
-        extend_line_number: Optional[StrictStr] = None,
-        order_side: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        production_type: Optional[StrictInt] = None,
-        delivery_number: Optional[StrictStr] = None,
-        status: Optional[StrictInt] = None,
-        risk_warning: Optional[List[StrictInt]] = None,
-        sort_by: Optional[StrictStr] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        extend_id: Annotated[Optional[List[StrictStr]], Field(description="查询返回的业务单据 ID，可选；使用业务组合时无需传入。")] = None,
+        stage_id: Annotated[Optional[List[StrictStr]], Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。")] = None,
+        document_type_id: Annotated[Optional[List[StrictStr]], Field(description="RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。")] = None,
+        document_type_code: Annotated[Optional[StrictStr], Field(description="资料类型业务代码或当前公司启用的外部映射。")] = None,
+        extend_number: Annotated[Optional[StrictStr], Field(description="通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        risk_warning: Annotated[Optional[List[StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        sort_by: Annotated[Optional[StrictStr], Field(description="排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -680,40 +785,60 @@ class ApiDeclarationApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param extend_id: 
+        :param extend_id: 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
         :type extend_id: List[str]
-        :param stage_id: 
+        :param stage_id: 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
         :type stage_id: List[str]
-        :param document_type_id: 
+        :param document_type_id: RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
         :type document_type_id: List[str]
-        :param document_type_code: 
+        :param document_type_code: 资料类型业务代码或当前公司启用的外部映射。
         :type document_type_code: str
-        :param extend_number: 
+        :param extend_number: 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
         :type extend_number: str
-        :param extend_date: 
-        :type extend_date: datetime
-        :param extend_line_number: 
-        :type extend_line_number: str
-        :param order_side: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+        :type order_date: datetime
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param risk_warning: 
+        :param risk_warning: 可选业务筛选条件；与其他条件同时生效。
         :type risk_warning: List[int]
-        :param sort_by: 
+        :param sort_by: 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
         :type sort_by: str
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -744,8 +869,8 @@ class ApiDeclarationApi:
             document_type_id=document_type_id,
             document_type_code=document_type_code,
             extend_number=extend_number,
-            extend_date=extend_date,
-            extend_line_number=extend_line_number,
+            order_date=order_date,
+            line_number=line_number,
             order_side=order_side,
             product_code=product_code,
             production_type=production_type,
@@ -755,6 +880,16 @@ class ApiDeclarationApi:
             sort_by=sort_by,
             page=page,
             page_size=page_size,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -762,7 +897,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1DeclarationListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -780,8 +918,8 @@ class ApiDeclarationApi:
         document_type_id,
         document_type_code,
         extend_number,
-        extend_date,
-        extend_line_number,
+        order_date,
+        line_number,
         order_side,
         product_code,
         production_type,
@@ -791,6 +929,16 @@ class ApiDeclarationApi:
         sort_by,
         page,
         page_size,
+        customer_ext_no,
+        supplier_ext_no,
+        unique_no,
+        customer_id,
+        customer_name,
+        customer_code,
+        supplier_id,
+        supplier_name,
+        supplier_code,
+        receipt_number,
         _request_auth,
         _content_type,
         _headers,
@@ -841,22 +989,22 @@ class ApiDeclarationApi:
             
             _query_params.append(('extendNumber', extend_number))
             
-        if extend_date is not None:
-            if isinstance(extend_date, datetime):
+        if order_date is not None:
+            if isinstance(order_date, datetime):
                 _query_params.append(
                     (
-                        'extendDate',
-                        extend_date.strftime(
+                        'orderDate',
+                        order_date.strftime(
                             self.api_client.configuration.datetime_format
                         )
                     )
                 )
             else:
-                _query_params.append(('extendDate', extend_date))
+                _query_params.append(('orderDate', order_date))
             
-        if extend_line_number is not None:
+        if line_number is not None:
             
-            _query_params.append(('extendLineNumber', extend_line_number))
+            _query_params.append(('lineNumber', line_number))
             
         if order_side is not None:
             
@@ -893,6 +1041,46 @@ class ApiDeclarationApi:
         if page_size is not None:
             
             _query_params.append(('pageSize', page_size))
+            
+        if customer_ext_no is not None:
+            
+            _query_params.append(('CustomerExtNo', customer_ext_no))
+            
+        if supplier_ext_no is not None:
+            
+            _query_params.append(('SupplierExtNo', supplier_ext_no))
+            
+        if unique_no is not None:
+            
+            _query_params.append(('UniqueNo', unique_no))
+            
+        if customer_id is not None:
+            
+            _query_params.append(('CustomerId', customer_id))
+            
+        if customer_name is not None:
+            
+            _query_params.append(('CustomerName', customer_name))
+            
+        if customer_code is not None:
+            
+            _query_params.append(('CustomerCode', customer_code))
+            
+        if supplier_id is not None:
+            
+            _query_params.append(('SupplierId', supplier_id))
+            
+        if supplier_name is not None:
+            
+            _query_params.append(('SupplierName', supplier_name))
+            
+        if supplier_code is not None:
+            
+            _query_params.append(('SupplierCode', supplier_code))
+            
+        if receipt_number is not None:
+            
+            _query_params.append(('receiptNumber', receipt_number))
             
         # process the header parameters
         if x_credential_type is not None:
@@ -939,16 +1127,27 @@ class ApiDeclarationApi:
     @validate_call
     def get_v1_declaration_required_documents(
         self,
+        stage_code: Annotated[StrictStr, Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。")],
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        stage_code: Annotated[Optional[StrictStr], Field(description="申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。")] = None,
-        id: Annotated[Optional[StrictStr], Field(description="阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。")] = None,
-        order_number: Annotated[Optional[StrictStr], Field(description="订单号；订单阶段未传 id 时，配合 orderDate 定位订单。")] = None,
-        order_date: Annotated[Optional[datetime], Field(description="订单日期；订单阶段按订单号定位时必传。")] = None,
-        order_side: Annotated[Optional[StrictStr], Field(description="订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。")] = None,
-        production_number: Annotated[Optional[StrictStr], Field(description="生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。")] = None,
-        product_code: Annotated[Optional[StrictStr], Field(description="产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。")] = None,
-        production_type: Annotated[Optional[StrictInt], Field(description="生产类型；生产阶段默认 0，入库阶段默认 1。")] = None,
-        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号；发货阶段未传 id 时用于定位发货单。")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        production_number: Annotated[Optional[StrictStr], Field(description="生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -961,31 +1160,53 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Model3:
+    ) -> GetV1DeclarationRequiredDocuments200Response:
         """单据所需申报信息查询接口。
 
-        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
 
+        :param stage_code: 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
+        :type stage_code: str
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param stage_code: 申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。
-        :type stage_code: str
-        :param id: 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param order_number: 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 订单日期；订单阶段按订单号定位时必传。
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param order_side: 订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param production_number: 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
+        :param production_number: 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
         :type production_number: str
-        :param product_code: 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 生产类型；生产阶段默认 0，入库阶段默认 1。
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 发货单号；发货阶段未传 id 时用于定位发货单。
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1009,8 +1230,8 @@ class ApiDeclarationApi:
         """ # noqa: E501
 
         _param = self._get_v1_declaration_required_documents_serialize(
-            x_credential_type=x_credential_type,
             stage_code=stage_code,
+            x_credential_type=x_credential_type,
             id=id,
             order_number=order_number,
             order_date=order_date,
@@ -1019,6 +1240,17 @@ class ApiDeclarationApi:
             product_code=product_code,
             production_type=production_type,
             delivery_number=delivery_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
+            line_number=line_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1026,7 +1258,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model3",
+            '200': "GetV1DeclarationRequiredDocuments200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1042,16 +1277,27 @@ class ApiDeclarationApi:
     @validate_call
     def get_v1_declaration_required_documents_with_http_info(
         self,
+        stage_code: Annotated[StrictStr, Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。")],
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        stage_code: Annotated[Optional[StrictStr], Field(description="申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。")] = None,
-        id: Annotated[Optional[StrictStr], Field(description="阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。")] = None,
-        order_number: Annotated[Optional[StrictStr], Field(description="订单号；订单阶段未传 id 时，配合 orderDate 定位订单。")] = None,
-        order_date: Annotated[Optional[datetime], Field(description="订单日期；订单阶段按订单号定位时必传。")] = None,
-        order_side: Annotated[Optional[StrictStr], Field(description="订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。")] = None,
-        production_number: Annotated[Optional[StrictStr], Field(description="生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。")] = None,
-        product_code: Annotated[Optional[StrictStr], Field(description="产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。")] = None,
-        production_type: Annotated[Optional[StrictInt], Field(description="生产类型；生产阶段默认 0，入库阶段默认 1。")] = None,
-        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号；发货阶段未传 id 时用于定位发货单。")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        production_number: Annotated[Optional[StrictStr], Field(description="生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1064,31 +1310,53 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Model3]:
+    ) -> ApiResponse[GetV1DeclarationRequiredDocuments200Response]:
         """单据所需申报信息查询接口。
 
-        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
 
+        :param stage_code: 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
+        :type stage_code: str
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param stage_code: 申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。
-        :type stage_code: str
-        :param id: 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param order_number: 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 订单日期；订单阶段按订单号定位时必传。
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param order_side: 订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param production_number: 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
+        :param production_number: 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
         :type production_number: str
-        :param product_code: 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 生产类型；生产阶段默认 0，入库阶段默认 1。
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 发货单号；发货阶段未传 id 时用于定位发货单。
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1112,8 +1380,8 @@ class ApiDeclarationApi:
         """ # noqa: E501
 
         _param = self._get_v1_declaration_required_documents_serialize(
-            x_credential_type=x_credential_type,
             stage_code=stage_code,
+            x_credential_type=x_credential_type,
             id=id,
             order_number=order_number,
             order_date=order_date,
@@ -1122,6 +1390,17 @@ class ApiDeclarationApi:
             product_code=product_code,
             production_type=production_type,
             delivery_number=delivery_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
+            line_number=line_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1129,7 +1408,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model3",
+            '200': "GetV1DeclarationRequiredDocuments200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1145,16 +1427,27 @@ class ApiDeclarationApi:
     @validate_call
     def get_v1_declaration_required_documents_without_preload_content(
         self,
+        stage_code: Annotated[StrictStr, Field(description="阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。")],
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        stage_code: Annotated[Optional[StrictStr], Field(description="申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。")] = None,
-        id: Annotated[Optional[StrictStr], Field(description="阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。")] = None,
-        order_number: Annotated[Optional[StrictStr], Field(description="订单号；订单阶段未传 id 时，配合 orderDate 定位订单。")] = None,
-        order_date: Annotated[Optional[datetime], Field(description="订单日期；订单阶段按订单号定位时必传。")] = None,
-        order_side: Annotated[Optional[StrictStr], Field(description="订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。")] = None,
-        production_number: Annotated[Optional[StrictStr], Field(description="生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。")] = None,
-        product_code: Annotated[Optional[StrictStr], Field(description="产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。")] = None,
-        production_type: Annotated[Optional[StrictInt], Field(description="生产类型；生产阶段默认 0，入库阶段默认 1。")] = None,
-        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号；发货阶段未传 id 时用于定位发货单。")] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        order_side: Annotated[Optional[StrictStr], Field(description="PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。")] = None,
+        production_number: Annotated[Optional[StrictStr], Field(description="生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        production_type: Annotated[Optional[StrictInt], Field(description="可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。")] = None,
+        delivery_number: Annotated[Optional[StrictStr], Field(description="发货单号，配合交易双方定位；发货阶段优先于 extendNumber。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        customer_id: Annotated[Optional[StrictStr], Field(description="查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_id: Annotated[Optional[StrictStr], Field(description="查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        receipt_number: Annotated[Optional[StrictStr], Field(description="入库单号；用于核对具体入库记录，发生多次入库歧义时补充。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1170,28 +1463,50 @@ class ApiDeclarationApi:
     ) -> RESTResponseType:
         """单据所需申报信息查询接口。
 
-        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+        该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
 
+        :param stage_code: 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
+        :type stage_code: str
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param stage_code: 申报阶段编码，例如 `Order`、`Production`、`Receipt`、`Deliverynote`。
-        :type stage_code: str
-        :param id: 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param order_number: 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 订单日期；订单阶段按订单号定位时必传。
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param order_side: 订单侧别，常用 `PO` 或 `SO`；订单号和日期不唯一时用于区分。
+        :param order_side: PO=当前公司为采购方；SO=当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
         :type order_side: str
-        :param production_number: 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
+        :param production_number: 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
         :type production_number: str
-        :param product_code: 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param production_type: 生产类型；生产阶段默认 0，入库阶段默认 1。
+        :param production_type: 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
         :type production_type: int
-        :param delivery_number: 发货单号；发货阶段未传 id 时用于定位发货单。
+        :param delivery_number: 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
         :type delivery_number: str
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type customer_ext_no: str
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+        :type supplier_ext_no: str
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+        :type unique_no: str
+        :param customer_id: 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+        :type customer_id: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_id: 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+        :type supplier_id: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param receipt_number: 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+        :type receipt_number: str
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+        :type line_number: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1215,8 +1530,8 @@ class ApiDeclarationApi:
         """ # noqa: E501
 
         _param = self._get_v1_declaration_required_documents_serialize(
-            x_credential_type=x_credential_type,
             stage_code=stage_code,
+            x_credential_type=x_credential_type,
             id=id,
             order_number=order_number,
             order_date=order_date,
@@ -1225,6 +1540,17 @@ class ApiDeclarationApi:
             product_code=product_code,
             production_type=production_type,
             delivery_number=delivery_number,
+            customer_ext_no=customer_ext_no,
+            supplier_ext_no=supplier_ext_no,
+            unique_no=unique_no,
+            customer_id=customer_id,
+            customer_name=customer_name,
+            customer_code=customer_code,
+            supplier_id=supplier_id,
+            supplier_name=supplier_name,
+            supplier_code=supplier_code,
+            receipt_number=receipt_number,
+            line_number=line_number,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1232,7 +1558,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model3",
+            '200': "GetV1DeclarationRequiredDocuments200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1243,8 +1572,8 @@ class ApiDeclarationApi:
 
     def _get_v1_declaration_required_documents_serialize(
         self,
-        x_credential_type,
         stage_code,
+        x_credential_type,
         id,
         order_number,
         order_date,
@@ -1253,6 +1582,17 @@ class ApiDeclarationApi:
         product_code,
         production_type,
         delivery_number,
+        customer_ext_no,
+        supplier_ext_no,
+        unique_no,
+        customer_id,
+        customer_name,
+        customer_code,
+        supplier_id,
+        supplier_name,
+        supplier_code,
+        receipt_number,
+        line_number,
         _request_auth,
         _content_type,
         _headers,
@@ -1320,6 +1660,50 @@ class ApiDeclarationApi:
             
             _query_params.append(('deliveryNumber', delivery_number))
             
+        if customer_ext_no is not None:
+            
+            _query_params.append(('CustomerExtNo', customer_ext_no))
+            
+        if supplier_ext_no is not None:
+            
+            _query_params.append(('SupplierExtNo', supplier_ext_no))
+            
+        if unique_no is not None:
+            
+            _query_params.append(('UniqueNo', unique_no))
+            
+        if customer_id is not None:
+            
+            _query_params.append(('CustomerId', customer_id))
+            
+        if customer_name is not None:
+            
+            _query_params.append(('CustomerName', customer_name))
+            
+        if customer_code is not None:
+            
+            _query_params.append(('CustomerCode', customer_code))
+            
+        if supplier_id is not None:
+            
+            _query_params.append(('SupplierId', supplier_id))
+            
+        if supplier_name is not None:
+            
+            _query_params.append(('SupplierName', supplier_name))
+            
+        if supplier_code is not None:
+            
+            _query_params.append(('SupplierCode', supplier_code))
+            
+        if receipt_number is not None:
+            
+            _query_params.append(('receiptNumber', receipt_number))
+            
+        if line_number is not None:
+            
+            _query_params.append(('lineNumber', line_number))
+            
         # process the header parameters
         if x_credential_type is not None:
             _header_params['X-Credential-Type'] = x_credential_type
@@ -1366,7 +1750,7 @@ class ApiDeclarationApi:
     def post_v1_declaration_submit(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1379,14 +1763,14 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull:
+    ) -> PostV1DeclarationSubmit200Response:
         """申报文件/表单提交接口。
 
-         入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+         先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1420,8 +1804,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1DeclarationSubmit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1438,7 +1824,7 @@ class ApiDeclarationApi:
     def post_v1_declaration_submit_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1451,14 +1837,14 @@ class ApiDeclarationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull]:
+    ) -> ApiResponse[PostV1DeclarationSubmit200Response]:
         """申报文件/表单提交接口。
 
-         入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+         先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1492,8 +1878,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1DeclarationSubmit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1510,7 +1898,7 @@ class ApiDeclarationApi:
     def post_v1_declaration_submit_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1526,11 +1914,11 @@ class ApiDeclarationApi:
     ) -> RESTResponseType:
         """申报文件/表单提交接口。
 
-         入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+         先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request:
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: (required)
         :type tactic_chain_api_service_controllers_api_integration_v1_api_declaration_submit_request: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1564,8 +1952,10 @@ class ApiDeclarationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1DeclarationSubmit200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,

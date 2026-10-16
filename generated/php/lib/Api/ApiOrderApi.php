@@ -149,16 +149,16 @@ class ApiOrderApi
      * 第三方-更新订单状态（通过匹配条件获取订单ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDelete'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+     * @return \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function deleteV1OrderDelete($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
+    public function deleteV1OrderDelete($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
     {
-        list($response) = $this->deleteV1OrderDeleteWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        list($response) = $this->deleteV1OrderDeleteWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request, $contentType);
         return $response;
     }
 
@@ -168,16 +168,16 @@ class ApiOrderApi
      * 第三方-更新订单状态（通过匹配条件获取订单ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDelete'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteV1OrderDeleteWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
+    public function deleteV1OrderDeleteWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
     {
-        $request = $this->deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $request = $this->deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -205,7 +205,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -227,7 +245,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
                 $request,
                 $response,
             );
@@ -236,7 +254,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -254,15 +296,15 @@ class ApiOrderApi
      * 第三方-更新订单状态（通过匹配条件获取订单ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1OrderDeleteAsync($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
+    public function deleteV1OrderDeleteAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
     {
-        return $this->deleteV1OrderDeleteAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType)
+        return $this->deleteV1OrderDeleteAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -276,16 +318,16 @@ class ApiOrderApi
      * 第三方-更新订单状态（通过匹配条件获取订单ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1OrderDeleteAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
+    public function deleteV1OrderDeleteAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
-        $request = $this->deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response';
+        $request = $this->deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -327,13 +369,13 @@ class ApiOrderApi
      * Create request for operation 'deleteV1OrderDelete'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDelete'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
+    public function deleteV1OrderDeleteRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request = null, string $contentType = self::contentTypes['deleteV1OrderDelete'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -367,16 +409,16 @@ class ApiOrderApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_helper_result_mapping_order_select)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_helper_result_mapping_order_select), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_helper_result_mapping_order_select;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -453,16 +495,16 @@ class ApiOrderApi
      * 第三方-更新订单明细状态（通过匹配条件获取明细ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDeleteLine'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+     * @return \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function deleteV1OrderDeleteLine($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
+    public function deleteV1OrderDeleteLine($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
     {
-        list($response) = $this->deleteV1OrderDeleteLineWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        list($response) = $this->deleteV1OrderDeleteLineWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request, $contentType);
         return $response;
     }
 
@@ -472,16 +514,16 @@ class ApiOrderApi
      * 第三方-更新订单明细状态（通过匹配条件获取明细ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDeleteLine'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteV1OrderDeleteLineWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
+    public function deleteV1OrderDeleteLineWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
     {
-        $request = $this->deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $request = $this->deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -509,7 +551,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -531,7 +591,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
                 $request,
                 $response,
             );
@@ -540,7 +600,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -558,15 +642,15 @@ class ApiOrderApi
      * 第三方-更新订单明细状态（通过匹配条件获取明细ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDeleteLine'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1OrderDeleteLineAsync($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
+    public function deleteV1OrderDeleteLineAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
     {
-        return $this->deleteV1OrderDeleteLineAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType)
+        return $this->deleteV1OrderDeleteLineAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -580,16 +664,16 @@ class ApiOrderApi
      * 第三方-更新订单明细状态（通过匹配条件获取明细ID）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDeleteLine'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function deleteV1OrderDeleteLineAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
+    public function deleteV1OrderDeleteLineAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
-        $request = $this->deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response';
+        $request = $this->deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -631,13 +715,13 @@ class ApiOrderApi
      * Create request for operation 'deleteV1OrderDeleteLine'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest|null $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['deleteV1OrderDeleteLine'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
+    public function deleteV1OrderDeleteLineRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request = null, string $contentType = self::contentTypes['deleteV1OrderDeleteLine'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -671,16 +755,16 @@ class ApiOrderApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_helper_result_mapping_order_select)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_helper_result_mapping_order_select), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_helper_result_mapping_order_select;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_delete_line_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -757,37 +841,34 @@ class ApiOrderApi
      * 第三方-获取采购订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -796,27 +877,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderPOListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\GetV1OrderPOListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function getV1OrderPOListPaging($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
+    public function getV1OrderPOListPaging($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
     {
-        list($response) = $this->getV1OrderPOListPagingWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        list($response) = $this->getV1OrderPOListPagingWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
         return $response;
     }
 
@@ -826,37 +911,34 @@ class ApiOrderApi
      * 第三方-获取采购订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -865,27 +947,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderPOListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\GetV1OrderPOListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getV1OrderPOListPagingWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
+    public function getV1OrderPOListPagingWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
     {
-        $request = $this->getV1OrderPOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        $request = $this->getV1OrderPOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -913,7 +999,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -935,7 +1039,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
                 $request,
                 $response,
             );
@@ -944,7 +1048,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -962,37 +1090,34 @@ class ApiOrderApi
      * 第三方-获取采购订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -1001,26 +1126,30 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderPOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1OrderPOListPagingAsync($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
+    public function getV1OrderPOListPagingAsync($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
     {
-        return $this->getV1OrderPOListPagingAsyncWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType)
+        return $this->getV1OrderPOListPagingAsyncWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1034,37 +1163,34 @@ class ApiOrderApi
      * 第三方-获取采购订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -1073,27 +1199,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderPOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1OrderPOListPagingAsyncWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
+    public function getV1OrderPOListPagingAsyncWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->getV1OrderPOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        $returnType = '\TachainSdk\Model\GetV1OrderPOListPaging200Response';
+        $request = $this->getV1OrderPOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1135,37 +1265,34 @@ class ApiOrderApi
      * Create request for operation 'getV1OrderPOListPaging'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -1174,24 +1301,28 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderPOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getV1OrderPOListPagingRequest($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
+    public function getV1OrderPOListPagingRequest($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderPOListPaging'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -1200,6 +1331,7 @@ class ApiOrderApi
                 'Missing the required parameter $x_credential_type when calling getV1OrderPOListPaging'
             );
         }
+
 
 
 
@@ -1352,33 +1484,6 @@ class ApiOrderApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $customer_tenant_id,
-            'customerTenantId', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $supplier_tenant_id,
-            'supplierTenantId', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $created_by,
-            'createdBy', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $division_id,
             'divisionId', // param base name
             'string', // openApiType
@@ -1719,6 +1824,42 @@ class ApiOrderApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_code,
+            'customerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_code,
+            'supplierCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_name,
+            'customerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_name,
+            'supplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
         // header params
         if ($x_credential_type !== null) {
@@ -1809,37 +1950,34 @@ class ApiOrderApi
      * 第三方-获取销售订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -1848,27 +1986,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderSOListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @return \TachainSdk\Model\GetV1OrderPOListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function getV1OrderSOListPaging($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
+    public function getV1OrderSOListPaging($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
     {
-        list($response) = $this->getV1OrderSOListPagingWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        list($response) = $this->getV1OrderSOListPagingWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
         return $response;
     }
 
@@ -1878,37 +2020,34 @@ class ApiOrderApi
      * 第三方-获取销售订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -1917,27 +2056,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderSOListPaging'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\GetV1OrderPOListPaging200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getV1OrderSOListPagingWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
+    public function getV1OrderSOListPagingWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
     {
-        $request = $this->getV1OrderSOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        $request = $this->getV1OrderSOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1965,7 +2108,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -1987,7 +2148,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
                 $request,
                 $response,
             );
@@ -1996,7 +2157,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\GetV1OrderPOListPaging200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2014,37 +2199,34 @@ class ApiOrderApi
      * 第三方-获取销售订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -2053,26 +2235,30 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderSOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1OrderSOListPagingAsync($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
+    public function getV1OrderSOListPagingAsync($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
     {
-        return $this->getV1OrderSOListPagingAsyncWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType)
+        return $this->getV1OrderSOListPagingAsyncWithHttpInfo($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2086,37 +2272,34 @@ class ApiOrderApi
      * 第三方-获取销售订单分页列表（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -2125,27 +2308,31 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderSOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getV1OrderSOListPagingAsyncWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
+    public function getV1OrderSOListPagingAsyncWithHttpInfo($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->getV1OrderSOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $customer_tenant_id, $supplier_tenant_id, $created_by, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $contentType);
+        $returnType = '\TachainSdk\Model\GetV1OrderPOListPaging200Response';
+        $request = $this->getV1OrderSOListPagingRequest($x_credential_type, $search_text, $order_number, $order_date_start, $order_date_end, $order_type, $customer_id, $supplier_id, $facility_id, $brand, $contract_no, $division_id, $created_at_start, $created_at_end, $id, $unique_no, $order_name, $line_number, $product_category, $material_id, $material_code, $material_name, $product_id, $product_code, $product_name, $batch, $destination_country, $customer_ext_no, $supplier_ext_no, $origin_country, $estimated_time_of_departure_start, $estimated_time_of_departure_end, $season, $season_year, $last_updated_at_start, $last_updated_at_end, $color, $so_status, $po_status, $status, $order_chain_status, $chain_status, $master_approve_status, $customer_confirm_status, $mixed_status, $risk_level, $sort_by, $page, $page_size, $customer_code, $supplier_code, $customer_name, $supplier_name, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2187,37 +2374,34 @@ class ApiOrderApi
      * Create request for operation 'getV1OrderSOListPaging'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string|null $search_text 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param  string|null $order_number 订单编号 (optional)
-     * @param  \DateTime|null $order_date_start 订单日期起始 (optional)
-     * @param  \DateTime|null $order_date_end 订单日期结束 (optional)
+     * @param  string|null $search_text 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param  string|null $order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param  \DateTime|null $order_date_start 订单日期下限。 (optional)
+     * @param  \DateTime|null $order_date_end 订单日期上限。 (optional)
      * @param  int|null $order_type 订单类型 (optional)
-     * @param  string|null $customer_id 客户ID (optional)
-     * @param  string|null $supplier_id 供应商ID (optional)
+     * @param  string|null $customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param  string|null $supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      * @param  string|null $facility_id 工厂ID (optional)
      * @param  string|null $brand 品牌 (optional)
      * @param  string|null $contract_no 合同号 (optional)
-     * @param  string|null $customer_tenant_id 客户租户ID (optional)
-     * @param  string|null $supplier_tenant_id 供应商租户ID (optional)
-     * @param  string|null $created_by 创建人 (optional)
      * @param  string|null $division_id 部门ID (optional)
-     * @param  \DateTime|null $created_at_start 创建时间起始 (optional)
-     * @param  \DateTime|null $created_at_end 创建时间结束 (optional)
-     * @param  string|null $id 订单ID (optional)
-     * @param  string|null $unique_no 系统流水号 (optional)
-     * @param  string|null $order_name  (optional)
-     * @param  string|null $line_number 行项目序号 (optional)
+     * @param  \DateTime|null $created_at_start 创建时间下限。 (optional)
+     * @param  \DateTime|null $created_at_end 创建时间上限。 (optional)
+     * @param  string|null $id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param  string|null $unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param  string|null $order_name 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param  string|null $product_category 成品分类 (optional)
      * @param  string|null $material_id 原料ID (optional)
      * @param  string|null $material_code 原料编码 (optional)
      * @param  string|null $material_name 原料名称 (optional)
      * @param  string|null $product_id 成品ID (optional)
-     * @param  string|null $product_code 成品编码 (optional)
+     * @param  string|null $product_code 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      * @param  string|null $product_name 成品名称 (optional)
      * @param  string|null $batch 物料批次号 (optional)
      * @param  string|null $destination_country 目的国家 (optional)
-     * @param  string|null $customer_ext_no 客户外部系统流水号 (optional)
-     * @param  string|null $supplier_ext_no 供应商外部系统流水号 (optional)
+     * @param  string|null $customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param  string|null $supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      * @param  string|null $origin_country 原产国 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_start 预计发货日期-开始 (optional)
      * @param  \DateTime|null $estimated_time_of_departure_end 预计发货日期-结束 (optional)
@@ -2226,24 +2410,28 @@ class ApiOrderApi
      * @param  \DateTime|null $last_updated_at_start 最后更新日期-开始 (optional)
      * @param  \DateTime|null $last_updated_at_end 最后更新日期-结束 (optional)
      * @param  string|null $color 颜色 (optional)
-     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     * @param  int[]|null $status 订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int|null $so_status 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int|null $po_status 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     * @param  int[]|null $status 查询状态过滤，不作为写入状态字段开放。 (optional)
      * @param  bool|null $order_chain_status 订单链状态 (optional)
-     * @param  bool|null $chain_status  (optional)
+     * @param  bool|null $chain_status 可选业务筛选条件；与其他条件同时生效。 (optional)
      * @param  int[]|null $master_approve_status 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      * @param  int[]|null $customer_confirm_status 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     * @param  int[]|null $risk_level  (optional)
-     * @param  string|null $sort_by 排序字段 (optional)
-     * @param  int|null $page 页码 (optional, default to 1)
-     * @param  int|null $page_size 每页数量 (optional, default to 10)
+     * @param  int[]|null $mixed_status 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     * @param  int[]|null $risk_level 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param  string|null $sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param  int|null $page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param  int|null $page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param  string|null $customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param  string|null $supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param  string|null $customer_name 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param  string|null $supplier_name 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1OrderSOListPaging'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getV1OrderSOListPagingRequest($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $customer_tenant_id = null, $supplier_tenant_id = null, $created_by = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
+    public function getV1OrderSOListPagingRequest($x_credential_type, $search_text = null, $order_number = null, $order_date_start = null, $order_date_end = null, $order_type = null, $customer_id = null, $supplier_id = null, $facility_id = null, $brand = null, $contract_no = null, $division_id = null, $created_at_start = null, $created_at_end = null, $id = null, $unique_no = null, $order_name = null, $line_number = null, $product_category = null, $material_id = null, $material_code = null, $material_name = null, $product_id = null, $product_code = null, $product_name = null, $batch = null, $destination_country = null, $customer_ext_no = null, $supplier_ext_no = null, $origin_country = null, $estimated_time_of_departure_start = null, $estimated_time_of_departure_end = null, $season = null, $season_year = null, $last_updated_at_start = null, $last_updated_at_end = null, $color = null, $so_status = null, $po_status = null, $status = null, $order_chain_status = null, $chain_status = null, $master_approve_status = null, $customer_confirm_status = null, $mixed_status = null, $risk_level = null, $sort_by = null, $page = 1, $page_size = 10, $customer_code = null, $supplier_code = null, $customer_name = null, $supplier_name = null, string $contentType = self::contentTypes['getV1OrderSOListPaging'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -2252,6 +2440,7 @@ class ApiOrderApi
                 'Missing the required parameter $x_credential_type when calling getV1OrderSOListPaging'
             );
         }
+
 
 
 
@@ -2404,33 +2593,6 @@ class ApiOrderApi
         ) ?? []);
         // query params
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $customer_tenant_id,
-            'customerTenantId', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $supplier_tenant_id,
-            'supplierTenantId', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
-            $created_by,
-            'createdBy', // param base name
-            'string', // openApiType
-            'form', // style
-            true, // explode
-            false // required
-        ) ?? []);
-        // query params
-        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             $division_id,
             'divisionId', // param base name
             'string', // openApiType
@@ -2771,6 +2933,42 @@ class ApiOrderApi
             true, // explode
             false // required
         ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_code,
+            'customerCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_code,
+            'supplierCode', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $customer_name,
+            'customerName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $supplier_name,
+            'supplierName', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
 
         // header params
         if ($x_credential_type !== null) {
@@ -2861,16 +3059,16 @@ class ApiOrderApi
      * 第三方-创建订单（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderCreate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails
+     * @return \TachainSdk\Model\PostV1OrderCreate200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function postV1OrderCreate($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['postV1OrderCreate'][0])
+    public function postV1OrderCreate($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, string $contentType = self::contentTypes['postV1OrderCreate'][0])
     {
-        list($response) = $this->postV1OrderCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        list($response) = $this->postV1OrderCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, $contentType);
         return $response;
     }
 
@@ -2880,16 +3078,16 @@ class ApiOrderApi
      * 第三方-创建订单（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderCreate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PostV1OrderCreate200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postV1OrderCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['postV1OrderCreate'][0])
+    public function postV1OrderCreateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, string $contentType = self::contentTypes['postV1OrderCreate'][0])
     {
-        $request = $this->postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        $request = $this->postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2915,15 +3113,27 @@ class ApiOrderApi
 
 
             switch($statusCode) {
-                case 201:
+                case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PostV1OrderCreate200Response',
                         $request,
                         $response,
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -2945,16 +3155,16 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                '\TachainSdk\Model\PostV1OrderCreate200Response',
                 $request,
                 $response,
             );
         } catch (ApiException $e) {
             switch ($e->getCode()) {
-                case 201:
+                case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull',
+                        '\TachainSdk\Model\PostV1OrderCreate200Response',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2962,7 +3172,23 @@ class ApiOrderApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -2980,15 +3206,15 @@ class ApiOrderApi
      * 第三方-创建订单（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderCreateAsync($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['postV1OrderCreate'][0])
+    public function postV1OrderCreateAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, string $contentType = self::contentTypes['postV1OrderCreate'][0])
     {
-        return $this->postV1OrderCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType)
+        return $this->postV1OrderCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3002,16 +3228,16 @@ class ApiOrderApi
      * 第三方-创建订单（含明细）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['postV1OrderCreate'][0])
+    public function postV1OrderCreateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, string $contentType = self::contentTypes['postV1OrderCreate'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull';
-        $request = $this->postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        $returnType = '\TachainSdk\Model\PostV1OrderCreate200Response';
+        $request = $this->postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3053,13 +3279,13 @@ class ApiOrderApi
      * Create request for operation 'postV1OrderCreate'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderCreate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['postV1OrderCreate'][0])
+    public function postV1OrderCreateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request, string $contentType = self::contentTypes['postV1OrderCreate'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -3069,6 +3295,12 @@ class ApiOrderApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request when calling postV1OrderCreate'
+            );
+        }
 
 
         $resourcePath = '/v1/order/Create';
@@ -3093,16 +3325,16 @@ class ApiOrderApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_view_models_order_api_dto)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_view_models_order_api_dto), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_view_models_order_api_dto;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_create_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -3179,16 +3411,16 @@ class ApiOrderApi
      * 第三方-销售订单接单（支持绑定成品/自动创建成品）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSoAccept'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+     * @return \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function postV1OrderSoAccept($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
+    public function postV1OrderSoAccept($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
     {
-        list($response) = $this->postV1OrderSoAcceptWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        list($response) = $this->postV1OrderSoAcceptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, $contentType);
         return $response;
     }
 
@@ -3198,16 +3430,16 @@ class ApiOrderApi
      * 第三方-销售订单接单（支持绑定成品/自动创建成品）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSoAccept'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function postV1OrderSoAcceptWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
+    public function postV1OrderSoAcceptWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
     {
-        $request = $this->postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $request = $this->postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3235,7 +3467,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -3257,7 +3507,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
                 $request,
                 $response,
             );
@@ -3266,7 +3516,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3284,15 +3558,15 @@ class ApiOrderApi
      * 第三方-销售订单接单（支持绑定成品/自动创建成品）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSoAccept'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderSoAcceptAsync($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
+    public function postV1OrderSoAcceptAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
     {
-        return $this->postV1OrderSoAcceptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType)
+        return $this->postV1OrderSoAcceptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3306,16 +3580,16 @@ class ApiOrderApi
      * 第三方-销售订单接单（支持绑定成品/自动创建成品）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSoAccept'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function postV1OrderSoAcceptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
+    public function postV1OrderSoAcceptAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
-        $request = $this->postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response';
+        $request = $this->postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3357,13 +3631,13 @@ class ApiOrderApi
      * Create request for operation 'postV1OrderSoAccept'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceHelperResultMappingOrderSelect|null $tactic_chain_api_service_helper_result_mapping_order_select (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['postV1OrderSoAccept'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_helper_result_mapping_order_select = null, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
+    public function postV1OrderSoAcceptRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request, string $contentType = self::contentTypes['postV1OrderSoAccept'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -3373,6 +3647,12 @@ class ApiOrderApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request when calling postV1OrderSoAccept'
+            );
+        }
 
 
         $resourcePath = '/v1/order/SoAccept';
@@ -3397,16 +3677,16 @@ class ApiOrderApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_helper_result_mapping_order_select)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_helper_result_mapping_order_select), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_helper_result_mapping_order_select;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_accept_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -3483,16 +3763,16 @@ class ApiOrderApi
      * 第三方-更新订单（部分字段）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderUpdate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e
+     * @return \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
-    public function putV1OrderUpdate($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
+    public function putV1OrderUpdate($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
     {
-        list($response) = $this->putV1OrderUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        list($response) = $this->putV1OrderUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, $contentType);
         return $response;
     }
 
@@ -3502,16 +3782,16 @@ class ApiOrderApi
      * 第三方-更新订单（部分字段）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderUpdate'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\PutV1DeliveryReturnReceipt200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function putV1OrderUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
+    public function putV1OrderUpdateWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
     {
-        $request = $this->putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        $request = $this->putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, $contentType);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3539,7 +3819,25 @@ class ApiOrderApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $request,
+                        $response,
+                    );
+                case 400:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -3561,7 +3859,7 @@ class ApiOrderApi
             }
 
             return $this->handleResponseWithDataType(
-                '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
                 $request,
                 $response,
             );
@@ -3570,7 +3868,31 @@ class ApiOrderApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e',
+                        '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -3588,15 +3910,15 @@ class ApiOrderApi
      * 第三方-更新订单（部分字段）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1OrderUpdateAsync($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
+    public function putV1OrderUpdateAsync($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
     {
-        return $this->putV1OrderUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType)
+        return $this->putV1OrderUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3610,16 +3932,16 @@ class ApiOrderApi
      * 第三方-更新订单（部分字段）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function putV1OrderUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
+    public function putV1OrderUpdateAsyncWithHttpInfo($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
     {
-        $returnType = '\TachainSdk\Model\TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e';
-        $request = $this->putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto, $contentType);
+        $returnType = '\TachainSdk\Model\PutV1DeliveryReturnReceipt200Response';
+        $request = $this->putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, $contentType);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3661,13 +3983,13 @@ class ApiOrderApi
      * Create request for operation 'putV1OrderUpdate'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  \TachainSdk\Model\TacticChainApiServiceViewModelsOrderApiDto|null $tactic_chain_api_service_view_models_order_api_dto (optional)
+     * @param  \TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['putV1OrderUpdate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_view_models_order_api_dto = null, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
+    public function putV1OrderUpdateRequest($x_credential_type, $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request, string $contentType = self::contentTypes['putV1OrderUpdate'][0])
     {
 
         // verify the required parameter 'x_credential_type' is set
@@ -3677,6 +3999,12 @@ class ApiOrderApi
             );
         }
 
+        // verify the required parameter 'tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request' is set
+        if ($tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request === null || (is_array($tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request) && count($tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request when calling putV1OrderUpdate'
+            );
+        }
 
 
         $resourcePath = '/v1/order/Update';
@@ -3701,16 +4029,16 @@ class ApiOrderApi
         );
 
         // for model (json/xml)
-        if (isset($tactic_chain_api_service_view_models_order_api_dto)) {
+        if (isset($tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request)) {
             if (stripos($headers['Content-Type'], 'application/json') !== false) {
                 # if Content-Type contains "application/json", json_encode the body
                 try {
-                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_view_models_order_api_dto), JSON_THROW_ON_ERROR);
+                    $httpBody = json_encode(ObjectSerializer::sanitizeForSerialization($tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request), JSON_THROW_ON_ERROR);
                 } catch (\JsonException $e) {
                     throw new \InvalidArgumentException('json_encode error: ' . $e->getMessage(), 0, $e);
                 }
             } else {
-                $httpBody = $tactic_chain_api_service_view_models_order_api_dto;
+                $httpBody = $tactic_chain_api_service_controllers_api_integration_v1_api_order_update_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

@@ -53,6 +53,51 @@ import com.tachain.sdk.client.JSON;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.25.0")
 public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest {
+  public static final String SERIALIZED_NAME_CUSTOMER_ID = "customerId";
+  @SerializedName(SERIALIZED_NAME_CUSTOMER_ID)
+  @javax.annotation.Nullable
+  private String customerId;
+
+  public static final String SERIALIZED_NAME_CUSTOMER_NAME = "customerName";
+  @SerializedName(SERIALIZED_NAME_CUSTOMER_NAME)
+  @javax.annotation.Nullable
+  private String customerName;
+
+  public static final String SERIALIZED_NAME_CUSTOMER_CODE = "customerCode";
+  @SerializedName(SERIALIZED_NAME_CUSTOMER_CODE)
+  @javax.annotation.Nullable
+  private String customerCode;
+
+  public static final String SERIALIZED_NAME_SUPPLIER_ID = "supplierId";
+  @SerializedName(SERIALIZED_NAME_SUPPLIER_ID)
+  @javax.annotation.Nullable
+  private String supplierId;
+
+  public static final String SERIALIZED_NAME_SUPPLIER_NAME = "supplierName";
+  @SerializedName(SERIALIZED_NAME_SUPPLIER_NAME)
+  @javax.annotation.Nullable
+  private String supplierName;
+
+  public static final String SERIALIZED_NAME_SUPPLIER_CODE = "supplierCode";
+  @SerializedName(SERIALIZED_NAME_SUPPLIER_CODE)
+  @javax.annotation.Nullable
+  private String supplierCode;
+
+  public static final String SERIALIZED_NAME_CUSTOMER_EXT_NO = "customerExtNo";
+  @SerializedName(SERIALIZED_NAME_CUSTOMER_EXT_NO)
+  @javax.annotation.Nullable
+  private String customerExtNo;
+
+  public static final String SERIALIZED_NAME_SUPPLIER_EXT_NO = "supplierExtNo";
+  @SerializedName(SERIALIZED_NAME_SUPPLIER_EXT_NO)
+  @javax.annotation.Nullable
+  private String supplierExtNo;
+
+  public static final String SERIALIZED_NAME_UNIQUE_NO = "uniqueNo";
+  @SerializedName(SERIALIZED_NAME_UNIQUE_NO)
+  @javax.annotation.Nullable
+  private String uniqueNo;
+
   public static final String SERIALIZED_NAME_ORDER_ID = "orderId";
   @SerializedName(SERIALIZED_NAME_ORDER_ID)
   @javax.annotation.Nullable
@@ -78,18 +123,179 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
   @javax.annotation.Nullable
   private String lineNumber;
 
-  public static final String SERIALIZED_NAME_SUPPLIER_ID = "supplierId";
-  @SerializedName(SERIALIZED_NAME_SUPPLIER_ID)
-  @javax.annotation.Nullable
-  private String supplierId;
-
-  public static final String SERIALIZED_NAME_SUPPLIER_NAME = "supplierName";
-  @SerializedName(SERIALIZED_NAME_SUPPLIER_NAME)
-  @javax.annotation.Nullable
-  private String supplierName;
-
   public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest() {
   }
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest customerId(@javax.annotation.Nullable String customerId) {
+    this.customerId = customerId;
+    return this;
+  }
+
+  /**
+   * 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+   * @return customerId
+   */
+  @javax.annotation.Nullable
+  public String getCustomerId() {
+    return customerId;
+  }
+
+  public void setCustomerId(@javax.annotation.Nullable String customerId) {
+    this.customerId = customerId;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest customerName(@javax.annotation.Nullable String customerName) {
+    this.customerName = customerName;
+    return this;
+  }
+
+  /**
+   * 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+   * @return customerName
+   */
+  @javax.annotation.Nullable
+  public String getCustomerName() {
+    return customerName;
+  }
+
+  public void setCustomerName(@javax.annotation.Nullable String customerName) {
+    this.customerName = customerName;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest customerCode(@javax.annotation.Nullable String customerCode) {
+    this.customerCode = customerCode;
+    return this;
+  }
+
+  /**
+   * 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+   * @return customerCode
+   */
+  @javax.annotation.Nullable
+  public String getCustomerCode() {
+    return customerCode;
+  }
+
+  public void setCustomerCode(@javax.annotation.Nullable String customerCode) {
+    this.customerCode = customerCode;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierId(@javax.annotation.Nullable String supplierId) {
+    this.supplierId = supplierId;
+    return this;
+  }
+
+  /**
+   * 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+   * @return supplierId
+   */
+  @javax.annotation.Nullable
+  public String getSupplierId() {
+    return supplierId;
+  }
+
+  public void setSupplierId(@javax.annotation.Nullable String supplierId) {
+    this.supplierId = supplierId;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierName(@javax.annotation.Nullable String supplierName) {
+    this.supplierName = supplierName;
+    return this;
+  }
+
+  /**
+   * 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+   * @return supplierName
+   */
+  @javax.annotation.Nullable
+  public String getSupplierName() {
+    return supplierName;
+  }
+
+  public void setSupplierName(@javax.annotation.Nullable String supplierName) {
+    this.supplierName = supplierName;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierCode(@javax.annotation.Nullable String supplierCode) {
+    this.supplierCode = supplierCode;
+    return this;
+  }
+
+  /**
+   * 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+   * @return supplierCode
+   */
+  @javax.annotation.Nullable
+  public String getSupplierCode() {
+    return supplierCode;
+  }
+
+  public void setSupplierCode(@javax.annotation.Nullable String supplierCode) {
+    this.supplierCode = supplierCode;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest customerExtNo(@javax.annotation.Nullable String customerExtNo) {
+    this.customerExtNo = customerExtNo;
+    return this;
+  }
+
+  /**
+   * 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+   * @return customerExtNo
+   */
+  @javax.annotation.Nullable
+  public String getCustomerExtNo() {
+    return customerExtNo;
+  }
+
+  public void setCustomerExtNo(@javax.annotation.Nullable String customerExtNo) {
+    this.customerExtNo = customerExtNo;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierExtNo(@javax.annotation.Nullable String supplierExtNo) {
+    this.supplierExtNo = supplierExtNo;
+    return this;
+  }
+
+  /**
+   * 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+   * @return supplierExtNo
+   */
+  @javax.annotation.Nullable
+  public String getSupplierExtNo() {
+    return supplierExtNo;
+  }
+
+  public void setSupplierExtNo(@javax.annotation.Nullable String supplierExtNo) {
+    this.supplierExtNo = supplierExtNo;
+  }
+
+
+  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest uniqueNo(@javax.annotation.Nullable String uniqueNo) {
+    this.uniqueNo = uniqueNo;
+    return this;
+  }
+
+  /**
+   * 订单明细的全局唯一系统流水号。
+   * @return uniqueNo
+   */
+  @javax.annotation.Nullable
+  public String getUniqueNo() {
+    return uniqueNo;
+  }
+
+  public void setUniqueNo(@javax.annotation.Nullable String uniqueNo) {
+    this.uniqueNo = uniqueNo;
+  }
+
 
   public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest orderId(@javax.annotation.Nullable String orderId) {
     this.orderId = orderId;
@@ -135,7 +341,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
   }
 
   /**
-   * 订单号；不传任何内部 ID 时必填。
+   * 订单号；不传 ID 或流水号时，与 OrderDate 一起必填。
    * @return orderNumber
    */
   @javax.annotation.Nullable
@@ -154,7 +360,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
   }
 
   /**
-   * 订单日期，yyyy-MM-dd；不传任何内部 ID 时必填。
+   * 订单日期，yyyy-MM-dd；不传 ID 或流水号时，与 OrderNumber 一起必填。
    * @return orderDate
    */
   @javax.annotation.Nullable
@@ -186,44 +392,6 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
   }
 
 
-  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierId(@javax.annotation.Nullable String supplierId) {
-    this.supplierId = supplierId;
-    return this;
-  }
-
-  /**
-   * 卖方公司 ID；业务键定位时与 SupplierName 至少传一个。
-   * @return supplierId
-   */
-  @javax.annotation.Nullable
-  public String getSupplierId() {
-    return supplierId;
-  }
-
-  public void setSupplierId(@javax.annotation.Nullable String supplierId) {
-    this.supplierId = supplierId;
-  }
-
-
-  public TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest supplierName(@javax.annotation.Nullable String supplierName) {
-    this.supplierName = supplierName;
-    return this;
-  }
-
-  /**
-   * 卖方名称，支持英文名、当地语言名称或简称，精确匹配。
-   * @return supplierName
-   */
-  @javax.annotation.Nullable
-  public String getSupplierName() {
-    return supplierName;
-  }
-
-  public void setSupplierName(@javax.annotation.Nullable String supplierName) {
-    this.supplierName = supplierName;
-  }
-
-
 
   @Override
   public boolean equals(Object o) {
@@ -234,13 +402,20 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
       return false;
     }
     TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest = (TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) o;
-    return Objects.equals(this.orderId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.orderId) &&
+    return Objects.equals(this.customerId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.customerId) &&
+        Objects.equals(this.customerName, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.customerName) &&
+        Objects.equals(this.customerCode, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.customerCode) &&
+        Objects.equals(this.supplierId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierId) &&
+        Objects.equals(this.supplierName, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierName) &&
+        Objects.equals(this.supplierCode, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierCode) &&
+        Objects.equals(this.customerExtNo, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.customerExtNo) &&
+        Objects.equals(this.supplierExtNo, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierExtNo) &&
+        Objects.equals(this.uniqueNo, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.uniqueNo) &&
+        Objects.equals(this.orderId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.orderId) &&
         Objects.equals(this.orderLineId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.orderLineId) &&
         Objects.equals(this.orderNumber, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.orderNumber) &&
         Objects.equals(this.orderDate, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.orderDate) &&
-        Objects.equals(this.lineNumber, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.lineNumber) &&
-        Objects.equals(this.supplierId, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierId) &&
-        Objects.equals(this.supplierName, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.supplierName);
+        Objects.equals(this.lineNumber, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest.lineNumber);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -249,7 +424,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
 
   @Override
   public int hashCode() {
-    return Objects.hash(orderId, orderLineId, orderNumber, orderDate, lineNumber, supplierId, supplierName);
+    return Objects.hash(customerId, customerName, customerCode, supplierId, supplierName, supplierCode, customerExtNo, supplierExtNo, uniqueNo, orderId, orderLineId, orderNumber, orderDate, lineNumber);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -263,13 +438,20 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest {\n");
+    sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
+    sb.append("    customerName: ").append(toIndentedString(customerName)).append("\n");
+    sb.append("    customerCode: ").append(toIndentedString(customerCode)).append("\n");
+    sb.append("    supplierId: ").append(toIndentedString(supplierId)).append("\n");
+    sb.append("    supplierName: ").append(toIndentedString(supplierName)).append("\n");
+    sb.append("    supplierCode: ").append(toIndentedString(supplierCode)).append("\n");
+    sb.append("    customerExtNo: ").append(toIndentedString(customerExtNo)).append("\n");
+    sb.append("    supplierExtNo: ").append(toIndentedString(supplierExtNo)).append("\n");
+    sb.append("    uniqueNo: ").append(toIndentedString(uniqueNo)).append("\n");
     sb.append("    orderId: ").append(toIndentedString(orderId)).append("\n");
     sb.append("    orderLineId: ").append(toIndentedString(orderLineId)).append("\n");
     sb.append("    orderNumber: ").append(toIndentedString(orderNumber)).append("\n");
     sb.append("    orderDate: ").append(toIndentedString(orderDate)).append("\n");
     sb.append("    lineNumber: ").append(toIndentedString(lineNumber)).append("\n");
-    sb.append("    supplierId: ").append(toIndentedString(supplierId)).append("\n");
-    sb.append("    supplierName: ").append(toIndentedString(supplierName)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -288,7 +470,7 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("orderId", "orderLineId", "orderNumber", "orderDate", "lineNumber", "supplierId", "supplierName"));
+    openapiFields = new HashSet<String>(Arrays.asList("customerId", "customerName", "customerCode", "supplierId", "supplierName", "supplierCode", "customerExtNo", "supplierExtNo", "uniqueNo", "orderId", "orderLineId", "orderNumber", "orderDate", "lineNumber"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -315,6 +497,33 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("customerId") != null && !jsonObj.get("customerId").isJsonNull()) && !jsonObj.get("customerId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `customerId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("customerId").toString()));
+      }
+      if ((jsonObj.get("customerName") != null && !jsonObj.get("customerName").isJsonNull()) && !jsonObj.get("customerName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `customerName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("customerName").toString()));
+      }
+      if ((jsonObj.get("customerCode") != null && !jsonObj.get("customerCode").isJsonNull()) && !jsonObj.get("customerCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `customerCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("customerCode").toString()));
+      }
+      if ((jsonObj.get("supplierId") != null && !jsonObj.get("supplierId").isJsonNull()) && !jsonObj.get("supplierId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierId").toString()));
+      }
+      if ((jsonObj.get("supplierName") != null && !jsonObj.get("supplierName").isJsonNull()) && !jsonObj.get("supplierName").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierName").toString()));
+      }
+      if ((jsonObj.get("supplierCode") != null && !jsonObj.get("supplierCode").isJsonNull()) && !jsonObj.get("supplierCode").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierCode` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierCode").toString()));
+      }
+      if ((jsonObj.get("customerExtNo") != null && !jsonObj.get("customerExtNo").isJsonNull()) && !jsonObj.get("customerExtNo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `customerExtNo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("customerExtNo").toString()));
+      }
+      if ((jsonObj.get("supplierExtNo") != null && !jsonObj.get("supplierExtNo").isJsonNull()) && !jsonObj.get("supplierExtNo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierExtNo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierExtNo").toString()));
+      }
+      if ((jsonObj.get("uniqueNo") != null && !jsonObj.get("uniqueNo").isJsonNull()) && !jsonObj.get("uniqueNo").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `uniqueNo` to be a primitive type in the JSON string but got `%s`", jsonObj.get("uniqueNo").toString()));
+      }
       if ((jsonObj.get("orderId") != null && !jsonObj.get("orderId").isJsonNull()) && !jsonObj.get("orderId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `orderId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("orderId").toString()));
       }
@@ -326,12 +535,6 @@ public class TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmRece
       }
       if ((jsonObj.get("lineNumber") != null && !jsonObj.get("lineNumber").isJsonNull()) && !jsonObj.get("lineNumber").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `lineNumber` to be a primitive type in the JSON string but got `%s`", jsonObj.get("lineNumber").toString()));
-      }
-      if ((jsonObj.get("supplierId") != null && !jsonObj.get("supplierId").isJsonNull()) && !jsonObj.get("supplierId").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierId").toString()));
-      }
-      if ((jsonObj.get("supplierName") != null && !jsonObj.get("supplierName").isJsonNull()) && !jsonObj.get("supplierName").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `supplierName` to be a primitive type in the JSON string but got `%s`", jsonObj.get("supplierName").toString()));
       }
   }
 

@@ -131,12 +131,12 @@ class ApiEnumApi
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string[]|null $enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param  string[]|null $enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1EnumGetList'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \TachainSdk\Model\GetV1EnumGetList200Response|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails
+     * @return \TachainSdk\Model\GetV1EnumGetList200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
      */
     public function getV1EnumGetList($x_credential_type, $enum_types = null, string $contentType = self::contentTypes['getV1EnumGetList'][0])
     {
@@ -150,12 +150,12 @@ class ApiEnumApi
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string[]|null $enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param  string[]|null $enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1EnumGetList'] to see the possible values for this operation
      *
      * @throws \TachainSdk\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \TachainSdk\Model\GetV1EnumGetList200Response|\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \TachainSdk\Model\GetV1EnumGetList200Response|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse|\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse, HTTP status code, HTTP response headers (array of strings)
      */
     public function getV1EnumGetListWithHttpInfo($x_credential_type, $enum_types = null, string $contentType = self::contentTypes['getV1EnumGetList'][0])
     {
@@ -193,7 +193,19 @@ class ApiEnumApi
                     );
                 case 400:
                     return $this->handleResponseWithDataType(
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $request,
                         $response,
                     );
@@ -232,7 +244,23 @@ class ApiEnumApi
                 case 400:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\TachainSdk\Model\MicrosoftAspNetCoreMvcProblemDetails',
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\TachainSdk\Model\TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -250,7 +278,7 @@ class ApiEnumApi
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string[]|null $enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param  string[]|null $enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1EnumGetList'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -272,7 +300,7 @@ class ApiEnumApi
      * 第三方-获取统一枚举列表（支持批量查询/查询所有）
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string[]|null $enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param  string[]|null $enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1EnumGetList'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
@@ -323,7 +351,7 @@ class ApiEnumApi
      * Create request for operation 'getV1EnumGetList'
      *
      * @param  string $x_credential_type Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param  string[]|null $enum_types 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等） (optional)
+     * @param  string[]|null $enum_types 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。 (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getV1EnumGetList'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException

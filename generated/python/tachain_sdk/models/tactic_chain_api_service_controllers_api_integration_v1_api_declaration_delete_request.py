@@ -28,25 +28,35 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteReques
     """
     申报资料删除请求。
     """ # noqa: E501
+    customer_id: Optional[StrictStr] = Field(default=None, description="查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。", alias="customerId")
+    customer_name: Optional[StrictStr] = Field(default=None, description="客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。", alias="customerName")
+    customer_code: Optional[StrictStr] = Field(default=None, description="当前公司维护的客户编码或启用的 Customer/Company 外部映射值。", alias="customerCode")
+    supplier_id: Optional[StrictStr] = Field(default=None, description="查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。", alias="supplierId")
+    supplier_name: Optional[StrictStr] = Field(default=None, description="供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。", alias="supplierName")
+    supplier_code: Optional[StrictStr] = Field(default=None, description="当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。", alias="supplierCode")
+    customer_ext_no: Optional[StrictStr] = Field(default=None, description="订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。", alias="customerExtNo")
+    supplier_ext_no: Optional[StrictStr] = Field(default=None, description="订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。", alias="supplierExtNo")
+    unique_no: Optional[StrictStr] = Field(default=None, description="订单明细的全局唯一系统流水号。", alias="uniqueNo")
     attachment_id: Optional[StrictStr] = Field(default=None, description="单个附件申报记录 ID。", alias="attachmentId")
     attachment_ids: Optional[List[StrictStr]] = Field(default=None, description="批量附件申报记录 ID。", alias="attachmentIds")
     form_data_id: Optional[StrictStr] = Field(default=None, description="单个表单申报记录 ID。", alias="formDataId")
     form_data_ids: Optional[List[StrictStr]] = Field(default=None, description="批量表单申报记录 ID。", alias="formDataIds")
     stage_id: Optional[StrictStr] = Field(default=None, description="申报阶段 ID。按业务键删除申报资料时用于判断 ExtendNumber 属于哪类单据。", alias="stageId")
     extend_id: Optional[StrictStr] = Field(default=None, description="业务扩展 ID，例如订单 ID、生产单 ID、发货单 ID。", alias="extendId")
-    extend_number: Optional[StrictStr] = Field(default=None, description="业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。", alias="extendNumber")
-    extend_date: Optional[datetime] = Field(default=None, description="业务单日期。订单阶段按订单号定位时使用。", alias="extendDate")
-    extend_line_number: Optional[StrictStr] = Field(default=None, description="订单行号。订单阶段按订单行定位时使用。", alias="extendLineNumber")
+    extend_number: Optional[StrictStr] = Field(default=None, description="业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。", alias="extendNumber")
+    order_date: Optional[datetime] = Field(default=None, description="业务单日期。订单阶段按订单号定位时使用。", alias="orderDate")
+    line_number: Optional[StrictStr] = Field(default=None, description="订单行号。订单阶段按订单行定位时使用。", alias="lineNumber")
     order_side: Optional[StrictStr] = Field(default=None, description="订单侧别，常用 PO 或 SO。", alias="orderSide")
     product_code: Optional[StrictStr] = Field(default=None, description="产品编码。生产/入库阶段按生产单号删除申报资料时参与定位生产单。", alias="productCode")
-    production_type: Optional[StrictInt] = Field(default=None, description="生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。", alias="productionType")
+    production_type: Optional[StrictInt] = Field(default=None, description="生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。", alias="productionType")
+    receipt_number: Optional[StrictStr] = Field(default=None, description="入库单号，可选；同一生产编号存在多次入库时用于消歧。", alias="receiptNumber")
     delivery_number: Optional[StrictStr] = Field(default=None, description="发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。", alias="deliveryNumber")
     document_type_id: Optional[StrictStr] = Field(default=None, description="资料类型 ID。按业务键删除时和 StageId、ExtendId 一起定位申报记录。", alias="documentTypeId")
     document_type_code: Optional[StrictStr] = Field(default=None, description="资料类型编码。外部不知道 DocumentTypeId 时可传该字段。", alias="documentTypeCode")
     document_number: Optional[StrictStr] = Field(default=None, description="附件申报的单据编号；同一资料类型存在多条附件申报时用于进一步过滤。", alias="documentNumber")
     delete_attachments: Optional[StrictBool] = Field(default=None, description="是否删除附件申报；默认 true。", alias="deleteAttachments")
     delete_forms: Optional[StrictBool] = Field(default=None, description="是否删除表单申报；默认 true。", alias="deleteForms")
-    __properties: ClassVar[List[str]] = ["attachmentId", "attachmentIds", "formDataId", "formDataIds", "stageId", "extendId", "extendNumber", "extendDate", "extendLineNumber", "orderSide", "productCode", "productionType", "deliveryNumber", "documentTypeId", "documentTypeCode", "documentNumber", "deleteAttachments", "deleteForms"]
+    __properties: ClassVar[List[str]] = ["customerId", "customerName", "customerCode", "supplierId", "supplierName", "supplierCode", "customerExtNo", "supplierExtNo", "uniqueNo", "attachmentId", "attachmentIds", "formDataId", "formDataIds", "stageId", "extendId", "extendNumber", "orderDate", "lineNumber", "orderSide", "productCode", "productionType", "receiptNumber", "deliveryNumber", "documentTypeId", "documentTypeCode", "documentNumber", "deleteAttachments", "deleteForms"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -87,96 +97,148 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteReques
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if attachment_id (nullable) is None
+                                                                                                                                                                                                                                
+        # set to None if customer_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.customer_id is None and "customer_id" in self.model_fields_set:
+            _dict['customerId'] = None
+
+                # set to None if customer_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.customer_name is None and "customer_name" in self.model_fields_set:
+            _dict['customerName'] = None
+
+                # set to None if customer_code (nullable) is None
+        # and model_fields_set contains the field
+        if self.customer_code is None and "customer_code" in self.model_fields_set:
+            _dict['customerCode'] = None
+
+                # set to None if supplier_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_id is None and "supplier_id" in self.model_fields_set:
+            _dict['supplierId'] = None
+
+                # set to None if supplier_name (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_name is None and "supplier_name" in self.model_fields_set:
+            _dict['supplierName'] = None
+
+                # set to None if supplier_code (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_code is None and "supplier_code" in self.model_fields_set:
+            _dict['supplierCode'] = None
+
+                # set to None if customer_ext_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.customer_ext_no is None and "customer_ext_no" in self.model_fields_set:
+            _dict['customerExtNo'] = None
+
+                # set to None if supplier_ext_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.supplier_ext_no is None and "supplier_ext_no" in self.model_fields_set:
+            _dict['supplierExtNo'] = None
+
+                # set to None if unique_no (nullable) is None
+        # and model_fields_set contains the field
+        if self.unique_no is None and "unique_no" in self.model_fields_set:
+            _dict['uniqueNo'] = None
+
+                # set to None if attachment_id (nullable) is None
         # and model_fields_set contains the field
         if self.attachment_id is None and "attachment_id" in self.model_fields_set:
             _dict['attachmentId'] = None
 
-        # set to None if attachment_ids (nullable) is None
+                # set to None if attachment_ids (nullable) is None
         # and model_fields_set contains the field
         if self.attachment_ids is None and "attachment_ids" in self.model_fields_set:
             _dict['attachmentIds'] = None
 
-        # set to None if form_data_id (nullable) is None
+                # set to None if form_data_id (nullable) is None
         # and model_fields_set contains the field
         if self.form_data_id is None and "form_data_id" in self.model_fields_set:
             _dict['formDataId'] = None
 
-        # set to None if form_data_ids (nullable) is None
+                # set to None if form_data_ids (nullable) is None
         # and model_fields_set contains the field
         if self.form_data_ids is None and "form_data_ids" in self.model_fields_set:
             _dict['formDataIds'] = None
 
-        # set to None if stage_id (nullable) is None
+                # set to None if stage_id (nullable) is None
         # and model_fields_set contains the field
         if self.stage_id is None and "stage_id" in self.model_fields_set:
             _dict['stageId'] = None
 
-        # set to None if extend_id (nullable) is None
+                # set to None if extend_id (nullable) is None
         # and model_fields_set contains the field
         if self.extend_id is None and "extend_id" in self.model_fields_set:
             _dict['extendId'] = None
 
-        # set to None if extend_number (nullable) is None
+                # set to None if extend_number (nullable) is None
         # and model_fields_set contains the field
         if self.extend_number is None and "extend_number" in self.model_fields_set:
             _dict['extendNumber'] = None
 
-        # set to None if extend_date (nullable) is None
+                # set to None if order_date (nullable) is None
         # and model_fields_set contains the field
-        if self.extend_date is None and "extend_date" in self.model_fields_set:
-            _dict['extendDate'] = None
+        if self.order_date is None and "order_date" in self.model_fields_set:
+            _dict['orderDate'] = None
 
-        # set to None if extend_line_number (nullable) is None
+                # set to None if line_number (nullable) is None
         # and model_fields_set contains the field
-        if self.extend_line_number is None and "extend_line_number" in self.model_fields_set:
-            _dict['extendLineNumber'] = None
+        if self.line_number is None and "line_number" in self.model_fields_set:
+            _dict['lineNumber'] = None
 
-        # set to None if order_side (nullable) is None
+                # set to None if order_side (nullable) is None
         # and model_fields_set contains the field
         if self.order_side is None and "order_side" in self.model_fields_set:
             _dict['orderSide'] = None
 
-        # set to None if product_code (nullable) is None
+                # set to None if product_code (nullable) is None
         # and model_fields_set contains the field
         if self.product_code is None and "product_code" in self.model_fields_set:
             _dict['productCode'] = None
 
-        # set to None if production_type (nullable) is None
+                # set to None if production_type (nullable) is None
         # and model_fields_set contains the field
         if self.production_type is None and "production_type" in self.model_fields_set:
             _dict['productionType'] = None
 
-        # set to None if delivery_number (nullable) is None
+                # set to None if receipt_number (nullable) is None
+        # and model_fields_set contains the field
+        if self.receipt_number is None and "receipt_number" in self.model_fields_set:
+            _dict['receiptNumber'] = None
+
+                # set to None if delivery_number (nullable) is None
         # and model_fields_set contains the field
         if self.delivery_number is None and "delivery_number" in self.model_fields_set:
             _dict['deliveryNumber'] = None
 
-        # set to None if document_type_id (nullable) is None
+                # set to None if document_type_id (nullable) is None
         # and model_fields_set contains the field
         if self.document_type_id is None and "document_type_id" in self.model_fields_set:
             _dict['documentTypeId'] = None
 
-        # set to None if document_type_code (nullable) is None
+                # set to None if document_type_code (nullable) is None
         # and model_fields_set contains the field
         if self.document_type_code is None and "document_type_code" in self.model_fields_set:
             _dict['documentTypeCode'] = None
 
-        # set to None if document_number (nullable) is None
+                # set to None if document_number (nullable) is None
         # and model_fields_set contains the field
         if self.document_number is None and "document_number" in self.model_fields_set:
             _dict['documentNumber'] = None
 
-        # set to None if delete_attachments (nullable) is None
+                # set to None if delete_attachments (nullable) is None
         # and model_fields_set contains the field
         if self.delete_attachments is None and "delete_attachments" in self.model_fields_set:
             _dict['deleteAttachments'] = None
 
-        # set to None if delete_forms (nullable) is None
+                # set to None if delete_forms (nullable) is None
         # and model_fields_set contains the field
         if self.delete_forms is None and "delete_forms" in self.model_fields_set:
             _dict['deleteForms'] = None
 
+        
         return _dict
 
     @classmethod
@@ -189,24 +251,35 @@ class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteReques
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "attachmentId": obj.get("attachmentId"),
-            "attachmentIds": obj.get("attachmentIds"),
-            "formDataId": obj.get("formDataId"),
-            "formDataIds": obj.get("formDataIds"),
-            "stageId": obj.get("stageId"),
-            "extendId": obj.get("extendId"),
-            "extendNumber": obj.get("extendNumber"),
-            "extendDate": obj.get("extendDate"),
-            "extendLineNumber": obj.get("extendLineNumber"),
-            "orderSide": obj.get("orderSide"),
-            "productCode": obj.get("productCode"),
-            "productionType": obj.get("productionType"),
-            "deliveryNumber": obj.get("deliveryNumber"),
-            "documentTypeId": obj.get("documentTypeId"),
-            "documentTypeCode": obj.get("documentTypeCode"),
-            "documentNumber": obj.get("documentNumber"),
-            "deleteAttachments": obj.get("deleteAttachments"),
-            "deleteForms": obj.get("deleteForms")
+            "customerId": obj.get("customerId"),
+                        "customerName": obj.get("customerName"),
+                        "customerCode": obj.get("customerCode"),
+                        "supplierId": obj.get("supplierId"),
+                        "supplierName": obj.get("supplierName"),
+                        "supplierCode": obj.get("supplierCode"),
+                        "customerExtNo": obj.get("customerExtNo"),
+                        "supplierExtNo": obj.get("supplierExtNo"),
+                        "uniqueNo": obj.get("uniqueNo"),
+                        "attachmentId": obj.get("attachmentId"),
+                        "attachmentIds": obj.get("attachmentIds"),
+                        "formDataId": obj.get("formDataId"),
+                        "formDataIds": obj.get("formDataIds"),
+                        "stageId": obj.get("stageId"),
+                        "extendId": obj.get("extendId"),
+                        "extendNumber": obj.get("extendNumber"),
+                        "orderDate": obj.get("orderDate"),
+                        "lineNumber": obj.get("lineNumber"),
+                        "orderSide": obj.get("orderSide"),
+                        "productCode": obj.get("productCode"),
+                        "productionType": obj.get("productionType"),
+                        "receiptNumber": obj.get("receiptNumber"),
+                        "deliveryNumber": obj.get("deliveryNumber"),
+                        "documentTypeId": obj.get("documentTypeId"),
+                        "documentTypeCode": obj.get("documentTypeCode"),
+                        "documentNumber": obj.get("documentNumber"),
+                        "deleteAttachments": obj.get("deleteAttachments"),
+                        "deleteForms": obj.get("deleteForms")
+            
         })
         return _obj
 

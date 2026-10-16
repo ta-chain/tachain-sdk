@@ -24,14 +24,14 @@ open class ApiDeclarationAPI {
      申报信息删除接口。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter attachmentId: (query) query 方式传入的单个附件申报 ID。 (optional)
-     - parameter formDataId: (query) query 方式传入的单个表单申报 ID。 (optional)
+     - parameter attachmentId: (query) 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     - parameter formDataId: (query) 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: (body)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteV1DeclarationDelete(xCredentialType: XCredentialType_deleteV1DeclarationDelete, attachmentId: String? = nil, formDataId: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Model4?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func deleteV1DeclarationDelete(xCredentialType: XCredentialType_deleteV1DeclarationDelete, attachmentId: String? = nil, formDataId: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: DeleteV1DeclarationDelete200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return deleteV1DeclarationDeleteWithRequestBuilder(xCredentialType: xCredentialType, attachmentId: attachmentId, formDataId: formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -59,12 +59,12 @@ open class ApiDeclarationAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter attachmentId: (query) query 方式传入的单个附件申报 ID。 (optional)
-     - parameter formDataId: (query) query 方式传入的单个表单申报 ID。 (optional)
+     - parameter attachmentId: (query) 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     - parameter formDataId: (query) 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: (body)  (optional)
-     - returns: RequestBuilder<Model4> 
+     - returns: RequestBuilder<DeleteV1DeclarationDelete200Response> 
      */
-    open class func deleteV1DeclarationDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1DeclarationDelete, attachmentId: String? = nil, formDataId: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? = nil) -> RequestBuilder<Model4> {
+    open class func deleteV1DeclarationDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1DeclarationDelete, attachmentId: String? = nil, formDataId: String? = nil, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest? = nil) -> RequestBuilder<DeleteV1DeclarationDelete200Response> {
         let localVariablePath = "/v1/declaration/Delete"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest)
@@ -82,7 +82,7 @@ open class ApiDeclarationAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Model4>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeleteV1DeclarationDelete200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -99,29 +99,39 @@ open class ApiDeclarationAPI {
      申报信息查询接口。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter extendId: (query)  (optional)
-     - parameter stageId: (query)  (optional)
-     - parameter documentTypeId: (query)  (optional)
-     - parameter documentTypeCode: (query)  (optional)
-     - parameter extendNumber: (query)  (optional)
-     - parameter extendDate: (query)  (optional)
-     - parameter extendLineNumber: (query)  (optional)
-     - parameter orderSide: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter productionType: (query)  (optional)
-     - parameter deliveryNumber: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter riskWarning: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter extendId: (query) 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     - parameter stageId: (query) 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     - parameter documentTypeId: (query) RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     - parameter documentTypeCode: (query) 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     - parameter extendNumber: (query) 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter orderSide: (query) PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productionType: (query) 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     - parameter deliveryNumber: (query) 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter riskWarning: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter receiptNumber: (query) 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1DeclarationListPaging(xCredentialType: XCredentialType_getV1DeclarationListPaging, searchText: String? = nil, extendId: [String]? = nil, stageId: [String]? = nil, documentTypeId: [String]? = nil, documentTypeCode: String? = nil, extendNumber: String? = nil, extendDate: Date? = nil, extendLineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, status: Int? = nil, riskWarning: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1DeclarationListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, extendId: extendId, stageId: stageId, documentTypeId: documentTypeId, documentTypeCode: documentTypeCode, extendNumber: extendNumber, extendDate: extendDate, extendLineNumber: extendLineNumber, orderSide: orderSide, productCode: productCode, productionType: productionType, deliveryNumber: deliveryNumber, status: status, riskWarning: riskWarning, sortBy: sortBy, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1DeclarationListPaging(xCredentialType: XCredentialType_getV1DeclarationListPaging, searchText: String? = nil, extendId: [String]? = nil, stageId: [String]? = nil, documentTypeId: [String]? = nil, documentTypeCode: String? = nil, extendNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, status: Int? = nil, riskWarning: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, receiptNumber: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1DeclarationListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1DeclarationListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, extendId: extendId, stageId: stageId, documentTypeId: documentTypeId, documentTypeCode: documentTypeCode, extendNumber: extendNumber, orderDate: orderDate, lineNumber: lineNumber, orderSide: orderSide, productCode: productCode, productionType: productionType, deliveryNumber: deliveryNumber, status: status, riskWarning: riskWarning, sortBy: sortBy, page: page, pageSize: pageSize, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, uniqueNo: uniqueNo, customerId: customerId, customerName: customerName, customerCode: customerCode, supplierId: supplierId, supplierName: supplierName, supplierCode: supplierCode, receiptNumber: receiptNumber).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -148,26 +158,36 @@ open class ApiDeclarationAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter extendId: (query)  (optional)
-     - parameter stageId: (query)  (optional)
-     - parameter documentTypeId: (query)  (optional)
-     - parameter documentTypeCode: (query)  (optional)
-     - parameter extendNumber: (query)  (optional)
-     - parameter extendDate: (query)  (optional)
-     - parameter extendLineNumber: (query)  (optional)
-     - parameter orderSide: (query)  (optional)
-     - parameter productCode: (query)  (optional)
-     - parameter productionType: (query)  (optional)
-     - parameter deliveryNumber: (query)  (optional)
-     - parameter status: (query)  (optional)
-     - parameter riskWarning: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter extendId: (query) 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     - parameter stageId: (query) 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     - parameter documentTypeId: (query) RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     - parameter documentTypeCode: (query) 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     - parameter extendNumber: (query) 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - parameter orderSide: (query) PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productionType: (query) 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     - parameter deliveryNumber: (query) 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
+     - parameter riskWarning: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter receiptNumber: (query) 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     - returns: RequestBuilder<GetV1DeclarationListPaging200Response> 
      */
-    open class func getV1DeclarationListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeclarationListPaging, searchText: String? = nil, extendId: [String]? = nil, stageId: [String]? = nil, documentTypeId: [String]? = nil, documentTypeCode: String? = nil, extendNumber: String? = nil, extendDate: Date? = nil, extendLineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, status: Int? = nil, riskWarning: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1DeclarationListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1DeclarationListPaging, searchText: String? = nil, extendId: [String]? = nil, stageId: [String]? = nil, documentTypeId: [String]? = nil, documentTypeCode: String? = nil, extendNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, status: Int? = nil, riskWarning: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, receiptNumber: String? = nil) -> RequestBuilder<GetV1DeclarationListPaging200Response> {
         let localVariablePath = "/v1/declaration/ListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -180,8 +200,8 @@ open class ApiDeclarationAPI {
             "documentTypeId": (wrappedValue: documentTypeId?.encodeToJSON(), isExplode: true),
             "documentTypeCode": (wrappedValue: documentTypeCode?.encodeToJSON(), isExplode: true),
             "extendNumber": (wrappedValue: extendNumber?.encodeToJSON(), isExplode: true),
-            "extendDate": (wrappedValue: extendDate?.encodeToJSON(), isExplode: true),
-            "extendLineNumber": (wrappedValue: extendLineNumber?.encodeToJSON(), isExplode: true),
+            "orderDate": (wrappedValue: orderDate?.encodeToJSON(), isExplode: true),
+            "lineNumber": (wrappedValue: lineNumber?.encodeToJSON(), isExplode: true),
             "orderSide": (wrappedValue: orderSide?.encodeToJSON(), isExplode: true),
             "productCode": (wrappedValue: productCode?.encodeToJSON(), isExplode: true),
             "productionType": (wrappedValue: productionType?.encodeToJSON(), isExplode: true),
@@ -191,6 +211,16 @@ open class ApiDeclarationAPI {
             "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "CustomerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
+            "SupplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
+            "UniqueNo": (wrappedValue: uniqueNo?.encodeToJSON(), isExplode: true),
+            "CustomerId": (wrappedValue: customerId?.encodeToJSON(), isExplode: true),
+            "CustomerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "CustomerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "SupplierId": (wrappedValue: supplierId?.encodeToJSON(), isExplode: true),
+            "SupplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
+            "SupplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+            "receiptNumber": (wrappedValue: receiptNumber?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -199,7 +229,7 @@ open class ApiDeclarationAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1DeclarationListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -215,22 +245,33 @@ open class ApiDeclarationAPI {
     /**
      单据所需申报信息查询接口。
      
+     - parameter stageCode: (query) 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter stageCode: (query) 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     - parameter id: (query) 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     - parameter orderNumber: (query) 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     - parameter orderDate: (query) 订单日期；订单阶段按订单号定位时必传。 (optional)
-     - parameter orderSide: (query) 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     - parameter productionNumber: (query) 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     - parameter productCode: (query) 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     - parameter productionType: (query) 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     - parameter deliveryNumber: (query) 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter orderSide: (query) PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     - parameter productionNumber: (query) 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productionType: (query) 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     - parameter deliveryNumber: (query) 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter receiptNumber: (query) 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1DeclarationRequiredDocuments(xCredentialType: XCredentialType_getV1DeclarationRequiredDocuments, stageCode: String? = nil, id: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, orderSide: String? = nil, productionNumber: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: Model3?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1DeclarationRequiredDocumentsWithRequestBuilder(xCredentialType: xCredentialType, stageCode: stageCode, id: id, orderNumber: orderNumber, orderDate: orderDate, orderSide: orderSide, productionNumber: productionNumber, productCode: productCode, productionType: productionType, deliveryNumber: deliveryNumber).execute(apiResponseQueue) { result in
+    open class func getV1DeclarationRequiredDocuments(stageCode: String, xCredentialType: XCredentialType_getV1DeclarationRequiredDocuments, id: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, orderSide: String? = nil, productionNumber: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, receiptNumber: String? = nil, lineNumber: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1DeclarationRequiredDocuments200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1DeclarationRequiredDocumentsWithRequestBuilder(stageCode: stageCode, xCredentialType: xCredentialType, id: id, orderNumber: orderNumber, orderDate: orderDate, orderSide: orderSide, productionNumber: productionNumber, productCode: productCode, productionType: productionType, deliveryNumber: deliveryNumber, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, uniqueNo: uniqueNo, customerId: customerId, customerName: customerName, customerCode: customerCode, supplierId: supplierId, supplierName: supplierName, supplierCode: supplierCode, receiptNumber: receiptNumber, lineNumber: lineNumber).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -243,7 +284,7 @@ open class ApiDeclarationAPI {
     /**
      单据所需申报信息查询接口。
      - GET /v1/declaration/RequiredDocuments
-     - 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     - 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -256,26 +297,37 @@ open class ApiDeclarationAPI {
      - API Key:
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
+     - parameter stageCode: (query) 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter stageCode: (query) 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     - parameter id: (query) 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     - parameter orderNumber: (query) 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     - parameter orderDate: (query) 订单日期；订单阶段按订单号定位时必传。 (optional)
-     - parameter orderSide: (query) 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     - parameter productionNumber: (query) 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     - parameter productCode: (query) 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     - parameter productionType: (query) 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     - parameter deliveryNumber: (query) 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
-     - returns: RequestBuilder<Model3> 
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDate: (query) 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     - parameter orderSide: (query) PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     - parameter productionNumber: (query) 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     - parameter productionType: (query) 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     - parameter deliveryNumber: (query) 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter receiptNumber: (query) 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     - returns: RequestBuilder<GetV1DeclarationRequiredDocuments200Response> 
      */
-    open class func getV1DeclarationRequiredDocumentsWithRequestBuilder(xCredentialType: XCredentialType_getV1DeclarationRequiredDocuments, stageCode: String? = nil, id: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, orderSide: String? = nil, productionNumber: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil) -> RequestBuilder<Model3> {
+    open class func getV1DeclarationRequiredDocumentsWithRequestBuilder(stageCode: String, xCredentialType: XCredentialType_getV1DeclarationRequiredDocuments, id: String? = nil, orderNumber: String? = nil, orderDate: Date? = nil, orderSide: String? = nil, productionNumber: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, receiptNumber: String? = nil, lineNumber: String? = nil) -> RequestBuilder<GetV1DeclarationRequiredDocuments200Response> {
         let localVariablePath = "/v1/declaration/RequiredDocuments"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "stageCode": (wrappedValue: stageCode?.encodeToJSON(), isExplode: true),
+            "stageCode": (wrappedValue: stageCode.encodeToJSON(), isExplode: true),
             "id": (wrappedValue: id?.encodeToJSON(), isExplode: true),
             "orderNumber": (wrappedValue: orderNumber?.encodeToJSON(), isExplode: true),
             "orderDate": (wrappedValue: orderDate?.encodeToJSON(), isExplode: true),
@@ -284,6 +336,17 @@ open class ApiDeclarationAPI {
             "productCode": (wrappedValue: productCode?.encodeToJSON(), isExplode: true),
             "productionType": (wrappedValue: productionType?.encodeToJSON(), isExplode: true),
             "deliveryNumber": (wrappedValue: deliveryNumber?.encodeToJSON(), isExplode: true),
+            "CustomerExtNo": (wrappedValue: customerExtNo?.encodeToJSON(), isExplode: true),
+            "SupplierExtNo": (wrappedValue: supplierExtNo?.encodeToJSON(), isExplode: true),
+            "UniqueNo": (wrappedValue: uniqueNo?.encodeToJSON(), isExplode: true),
+            "CustomerId": (wrappedValue: customerId?.encodeToJSON(), isExplode: true),
+            "CustomerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "CustomerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "SupplierId": (wrappedValue: supplierId?.encodeToJSON(), isExplode: true),
+            "SupplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
+            "SupplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+            "receiptNumber": (wrappedValue: receiptNumber?.encodeToJSON(), isExplode: true),
+            "lineNumber": (wrappedValue: lineNumber?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -292,7 +355,7 @@ open class ApiDeclarationAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Model3>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1DeclarationRequiredDocuments200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -309,12 +372,12 @@ open class ApiDeclarationAPI {
      申报文件/表单提交接口。
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1DeclarationSubmit(xCredentialType: XCredentialType_postV1DeclarationSubmit, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
+    open class func postV1DeclarationSubmit(xCredentialType: XCredentialType_postV1DeclarationSubmit, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1DeclarationSubmit200Response?, _ error: Error?) -> Void)) -> RequestTask {
         return postV1DeclarationSubmitWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
@@ -328,7 +391,7 @@ open class ApiDeclarationAPI {
     /**
      申报文件/表单提交接口。
      - POST /v1/declaration/Submit
-     -  入参结构与内部 `BatchCreateStageAttachment` 保持一致：             `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，             `DocumentList` 中每个元素表示一种申报资料类型。  每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     -  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -342,10 +405,10 @@ open class ApiDeclarationAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: (body)  
+     - returns: RequestBuilder<PostV1DeclarationSubmit200Response> 
      */
-    open class func postV1DeclarationSubmitWithRequestBuilder(xCredentialType: XCredentialType_postV1DeclarationSubmit, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func postV1DeclarationSubmitWithRequestBuilder(xCredentialType: XCredentialType_postV1DeclarationSubmit, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) -> RequestBuilder<PostV1DeclarationSubmit200Response> {
         let localVariablePath = "/v1/declaration/Submit"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest)
@@ -359,7 +422,7 @@ open class ApiDeclarationAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PostV1DeclarationSubmit200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

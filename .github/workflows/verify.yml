@@ -45,6 +45,8 @@ jobs:
           npm run build
       - name: Check signing vectors
         run: node tests/check_typescript_signature.cjs
+      - name: Check updated request contract and multipart upload
+        run: node tests/check_typescript_contract.cjs
 
   python:
     runs-on: ubuntu-latest
@@ -57,6 +59,10 @@ jobs:
         run: |
           python3 -m pip install --upgrade build
           python3 -m build generated/python
+      - name: Check generated declaration request round trips
+        run: |
+          python3 -m pip install ./generated/python
+          python3 tests/check_python_contract.py
       - name: Check signing vectors
         run: python3 -m unittest discover -s tests -p 'test_*.py'
 

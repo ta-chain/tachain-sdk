@@ -27,14 +27,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import com.tachain.sdk.model.MicrosoftAspNetCoreMvcProblemDetails;
-import com.tachain.sdk.model.Model3;
-import com.tachain.sdk.model.Model4;
+import com.tachain.sdk.model.DeleteV1DeclarationDelete200Response;
+import com.tachain.sdk.model.GetV1DeclarationListPaging200Response;
+import com.tachain.sdk.model.GetV1DeclarationRequiredDocuments200Response;
 import java.time.OffsetDateTime;
+import com.tachain.sdk.model.PostV1DeclarationSubmit200Response;
 import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest;
 import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest;
-import com.tachain.sdk.model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull;
-import com.tachain.sdk.model.TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -82,8 +82,8 @@ public class ApiDeclarationApi {
     /**
      * Build call for deleteV1DeclarationDelete
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param attachmentId query 方式传入的单个附件申报 ID。 (optional)
-     * @param formDataId query 方式传入的单个表单申报 ID。 (optional)
+     * @param attachmentId 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     * @param formDataId 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -92,7 +92,10 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
     public okhttp3.Call deleteV1DeclarationDeleteCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, final ApiCallback _callback) throws ApiException {
@@ -168,20 +171,23 @@ public class ApiDeclarationApi {
      * 申报信息删除接口。
      * 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 &#x60;StageId + ExtendId&#x60; 重新计算申报完成度。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param attachmentId query 方式传入的单个附件申报 ID。 (optional)
-     * @param formDataId query 方式传入的单个表单申报 ID。 (optional)
+     * @param attachmentId 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     * @param formDataId 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest  (optional)
-     * @return Model4
+     * @return DeleteV1DeclarationDelete200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public Model4 deleteV1DeclarationDelete(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) throws ApiException {
-        ApiResponse<Model4> localVarResp = deleteV1DeclarationDeleteWithHttpInfo(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
+    public DeleteV1DeclarationDelete200Response deleteV1DeclarationDelete(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) throws ApiException {
+        ApiResponse<DeleteV1DeclarationDelete200Response> localVarResp = deleteV1DeclarationDeleteWithHttpInfo(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest);
         return localVarResp.getData();
     }
 
@@ -189,21 +195,24 @@ public class ApiDeclarationApi {
      * 申报信息删除接口。
      * 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 &#x60;StageId + ExtendId&#x60; 重新计算申报完成度。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param attachmentId query 方式传入的单个附件申报 ID。 (optional)
-     * @param formDataId query 方式传入的单个表单申报 ID。 (optional)
+     * @param attachmentId 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     * @param formDataId 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest  (optional)
-     * @return ApiResponse&lt;Model4&gt;
+     * @return ApiResponse&lt;DeleteV1DeclarationDelete200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Model4> deleteV1DeclarationDeleteWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) throws ApiException {
+    public ApiResponse<DeleteV1DeclarationDelete200Response> deleteV1DeclarationDeleteWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest) throws ApiException {
         okhttp3.Call localVarCall = deleteV1DeclarationDeleteValidateBeforeCall(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, null);
-        Type localVarReturnType = new TypeToken<Model4>(){}.getType();
+        Type localVarReturnType = new TypeToken<DeleteV1DeclarationDelete200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
@@ -211,8 +220,8 @@ public class ApiDeclarationApi {
      * 申报信息删除接口。 (asynchronously)
      * 删除只会软删除申报资料记录，不会删除订单、生产单、发货单，也不会触发快速申报。 删除后会按受影响的 &#x60;StageId + ExtendId&#x60; 重新计算申报完成度。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param attachmentId query 方式传入的单个附件申报 ID。 (optional)
-     * @param formDataId query 方式传入的单个表单申报 ID。 (optional)
+     * @param attachmentId 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。 (optional)
+     * @param formDataId 查询返回的表单记录标识；也可在 Body 按业务键删除。 (optional)
      * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -221,36 +230,49 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call deleteV1DeclarationDeleteAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, final ApiCallback<Model4> _callback) throws ApiException {
+    public okhttp3.Call deleteV1DeclarationDeleteAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String attachmentId, @javax.annotation.Nullable String formDataId, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, final ApiCallback<DeleteV1DeclarationDelete200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = deleteV1DeclarationDeleteValidateBeforeCall(xCredentialType, attachmentId, formDataId, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest, _callback);
-        Type localVarReturnType = new TypeToken<Model4>(){}.getType();
+        Type localVarReturnType = new TypeToken<DeleteV1DeclarationDelete200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for getV1DeclarationListPaging
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param searchText 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param extendId  (optional)
-     * @param stageId  (optional)
-     * @param documentTypeId  (optional)
-     * @param documentTypeCode  (optional)
-     * @param extendNumber  (optional)
-     * @param extendDate  (optional)
-     * @param extendLineNumber  (optional)
-     * @param orderSide  (optional)
-     * @param productCode  (optional)
-     * @param productionType  (optional)
-     * @param deliveryNumber  (optional)
-     * @param status  (optional)
-     * @param riskWarning  (optional)
-     * @param sortBy  (optional)
-     * @param page  (optional, default to 1)
-     * @param pageSize  (optional, default to 10)
+     * @param searchText 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param extendId 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     * @param stageId 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     * @param documentTypeId RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     * @param documentTypeCode 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     * @param extendNumber 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param riskWarning 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param sortBy 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param pageSize 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -258,10 +280,13 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getV1DeclarationListPagingCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime extendDate, @javax.annotation.Nullable String extendLineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getV1DeclarationListPagingCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -310,12 +335,12 @@ public class ApiDeclarationApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("extendNumber", extendNumber));
         }
 
-        if (extendDate != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("extendDate", extendDate));
+        if (orderDate != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("orderDate", orderDate));
         }
 
-        if (extendLineNumber != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("extendLineNumber", extendLineNumber));
+        if (lineNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("lineNumber", lineNumber));
         }
 
         if (orderSide != null) {
@@ -354,6 +379,46 @@ public class ApiDeclarationApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("pageSize", pageSize));
         }
 
+        if (customerExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerExtNo", customerExtNo));
+        }
+
+        if (supplierExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierExtNo", supplierExtNo));
+        }
+
+        if (uniqueNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("UniqueNo", uniqueNo));
+        }
+
+        if (customerId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerId", customerId));
+        }
+
+        if (customerName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerName", customerName));
+        }
+
+        if (customerCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerCode", customerCode));
+        }
+
+        if (supplierId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierId", supplierId));
+        }
+
+        if (supplierName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierName", supplierName));
+        }
+
+        if (supplierCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierCode", supplierCode));
+        }
+
+        if (receiptNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("receiptNumber", receiptNumber));
+        }
+
         final String[] localVarAccepts = {
             "application/json"
         };
@@ -379,13 +444,13 @@ public class ApiDeclarationApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getV1DeclarationListPagingValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime extendDate, @javax.annotation.Nullable String extendLineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getV1DeclarationListPagingValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'xCredentialType' is set
         if (xCredentialType == null) {
             throw new ApiException("Missing the required parameter 'xCredentialType' when calling getV1DeclarationListPaging(Async)");
         }
 
-        return getV1DeclarationListPagingCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, _callback);
+        return getV1DeclarationListPagingCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, _callback);
 
     }
 
@@ -393,34 +458,47 @@ public class ApiDeclarationApi {
      * 申报信息查询接口。
      * 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 &#x60;extendId&#x60; 和 &#x60;stageId&#x60;，以便精确查询某个业务单据的申报资料。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param searchText 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param extendId  (optional)
-     * @param stageId  (optional)
-     * @param documentTypeId  (optional)
-     * @param documentTypeCode  (optional)
-     * @param extendNumber  (optional)
-     * @param extendDate  (optional)
-     * @param extendLineNumber  (optional)
-     * @param orderSide  (optional)
-     * @param productCode  (optional)
-     * @param productionType  (optional)
-     * @param deliveryNumber  (optional)
-     * @param status  (optional)
-     * @param riskWarning  (optional)
-     * @param sortBy  (optional)
-     * @param page  (optional, default to 1)
-     * @param pageSize  (optional, default to 10)
-     * @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @param searchText 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param extendId 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     * @param stageId 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     * @param documentTypeId RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     * @param documentTypeCode 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     * @param extendNumber 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param riskWarning 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param sortBy 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param pageSize 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @return GetV1DeclarationListPaging200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull getV1DeclarationListPaging(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime extendDate, @javax.annotation.Nullable String extendLineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize) throws ApiException {
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResp = getV1DeclarationListPagingWithHttpInfo(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize);
+    public GetV1DeclarationListPaging200Response getV1DeclarationListPaging(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber) throws ApiException {
+        ApiResponse<GetV1DeclarationListPaging200Response> localVarResp = getV1DeclarationListPagingWithHttpInfo(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber);
         return localVarResp.getData();
     }
 
@@ -428,35 +506,48 @@ public class ApiDeclarationApi {
      * 申报信息查询接口。
      * 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 &#x60;extendId&#x60; 和 &#x60;stageId&#x60;，以便精确查询某个业务单据的申报资料。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param searchText 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param extendId  (optional)
-     * @param stageId  (optional)
-     * @param documentTypeId  (optional)
-     * @param documentTypeCode  (optional)
-     * @param extendNumber  (optional)
-     * @param extendDate  (optional)
-     * @param extendLineNumber  (optional)
-     * @param orderSide  (optional)
-     * @param productCode  (optional)
-     * @param productionType  (optional)
-     * @param deliveryNumber  (optional)
-     * @param status  (optional)
-     * @param riskWarning  (optional)
-     * @param sortBy  (optional)
-     * @param page  (optional, default to 1)
-     * @param pageSize  (optional, default to 10)
-     * @return ApiResponse&lt;TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull&gt;
+     * @param searchText 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param extendId 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     * @param stageId 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     * @param documentTypeId RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     * @param documentTypeCode 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     * @param extendNumber 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param riskWarning 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param sortBy 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param pageSize 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @return ApiResponse&lt;GetV1DeclarationListPaging200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> getV1DeclarationListPagingWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime extendDate, @javax.annotation.Nullable String extendLineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize) throws ApiException {
-        okhttp3.Call localVarCall = getV1DeclarationListPagingValidateBeforeCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, null);
-        Type localVarReturnType = new TypeToken<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>(){}.getType();
+    public ApiResponse<GetV1DeclarationListPaging200Response> getV1DeclarationListPagingWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber) throws ApiException {
+        okhttp3.Call localVarCall = getV1DeclarationListPagingValidateBeforeCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, null);
+        Type localVarReturnType = new TypeToken<GetV1DeclarationListPaging200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
@@ -464,23 +555,33 @@ public class ApiDeclarationApi {
      * 申报信息查询接口。 (asynchronously)
      * 附件申报和表单申报分别分页查询后放在同一个响应中返回。 建议调用方尽量传入 &#x60;extendId&#x60; 和 &#x60;stageId&#x60;，以便精确查询某个业务单据的申报资料。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param searchText 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     * @param extendId  (optional)
-     * @param stageId  (optional)
-     * @param documentTypeId  (optional)
-     * @param documentTypeCode  (optional)
-     * @param extendNumber  (optional)
-     * @param extendDate  (optional)
-     * @param extendLineNumber  (optional)
-     * @param orderSide  (optional)
-     * @param productCode  (optional)
-     * @param productionType  (optional)
-     * @param deliveryNumber  (optional)
-     * @param status  (optional)
-     * @param riskWarning  (optional)
-     * @param sortBy  (optional)
-     * @param page  (optional, default to 1)
-     * @param pageSize  (optional, default to 10)
+     * @param searchText 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     * @param extendId 查询返回的业务单据 ID，可选；使用业务组合时无需传入。 (optional)
+     * @param stageId 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。 (optional)
+     * @param documentTypeId RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。 (optional)
+     * @param documentTypeCode 资料类型业务代码或当前公司启用的外部映射。 (optional)
+     * @param extendNumber 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param status 查询状态过滤，不作为写入状态字段开放。 (optional)
+     * @param riskWarning 可选业务筛选条件；与其他条件同时生效。 (optional)
+     * @param sortBy 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     * @param page 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     * @param pageSize 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -488,28 +589,42 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getV1DeclarationListPagingAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime extendDate, @javax.annotation.Nullable String extendLineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, final ApiCallback<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> _callback) throws ApiException {
+    public okhttp3.Call getV1DeclarationListPagingAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String searchText, @javax.annotation.Nullable List<String> extendId, @javax.annotation.Nullable List<String> stageId, @javax.annotation.Nullable List<String> documentTypeId, @javax.annotation.Nullable String documentTypeCode, @javax.annotation.Nullable String extendNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable Integer status, @javax.annotation.Nullable List<Integer> riskWarning, @javax.annotation.Nullable String sortBy, @javax.annotation.Nullable Integer page, @javax.annotation.Nullable Integer pageSize, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, final ApiCallback<GetV1DeclarationListPaging200Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getV1DeclarationListPagingValidateBeforeCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, extendDate, extendLineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, _callback);
-        Type localVarReturnType = new TypeToken<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>(){}.getType();
+        okhttp3.Call localVarCall = getV1DeclarationListPagingValidateBeforeCall(xCredentialType, searchText, extendId, stageId, documentTypeId, documentTypeCode, extendNumber, orderDate, lineNumber, orderSide, productCode, productionType, deliveryNumber, status, riskWarning, sortBy, page, pageSize, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, _callback);
+        Type localVarReturnType = new TypeToken<GetV1DeclarationListPaging200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for getV1DeclarationRequiredDocuments
+     * @param stageCode 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param stageCode 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     * @param id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     * @param orderNumber 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     * @param orderDate 订单日期；订单阶段按订单号定位时必传。 (optional)
-     * @param orderSide 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     * @param productionNumber 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     * @param productCode 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     * @param productionType 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     * @param deliveryNumber 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
+     * @param id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productionNumber 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -517,10 +632,13 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getV1DeclarationRequiredDocumentsCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String stageCode, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getV1DeclarationRequiredDocumentsCall(@javax.annotation.Nonnull String stageCode, @javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, @javax.annotation.Nullable String lineNumber, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -581,6 +699,50 @@ public class ApiDeclarationApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("deliveryNumber", deliveryNumber));
         }
 
+        if (customerExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerExtNo", customerExtNo));
+        }
+
+        if (supplierExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierExtNo", supplierExtNo));
+        }
+
+        if (uniqueNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("UniqueNo", uniqueNo));
+        }
+
+        if (customerId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerId", customerId));
+        }
+
+        if (customerName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerName", customerName));
+        }
+
+        if (customerCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerCode", customerCode));
+        }
+
+        if (supplierId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierId", supplierId));
+        }
+
+        if (supplierName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierName", supplierName));
+        }
+
+        if (supplierCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierCode", supplierCode));
+        }
+
+        if (receiptNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("receiptNumber", receiptNumber));
+        }
+
+        if (lineNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("lineNumber", lineNumber));
+        }
+
         final String[] localVarAccepts = {
             "application/json"
         };
@@ -606,84 +768,128 @@ public class ApiDeclarationApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getV1DeclarationRequiredDocumentsValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String stageCode, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call getV1DeclarationRequiredDocumentsValidateBeforeCall(@javax.annotation.Nonnull String stageCode, @javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, @javax.annotation.Nullable String lineNumber, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'stageCode' is set
+        if (stageCode == null) {
+            throw new ApiException("Missing the required parameter 'stageCode' when calling getV1DeclarationRequiredDocuments(Async)");
+        }
+
         // verify the required parameter 'xCredentialType' is set
         if (xCredentialType == null) {
             throw new ApiException("Missing the required parameter 'xCredentialType' when calling getV1DeclarationRequiredDocuments(Async)");
         }
 
-        return getV1DeclarationRequiredDocumentsCall(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, _callback);
+        return getV1DeclarationRequiredDocumentsCall(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber, _callback);
 
     }
 
     /**
      * 单据所需申报信息查询接口。
-     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * @param stageCode 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param stageCode 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     * @param id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     * @param orderNumber 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     * @param orderDate 订单日期；订单阶段按订单号定位时必传。 (optional)
-     * @param orderSide 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     * @param productionNumber 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     * @param productCode 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     * @param productionType 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     * @param deliveryNumber 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
-     * @return Model3
+     * @param id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productionNumber 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @return GetV1DeclarationRequiredDocuments200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public Model3 getV1DeclarationRequiredDocuments(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String stageCode, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber) throws ApiException {
-        ApiResponse<Model3> localVarResp = getV1DeclarationRequiredDocumentsWithHttpInfo(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber);
+    public GetV1DeclarationRequiredDocuments200Response getV1DeclarationRequiredDocuments(@javax.annotation.Nonnull String stageCode, @javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, @javax.annotation.Nullable String lineNumber) throws ApiException {
+        ApiResponse<GetV1DeclarationRequiredDocuments200Response> localVarResp = getV1DeclarationRequiredDocumentsWithHttpInfo(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber);
         return localVarResp.getData();
     }
 
     /**
      * 单据所需申报信息查询接口。
-     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * @param stageCode 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param stageCode 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     * @param id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     * @param orderNumber 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     * @param orderDate 订单日期；订单阶段按订单号定位时必传。 (optional)
-     * @param orderSide 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     * @param productionNumber 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     * @param productCode 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     * @param productionType 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     * @param deliveryNumber 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
-     * @return ApiResponse&lt;Model3&gt;
+     * @param id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productionNumber 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @return ApiResponse&lt;GetV1DeclarationRequiredDocuments200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Model3> getV1DeclarationRequiredDocumentsWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String stageCode, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber) throws ApiException {
-        okhttp3.Call localVarCall = getV1DeclarationRequiredDocumentsValidateBeforeCall(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, null);
-        Type localVarReturnType = new TypeToken<Model3>(){}.getType();
+    public ApiResponse<GetV1DeclarationRequiredDocuments200Response> getV1DeclarationRequiredDocumentsWithHttpInfo(@javax.annotation.Nonnull String stageCode, @javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, @javax.annotation.Nullable String lineNumber) throws ApiException {
+        okhttp3.Call localVarCall = getV1DeclarationRequiredDocumentsValidateBeforeCall(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber, null);
+        Type localVarReturnType = new TypeToken<GetV1DeclarationRequiredDocuments200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * 单据所需申报信息查询接口。 (asynchronously)
-     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查， 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。 订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。 外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。 无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。 调用方应先调用本接口取得 &#x60;DocumentTypeId&#x60;、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
+     * @param stageCode 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。 (required)
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param stageCode 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。 (optional)
-     * @param id 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。 (optional)
-     * @param orderNumber 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。 (optional)
-     * @param orderDate 订单日期；订单阶段按订单号定位时必传。 (optional)
-     * @param orderSide 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。 (optional)
-     * @param productionNumber 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。 (optional)
-     * @param productCode 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。 (optional)
-     * @param productionType 生产类型；生产阶段默认 0，入库阶段默认 1。 (optional)
-     * @param deliveryNumber 发货单号；发货阶段未传 id 时用于定位发货单。 (optional)
+     * @param id 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param orderSide PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。 (optional)
+     * @param productionNumber 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。 (optional)
+     * @param productCode 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
+     * @param productionType 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。 (optional)
+     * @param deliveryNumber 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     * @param supplierCode 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     * @param receiptNumber 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -691,20 +897,23 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call getV1DeclarationRequiredDocumentsAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String stageCode, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, final ApiCallback<Model3> _callback) throws ApiException {
+    public okhttp3.Call getV1DeclarationRequiredDocumentsAsync(@javax.annotation.Nonnull String stageCode, @javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String id, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String orderSide, @javax.annotation.Nullable String productionNumber, @javax.annotation.Nullable String productCode, @javax.annotation.Nullable Integer productionType, @javax.annotation.Nullable String deliveryNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, @javax.annotation.Nullable String receiptNumber, @javax.annotation.Nullable String lineNumber, final ApiCallback<GetV1DeclarationRequiredDocuments200Response> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = getV1DeclarationRequiredDocumentsValidateBeforeCall(xCredentialType, stageCode, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, _callback);
-        Type localVarReturnType = new TypeToken<Model3>(){}.getType();
+        okhttp3.Call localVarCall = getV1DeclarationRequiredDocumentsValidateBeforeCall(stageCode, xCredentialType, id, orderNumber, orderDate, orderSide, productionNumber, productCode, productionType, deliveryNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, receiptNumber, lineNumber, _callback);
+        Type localVarReturnType = new TypeToken<GetV1DeclarationRequiredDocuments200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for postV1DeclarationSubmit
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -712,11 +921,13 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Created </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postV1DeclarationSubmitCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call postV1DeclarationSubmitCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -767,10 +978,15 @@ public class ApiDeclarationApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postV1DeclarationSubmitValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call postV1DeclarationSubmitValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'xCredentialType' is set
         if (xCredentialType == null) {
             throw new ApiException("Missing the required parameter 'xCredentialType' when calling postV1DeclarationSubmit(Async)");
+        }
+
+        // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' is set
+        if (tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest == null) {
+            throw new ApiException("Missing the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest' when calling postV1DeclarationSubmit(Async)");
         }
 
         return postV1DeclarationSubmitCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, _callback);
@@ -779,50 +995,54 @@ public class ApiDeclarationApi {
 
     /**
      * 申报文件/表单提交接口。
-     *  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     *  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (optional)
-     * @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (required)
+     * @return PostV1DeclarationSubmit200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Created </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull postV1DeclarationSubmit(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) throws ApiException {
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResp = postV1DeclarationSubmitWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
+    public PostV1DeclarationSubmit200Response postV1DeclarationSubmit(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) throws ApiException {
+        ApiResponse<PostV1DeclarationSubmit200Response> localVarResp = postV1DeclarationSubmitWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest);
         return localVarResp.getData();
     }
 
     /**
      * 申报文件/表单提交接口。
-     *  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     *  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (optional)
-     * @return ApiResponse&lt;TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull&gt;
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (required)
+     * @return ApiResponse&lt;PostV1DeclarationSubmit200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Created </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> postV1DeclarationSubmitWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) throws ApiException {
+    public ApiResponse<PostV1DeclarationSubmit200Response> postV1DeclarationSubmitWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) throws ApiException {
         okhttp3.Call localVarCall = postV1DeclarationSubmitValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, null);
-        Type localVarReturnType = new TypeToken<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>(){}.getType();
+        Type localVarReturnType = new TypeToken<PostV1DeclarationSubmit200Response>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * 申报文件/表单提交接口。 (asynchronously)
-     *  入参结构与内部 &#x60;BatchCreateStageAttachment&#x60; 保持一致：             &#x60;ExtendId&#x60; 表示订单/生产单/发货单等业务 ID，&#x60;StageId&#x60; 表示申报阶段，             &#x60;DocumentList&#x60; 中每个元素表示一种申报资料类型。  每个 &#x60;DocumentList&#x60; 元素可以同时包含 &#x60;FileList&#x60; 和 &#x60;FormDataList&#x60;。             文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+     *  先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。             附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。             ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。  表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。             保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -830,14 +1050,16 @@ public class ApiDeclarationApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 201 </td><td> Created </td><td>  -  </td></tr>
-        <tr><td> 400 </td><td> Bad Request </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postV1DeclarationSubmitAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> _callback) throws ApiException {
+    public okhttp3.Call postV1DeclarationSubmitAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, final ApiCallback<PostV1DeclarationSubmit200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = postV1DeclarationSubmitValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, _callback);
-        Type localVarReturnType = new TypeToken<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>(){}.getType();
+        Type localVarReturnType = new TypeToken<PostV1DeclarationSubmit200Response>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

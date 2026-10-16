@@ -24,13 +24,13 @@ open class ApiOrderAPI {
      第三方-更新订单状态（通过匹配条件获取订单ID）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest: (body)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteV1OrderDelete(xCredentialType: XCredentialType_deleteV1OrderDelete, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e?, _ error: Error?) -> Void)) -> RequestTask {
-        return deleteV1OrderDeleteWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceHelperResultMappingOrderSelect: tacticChainApiServiceHelperResultMappingOrderSelect).execute(apiResponseQueue) { result in
+    open class func deleteV1OrderDelete(xCredentialType: XCredentialType_deleteV1OrderDelete, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryReturnReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteV1OrderDeleteWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -43,7 +43,7 @@ open class ApiOrderAPI {
     /**
      第三方-更新订单状态（通过匹配条件获取订单ID）
      - DELETE /v1/order/Delete
-     - 
+     -  存在不允许删除的后续业务时返回 code=400；须先处理相关业务。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -57,13 +57,13 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest: (body)  (optional)
+     - returns: RequestBuilder<PutV1DeliveryReturnReceipt200Response> 
      */
-    open class func deleteV1OrderDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1OrderDelete, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    open class func deleteV1OrderDeleteWithRequestBuilder(xCredentialType: XCredentialType_deleteV1OrderDelete, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest? = nil) -> RequestBuilder<PutV1DeliveryReturnReceipt200Response> {
         let localVariablePath = "/v1/order/Delete"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceHelperResultMappingOrderSelect)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -74,7 +74,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryReturnReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -91,13 +91,13 @@ open class ApiOrderAPI {
      第三方-更新订单明细状态（通过匹配条件获取明细ID）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest: (body)  (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func deleteV1OrderDeleteLine(xCredentialType: XCredentialType_deleteV1OrderDeleteLine, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e?, _ error: Error?) -> Void)) -> RequestTask {
-        return deleteV1OrderDeleteLineWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceHelperResultMappingOrderSelect: tacticChainApiServiceHelperResultMappingOrderSelect).execute(apiResponseQueue) { result in
+    open class func deleteV1OrderDeleteLine(xCredentialType: XCredentialType_deleteV1OrderDeleteLine, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryReturnReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return deleteV1OrderDeleteLineWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -110,7 +110,7 @@ open class ApiOrderAPI {
     /**
      第三方-更新订单明细状态（通过匹配条件获取明细ID）
      - DELETE /v1/order/DeleteLine
-     - 
+     -  存在不允许删除的后续业务时返回 code=400；须先处理相关业务。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -124,13 +124,13 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest: (body)  (optional)
+     - returns: RequestBuilder<PutV1DeliveryReturnReceipt200Response> 
      */
-    open class func deleteV1OrderDeleteLineWithRequestBuilder(xCredentialType: XCredentialType_deleteV1OrderDeleteLine, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    open class func deleteV1OrderDeleteLineWithRequestBuilder(xCredentialType: XCredentialType_deleteV1OrderDeleteLine, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest? = nil) -> RequestBuilder<PutV1DeliveryReturnReceipt200Response> {
         let localVariablePath = "/v1/order/DeleteLine"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceHelperResultMappingOrderSelect)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeleteLineRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -141,7 +141,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryReturnReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -158,37 +158,34 @@ open class ApiOrderAPI {
      第三方-获取采购订单分页列表（含明细）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter orderNumber: (query) 订单编号 (optional)
-     - parameter orderDateStart: (query) 订单日期起始 (optional)
-     - parameter orderDateEnd: (query) 订单日期结束 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDateStart: (query) 订单日期下限。 (optional)
+     - parameter orderDateEnd: (query) 订单日期上限。 (optional)
      - parameter orderType: (query) 订单类型 (optional)
-     - parameter customerId: (query) 客户ID (optional)
-     - parameter supplierId: (query) 供应商ID (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      - parameter facilityId: (query) 工厂ID (optional)
      - parameter brand: (query) 品牌 (optional)
      - parameter contractNo: (query) 合同号 (optional)
-     - parameter customerTenantId: (query) 客户租户ID (optional)
-     - parameter supplierTenantId: (query) 供应商租户ID (optional)
-     - parameter createdBy: (query) 创建人 (optional)
      - parameter divisionId: (query) 部门ID (optional)
-     - parameter createdAtStart: (query) 创建时间起始 (optional)
-     - parameter createdAtEnd: (query) 创建时间结束 (optional)
-     - parameter id: (query) 订单ID (optional)
-     - parameter uniqueNo: (query) 系统流水号 (optional)
-     - parameter orderName: (query)  (optional)
-     - parameter lineNumber: (query) 行项目序号 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter orderName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      - parameter productCategory: (query) 成品分类 (optional)
      - parameter materialId: (query) 原料ID (optional)
      - parameter materialCode: (query) 原料编码 (optional)
      - parameter materialName: (query) 原料名称 (optional)
      - parameter productId: (query) 成品ID (optional)
-     - parameter productCode: (query) 成品编码 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      - parameter productName: (query) 成品名称 (optional)
      - parameter batch: (query) 物料批次号 (optional)
      - parameter destinationCountry: (query) 目的国家 (optional)
-     - parameter customerExtNo: (query) 客户外部系统流水号 (optional)
-     - parameter supplierExtNo: (query) 供应商外部系统流水号 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      - parameter originCountry: (query) 原产国 (optional)
      - parameter estimatedTimeOfDepartureStart: (query) 预计发货日期-开始 (optional)
      - parameter estimatedTimeOfDepartureEnd: (query) 预计发货日期-结束 (optional)
@@ -197,24 +194,28 @@ open class ApiOrderAPI {
      - parameter lastUpdatedAtStart: (query) 最后更新日期-开始 (optional)
      - parameter lastUpdatedAtEnd: (query) 最后更新日期-结束 (optional)
      - parameter color: (query) 颜色 (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter status: (query)  订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
      - parameter orderChainStatus: (query) 订单链状态 (optional)
-     - parameter chainStatus: (query)  (optional)
+     - parameter chainStatus: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
      - parameter masterApproveStatus: (query) 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      - parameter customerConfirmStatus: (query) 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     - parameter mixedStatus: (query)  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     - parameter riskLevel: (query)  (optional)
-     - parameter sortBy: (query) 排序字段 (optional)
-     - parameter page: (query) 页码 (optional, default to 1)
-     - parameter pageSize: (query) 每页数量 (optional, default to 10)
+     - parameter mixedStatus: (query) 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter riskLevel: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1OrderPOListPaging(xCredentialType: XCredentialType_getV1OrderPOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, customerTenantId: String? = nil, supplierTenantId: String? = nil, createdBy: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1OrderPOListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, orderNumber: orderNumber, orderDateStart: orderDateStart, orderDateEnd: orderDateEnd, orderType: orderType, customerId: customerId, supplierId: supplierId, facilityId: facilityId, brand: brand, contractNo: contractNo, customerTenantId: customerTenantId, supplierTenantId: supplierTenantId, createdBy: createdBy, divisionId: divisionId, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, id: id, uniqueNo: uniqueNo, orderName: orderName, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, productCode: productCode, productName: productName, batch: batch, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, estimatedTimeOfDepartureStart: estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd: estimatedTimeOfDepartureEnd, season: season, seasonYear: seasonYear, lastUpdatedAtStart: lastUpdatedAtStart, lastUpdatedAtEnd: lastUpdatedAtEnd, color: color, soStatus: soStatus, poStatus: poStatus, status: status, orderChainStatus: orderChainStatus, chainStatus: chainStatus, masterApproveStatus: masterApproveStatus, customerConfirmStatus: customerConfirmStatus, mixedStatus: mixedStatus, riskLevel: riskLevel, sortBy: sortBy, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1OrderPOListPaging(xCredentialType: XCredentialType_getV1OrderPOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1OrderPOListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1OrderPOListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, orderNumber: orderNumber, orderDateStart: orderDateStart, orderDateEnd: orderDateEnd, orderType: orderType, customerId: customerId, supplierId: supplierId, facilityId: facilityId, brand: brand, contractNo: contractNo, divisionId: divisionId, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, id: id, uniqueNo: uniqueNo, orderName: orderName, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, productCode: productCode, productName: productName, batch: batch, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, estimatedTimeOfDepartureStart: estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd: estimatedTimeOfDepartureEnd, season: season, seasonYear: seasonYear, lastUpdatedAtStart: lastUpdatedAtStart, lastUpdatedAtEnd: lastUpdatedAtEnd, color: color, soStatus: soStatus, poStatus: poStatus, status: status, orderChainStatus: orderChainStatus, chainStatus: chainStatus, masterApproveStatus: masterApproveStatus, customerConfirmStatus: customerConfirmStatus, mixedStatus: mixedStatus, riskLevel: riskLevel, sortBy: sortBy, page: page, pageSize: pageSize, customerCode: customerCode, supplierCode: supplierCode, customerName: customerName, supplierName: supplierName).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -241,37 +242,34 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter orderNumber: (query) 订单编号 (optional)
-     - parameter orderDateStart: (query) 订单日期起始 (optional)
-     - parameter orderDateEnd: (query) 订单日期结束 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDateStart: (query) 订单日期下限。 (optional)
+     - parameter orderDateEnd: (query) 订单日期上限。 (optional)
      - parameter orderType: (query) 订单类型 (optional)
-     - parameter customerId: (query) 客户ID (optional)
-     - parameter supplierId: (query) 供应商ID (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      - parameter facilityId: (query) 工厂ID (optional)
      - parameter brand: (query) 品牌 (optional)
      - parameter contractNo: (query) 合同号 (optional)
-     - parameter customerTenantId: (query) 客户租户ID (optional)
-     - parameter supplierTenantId: (query) 供应商租户ID (optional)
-     - parameter createdBy: (query) 创建人 (optional)
      - parameter divisionId: (query) 部门ID (optional)
-     - parameter createdAtStart: (query) 创建时间起始 (optional)
-     - parameter createdAtEnd: (query) 创建时间结束 (optional)
-     - parameter id: (query) 订单ID (optional)
-     - parameter uniqueNo: (query) 系统流水号 (optional)
-     - parameter orderName: (query)  (optional)
-     - parameter lineNumber: (query) 行项目序号 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter orderName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      - parameter productCategory: (query) 成品分类 (optional)
      - parameter materialId: (query) 原料ID (optional)
      - parameter materialCode: (query) 原料编码 (optional)
      - parameter materialName: (query) 原料名称 (optional)
      - parameter productId: (query) 成品ID (optional)
-     - parameter productCode: (query) 成品编码 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      - parameter productName: (query) 成品名称 (optional)
      - parameter batch: (query) 物料批次号 (optional)
      - parameter destinationCountry: (query) 目的国家 (optional)
-     - parameter customerExtNo: (query) 客户外部系统流水号 (optional)
-     - parameter supplierExtNo: (query) 供应商外部系统流水号 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      - parameter originCountry: (query) 原产国 (optional)
      - parameter estimatedTimeOfDepartureStart: (query) 预计发货日期-开始 (optional)
      - parameter estimatedTimeOfDepartureEnd: (query) 预计发货日期-结束 (optional)
@@ -280,21 +278,25 @@ open class ApiOrderAPI {
      - parameter lastUpdatedAtStart: (query) 最后更新日期-开始 (optional)
      - parameter lastUpdatedAtEnd: (query) 最后更新日期-结束 (optional)
      - parameter color: (query) 颜色 (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter status: (query)  订单采购综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
      - parameter orderChainStatus: (query) 订单链状态 (optional)
-     - parameter chainStatus: (query)  (optional)
+     - parameter chainStatus: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
      - parameter masterApproveStatus: (query) 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      - parameter customerConfirmStatus: (query) 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     - parameter mixedStatus: (query)  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     - parameter riskLevel: (query)  (optional)
-     - parameter sortBy: (query) 排序字段 (optional)
-     - parameter page: (query) 页码 (optional, default to 1)
-     - parameter pageSize: (query) 每页数量 (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter mixedStatus: (query) 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter riskLevel: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - returns: RequestBuilder<GetV1OrderPOListPaging200Response> 
      */
-    open class func getV1OrderPOListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1OrderPOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, customerTenantId: String? = nil, supplierTenantId: String? = nil, createdBy: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1OrderPOListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1OrderPOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil) -> RequestBuilder<GetV1OrderPOListPaging200Response> {
         let localVariablePath = "/v1/order/POListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -311,9 +313,6 @@ open class ApiOrderAPI {
             "facilityId": (wrappedValue: facilityId?.encodeToJSON(), isExplode: true),
             "brand": (wrappedValue: brand?.encodeToJSON(), isExplode: true),
             "contractNo": (wrappedValue: contractNo?.encodeToJSON(), isExplode: true),
-            "customerTenantId": (wrappedValue: customerTenantId?.encodeToJSON(), isExplode: true),
-            "supplierTenantId": (wrappedValue: supplierTenantId?.encodeToJSON(), isExplode: true),
-            "createdBy": (wrappedValue: createdBy?.encodeToJSON(), isExplode: true),
             "divisionId": (wrappedValue: divisionId?.encodeToJSON(), isExplode: true),
             "createdAtStart": (wrappedValue: createdAtStart?.encodeToJSON(), isExplode: true),
             "createdAtEnd": (wrappedValue: createdAtEnd?.encodeToJSON(), isExplode: true),
@@ -352,6 +351,10 @@ open class ApiOrderAPI {
             "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "customerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "supplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+            "customerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "supplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -360,7 +363,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1OrderPOListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -377,37 +380,34 @@ open class ApiOrderAPI {
      第三方-获取销售订单分页列表（含明细）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter orderNumber: (query) 订单编号 (optional)
-     - parameter orderDateStart: (query) 订单日期起始 (optional)
-     - parameter orderDateEnd: (query) 订单日期结束 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDateStart: (query) 订单日期下限。 (optional)
+     - parameter orderDateEnd: (query) 订单日期上限。 (optional)
      - parameter orderType: (query) 订单类型 (optional)
-     - parameter customerId: (query) 客户ID (optional)
-     - parameter supplierId: (query) 供应商ID (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      - parameter facilityId: (query) 工厂ID (optional)
      - parameter brand: (query) 品牌 (optional)
      - parameter contractNo: (query) 合同号 (optional)
-     - parameter customerTenantId: (query) 客户租户ID (optional)
-     - parameter supplierTenantId: (query) 供应商租户ID (optional)
-     - parameter createdBy: (query) 创建人 (optional)
      - parameter divisionId: (query) 部门ID (optional)
-     - parameter createdAtStart: (query) 创建时间起始 (optional)
-     - parameter createdAtEnd: (query) 创建时间结束 (optional)
-     - parameter id: (query) 订单ID (optional)
-     - parameter uniqueNo: (query) 系统流水号 (optional)
-     - parameter orderName: (query)  (optional)
-     - parameter lineNumber: (query) 行项目序号 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter orderName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      - parameter productCategory: (query) 成品分类 (optional)
      - parameter materialId: (query) 原料ID (optional)
      - parameter materialCode: (query) 原料编码 (optional)
      - parameter materialName: (query) 原料名称 (optional)
      - parameter productId: (query) 成品ID (optional)
-     - parameter productCode: (query) 成品编码 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      - parameter productName: (query) 成品名称 (optional)
      - parameter batch: (query) 物料批次号 (optional)
      - parameter destinationCountry: (query) 目的国家 (optional)
-     - parameter customerExtNo: (query) 客户外部系统流水号 (optional)
-     - parameter supplierExtNo: (query) 供应商外部系统流水号 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      - parameter originCountry: (query) 原产国 (optional)
      - parameter estimatedTimeOfDepartureStart: (query) 预计发货日期-开始 (optional)
      - parameter estimatedTimeOfDepartureEnd: (query) 预计发货日期-结束 (optional)
@@ -416,24 +416,28 @@ open class ApiOrderAPI {
      - parameter lastUpdatedAtStart: (query) 最后更新日期-开始 (optional)
      - parameter lastUpdatedAtEnd: (query) 最后更新日期-结束 (optional)
      - parameter color: (query) 颜色 (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter status: (query)  订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
      - parameter orderChainStatus: (query) 订单链状态 (optional)
-     - parameter chainStatus: (query)  (optional)
+     - parameter chainStatus: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
      - parameter masterApproveStatus: (query) 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      - parameter customerConfirmStatus: (query) 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     - parameter mixedStatus: (query)  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     - parameter riskLevel: (query)  (optional)
-     - parameter sortBy: (query) 排序字段 (optional)
-     - parameter page: (query) 页码 (optional, default to 1)
-     - parameter pageSize: (query) 每页数量 (optional, default to 10)
+     - parameter mixedStatus: (query) 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter riskLevel: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func getV1OrderSOListPaging(xCredentialType: XCredentialType_getV1OrderSOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, customerTenantId: String? = nil, supplierTenantId: String? = nil, createdBy: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return getV1OrderSOListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, orderNumber: orderNumber, orderDateStart: orderDateStart, orderDateEnd: orderDateEnd, orderType: orderType, customerId: customerId, supplierId: supplierId, facilityId: facilityId, brand: brand, contractNo: contractNo, customerTenantId: customerTenantId, supplierTenantId: supplierTenantId, createdBy: createdBy, divisionId: divisionId, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, id: id, uniqueNo: uniqueNo, orderName: orderName, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, productCode: productCode, productName: productName, batch: batch, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, estimatedTimeOfDepartureStart: estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd: estimatedTimeOfDepartureEnd, season: season, seasonYear: seasonYear, lastUpdatedAtStart: lastUpdatedAtStart, lastUpdatedAtEnd: lastUpdatedAtEnd, color: color, soStatus: soStatus, poStatus: poStatus, status: status, orderChainStatus: orderChainStatus, chainStatus: chainStatus, masterApproveStatus: masterApproveStatus, customerConfirmStatus: customerConfirmStatus, mixedStatus: mixedStatus, riskLevel: riskLevel, sortBy: sortBy, page: page, pageSize: pageSize).execute(apiResponseQueue) { result in
+    open class func getV1OrderSOListPaging(xCredentialType: XCredentialType_getV1OrderSOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: GetV1OrderPOListPaging200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return getV1OrderSOListPagingWithRequestBuilder(xCredentialType: xCredentialType, searchText: searchText, orderNumber: orderNumber, orderDateStart: orderDateStart, orderDateEnd: orderDateEnd, orderType: orderType, customerId: customerId, supplierId: supplierId, facilityId: facilityId, brand: brand, contractNo: contractNo, divisionId: divisionId, createdAtStart: createdAtStart, createdAtEnd: createdAtEnd, id: id, uniqueNo: uniqueNo, orderName: orderName, lineNumber: lineNumber, productCategory: productCategory, materialId: materialId, materialCode: materialCode, materialName: materialName, productId: productId, productCode: productCode, productName: productName, batch: batch, destinationCountry: destinationCountry, customerExtNo: customerExtNo, supplierExtNo: supplierExtNo, originCountry: originCountry, estimatedTimeOfDepartureStart: estimatedTimeOfDepartureStart, estimatedTimeOfDepartureEnd: estimatedTimeOfDepartureEnd, season: season, seasonYear: seasonYear, lastUpdatedAtStart: lastUpdatedAtStart, lastUpdatedAtEnd: lastUpdatedAtEnd, color: color, soStatus: soStatus, poStatus: poStatus, status: status, orderChainStatus: orderChainStatus, chainStatus: chainStatus, masterApproveStatus: masterApproveStatus, customerConfirmStatus: customerConfirmStatus, mixedStatus: mixedStatus, riskLevel: riskLevel, sortBy: sortBy, page: page, pageSize: pageSize, customerCode: customerCode, supplierCode: supplierCode, customerName: customerName, supplierName: supplierName).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -460,37 +464,34 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter searchText: (query) 关键词搜索：支持订单号（OrderNumber）、合同号（ContractNo）、发票号（InvoiceNo）、订单明细行号（LineNumber）、原料名称（MaterialName）、产品名称（ProductName）、原料编码（MaterialCode）、产品编码（ProductCode）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)
-     - parameter orderNumber: (query) 订单编号 (optional)
-     - parameter orderDateStart: (query) 订单日期起始 (optional)
-     - parameter orderDateEnd: (query) 订单日期结束 (optional)
+     - parameter searchText: (query) 关键词搜索，具体匹配范围见本接口说明。 (optional)
+     - parameter orderNumber: (query) 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     - parameter orderDateStart: (query) 订单日期下限。 (optional)
+     - parameter orderDateEnd: (query) 订单日期上限。 (optional)
      - parameter orderType: (query) 订单类型 (optional)
-     - parameter customerId: (query) 客户ID (optional)
-     - parameter supplierId: (query) 供应商ID (optional)
+     - parameter customerId: (query) 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     - parameter supplierId: (query) 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)
      - parameter facilityId: (query) 工厂ID (optional)
      - parameter brand: (query) 品牌 (optional)
      - parameter contractNo: (query) 合同号 (optional)
-     - parameter customerTenantId: (query) 客户租户ID (optional)
-     - parameter supplierTenantId: (query) 供应商租户ID (optional)
-     - parameter createdBy: (query) 创建人 (optional)
      - parameter divisionId: (query) 部门ID (optional)
-     - parameter createdAtStart: (query) 创建时间起始 (optional)
-     - parameter createdAtEnd: (query) 创建时间结束 (optional)
-     - parameter id: (query) 订单ID (optional)
-     - parameter uniqueNo: (query) 系统流水号 (optional)
-     - parameter orderName: (query)  (optional)
-     - parameter lineNumber: (query) 行项目序号 (optional)
+     - parameter createdAtStart: (query) 创建时间下限。 (optional)
+     - parameter createdAtEnd: (query) 创建时间上限。 (optional)
+     - parameter id: (query) 查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)
+     - parameter uniqueNo: (query) 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     - parameter orderName: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter lineNumber: (query) 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
      - parameter productCategory: (query) 成品分类 (optional)
      - parameter materialId: (query) 原料ID (optional)
      - parameter materialCode: (query) 原料编码 (optional)
      - parameter materialName: (query) 原料名称 (optional)
      - parameter productId: (query) 成品ID (optional)
-     - parameter productCode: (query) 成品编码 (optional)
+     - parameter productCode: (query) 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。 (optional)
      - parameter productName: (query) 成品名称 (optional)
      - parameter batch: (query) 物料批次号 (optional)
      - parameter destinationCountry: (query) 目的国家 (optional)
-     - parameter customerExtNo: (query) 客户外部系统流水号 (optional)
-     - parameter supplierExtNo: (query) 供应商外部系统流水号 (optional)
+     - parameter customerExtNo: (query) 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     - parameter supplierExtNo: (query) 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
      - parameter originCountry: (query) 原产国 (optional)
      - parameter estimatedTimeOfDepartureStart: (query) 预计发货日期-开始 (optional)
      - parameter estimatedTimeOfDepartureEnd: (query) 预计发货日期-结束 (optional)
@@ -499,21 +500,25 @@ open class ApiOrderAPI {
      - parameter lastUpdatedAtStart: (query) 最后更新日期-开始 (optional)
      - parameter lastUpdatedAtEnd: (query) 最后更新日期-结束 (optional)
      - parameter color: (query) 颜色 (optional)
-     - parameter soStatus: (query)  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter poStatus: (query)  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
-     - parameter status: (query)  订单销售综合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter soStatus: (query) 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter poStatus: (query) 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态不通过本参数筛选，请使用 status 或 mixedStatus。 (optional)
+     - parameter status: (query) 查询状态过滤，不作为写入状态字段开放。 (optional)
      - parameter orderChainStatus: (query) 订单链状态 (optional)
-     - parameter chainStatus: (query)  (optional)
+     - parameter chainStatus: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
      - parameter masterApproveStatus: (query) 主审核状态：101 草稿、102 待审核、103 重新提交待审、111 取消审核、113 审核作废、114 审核驳回、115 审核拒绝、120 审核通过。 (optional)
      - parameter customerConfirmStatus: (query) 客户确认收货状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 (optional)
-     - parameter mixedStatus: (query)  采购/销售混合状态，可多选；不传表示不限。  订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
-     - parameter riskLevel: (query)  (optional)
-     - parameter sortBy: (query) 排序字段 (optional)
-     - parameter page: (query) 页码 (optional, default to 1)
-     - parameter pageSize: (query) 每页数量 (optional, default to 10)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter mixedStatus: (query) 采购/销售混合状态，可多选；不传表示不限。 订单状态：-9 不用溯源（禁用）、-1 删除、0 正常；6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 (optional)
+     - parameter riskLevel: (query) 可选业务筛选条件；与其他条件同时生效。 (optional)
+     - parameter sortBy: (query) 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)
+     - parameter page: (query) 页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)
+     - parameter pageSize: (query) 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)
+     - parameter customerCode: (query) 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     - parameter supplierCode: (query) 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)
+     - parameter customerName: (query) 客户英文名、当地语言名称或简称，精确匹配。 (optional)
+     - parameter supplierName: (query) 供应商英文名、当地语言名称或简称，精确匹配。 (optional)
+     - returns: RequestBuilder<GetV1OrderPOListPaging200Response> 
      */
-    open class func getV1OrderSOListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1OrderSOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, customerTenantId: String? = nil, supplierTenantId: String? = nil, createdBy: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func getV1OrderSOListPagingWithRequestBuilder(xCredentialType: XCredentialType_getV1OrderSOListPaging, searchText: String? = nil, orderNumber: String? = nil, orderDateStart: Date? = nil, orderDateEnd: Date? = nil, orderType: Int? = nil, customerId: String? = nil, supplierId: String? = nil, facilityId: String? = nil, brand: String? = nil, contractNo: String? = nil, divisionId: String? = nil, createdAtStart: Date? = nil, createdAtEnd: Date? = nil, id: String? = nil, uniqueNo: String? = nil, orderName: String? = nil, lineNumber: String? = nil, productCategory: String? = nil, materialId: String? = nil, materialCode: String? = nil, materialName: String? = nil, productId: String? = nil, productCode: String? = nil, productName: String? = nil, batch: String? = nil, destinationCountry: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, originCountry: String? = nil, estimatedTimeOfDepartureStart: Date? = nil, estimatedTimeOfDepartureEnd: Date? = nil, season: String? = nil, seasonYear: String? = nil, lastUpdatedAtStart: Date? = nil, lastUpdatedAtEnd: Date? = nil, color: String? = nil, soStatus: Int? = nil, poStatus: Int? = nil, status: [Int]? = nil, orderChainStatus: Bool? = nil, chainStatus: Bool? = nil, masterApproveStatus: [Int]? = nil, customerConfirmStatus: [Int]? = nil, mixedStatus: [Int]? = nil, riskLevel: [Int]? = nil, sortBy: String? = nil, page: Int? = nil, pageSize: Int? = nil, customerCode: String? = nil, supplierCode: String? = nil, customerName: String? = nil, supplierName: String? = nil) -> RequestBuilder<GetV1OrderPOListPaging200Response> {
         let localVariablePath = "/v1/order/SOListPaging"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
         let localVariableParameters: [String: Any]? = nil
@@ -530,9 +535,6 @@ open class ApiOrderAPI {
             "facilityId": (wrappedValue: facilityId?.encodeToJSON(), isExplode: true),
             "brand": (wrappedValue: brand?.encodeToJSON(), isExplode: true),
             "contractNo": (wrappedValue: contractNo?.encodeToJSON(), isExplode: true),
-            "customerTenantId": (wrappedValue: customerTenantId?.encodeToJSON(), isExplode: true),
-            "supplierTenantId": (wrappedValue: supplierTenantId?.encodeToJSON(), isExplode: true),
-            "createdBy": (wrappedValue: createdBy?.encodeToJSON(), isExplode: true),
             "divisionId": (wrappedValue: divisionId?.encodeToJSON(), isExplode: true),
             "createdAtStart": (wrappedValue: createdAtStart?.encodeToJSON(), isExplode: true),
             "createdAtEnd": (wrappedValue: createdAtEnd?.encodeToJSON(), isExplode: true),
@@ -571,6 +573,10 @@ open class ApiOrderAPI {
             "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
             "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
             "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
+            "customerCode": (wrappedValue: customerCode?.encodeToJSON(), isExplode: true),
+            "supplierCode": (wrappedValue: supplierCode?.encodeToJSON(), isExplode: true),
+            "customerName": (wrappedValue: customerName?.encodeToJSON(), isExplode: true),
+            "supplierName": (wrappedValue: supplierName?.encodeToJSON(), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: Any?] = [
@@ -579,7 +585,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<GetV1OrderPOListPaging200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -596,13 +602,13 @@ open class ApiOrderAPI {
      第三方-创建订单（含明细）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsOrderApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1OrderCreate(xCredentialType: XCredentialType_postV1OrderCreate, tacticChainApiServiceViewModelsOrderApiDto: TacticChainApiServiceViewModelsOrderApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull?, _ error: Error?) -> Void)) -> RequestTask {
-        return postV1OrderCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsOrderApiDto: tacticChainApiServiceViewModelsOrderApiDto).execute(apiResponseQueue) { result in
+    open class func postV1OrderCreate(xCredentialType: XCredentialType_postV1OrderCreate, tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PostV1OrderCreate200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1OrderCreateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -615,7 +621,7 @@ open class ApiOrderAPI {
     /**
      第三方-创建订单（含明细）
      - POST /v1/order/Create
-     - 
+     -  保存或删除已执行，但申报完成度或结果读取失败时，响应体 code=207，data 保留已操作记录。请查询最新状态并联系管理员，不要重复执行。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -629,13 +635,13 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsOrderApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest: (body)  
+     - returns: RequestBuilder<PostV1OrderCreate200Response> 
      */
-    open class func postV1OrderCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderCreate, tacticChainApiServiceViewModelsOrderApiDto: TacticChainApiServiceViewModelsOrderApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> {
+    open class func postV1OrderCreateWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderCreate, tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest) -> RequestBuilder<PostV1OrderCreate200Response> {
         let localVariablePath = "/v1/order/Create"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsOrderApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderCreateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -646,7 +652,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsOrderApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PostV1OrderCreate200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -663,13 +669,13 @@ open class ApiOrderAPI {
      第三方-销售订单接单（支持绑定成品/自动创建成品）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func postV1OrderSoAccept(xCredentialType: XCredentialType_postV1OrderSoAccept, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e?, _ error: Error?) -> Void)) -> RequestTask {
-        return postV1OrderSoAcceptWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceHelperResultMappingOrderSelect: tacticChainApiServiceHelperResultMappingOrderSelect).execute(apiResponseQueue) { result in
+    open class func postV1OrderSoAccept(xCredentialType: XCredentialType_postV1OrderSoAccept, tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryReturnReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return postV1OrderSoAcceptWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -696,13 +702,13 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceHelperResultMappingOrderSelect: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest: (body)  
+     - returns: RequestBuilder<PutV1DeliveryReturnReceipt200Response> 
      */
-    open class func postV1OrderSoAcceptWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderSoAccept, tacticChainApiServiceHelperResultMappingOrderSelect: TacticChainApiServiceHelperResultMappingOrderSelect? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    open class func postV1OrderSoAcceptWithRequestBuilder(xCredentialType: XCredentialType_postV1OrderSoAccept, tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest) -> RequestBuilder<PutV1DeliveryReturnReceipt200Response> {
         let localVariablePath = "/v1/order/SoAccept"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceHelperResultMappingOrderSelect)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderAcceptRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -713,7 +719,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryReturnReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }
@@ -730,13 +736,13 @@ open class ApiOrderAPI {
      第三方-更新订单（部分字段）
      
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsOrderApiDto: (body)  (optional)
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest: (body)  
      - parameter apiResponseQueue: The queue on which api response is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
     @discardableResult
-    open class func putV1OrderUpdate(xCredentialType: XCredentialType_putV1OrderUpdate, tacticChainApiServiceViewModelsOrderApiDto: TacticChainApiServiceViewModelsOrderApiDto? = nil, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e?, _ error: Error?) -> Void)) -> RequestTask {
-        return putV1OrderUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceViewModelsOrderApiDto: tacticChainApiServiceViewModelsOrderApiDto).execute(apiResponseQueue) { result in
+    open class func putV1OrderUpdate(xCredentialType: XCredentialType_putV1OrderUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest, apiResponseQueue: DispatchQueue = TachainSDKAPI.apiResponseQueue, completion: @escaping ((_ data: PutV1DeliveryReturnReceipt200Response?, _ error: Error?) -> Void)) -> RequestTask {
+        return putV1OrderUpdateWithRequestBuilder(xCredentialType: xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest: tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest).execute(apiResponseQueue) { result in
             switch result {
             case let .success(response):
                 completion(response.body, nil)
@@ -749,7 +755,7 @@ open class ApiOrderAPI {
     /**
      第三方-更新订单（部分字段）
      - PUT /v1/order/Update
-     - 
+     - 省略的字段和明细保持原值。需要销售方确认的采购变更只提交申请；此时 Code=200、Data 为变更申请 ID，Message 提示等待确认，不表示业务字段已生效。保存后的申报或结果刷新失败返回 Code=207，勿重复提交。
      - API Key:
        - type: apiKey X-API-Key (HEADER)
        - name: ApiKey
@@ -763,13 +769,13 @@ open class ApiOrderAPI {
        - type: apiKey X-Timestamp (HEADER)
        - name: Timestamp
      - parameter xCredentialType: (header) Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. 
-     - parameter tacticChainApiServiceViewModelsOrderApiDto: (body)  (optional)
-     - returns: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> 
+     - parameter tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest: (body)  
+     - returns: RequestBuilder<PutV1DeliveryReturnReceipt200Response> 
      */
-    open class func putV1OrderUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1OrderUpdate, tacticChainApiServiceViewModelsOrderApiDto: TacticChainApiServiceViewModelsOrderApiDto? = nil) -> RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> {
+    open class func putV1OrderUpdateWithRequestBuilder(xCredentialType: XCredentialType_putV1OrderUpdate, tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest: TacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest) -> RequestBuilder<PutV1DeliveryReturnReceipt200Response> {
         let localVariablePath = "/v1/order/Update"
         let localVariableURLString = TachainSDKAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceViewModelsOrderApiDto)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tacticChainApiServiceControllersApiIntegrationV1ApiOrderUpdateRequest)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -780,7 +786,7 @@ open class ApiOrderAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PutV1DeliveryReturnReceipt200Response>.Type = TachainSDKAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

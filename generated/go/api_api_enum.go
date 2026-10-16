@@ -36,7 +36,7 @@ func (r ApiGetV1EnumGetListRequest) XCredentialType(xCredentialType string) ApiG
 	return r
 }
 
-// 枚举类型数组（可选，不传则查询所有；支持：Unit、Supplier等）
+// 枚举类型数组，重复传参；不传查询全部。详见本文件的枚举类型表。
 func (r ApiGetV1EnumGetListRequest) EnumTypes(enumTypes []string) ApiGetV1EnumGetListRequest {
 	r.enumTypes = &enumTypes
 	return r
@@ -179,7 +179,7 @@ func (a *ApiEnumAPIService) GetV1EnumGetListExecute(r ApiGetV1EnumGetListRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v MicrosoftAspNetCoreMvcProblemDetails
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -188,6 +188,27 @@ func (a *ApiEnumAPIService) GetV1EnumGetListExecute(r ApiGetV1EnumGetListRequest
 					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
 					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

@@ -12,23 +12,32 @@ package tachainsdk
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
 
 // checks if the Model1 type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &Model1{}
 
-// Model1 struct for Model1
+// Model1 集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
 type Model1 struct {
-	Key NullableString `json:"key,omitempty"`
-	Value *TacticChainApiServiceViewModelsDocumentTypeApiDto `json:"value,omitempty"`
+	// 业务状态码。
+	Code int32 `json:"code"`
+	// 业务返回数据。
+	Data []TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse `json:"data,omitempty"`
+	// 按请求语言返回的提示，未指定语言时默认中文。
+	Message NullableString `json:"message,omitempty"`
 }
+
+type _Model1 Model1
 
 // NewModel1 instantiates a new Model1 object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewModel1() *Model1 {
+func NewModel1(code int32) *Model1 {
 	this := Model1{}
+	this.Code = code
 	return &this
 }
 
@@ -40,78 +49,103 @@ func NewModel1WithDefaults() *Model1 {
 	return &this
 }
 
-// GetKey returns the Key field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Model1) GetKey() string {
-	if o == nil || IsNil(o.Key.Get()) {
-		var ret string
+// GetCode returns the Code field value
+func (o *Model1) GetCode() int32 {
+	if o == nil {
+		var ret int32
 		return ret
 	}
-	return *o.Key.Get()
+
+	return o.Code
 }
 
-// GetKeyOk returns a tuple with the Key field value if set, nil otherwise
+// GetCodeOk returns a tuple with the Code field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *Model1) GetKeyOk() (*string, bool) {
+func (o *Model1) GetCodeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Key.Get(), o.Key.IsSet()
+	return &o.Code, true
 }
 
-// HasKey returns a boolean if a field has been set.
-func (o *Model1) HasKey() bool {
-	if o != nil && o.Key.IsSet() {
-		return true
-	}
-
-	return false
+// SetCode sets field value
+func (o *Model1) SetCode(v int32) {
+	o.Code = v
 }
 
-// SetKey gets a reference to the given NullableString and assigns it to the Key field.
-func (o *Model1) SetKey(v string) {
-	o.Key.Set(&v)
-}
-// SetKeyNil sets the value for Key to be an explicit nil
-func (o *Model1) SetKeyNil() {
-	o.Key.Set(nil)
-}
-
-// UnsetKey ensures that no value is present for Key, not even an explicit nil
-func (o *Model1) UnsetKey() {
-	o.Key.Unset()
-}
-
-// GetValue returns the Value field value if set, zero value otherwise.
-func (o *Model1) GetValue() TacticChainApiServiceViewModelsDocumentTypeApiDto {
-	if o == nil || IsNil(o.Value) {
-		var ret TacticChainApiServiceViewModelsDocumentTypeApiDto
+// GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Model1) GetData() []TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse {
+	if o == nil {
+		var ret []TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse
 		return ret
 	}
-	return *o.Value
+	return o.Data
 }
 
-// GetValueOk returns a tuple with the Value field value if set, nil otherwise
+// GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Model1) GetValueOk() (*TacticChainApiServiceViewModelsDocumentTypeApiDto, bool) {
-	if o == nil || IsNil(o.Value) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Model1) GetDataOk() ([]TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse, bool) {
+	if o == nil || IsNil(o.Data) {
 		return nil, false
 	}
-	return o.Value, true
+	return o.Data, true
 }
 
-// HasValue returns a boolean if a field has been set.
-func (o *Model1) HasValue() bool {
-	if o != nil && !IsNil(o.Value) {
+// HasData returns a boolean if a field has been set.
+func (o *Model1) HasData() bool {
+	if o != nil && !IsNil(o.Data) {
 		return true
 	}
 
 	return false
 }
 
-// SetValue gets a reference to the given TacticChainApiServiceViewModelsDocumentTypeApiDto and assigns it to the Value field.
-func (o *Model1) SetValue(v TacticChainApiServiceViewModelsDocumentTypeApiDto) {
-	o.Value = &v
+// SetData gets a reference to the given []TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse and assigns it to the Data field.
+func (o *Model1) SetData(v []TacticChainApiServiceControllersApiIntegrationV1ApiDocumentTypeResponse) {
+	o.Data = v
+}
+
+// GetMessage returns the Message field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Model1) GetMessage() string {
+	if o == nil || IsNil(o.Message.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.Message.Get()
+}
+
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *Model1) GetMessageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Message.Get(), o.Message.IsSet()
+}
+
+// HasMessage returns a boolean if a field has been set.
+func (o *Model1) HasMessage() bool {
+	if o != nil && o.Message.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetMessage gets a reference to the given NullableString and assigns it to the Message field.
+func (o *Model1) SetMessage(v string) {
+	o.Message.Set(&v)
+}
+// SetMessageNil sets the value for Message to be an explicit nil
+func (o *Model1) SetMessageNil() {
+	o.Message.Set(nil)
+}
+
+// UnsetMessage ensures that no value is present for Message, not even an explicit nil
+func (o *Model1) UnsetMessage() {
+	o.Message.Unset()
 }
 
 func (o Model1) MarshalJSON() ([]byte, error) {
@@ -124,13 +158,51 @@ func (o Model1) MarshalJSON() ([]byte, error) {
 
 func (o Model1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Key.IsSet() {
-		toSerialize["key"] = o.Key.Get()
+	toSerialize["code"] = o.Code
+	if o.Data != nil {
+		toSerialize["data"] = o.Data
 	}
-	if !IsNil(o.Value) {
-		toSerialize["value"] = o.Value
+	if o.Message.IsSet() {
+		toSerialize["message"] = o.Message.Get()
 	}
 	return toSerialize, nil
+}
+
+func (o *Model1) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"code",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varModel1 := _Model1{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varModel1)
+
+	if err != nil {
+		return err
+	}
+
+	*o = Model1(varModel1)
+
+	return err
 }
 
 type NullableModel1 struct {

@@ -23,10 +23,10 @@ module TachainSdk
     # 
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id query 方式传入的单个 ID。
-    # @option opts [String] :number 
-    # @option opts [ApiIntegrationDeleteRequest] :api_integration_delete_request 
-    # @return [Model4]
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [ApiDeliveryDeleteRequest] :api_delivery_delete_request 
+    # @return [DeleteV1DeclarationDelete200Response]
     def delete_v1_delivery_delete(x_credential_type, opts = {})
       data, _status_code, _headers = delete_v1_delivery_delete_with_http_info(x_credential_type, opts)
       data
@@ -36,10 +36,10 @@ module TachainSdk
     # 
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id query 方式传入的单个 ID。
-    # @option opts [String] :number 
-    # @option opts [ApiIntegrationDeleteRequest] :api_integration_delete_request 
-    # @return [Array<(Model4, Integer, Hash)>] Model4 data, response status code and response headers
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [ApiDeliveryDeleteRequest] :api_delivery_delete_request 
+    # @return [Array<(DeleteV1DeclarationDelete200Response, Integer, Hash)>] DeleteV1DeclarationDelete200Response data, response status code and response headers
     def delete_v1_delivery_delete_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.delete_v1_delivery_delete ...'
@@ -76,10 +76,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_integration_delete_request'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'api_delivery_delete_request'])
 
       # return_type
-      return_type = opts[:debug_return_type] || 'Model4'
+      return_type = opts[:debug_return_type] || 'DeleteV1DeclarationDelete200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -105,29 +105,35 @@ module TachainSdk
     # 发货单查询固定以当前集成公司作为供应商/发货方，避免第三方越权查询其他公司的发货数据。 返回数据中的 `DeliveryNoteDetailList` 为该发货单的明细集合。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :id 
-    # @option opts [Integer] :is_transfer 
-    # @option opts [String] :match_number 
-    # @option opts [String] :from_country 
-    # @option opts [String] :to_country 
-    # @option opts [String] :search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :order_id 
-    # @option opts [Time] :delivery_date_start 
-    # @option opts [Time] :delivery_date_end 
-    # @option opts [String] :order_line_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [String] :line_number 
-    # @option opts [String] :unique_no 
-    # @option opts [Array<Integer>] :status 
-    # @option opts [Array<String>] :customer_id 
-    # @option opts [Array<String>] :customer_code 
-    # @option opts [Integer] :business_status 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [PagedResponseDeliveryNoteApiDto]
+    # @option opts [Integer] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [Integer] :is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。
+    # @option opts [String] :match_number 完整发货单号，精确匹配。
+    # @option opts [String] :from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [Time] :delivery_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :delivery_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [Array<Integer>] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<String>] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [Array<String>] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [Integer] :business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+    # @option opts [String] :order_supplier_name 关联订单的供应商名称；用于订单定位。
+    # @return [GetV1DeliveryListPaging200Response]
     def get_v1_delivery_list_paging(x_credential_type, opts = {})
       data, _status_code, _headers = get_v1_delivery_list_paging_with_http_info(x_credential_type, opts)
       data
@@ -137,29 +143,35 @@ module TachainSdk
     # 发货单查询固定以当前集成公司作为供应商/发货方，避免第三方越权查询其他公司的发货数据。 返回数据中的 &#x60;DeliveryNoteDetailList&#x60; 为该发货单的明细集合。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :id 
-    # @option opts [Integer] :is_transfer 
-    # @option opts [String] :match_number 
-    # @option opts [String] :from_country 
-    # @option opts [String] :to_country 
-    # @option opts [String] :search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :order_id 
-    # @option opts [Time] :delivery_date_start 
-    # @option opts [Time] :delivery_date_end 
-    # @option opts [String] :order_line_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [String] :line_number 
-    # @option opts [String] :unique_no 
-    # @option opts [Array<Integer>] :status 
-    # @option opts [Array<String>] :customer_id 
-    # @option opts [Array<String>] :customer_code 
-    # @option opts [Integer] :business_status 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [Array<(PagedResponseDeliveryNoteApiDto, Integer, Hash)>] PagedResponseDeliveryNoteApiDto data, response status code and response headers
+    # @option opts [Integer] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [Integer] :is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。
+    # @option opts [String] :match_number 完整发货单号，精确匹配。
+    # @option opts [String] :from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [Time] :delivery_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :delivery_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [Array<Integer>] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<String>] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [Array<String>] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [Integer] :business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+    # @option opts [String] :order_supplier_name 关联订单的供应商名称；用于订单定位。
+    # @return [Array<(GetV1DeliveryListPaging200Response, Integer, Hash)>] GetV1DeliveryListPaging200Response data, response status code and response headers
     def get_v1_delivery_list_paging_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.get_v1_delivery_list_paging ...'
@@ -200,6 +212,12 @@ module TachainSdk
       query_params[:'sortBy'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'pageSize'] = opts[:'page_size'] if !opts[:'page_size'].nil?
+      query_params[:'customerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
+      query_params[:'supplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
+      query_params[:'orderCustomerCode'] = opts[:'order_customer_code'] if !opts[:'order_customer_code'].nil?
+      query_params[:'orderSupplierCode'] = opts[:'order_supplier_code'] if !opts[:'order_supplier_code'].nil?
+      query_params[:'orderCustomerName'] = opts[:'order_customer_name'] if !opts[:'order_customer_name'].nil?
+      query_params[:'orderSupplierName'] = opts[:'order_supplier_name'] if !opts[:'order_supplier_name'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -214,7 +232,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'PagedResponseDeliveryNoteApiDto'
+      return_type = opts[:debug_return_type] || 'GetV1DeliveryListPaging200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -240,29 +258,35 @@ module TachainSdk
     # 收货单查询固定以当前集成公司作为客户/收货方，结果可直接用于确认收货或收货退回。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :id 
-    # @option opts [Integer] :is_transfer 
-    # @option opts [String] :match_number 
-    # @option opts [String] :from_country 
-    # @option opts [String] :to_country 
-    # @option opts [String] :search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :order_id 
-    # @option opts [Time] :delivery_date_start 
-    # @option opts [Time] :delivery_date_end 
-    # @option opts [String] :order_line_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [String] :line_number 
-    # @option opts [String] :unique_no 
-    # @option opts [Array<Integer>] :status 
-    # @option opts [Array<String>] :supplier_id 
-    # @option opts [Array<String>] :supplier_code 
-    # @option opts [Integer] :business_status 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [PagedResponseDeliveryNoteApiDto]
+    # @option opts [Integer] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [Integer] :is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。
+    # @option opts [String] :match_number 完整发货单号，精确匹配。
+    # @option opts [String] :from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [Time] :delivery_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :delivery_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [Array<Integer>] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<String>] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [Array<String>] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [Integer] :business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+    # @option opts [String] :order_supplier_name 关联订单的供应商名称；用于订单定位。
+    # @return [GetV1DeliveryListPaging200Response]
     def get_v1_delivery_receipt_list_paging(x_credential_type, opts = {})
       data, _status_code, _headers = get_v1_delivery_receipt_list_paging_with_http_info(x_credential_type, opts)
       data
@@ -272,29 +296,35 @@ module TachainSdk
     # 收货单查询固定以当前集成公司作为客户/收货方，结果可直接用于确认收货或收货退回。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :id 
-    # @option opts [Integer] :is_transfer 
-    # @option opts [String] :match_number 
-    # @option opts [String] :from_country 
-    # @option opts [String] :to_country 
-    # @option opts [String] :search_text 关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
-    # @option opts [String] :number 
-    # @option opts [String] :order_id 
-    # @option opts [Time] :delivery_date_start 
-    # @option opts [Time] :delivery_date_end 
-    # @option opts [String] :order_line_id 
-    # @option opts [String] :order_number 
-    # @option opts [Time] :order_date 
-    # @option opts [String] :line_number 
-    # @option opts [String] :unique_no 
-    # @option opts [Array<Integer>] :status 
-    # @option opts [Array<String>] :supplier_id 
-    # @option opts [Array<String>] :supplier_code 
-    # @option opts [Integer] :business_status 
-    # @option opts [String] :sort_by 
-    # @option opts [Integer] :page  (default to 1)
-    # @option opts [Integer] :page_size  (default to 10)
-    # @return [Array<(PagedResponseDeliveryNoteApiDto, Integer, Hash)>] PagedResponseDeliveryNoteApiDto data, response status code and response headers
+    # @option opts [Integer] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [Integer] :is_transfer 查询是否为转运单；创建/修改接口只开放普通发货。
+    # @option opts [String] :match_number 完整发货单号，精确匹配。
+    # @option opts [String] :from_country 发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :to_country 收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。
+    # @option opts [String] :search_text 关键词搜索，具体匹配范围见本接口说明。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :order_id 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
+    # @option opts [Time] :delivery_date_start 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [Time] :delivery_date_end 可选业务筛选条件；与其他条件同时生效。
+    # @option opts [String] :order_line_id 订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。
+    # @option opts [String] :order_number 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
+    # @option opts [Time] :order_date 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+    # @option opts [String] :line_number 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+    # @option opts [String] :unique_no 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+    # @option opts [Array<Integer>] :status 查询状态过滤，不作为写入状态字段开放。
+    # @option opts [Array<String>] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [Array<String>] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @option opts [Integer] :business_status 运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。
+    # @option opts [String] :sort_by 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
+    # @option opts [Integer] :page 页码，默认 1；小于等于 0 时调整为 1。 (default to 1)
+    # @option opts [Integer] :page_size 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (default to 10)
+    # @option opts [String] :customer_ext_no 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :supplier_ext_no 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+    # @option opts [String] :order_customer_code 关联订单的客户编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_supplier_code 关联订单的供应商编码/外部映射值；用于订单定位。
+    # @option opts [String] :order_customer_name 关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。
+    # @option opts [String] :order_supplier_name 关联订单的供应商名称；用于订单定位。
+    # @return [Array<(GetV1DeliveryListPaging200Response, Integer, Hash)>] GetV1DeliveryListPaging200Response data, response status code and response headers
     def get_v1_delivery_receipt_list_paging_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.get_v1_delivery_receipt_list_paging ...'
@@ -335,6 +365,12 @@ module TachainSdk
       query_params[:'sortBy'] = opts[:'sort_by'] if !opts[:'sort_by'].nil?
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'pageSize'] = opts[:'page_size'] if !opts[:'page_size'].nil?
+      query_params[:'customerExtNo'] = opts[:'customer_ext_no'] if !opts[:'customer_ext_no'].nil?
+      query_params[:'supplierExtNo'] = opts[:'supplier_ext_no'] if !opts[:'supplier_ext_no'].nil?
+      query_params[:'orderCustomerCode'] = opts[:'order_customer_code'] if !opts[:'order_customer_code'].nil?
+      query_params[:'orderSupplierCode'] = opts[:'order_supplier_code'] if !opts[:'order_supplier_code'].nil?
+      query_params[:'orderCustomerName'] = opts[:'order_customer_name'] if !opts[:'order_customer_name'].nil?
+      query_params[:'orderSupplierName'] = opts[:'order_supplier_name'] if !opts[:'order_supplier_name'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -349,7 +385,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'PagedResponseDeliveryNoteApiDto'
+      return_type = opts[:debug_return_type] || 'GetV1DeliveryListPaging200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -374,21 +410,21 @@ module TachainSdk
     # 创建发货单。
     # 本接口只创建普通发货单，`FreightType` 由接口内部固定为 `1`，当前集成公司会被写入供应商/发货方。 收货确认和退回请使用独立的收货接口，不通过创建发货单接口创建收货数据。 发货单明细必须至少有一条有效记录，且有效明细数量必须大于 0。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_delivery_create_request [ApiDeliveryCreateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [DeliveryNoteApiDto] :delivery_note_api_dto 
-    # @return [ApiResponseDeliveryNoteApiDto]
-    def post_v1_delivery_create(x_credential_type, opts = {})
-      data, _status_code, _headers = post_v1_delivery_create_with_http_info(x_credential_type, opts)
+    # @return [PutV1DeliveryConfirmReceipt200Response]
+    def post_v1_delivery_create(x_credential_type, api_delivery_create_request, opts = {})
+      data, _status_code, _headers = post_v1_delivery_create_with_http_info(x_credential_type, api_delivery_create_request, opts)
       data
     end
 
     # 创建发货单。
     # 本接口只创建普通发货单，&#x60;FreightType&#x60; 由接口内部固定为 &#x60;1&#x60;，当前集成公司会被写入供应商/发货方。 收货确认和退回请使用独立的收货接口，不通过创建发货单接口创建收货数据。 发货单明细必须至少有一条有效记录，且有效明细数量必须大于 0。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_delivery_create_request [ApiDeliveryCreateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [DeliveryNoteApiDto] :delivery_note_api_dto 
-    # @return [Array<(ApiResponseDeliveryNoteApiDto, Integer, Hash)>] ApiResponseDeliveryNoteApiDto data, response status code and response headers
-    def post_v1_delivery_create_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PutV1DeliveryConfirmReceipt200Response, Integer, Hash)>] PutV1DeliveryConfirmReceipt200Response data, response status code and response headers
+    def post_v1_delivery_create_with_http_info(x_credential_type, api_delivery_create_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.post_v1_delivery_create ...'
       end
@@ -400,6 +436,10 @@ module TachainSdk
       allowable_values = ["Token", "API Key"]
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_delivery_create_request' is set
+      if @api_client.config.client_side_validation && api_delivery_create_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_delivery_create_request' when calling ApiDeliveryApi.post_v1_delivery_create"
       end
       # resource path
       local_var_path = '/v1/delivery/Create'
@@ -422,10 +462,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'delivery_note_api_dto'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_delivery_create_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseDeliveryNoteApiDto'
+      return_type = opts[:debug_return_type] || 'PutV1DeliveryConfirmReceipt200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -451,9 +491,15 @@ module TachainSdk
     # 确认成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id 需要确认收货的发货/收货流转单 ID。
-    # @option opts [String] :number 
-    # @return [ApiResponseDeliveryNoteApiDto]
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @return [PutV1DeliveryConfirmReceipt200Response]
     def put_v1_delivery_confirm_receipt(x_credential_type, opts = {})
       data, _status_code, _headers = put_v1_delivery_confirm_receipt_with_http_info(x_credential_type, opts)
       data
@@ -463,9 +509,15 @@ module TachainSdk
     # 确认成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id 需要确认收货的发货/收货流转单 ID。
-    # @option opts [String] :number 
-    # @return [Array<(ApiResponseDeliveryNoteApiDto, Integer, Hash)>] ApiResponseDeliveryNoteApiDto data, response status code and response headers
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @return [Array<(PutV1DeliveryConfirmReceipt200Response, Integer, Hash)>] PutV1DeliveryConfirmReceipt200Response data, response status code and response headers
     def put_v1_delivery_confirm_receipt_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.put_v1_delivery_confirm_receipt ...'
@@ -486,6 +538,12 @@ module TachainSdk
       query_params = opts[:query_params] || {}
       query_params[:'id'] = opts[:'id'] if !opts[:'id'].nil?
       query_params[:'number'] = opts[:'number'] if !opts[:'number'].nil?
+      query_params[:'CustomerId'] = opts[:'customer_id'] if !opts[:'customer_id'].nil?
+      query_params[:'CustomerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'CustomerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'SupplierId'] = opts[:'supplier_id'] if !opts[:'supplier_id'].nil?
+      query_params[:'SupplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
+      query_params[:'SupplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -500,7 +558,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseDeliveryNoteApiDto'
+      return_type = opts[:debug_return_type] || 'PutV1DeliveryConfirmReceipt200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -526,9 +584,15 @@ module TachainSdk
     # 退回成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id 需要退回的发货/收货流转单 ID。
-    # @option opts [String] :number 
-    # @return [ApiResponseString]
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @return [PutV1DeliveryReturnReceipt200Response]
     def put_v1_delivery_return_receipt(x_credential_type, opts = {})
       data, _status_code, _headers = put_v1_delivery_return_receipt_with_http_info(x_credential_type, opts)
       data
@@ -538,9 +602,15 @@ module TachainSdk
     # 退回成功后会更新对应采购订单的实时状态，并重算发货阶段申报完成度。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :id 需要退回的发货/收货流转单 ID。
-    # @option opts [String] :number 
-    # @return [Array<(ApiResponseString, Integer, Hash)>] ApiResponseString data, response status code and response headers
+    # @option opts [String] :id 查询返回的单据 ID，可选；优先使用本文业务组合。
+    # @option opts [String] :number 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
+    # @option opts [String] :customer_id 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+    # @option opts [String] :customer_name 客户英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :customer_code 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+    # @option opts [String] :supplier_id 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+    # @option opts [String] :supplier_name 供应商英文名、当地语言名称或简称，精确匹配。
+    # @option opts [String] :supplier_code 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+    # @return [Array<(PutV1DeliveryReturnReceipt200Response, Integer, Hash)>] PutV1DeliveryReturnReceipt200Response data, response status code and response headers
     def put_v1_delivery_return_receipt_with_http_info(x_credential_type, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.put_v1_delivery_return_receipt ...'
@@ -561,6 +631,12 @@ module TachainSdk
       query_params = opts[:query_params] || {}
       query_params[:'id'] = opts[:'id'] if !opts[:'id'].nil?
       query_params[:'number'] = opts[:'number'] if !opts[:'number'].nil?
+      query_params[:'CustomerId'] = opts[:'customer_id'] if !opts[:'customer_id'].nil?
+      query_params[:'CustomerName'] = opts[:'customer_name'] if !opts[:'customer_name'].nil?
+      query_params[:'CustomerCode'] = opts[:'customer_code'] if !opts[:'customer_code'].nil?
+      query_params[:'SupplierId'] = opts[:'supplier_id'] if !opts[:'supplier_id'].nil?
+      query_params[:'SupplierName'] = opts[:'supplier_name'] if !opts[:'supplier_name'].nil?
+      query_params[:'SupplierCode'] = opts[:'supplier_code'] if !opts[:'supplier_code'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}
@@ -575,7 +651,7 @@ module TachainSdk
       post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseString'
+      return_type = opts[:debug_return_type] || 'PutV1DeliveryReturnReceipt200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']
@@ -598,23 +674,23 @@ module TachainSdk
     end
 
     # 修改发货单。
-    # 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 `UniqueCode`，传入 `Status = -1` 可删除明细。
+    # 新增明细不需要传 `UniqueCode`，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete=true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_delivery_update_request [ApiDeliveryUpdateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [DeliveryNoteApiDto] :delivery_note_api_dto 
-    # @return [ApiResponseDeliveryNoteApiDto]
-    def put_v1_delivery_update(x_credential_type, opts = {})
-      data, _status_code, _headers = put_v1_delivery_update_with_http_info(x_credential_type, opts)
+    # @return [PutV1DeliveryConfirmReceipt200Response]
+    def put_v1_delivery_update(x_credential_type, api_delivery_update_request, opts = {})
+      data, _status_code, _headers = put_v1_delivery_update_with_http_info(x_credential_type, api_delivery_update_request, opts)
       data
     end
 
     # 修改发货单。
-    # 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+    # 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
     # @param x_credential_type [String] Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
+    # @param api_delivery_update_request [ApiDeliveryUpdateRequest] 
     # @param [Hash] opts the optional parameters
-    # @option opts [DeliveryNoteApiDto] :delivery_note_api_dto 
-    # @return [Array<(ApiResponseDeliveryNoteApiDto, Integer, Hash)>] ApiResponseDeliveryNoteApiDto data, response status code and response headers
-    def put_v1_delivery_update_with_http_info(x_credential_type, opts = {})
+    # @return [Array<(PutV1DeliveryConfirmReceipt200Response, Integer, Hash)>] PutV1DeliveryConfirmReceipt200Response data, response status code and response headers
+    def put_v1_delivery_update_with_http_info(x_credential_type, api_delivery_update_request, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApiDeliveryApi.put_v1_delivery_update ...'
       end
@@ -626,6 +702,10 @@ module TachainSdk
       allowable_values = ["Token", "API Key"]
       if @api_client.config.client_side_validation && !allowable_values.include?(x_credential_type)
         fail ArgumentError, "invalid value for \"x_credential_type\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'api_delivery_update_request' is set
+      if @api_client.config.client_side_validation && api_delivery_update_request.nil?
+        fail ArgumentError, "Missing the required parameter 'api_delivery_update_request' when calling ApiDeliveryApi.put_v1_delivery_update"
       end
       # resource path
       local_var_path = '/v1/delivery/Update'
@@ -648,10 +728,10 @@ module TachainSdk
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'delivery_note_api_dto'])
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(api_delivery_update_request)
 
       # return_type
-      return_type = opts[:debug_return_type] || 'ApiResponseDeliveryNoteApiDto'
+      return_type = opts[:debug_return_type] || 'PutV1DeliveryConfirmReceipt200Response'
 
       # auth_names
       auth_names = opts[:debug_auth_names] || ['ApiKey', 'Signature', 'BearerToken', 'Timestamp']

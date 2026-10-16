@@ -31,7 +31,7 @@ type ApiDeleteV1ProductionDeleteRequest struct {
 	number *string
 	productCode *string
 	type_ *int32
-	tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest *TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+	tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest *TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -40,36 +40,36 @@ func (r ApiDeleteV1ProductionDeleteRequest) XCredentialType(xCredentialType stri
 	return r
 }
 
-// query 方式传入的单个 ID，便于简单调用。
+// 查询返回的单据 ID，可选；优先使用本文业务组合。
 func (r ApiDeleteV1ProductionDeleteRequest) Id(id string) ApiDeleteV1ProductionDeleteRequest {
 	r.id = &id
 	return r
 }
 
-// 
+// 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
 func (r ApiDeleteV1ProductionDeleteRequest) Number(number string) ApiDeleteV1ProductionDeleteRequest {
 	r.number = &number
 	return r
 }
 
-// 
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
 func (r ApiDeleteV1ProductionDeleteRequest) ProductCode(productCode string) ApiDeleteV1ProductionDeleteRequest {
 	r.productCode = &productCode
 	return r
 }
 
-// 
+// 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
 func (r ApiDeleteV1ProductionDeleteRequest) Type_(type_ int32) ApiDeleteV1ProductionDeleteRequest {
 	r.type_ = &type_
 	return r
 }
 
-func (r ApiDeleteV1ProductionDeleteRequest) TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest(tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest) ApiDeleteV1ProductionDeleteRequest {
-	r.tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+func (r ApiDeleteV1ProductionDeleteRequest) TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest(tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest) ApiDeleteV1ProductionDeleteRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
 	return r
 }
 
-func (r ApiDeleteV1ProductionDeleteRequest) Execute() (*Model4, *http.Response, error) {
+func (r ApiDeleteV1ProductionDeleteRequest) Execute() (*DeleteV1DeclarationDelete200Response, *http.Response, error) {
 	return r.ApiService.DeleteV1ProductionDeleteExecute(r)
 }
 
@@ -93,13 +93,13 @@ func (a *ApiProductionAPIService) DeleteV1ProductionDelete(ctx context.Context) 
 }
 
 // Execute executes the request
-//  @return Model4
-func (a *ApiProductionAPIService) DeleteV1ProductionDeleteExecute(r ApiDeleteV1ProductionDeleteRequest) (*Model4, *http.Response, error) {
+//  @return DeleteV1DeclarationDelete200Response
+func (a *ApiProductionAPIService) DeleteV1ProductionDeleteExecute(r ApiDeleteV1ProductionDeleteRequest) (*DeleteV1DeclarationDelete200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Model4
+		localVarReturnValue  *DeleteV1DeclarationDelete200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiProductionAPIService.DeleteV1ProductionDelete")
@@ -147,7 +147,7 @@ func (a *ApiProductionAPIService) DeleteV1ProductionDeleteExecute(r ApiDeleteV1P
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -212,6 +212,38 @@ func (a *ApiProductionAPIService) DeleteV1ProductionDeleteExecute(r ApiDeleteV1P
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -250,7 +282,6 @@ type ApiGetV1ProductionListPagingRequest struct {
 	salesOrderLineId *string
 	quantityProduced *float64
 	unit *string
-	sortBy *string
 	uniqueNo *string
 	lineNumber *string
 	productCategory *string
@@ -262,12 +293,8 @@ type ApiGetV1ProductionListPagingRequest struct {
 	customerExtNo *string
 	supplierExtNo *string
 	originCountry *string
-	estimatedTimeOfDepartureStart *time.Time
-	estimatedTimeOfDepartureEnd *time.Time
 	season *string
 	seasonYear *string
-	lastUpdatedAtStart *time.Time
-	lastUpdatedAtEnd *time.Time
 	color *string
 	soStatus *int32
 	poStatus *int32
@@ -276,6 +303,10 @@ type ApiGetV1ProductionListPagingRequest struct {
 	orderDate *time.Time
 	page *int32
 	pageSize *int32
+	customerCode *string
+	supplierCode *string
+	customerName *string
+	supplierName *string
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -284,286 +315,279 @@ func (r ApiGetV1ProductionListPagingRequest) XCredentialType(xCredentialType str
 	return r
 }
 
-// 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+// 关键词搜索，具体匹配范围见本接口说明。
 func (r ApiGetV1ProductionListPagingRequest) SearchText(searchText string) ApiGetV1ProductionListPagingRequest {
 	r.searchText = &searchText
 	return r
 }
 
-// 
+// 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
 func (r ApiGetV1ProductionListPagingRequest) Number(number string) ApiGetV1ProductionListPagingRequest {
 	r.number = &number
 	return r
 }
 
-// 
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
 func (r ApiGetV1ProductionListPagingRequest) ProductCode(productCode string) ApiGetV1ProductionListPagingRequest {
 	r.productCode = &productCode
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProductName(productName string) ApiGetV1ProductionListPagingRequest {
 	r.productName = &productName
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProductionDateStart(productionDateStart time.Time) ApiGetV1ProductionListPagingRequest {
 	r.productionDateStart = &productionDateStart
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProductionDateEnd(productionDateEnd time.Time) ApiGetV1ProductionListPagingRequest {
 	r.productionDateEnd = &productionDateEnd
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) Batch(batch string) ApiGetV1ProductionListPagingRequest {
 	r.batch = &batch
 	return r
 }
 
-// 
+// 生产类型：0&#x3D;MTO，1&#x3D;MTS；修改/删除时可选校验，不是唯一定位必填条件。
 func (r ApiGetV1ProductionListPagingRequest) Type_(type_ int32) ApiGetV1ProductionListPagingRequest {
 	r.type_ = &type_
 	return r
 }
 
-// 
+// 查询状态过滤，不作为写入状态字段开放。
 func (r ApiGetV1ProductionListPagingRequest) Status(status int32) ApiGetV1ProductionListPagingRequest {
 	r.status = &status
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) FacilityId(facilityId string) ApiGetV1ProductionListPagingRequest {
 	r.facilityId = &facilityId
 	return r
 }
 
-// 
+// 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
 func (r ApiGetV1ProductionListPagingRequest) FacilityCode(facilityCode string) ApiGetV1ProductionListPagingRequest {
 	r.facilityCode = &facilityCode
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProcessRouteId(processRouteId int64) ApiGetV1ProductionListPagingRequest {
 	r.processRouteId = &processRouteId
 	return r
 }
 
-// 
+// 工艺路线 Code/Name 或外部映射。
 func (r ApiGetV1ProductionListPagingRequest) ProcessRouteCode(processRouteCode string) ApiGetV1ProductionListPagingRequest {
 	r.processRouteCode = &processRouteCode
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) CreatedBy(createdBy string) ApiGetV1ProductionListPagingRequest {
 	r.createdBy = &createdBy
 	return r
 }
 
-// 
+// 创建时间下限。
 func (r ApiGetV1ProductionListPagingRequest) CreatedAtStart(createdAtStart time.Time) ApiGetV1ProductionListPagingRequest {
 	r.createdAtStart = &createdAtStart
 	return r
 }
 
-// 
+// 创建时间上限。
 func (r ApiGetV1ProductionListPagingRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetV1ProductionListPagingRequest {
 	r.createdAtEnd = &createdAtEnd
 	return r
 }
 
-// 
+// 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
 func (r ApiGetV1ProductionListPagingRequest) SalesOrderLineId(salesOrderLineId string) ApiGetV1ProductionListPagingRequest {
 	r.salesOrderLineId = &salesOrderLineId
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) QuantityProduced(quantityProduced float64) ApiGetV1ProductionListPagingRequest {
 	r.quantityProduced = &quantityProduced
 	return r
 }
 
-// 
+// 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
 func (r ApiGetV1ProductionListPagingRequest) Unit(unit string) ApiGetV1ProductionListPagingRequest {
 	r.unit = &unit
 	return r
 }
 
-// 
-func (r ApiGetV1ProductionListPagingRequest) SortBy(sortBy string) ApiGetV1ProductionListPagingRequest {
-	r.sortBy = &sortBy
-	return r
-}
-
-// 
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
 func (r ApiGetV1ProductionListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1ProductionListPagingRequest {
 	r.uniqueNo = &uniqueNo
 	return r
 }
 
-// 
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
 func (r ApiGetV1ProductionListPagingRequest) LineNumber(lineNumber string) ApiGetV1ProductionListPagingRequest {
 	r.lineNumber = &lineNumber
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProductCategory(productCategory string) ApiGetV1ProductionListPagingRequest {
 	r.productCategory = &productCategory
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) MaterialId(materialId string) ApiGetV1ProductionListPagingRequest {
 	r.materialId = &materialId
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) MaterialCode(materialCode string) ApiGetV1ProductionListPagingRequest {
 	r.materialCode = &materialCode
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) MaterialName(materialName string) ApiGetV1ProductionListPagingRequest {
 	r.materialName = &materialName
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) ProductId(productId string) ApiGetV1ProductionListPagingRequest {
 	r.productId = &productId
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) DestinationCountry(destinationCountry string) ApiGetV1ProductionListPagingRequest {
 	r.destinationCountry = &destinationCountry
 	return r
 }
 
-// 
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
 func (r ApiGetV1ProductionListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1ProductionListPagingRequest {
 	r.customerExtNo = &customerExtNo
 	return r
 }
 
-// 
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
 func (r ApiGetV1ProductionListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1ProductionListPagingRequest {
 	r.supplierExtNo = &supplierExtNo
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) OriginCountry(originCountry string) ApiGetV1ProductionListPagingRequest {
 	r.originCountry = &originCountry
 	return r
 }
 
-// 
-func (r ApiGetV1ProductionListPagingRequest) EstimatedTimeOfDepartureStart(estimatedTimeOfDepartureStart time.Time) ApiGetV1ProductionListPagingRequest {
-	r.estimatedTimeOfDepartureStart = &estimatedTimeOfDepartureStart
-	return r
-}
-
-// 
-func (r ApiGetV1ProductionListPagingRequest) EstimatedTimeOfDepartureEnd(estimatedTimeOfDepartureEnd time.Time) ApiGetV1ProductionListPagingRequest {
-	r.estimatedTimeOfDepartureEnd = &estimatedTimeOfDepartureEnd
-	return r
-}
-
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) Season(season string) ApiGetV1ProductionListPagingRequest {
 	r.season = &season
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) SeasonYear(seasonYear string) ApiGetV1ProductionListPagingRequest {
 	r.seasonYear = &seasonYear
 	return r
 }
 
-// 
-func (r ApiGetV1ProductionListPagingRequest) LastUpdatedAtStart(lastUpdatedAtStart time.Time) ApiGetV1ProductionListPagingRequest {
-	r.lastUpdatedAtStart = &lastUpdatedAtStart
-	return r
-}
-
-// 
-func (r ApiGetV1ProductionListPagingRequest) LastUpdatedAtEnd(lastUpdatedAtEnd time.Time) ApiGetV1ProductionListPagingRequest {
-	r.lastUpdatedAtEnd = &lastUpdatedAtEnd
-	return r
-}
-
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1ProductionListPagingRequest) Color(color string) ApiGetV1ProductionListPagingRequest {
 	r.color = &color
 	return r
 }
 
-//  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+// 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
 func (r ApiGetV1ProductionListPagingRequest) SoStatus(soStatus int32) ApiGetV1ProductionListPagingRequest {
 	r.soStatus = &soStatus
 	return r
 }
 
-//  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+// 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
 func (r ApiGetV1ProductionListPagingRequest) PoStatus(poStatus int32) ApiGetV1ProductionListPagingRequest {
 	r.poStatus = &poStatus
 	return r
 }
 
-// 
+// 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
 func (r ApiGetV1ProductionListPagingRequest) OrderId(orderId string) ApiGetV1ProductionListPagingRequest {
 	r.orderId = &orderId
 	return r
 }
 
-// 
+// 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
 func (r ApiGetV1ProductionListPagingRequest) OrderNumber(orderNumber string) ApiGetV1ProductionListPagingRequest {
 	r.orderNumber = &orderNumber
 	return r
 }
 
-// 
+// 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
 func (r ApiGetV1ProductionListPagingRequest) OrderDate(orderDate time.Time) ApiGetV1ProductionListPagingRequest {
 	r.orderDate = &orderDate
 	return r
 }
 
-// 
+// 页码，默认 1；小于等于 0 时调整为 1。
 func (r ApiGetV1ProductionListPagingRequest) Page(page int32) ApiGetV1ProductionListPagingRequest {
 	r.page = &page
 	return r
 }
 
-// 
+// 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
 func (r ApiGetV1ProductionListPagingRequest) PageSize(pageSize int32) ApiGetV1ProductionListPagingRequest {
 	r.pageSize = &pageSize
 	return r
 }
 
-func (r ApiGetV1ProductionListPagingRequest) Execute() (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1ProductionListPagingRequest) CustomerCode(customerCode string) ApiGetV1ProductionListPagingRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+func (r ApiGetV1ProductionListPagingRequest) SupplierCode(supplierCode string) ApiGetV1ProductionListPagingRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1ProductionListPagingRequest) CustomerName(customerName string) ApiGetV1ProductionListPagingRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1ProductionListPagingRequest) SupplierName(supplierName string) ApiGetV1ProductionListPagingRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+func (r ApiGetV1ProductionListPagingRequest) Execute() (*GetV1ProductionListPaging200Response, *http.Response, error) {
 	return r.ApiService.GetV1ProductionListPagingExecute(r)
 }
 
 /*
 GetV1ProductionListPaging 查询生产记录单及详细领料信息。
 
-返回结果按生产单与领料明细展开：
-同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息，
-每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。
+只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetV1ProductionListPagingRequest
@@ -576,13 +600,13 @@ func (a *ApiProductionAPIService) GetV1ProductionListPaging(ctx context.Context)
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1ProductionListPagingRequest) (*TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+//  @return GetV1ProductionListPaging200Response
+func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1ProductionListPagingRequest) (*GetV1ProductionListPaging200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+		localVarReturnValue  *GetV1ProductionListPaging200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiProductionAPIService.GetV1ProductionListPaging")
@@ -656,9 +680,6 @@ func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1Pro
 	if r.unit != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "unit", r.unit, "form", "")
 	}
-	if r.sortBy != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "form", "")
-	}
 	if r.uniqueNo != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueNo", r.uniqueNo, "form", "")
 	}
@@ -692,23 +713,11 @@ func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1Pro
 	if r.originCountry != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "originCountry", r.originCountry, "form", "")
 	}
-	if r.estimatedTimeOfDepartureStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureStart", r.estimatedTimeOfDepartureStart, "form", "")
-	}
-	if r.estimatedTimeOfDepartureEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "estimatedTimeOfDepartureEnd", r.estimatedTimeOfDepartureEnd, "form", "")
-	}
 	if r.season != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "season", r.season, "form", "")
 	}
 	if r.seasonYear != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "seasonYear", r.seasonYear, "form", "")
-	}
-	if r.lastUpdatedAtStart != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtStart", r.lastUpdatedAtStart, "form", "")
-	}
-	if r.lastUpdatedAtEnd != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "lastUpdatedAtEnd", r.lastUpdatedAtEnd, "form", "")
 	}
 	if r.color != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "color", r.color, "form", "")
@@ -741,6 +750,18 @@ func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1Pro
 		var defaultValue int32 = 10
 		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
 		r.pageSize = &defaultValue
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerCode", r.customerCode, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierCode", r.supplierCode, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "customerName", r.customerName, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "supplierName", r.supplierName, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -824,6 +845,38 @@ func (a *ApiProductionAPIService) GetV1ProductionListPagingExecute(r ApiGetV1Pro
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -843,7 +896,7 @@ type ApiPostV1ProductionCreateRequest struct {
 	ctx context.Context
 	ApiService *ApiProductionAPIService
 	xCredentialType *string
-	tacticChainApiServiceViewModelsProductionApiDto *TacticChainApiServiceViewModelsProductionApiDto
+	tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest *TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -852,12 +905,12 @@ func (r ApiPostV1ProductionCreateRequest) XCredentialType(xCredentialType string
 	return r
 }
 
-func (r ApiPostV1ProductionCreateRequest) TacticChainApiServiceViewModelsProductionApiDto(tacticChainApiServiceViewModelsProductionApiDto TacticChainApiServiceViewModelsProductionApiDto) ApiPostV1ProductionCreateRequest {
-	r.tacticChainApiServiceViewModelsProductionApiDto = &tacticChainApiServiceViewModelsProductionApiDto
+func (r ApiPostV1ProductionCreateRequest) TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest(tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest) ApiPostV1ProductionCreateRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
 	return r
 }
 
-func (r ApiPostV1ProductionCreateRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+func (r ApiPostV1ProductionCreateRequest) Execute() (*PostV1ProductionCreate200Response, *http.Response, error) {
 	return r.ApiService.PostV1ProductionCreateExecute(r)
 }
 
@@ -866,7 +919,7 @@ PostV1ProductionCreate 创建生产记录单。
 
 重要处理：
 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖；
-2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`；
+2. 直接传入领料与销售订单业务明细，服务端解析关联 ID；
 3. 领料明细不能为空，且每条有效领料数量必须大于 0；
 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
 
@@ -881,13 +934,13 @@ func (a *ApiProductionAPIService) PostV1ProductionCreate(ctx context.Context) Ap
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiProductionAPIService) PostV1ProductionCreateExecute(r ApiPostV1ProductionCreateRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+//  @return PostV1ProductionCreate200Response
+func (a *ApiProductionAPIService) PostV1ProductionCreateExecute(r ApiPostV1ProductionCreateRequest) (*PostV1ProductionCreate200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+		localVarReturnValue  *PostV1ProductionCreate200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiProductionAPIService.PostV1ProductionCreate")
@@ -902,6 +955,9 @@ func (a *ApiProductionAPIService) PostV1ProductionCreateExecute(r ApiPostV1Produ
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -923,7 +979,7 @@ func (a *ApiProductionAPIService) PostV1ProductionCreateExecute(r ApiPostV1Produ
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceViewModelsProductionApiDto
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -989,7 +1045,29 @@ func (a *ApiProductionAPIService) PostV1ProductionCreateExecute(r ApiPostV1Produ
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v MicrosoftAspNetCoreMvcProblemDetails
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1017,7 +1095,7 @@ type ApiPutV1ProductionUpdateRequest struct {
 	ctx context.Context
 	ApiService *ApiProductionAPIService
 	xCredentialType *string
-	tacticChainApiServiceViewModelsProductionApiDto *TacticChainApiServiceViewModelsProductionApiDto
+	tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest *TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -1026,12 +1104,12 @@ func (r ApiPutV1ProductionUpdateRequest) XCredentialType(xCredentialType string)
 	return r
 }
 
-func (r ApiPutV1ProductionUpdateRequest) TacticChainApiServiceViewModelsProductionApiDto(tacticChainApiServiceViewModelsProductionApiDto TacticChainApiServiceViewModelsProductionApiDto) ApiPutV1ProductionUpdateRequest {
-	r.tacticChainApiServiceViewModelsProductionApiDto = &tacticChainApiServiceViewModelsProductionApiDto
+func (r ApiPutV1ProductionUpdateRequest) TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest(tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest) ApiPutV1ProductionUpdateRequest {
+	r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest = &tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
 	return r
 }
 
-func (r ApiPutV1ProductionUpdateRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+func (r ApiPutV1ProductionUpdateRequest) Execute() (*PostV1ProductionCreate200Response, *http.Response, error) {
 	return r.ApiService.PutV1ProductionUpdateExecute(r)
 }
 
@@ -1039,7 +1117,7 @@ func (r ApiPutV1ProductionUpdateRequest) Execute() (*TacticChainApiServiceViewMo
 PutV1ProductionUpdate 修改生产记录单。
 
 修改时仍按完整生产单保存：
-有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPutV1ProductionUpdateRequest
@@ -1052,13 +1130,13 @@ func (a *ApiProductionAPIService) PutV1ProductionUpdate(ctx context.Context) Api
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiProductionAPIService) PutV1ProductionUpdateExecute(r ApiPutV1ProductionUpdateRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+//  @return PostV1ProductionCreate200Response
+func (a *ApiProductionAPIService) PutV1ProductionUpdateExecute(r ApiPutV1ProductionUpdateRequest) (*PostV1ProductionCreate200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+		localVarReturnValue  *PostV1ProductionCreate200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiProductionAPIService.PutV1ProductionUpdate")
@@ -1073,6 +1151,9 @@ func (a *ApiProductionAPIService) PutV1ProductionUpdateExecute(r ApiPutV1Product
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1094,7 +1175,7 @@ func (a *ApiProductionAPIService) PutV1ProductionUpdateExecute(r ApiPutV1Product
 	}
 	parameterAddToHeaderOrQuery(localVarHeaderParams, "X-Credential-Type", r.xCredentialType, "simple", "")
 	// body params
-	localVarPostBody = r.tacticChainApiServiceViewModelsProductionApiDto
+	localVarPostBody = r.tacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1158,6 +1239,38 @@ func (a *ApiProductionAPIService) PutV1ProductionUpdateExecute(r ApiPutV1Product
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

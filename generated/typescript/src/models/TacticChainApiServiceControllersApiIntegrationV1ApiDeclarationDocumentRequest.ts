@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
-import type { TacticChainApiServiceViewModelsAttachmentInApiCreateDto } from './TacticChainApiServiceViewModelsAttachmentInApiCreateDto';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest } from './TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest';
 import {
-    TacticChainApiServiceViewModelsAttachmentInApiCreateDtoFromJSON,
-    TacticChainApiServiceViewModelsAttachmentInApiCreateDtoFromJSONTyped,
-    TacticChainApiServiceViewModelsAttachmentInApiCreateDtoToJSON,
-    TacticChainApiServiceViewModelsAttachmentInApiCreateDtoToJSONTyped,
-} from './TacticChainApiServiceViewModelsAttachmentInApiCreateDto';
-import type { TacticChainApiServiceModelsOrderStageFormDto } from './TacticChainApiServiceModelsOrderStageFormDto';
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest';
+import type { TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest } from './TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest';
 import {
-    TacticChainApiServiceModelsOrderStageFormDtoFromJSON,
-    TacticChainApiServiceModelsOrderStageFormDtoFromJSONTyped,
-    TacticChainApiServiceModelsOrderStageFormDtoToJSON,
-    TacticChainApiServiceModelsOrderStageFormDtoToJSONTyped,
-} from './TacticChainApiServiceModelsOrderStageFormDto';
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestFromJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestFromJSONTyped,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestToJSON,
+    TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestToJSONTyped,
+} from './TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest';
 
 /**
  * 外部集成申报资料明细。
@@ -35,29 +35,21 @@ import {
  */
 export interface TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest {
     /**
-     * 资料类型 ID，对应系统中的文档类型。
+     * 资料类型 ID，来自 RequiredDocuments 返回的 data[].id；推荐使用同一项的 code 填写 DocumentTypeCode。
      */
     documentTypeId?: string | null;
     /**
-     * 资料类型编码。外部不知道 DocumentTypeId 时可传该字段，由接口解析成资料类型 ID。
+     * 资料类型编码，来自 RequiredDocuments 返回的 data[].code；不是 name 或 localName。与 DocumentTypeId 二选一，同传必须指向同一资料类型。
      */
     documentTypeCode?: string | null;
     /**
-     * 单据日期，例如运输单日期、入库单日期。
-     */
-    documentDate?: string | null;
-    /**
-     * 单据编号，例如运输单号、入库单号。
-     */
-    documentNumber?: string | null;
-    /**
      * 文件资料列表。只提交表单资料时可以为空。
      */
-    fileList?: Array<TacticChainApiServiceViewModelsAttachmentInApiCreateDto> | null;
+    fileList?: Array<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequest> | null;
     /**
      * 表单资料列表。只提交文件资料时可以为空。
      */
-    formDataList?: Array<TacticChainApiServiceModelsOrderStageFormDto> | null;
+    formDataList?: Array<TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequest> | null;
 }
 
 /**
@@ -79,10 +71,8 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDo
         
         'documentTypeId': json['documentTypeId'] === undefined ? undefined : json['documentTypeId'] === null ? null : json['documentTypeId'],
         'documentTypeCode': json['documentTypeCode'] === undefined ? undefined : json['documentTypeCode'] === null ? null : json['documentTypeCode'],
-        'documentDate': json['documentDate'] === undefined ? undefined : json['documentDate'] === null ? null : json['documentDate'],
-        'documentNumber': json['documentNumber'] === undefined ? undefined : json['documentNumber'] === null ? null : json['documentNumber'],
-        'fileList': json['fileList'] === undefined ? undefined : json['fileList'] === null ? null : ((json['fileList'] as Array<any>).map(TacticChainApiServiceViewModelsAttachmentInApiCreateDtoFromJSON)),
-        'formDataList': json['formDataList'] === undefined ? undefined : json['formDataList'] === null ? null : ((json['formDataList'] as Array<any>).map(TacticChainApiServiceModelsOrderStageFormDtoFromJSON)),
+        'fileList': json['fileList'] === undefined ? undefined : json['fileList'] === null ? null : ((json['fileList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestFromJSON)),
+        'formDataList': json['formDataList'] === undefined ? undefined : json['formDataList'] === null ? null : ((json['formDataList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestFromJSON)),
     };
 }
 
@@ -99,10 +89,8 @@ export function TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDo
         
         'documentTypeId': value['documentTypeId'],
         'documentTypeCode': value['documentTypeCode'],
-        'documentDate': value['documentDate'],
-        'documentNumber': value['documentNumber'],
-        'fileList': value['fileList'] == null ? undefined : ((value['fileList'] as Array<any>).map(TacticChainApiServiceViewModelsAttachmentInApiCreateDtoToJSON)),
-        'formDataList': value['formDataList'] == null ? undefined : ((value['formDataList'] as Array<any>).map(TacticChainApiServiceModelsOrderStageFormDtoToJSON)),
+        'fileList': value['fileList'] == null ? undefined : ((value['fileList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFileRequestToJSON)),
+        'formDataList': value['formDataList'] == null ? undefined : ((value['formDataList'] as Array<any>).map(TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationFormRequestToJSON)),
     };
 }
 

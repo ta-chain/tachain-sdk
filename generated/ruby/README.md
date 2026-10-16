@@ -91,8 +91,8 @@ end
 api_instance = TachainSdk::ApiDeclarationApi.new
 x_credential_type = 'Token' # String | Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.
 opts = {
-  attachment_id: 'attachment_id_example', # String | query 方式传入的单个附件申报 ID。
-  form_data_id: 'form_data_id_example', # String | query 方式传入的单个表单申报 ID。
+  attachment_id: 'attachment_id_example', # String | 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
+  form_data_id: 'form_data_id_example', # String | 查询返回的表单记录标识；也可在 Body 按业务键删除。
   api_declaration_delete_request: TachainSdk::ApiDeclarationDeleteRequest.new # ApiDeclarationDeleteRequest | 
 }
 
@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *TachainSdk::ApiDeclarationApi* | [**get_v1_declaration_list_paging**](docs/ApiDeclarationApi.md#get_v1_declaration_list_paging) | **GET** /v1/declaration/ListPaging | 申报信息查询接口。
 *TachainSdk::ApiDeclarationApi* | [**get_v1_declaration_required_documents**](docs/ApiDeclarationApi.md#get_v1_declaration_required_documents) | **GET** /v1/declaration/RequiredDocuments | 单据所需申报信息查询接口。
 *TachainSdk::ApiDeclarationApi* | [**post_v1_declaration_submit**](docs/ApiDeclarationApi.md#post_v1_declaration_submit) | **POST** /v1/declaration/Submit | 申报文件/表单提交接口。
+*TachainSdk::ApiDeclarationUploadApi* | [**post_v1_declaration_upload_file**](docs/ApiDeclarationUploadApi.md#post_v1_declaration_upload_file) | **POST** /v1/declaration/UploadFile | 上传申报文件，返回 FileId；文件内容最多 30 MiB。
 *TachainSdk::ApiDeliveryApi* | [**delete_v1_delivery_delete**](docs/ApiDeliveryApi.md#delete_v1_delivery_delete) | **DELETE** /v1/delivery/Delete | 删除发货单。
 *TachainSdk::ApiDeliveryApi* | [**get_v1_delivery_list_paging**](docs/ApiDeliveryApi.md#get_v1_delivery_list_paging) | **GET** /v1/delivery/ListPaging | 查询发货单信息及明细信息。
 *TachainSdk::ApiDeliveryApi* | [**get_v1_delivery_receipt_list_paging**](docs/ApiDeliveryApi.md#get_v1_delivery_receipt_list_paging) | **GET** /v1/delivery/ReceiptListPaging | 查询收货单集合，核对收货信息。
@@ -124,6 +125,11 @@ Class | Method | HTTP request | Description
 *TachainSdk::ApiDeliveryApi* | [**put_v1_delivery_return_receipt**](docs/ApiDeliveryApi.md#put_v1_delivery_return_receipt) | **PUT** /v1/delivery/ReturnReceipt | 收货退回。
 *TachainSdk::ApiDeliveryApi* | [**put_v1_delivery_update**](docs/ApiDeliveryApi.md#put_v1_delivery_update) | **PUT** /v1/delivery/Update | 修改发货单。
 *TachainSdk::ApiEnumApi* | [**get_v1_enum_get_list**](docs/ApiEnumApi.md#get_v1_enum_get_list) | **GET** /v1/enum/GetList | 第三方-获取统一枚举列表（支持批量查询/查询所有）
+*TachainSdk::ApiMaterialApi* | [**delete_v1_material_delete**](docs/ApiMaterialApi.md#delete_v1_material_delete) | **DELETE** /v1/material/Delete | 删除未被使用的资料；软删除，已被订单等业务使用时返回业务错误。
+*TachainSdk::ApiMaterialApi* | [**get_v1_material_get**](docs/ApiMaterialApi.md#get_v1_material_get) | **GET** /v1/material/Get | 按编码或 ID 精确查询。
+*TachainSdk::ApiMaterialApi* | [**get_v1_material_list_paging**](docs/ApiMaterialApi.md#get_v1_material_list_paging) | **GET** /v1/material/ListPaging | 分页查询；searchText 搜索编码或名称，scopeCode 按加工阶段筛选。
+*TachainSdk::ApiMaterialApi* | [**post_v1_material_create**](docs/ApiMaterialApi.md#post_v1_material_create) | **POST** /v1/material/Create | 创建原料资料。
+*TachainSdk::ApiMaterialApi* | [**put_v1_material_update**](docs/ApiMaterialApi.md#put_v1_material_update) | **PUT** /v1/material/Update | 完整修改原料资料。
 *TachainSdk::ApiOrderApi* | [**delete_v1_order_delete**](docs/ApiOrderApi.md#delete_v1_order_delete) | **DELETE** /v1/order/Delete | 第三方-更新订单状态（通过匹配条件获取订单ID）
 *TachainSdk::ApiOrderApi* | [**delete_v1_order_delete_line**](docs/ApiOrderApi.md#delete_v1_order_delete_line) | **DELETE** /v1/order/DeleteLine | 第三方-更新订单明细状态（通过匹配条件获取明细ID）
 *TachainSdk::ApiOrderApi* | [**get_v1_order_po_list_paging**](docs/ApiOrderApi.md#get_v1_order_po_list_paging) | **GET** /v1/order/POListPaging | 第三方-获取采购订单分页列表（含明细）
@@ -131,76 +137,150 @@ Class | Method | HTTP request | Description
 *TachainSdk::ApiOrderApi* | [**post_v1_order_create**](docs/ApiOrderApi.md#post_v1_order_create) | **POST** /v1/order/Create | 第三方-创建订单（含明细）
 *TachainSdk::ApiOrderApi* | [**post_v1_order_so_accept**](docs/ApiOrderApi.md#post_v1_order_so_accept) | **POST** /v1/order/SoAccept | 第三方-销售订单接单（支持绑定成品/自动创建成品）
 *TachainSdk::ApiOrderApi* | [**put_v1_order_update**](docs/ApiOrderApi.md#put_v1_order_update) | **PUT** /v1/order/Update | 第三方-更新订单（部分字段）
+*TachainSdk::ApiOrderWorkflowApi* | [**get_v1_order_receipt_pending**](docs/ApiOrderWorkflowApi.md#get_v1_order_receipt_pending) | **GET** /v1/order/ReceiptPending | 采购订单确认收货待办项查询。
+*TachainSdk::ApiOrderWorkflowApi* | [**post_v1_order_declaration_verification**](docs/ApiOrderWorkflowApi.md#post_v1_order_declaration_verification) | **POST** /v1/order/DeclarationVerification | 销售订单提交审核前一键校验。
 *TachainSdk::ApiOrderWorkflowApi* | [**post_v1_order_submit_audit**](docs/ApiOrderWorkflowApi.md#post_v1_order_submit_audit) | **POST** /v1/order/SubmitAudit | 销售方根据已入库的订单、生产、发货及申报资料提交审核。
 *TachainSdk::ApiOrderWorkflowApi* | [**put_v1_order_confirm_receipt**](docs/ApiOrderWorkflowApi.md#put_v1_order_confirm_receipt) | **PUT** /v1/order/ConfirmReceipt | 采购方按整单或单条订单明细确认收货。
+*TachainSdk::ApiProcessRouteApi* | [**delete_v1_process_route_delete**](docs/ApiProcessRouteApi.md#delete_v1_process_route_delete) | **DELETE** /v1/processRoute/Delete | 软删除加工路线；历史单据保持其已有引用，新建业务不可再选择该路线。
+*TachainSdk::ApiProcessRouteApi* | [**get_v1_process_route_get**](docs/ApiProcessRouteApi.md#get_v1_process_route_get) | **GET** /v1/processRoute/Get | 按路线编码或查询返回的 ID 精确查询，两者同时传入须一致。
+*TachainSdk::ApiProcessRouteApi* | [**get_v1_process_route_list_paging**](docs/ApiProcessRouteApi.md#get_v1_process_route_list_paging) | **GET** /v1/processRoute/ListPaging | 分页查询正常路线；searchText 匹配编码或名称，scopeCode 筛选加工阶段。
+*TachainSdk::ApiProcessRouteApi* | [**post_v1_process_route_create**](docs/ApiProcessRouteApi.md#post_v1_process_route_create) | **POST** /v1/processRoute/Create | 创建加工路线及有序工序。
+*TachainSdk::ApiProcessRouteApi* | [**put_v1_process_route_update**](docs/ApiProcessRouteApi.md#put_v1_process_route_update) | **PUT** /v1/processRoute/Update | 完整修改路线；steps 省略保留原工序，数组则替换全部工序，空数组清空。
+*TachainSdk::ApiProductApi* | [**delete_v1_product_delete**](docs/ApiProductApi.md#delete_v1_product_delete) | **DELETE** /v1/product/Delete | 删除未被使用的资料；软删除，已被订单等业务使用时返回业务错误。
+*TachainSdk::ApiProductApi* | [**get_v1_product_get**](docs/ApiProductApi.md#get_v1_product_get) | **GET** /v1/product/Get | 按编码或 ID 精确查询。
+*TachainSdk::ApiProductApi* | [**get_v1_product_list_paging**](docs/ApiProductApi.md#get_v1_product_list_paging) | **GET** /v1/product/ListPaging | 分页查询；searchText 搜索编码或名称，scopeCode 按加工阶段筛选。
+*TachainSdk::ApiProductApi* | [**post_v1_product_create**](docs/ApiProductApi.md#post_v1_product_create) | **POST** /v1/product/Create | 创建成品资料。
+*TachainSdk::ApiProductApi* | [**put_v1_product_update**](docs/ApiProductApi.md#put_v1_product_update) | **PUT** /v1/product/Update | 完整修改成品资料。
 *TachainSdk::ApiProductionApi* | [**delete_v1_production_delete**](docs/ApiProductionApi.md#delete_v1_production_delete) | **DELETE** /v1/production/Delete | 删除生产记录单。
 *TachainSdk::ApiProductionApi* | [**get_v1_production_list_paging**](docs/ApiProductionApi.md#get_v1_production_list_paging) | **GET** /v1/production/ListPaging | 查询生产记录单及详细领料信息。
 *TachainSdk::ApiProductionApi* | [**post_v1_production_create**](docs/ApiProductionApi.md#post_v1_production_create) | **POST** /v1/production/Create | 创建生产记录单。
 *TachainSdk::ApiProductionApi* | [**put_v1_production_update**](docs/ApiProductionApi.md#put_v1_production_update) | **PUT** /v1/production/Update | 修改生产记录单。
+*TachainSdk::ApiReferenceApi* | [**get_v1_reference_enum_values**](docs/ApiReferenceApi.md#get_v1_reference_enum_values) | **GET** /v1/reference/EnumValues | 查询 enum_value；EnumTypeId 必填，Value 可选精确匹配。
+*TachainSdk::ApiReferenceApi* | [**get_v1_reference_mappings**](docs/ApiReferenceApi.md#get_v1_reference_mappings) | **GET** /v1/reference/Mappings | 查询 external_mapping；MappedTable 必填，ExternalValue 可选精确匹配。
 
 
 ## Documentation for Models
 
+ - [TachainSdk::ApiBomLineRequest](docs/ApiBomLineRequest.md)
+ - [TachainSdk::ApiBomLineResponse](docs/ApiBomLineResponse.md)
+ - [TachainSdk::ApiCatalogDeleteRequest](docs/ApiCatalogDeleteRequest.md)
+ - [TachainSdk::ApiDeclarationAttachmentResponse](docs/ApiDeclarationAttachmentResponse.md)
  - [TachainSdk::ApiDeclarationDeleteRequest](docs/ApiDeclarationDeleteRequest.md)
  - [TachainSdk::ApiDeclarationDocumentRequest](docs/ApiDeclarationDocumentRequest.md)
- - [TachainSdk::ApiDeclarationListDto](docs/ApiDeclarationListDto.md)
+ - [TachainSdk::ApiDeclarationFileRequest](docs/ApiDeclarationFileRequest.md)
+ - [TachainSdk::ApiDeclarationFormRequest](docs/ApiDeclarationFormRequest.md)
+ - [TachainSdk::ApiDeclarationFormResponse](docs/ApiDeclarationFormResponse.md)
+ - [TachainSdk::ApiDeclarationListResponse](docs/ApiDeclarationListResponse.md)
  - [TachainSdk::ApiDeclarationSubmitRequest](docs/ApiDeclarationSubmitRequest.md)
- - [TachainSdk::ApiDeclarationSubmitResultDto](docs/ApiDeclarationSubmitResultDto.md)
- - [TachainSdk::ApiIntegrationDeleteRequest](docs/ApiIntegrationDeleteRequest.md)
+ - [TachainSdk::ApiDeclarationSubmitResponse](docs/ApiDeclarationSubmitResponse.md)
+ - [TachainSdk::ApiDeliveryCreateRequest](docs/ApiDeliveryCreateRequest.md)
+ - [TachainSdk::ApiDeliveryDeleteRequest](docs/ApiDeliveryDeleteRequest.md)
+ - [TachainSdk::ApiDeliveryDetailCreateRequest](docs/ApiDeliveryDetailCreateRequest.md)
+ - [TachainSdk::ApiDeliveryDetailResponse](docs/ApiDeliveryDetailResponse.md)
+ - [TachainSdk::ApiDeliveryDetailUpdateRequest](docs/ApiDeliveryDetailUpdateRequest.md)
+ - [TachainSdk::ApiDeliveryResponse](docs/ApiDeliveryResponse.md)
+ - [TachainSdk::ApiDeliveryUpdateRequest](docs/ApiDeliveryUpdateRequest.md)
+ - [TachainSdk::ApiDocumentFormResponse](docs/ApiDocumentFormResponse.md)
+ - [TachainSdk::ApiDocumentTypeResponse](docs/ApiDocumentTypeResponse.md)
+ - [TachainSdk::ApiEnumValueResponse](docs/ApiEnumValueResponse.md)
+ - [TachainSdk::ApiErrorResponse](docs/ApiErrorResponse.md)
+ - [TachainSdk::ApiFiberCompositionRequest](docs/ApiFiberCompositionRequest.md)
+ - [TachainSdk::ApiFiberCompositionResponse](docs/ApiFiberCompositionResponse.md)
+ - [TachainSdk::ApiFileResponse](docs/ApiFileResponse.md)
+ - [TachainSdk::ApiFileUploadResponse](docs/ApiFileUploadResponse.md)
+ - [TachainSdk::ApiMappingResponse](docs/ApiMappingResponse.md)
+ - [TachainSdk::ApiMaterialCreateRequest](docs/ApiMaterialCreateRequest.md)
+ - [TachainSdk::ApiMaterialResponse](docs/ApiMaterialResponse.md)
+ - [TachainSdk::ApiMaterialUpdateRequest](docs/ApiMaterialUpdateRequest.md)
+ - [TachainSdk::ApiOrderAcceptRequest](docs/ApiOrderAcceptRequest.md)
  - [TachainSdk::ApiOrderConfirmReceiptRequest](docs/ApiOrderConfirmReceiptRequest.md)
+ - [TachainSdk::ApiOrderCreateRequest](docs/ApiOrderCreateRequest.md)
+ - [TachainSdk::ApiOrderDeclarationVerificationRequest](docs/ApiOrderDeclarationVerificationRequest.md)
+ - [TachainSdk::ApiOrderDeclarationVerificationResponse](docs/ApiOrderDeclarationVerificationResponse.md)
+ - [TachainSdk::ApiOrderDeleteLineRequest](docs/ApiOrderDeleteLineRequest.md)
+ - [TachainSdk::ApiOrderDeleteRequest](docs/ApiOrderDeleteRequest.md)
+ - [TachainSdk::ApiOrderLineCreateRequest](docs/ApiOrderLineCreateRequest.md)
+ - [TachainSdk::ApiOrderLineResponse](docs/ApiOrderLineResponse.md)
+ - [TachainSdk::ApiOrderLineUpdateRequest](docs/ApiOrderLineUpdateRequest.md)
+ - [TachainSdk::ApiOrderReceiptPendingLineResponse](docs/ApiOrderReceiptPendingLineResponse.md)
+ - [TachainSdk::ApiOrderReceiptPendingResponse](docs/ApiOrderReceiptPendingResponse.md)
+ - [TachainSdk::ApiOrderReceiptResult](docs/ApiOrderReceiptResult.md)
+ - [TachainSdk::ApiOrderResponse](docs/ApiOrderResponse.md)
  - [TachainSdk::ApiOrderSubmitAuditRequest](docs/ApiOrderSubmitAuditRequest.md)
- - [TachainSdk::ApiResponseApiDeclarationListDto](docs/ApiResponseApiDeclarationListDto.md)
- - [TachainSdk::ApiResponseApiDeclarationSubmitResultDto](docs/ApiResponseApiDeclarationSubmitResultDto.md)
- - [TachainSdk::ApiResponseDeliveryNoteApiDto](docs/ApiResponseDeliveryNoteApiDto.md)
- - [TachainSdk::ApiResponseOrderApiDto](docs/ApiResponseOrderApiDto.md)
- - [TachainSdk::ApiResponseProductionApiDto](docs/ApiResponseProductionApiDto.md)
- - [TachainSdk::ApiResponseString](docs/ApiResponseString.md)
- - [TachainSdk::AttachmentInApiCreateDto](docs/AttachmentInApiCreateDto.md)
- - [TachainSdk::AttachmentInApiDto](docs/AttachmentInApiDto.md)
- - [TachainSdk::BrandKpiPolicyResult](docs/BrandKpiPolicyResult.md)
- - [TachainSdk::BrandOrderKpiSnapshotDto](docs/BrandOrderKpiSnapshotDto.md)
- - [TachainSdk::BrandOrderSupplierOrderSnapshotDto](docs/BrandOrderSupplierOrderSnapshotDto.md)
- - [TachainSdk::BrandOrderUncompletedDeclareSnapshotDto](docs/BrandOrderUncompletedDeclareSnapshotDto.md)
- - [TachainSdk::Company](docs/Company.md)
- - [TachainSdk::CompanyComplianceProfile](docs/CompanyComplianceProfile.md)
- - [TachainSdk::CompanyUtilityDeclaration](docs/CompanyUtilityDeclaration.md)
- - [TachainSdk::Customer](docs/Customer.md)
- - [TachainSdk::DeliveryNoteApiDto](docs/DeliveryNoteApiDto.md)
- - [TachainSdk::DeliveryNoteDetailApiDto](docs/DeliveryNoteDetailApiDto.md)
- - [TachainSdk::DocumentTypeApiDto](docs/DocumentTypeApiDto.md)
- - [TachainSdk::Factory](docs/Factory.md)
+ - [TachainSdk::ApiOrderSubmitAuditResponse](docs/ApiOrderSubmitAuditResponse.md)
+ - [TachainSdk::ApiOrderUpdateRequest](docs/ApiOrderUpdateRequest.md)
+ - [TachainSdk::ApiPageResult1ApiDeliveryResponse](docs/ApiPageResult1ApiDeliveryResponse.md)
+ - [TachainSdk::ApiPageResult1ApiMaterialResponse](docs/ApiPageResult1ApiMaterialResponse.md)
+ - [TachainSdk::ApiPageResult1ApiOrderResponse](docs/ApiPageResult1ApiOrderResponse.md)
+ - [TachainSdk::ApiPageResult1ApiProcessRouteResponse](docs/ApiPageResult1ApiProcessRouteResponse.md)
+ - [TachainSdk::ApiPageResult1ApiProductResponse](docs/ApiPageResult1ApiProductResponse.md)
+ - [TachainSdk::ApiPageResult1ApiProductionResponse](docs/ApiPageResult1ApiProductionResponse.md)
+ - [TachainSdk::ApiProcessRouteCreateRequest](docs/ApiProcessRouteCreateRequest.md)
+ - [TachainSdk::ApiProcessRouteResponse](docs/ApiProcessRouteResponse.md)
+ - [TachainSdk::ApiProcessRouteUpdateRequest](docs/ApiProcessRouteUpdateRequest.md)
+ - [TachainSdk::ApiProcessStepRequest](docs/ApiProcessStepRequest.md)
+ - [TachainSdk::ApiProcessStepResponse](docs/ApiProcessStepResponse.md)
+ - [TachainSdk::ApiProductCreateRequest](docs/ApiProductCreateRequest.md)
+ - [TachainSdk::ApiProductResponse](docs/ApiProductResponse.md)
+ - [TachainSdk::ApiProductUpdateRequest](docs/ApiProductUpdateRequest.md)
+ - [TachainSdk::ApiProductionCreateRequest](docs/ApiProductionCreateRequest.md)
+ - [TachainSdk::ApiProductionDeleteRequest](docs/ApiProductionDeleteRequest.md)
+ - [TachainSdk::ApiProductionRawMaterialCreateRequest](docs/ApiProductionRawMaterialCreateRequest.md)
+ - [TachainSdk::ApiProductionRawMaterialResponse](docs/ApiProductionRawMaterialResponse.md)
+ - [TachainSdk::ApiProductionRawMaterialUpdateRequest](docs/ApiProductionRawMaterialUpdateRequest.md)
+ - [TachainSdk::ApiProductionResponse](docs/ApiProductionResponse.md)
+ - [TachainSdk::ApiProductionSalesOrderCreateRequest](docs/ApiProductionSalesOrderCreateRequest.md)
+ - [TachainSdk::ApiProductionSalesOrderResponse](docs/ApiProductionSalesOrderResponse.md)
+ - [TachainSdk::ApiProductionSalesOrderUpdateRequest](docs/ApiProductionSalesOrderUpdateRequest.md)
+ - [TachainSdk::ApiProductionUpdateRequest](docs/ApiProductionUpdateRequest.md)
+ - [TachainSdk::ApiReceiptPendingItemResponse](docs/ApiReceiptPendingItemResponse.md)
+ - [TachainSdk::ApiReferencePageResponse1ApiEnumValueResponse](docs/ApiReferencePageResponse1ApiEnumValueResponse.md)
+ - [TachainSdk::ApiReferencePageResponse1ApiMappingResponse](docs/ApiReferencePageResponse1ApiMappingResponse.md)
+ - [TachainSdk::ApiResult1ApiDeclarationListResponse](docs/ApiResult1ApiDeclarationListResponse.md)
+ - [TachainSdk::ApiResult1ApiDeclarationSubmitResponse](docs/ApiResult1ApiDeclarationSubmitResponse.md)
+ - [TachainSdk::ApiResult1ApiDeliveryResponse](docs/ApiResult1ApiDeliveryResponse.md)
+ - [TachainSdk::ApiResult1ApiFileUploadResponse](docs/ApiResult1ApiFileUploadResponse.md)
+ - [TachainSdk::ApiResult1ApiMaterialResponse](docs/ApiResult1ApiMaterialResponse.md)
+ - [TachainSdk::ApiResult1ApiOrderDeclarationVerificationResponse](docs/ApiResult1ApiOrderDeclarationVerificationResponse.md)
+ - [TachainSdk::ApiResult1ApiOrderReceiptPendingResponse](docs/ApiResult1ApiOrderReceiptPendingResponse.md)
+ - [TachainSdk::ApiResult1ApiOrderReceiptResult](docs/ApiResult1ApiOrderReceiptResult.md)
+ - [TachainSdk::ApiResult1ApiOrderResponse](docs/ApiResult1ApiOrderResponse.md)
+ - [TachainSdk::ApiResult1ApiOrderSubmitAuditResponse](docs/ApiResult1ApiOrderSubmitAuditResponse.md)
+ - [TachainSdk::ApiResult1ApiProcessRouteResponse](docs/ApiResult1ApiProcessRouteResponse.md)
+ - [TachainSdk::ApiResult1ApiProductResponse](docs/ApiResult1ApiProductResponse.md)
+ - [TachainSdk::ApiResult1ApiProductionResponse](docs/ApiResult1ApiProductionResponse.md)
+ - [TachainSdk::ApiResult1String](docs/ApiResult1String.md)
+ - [TachainSdk::ApiVerificationFileResponse](docs/ApiVerificationFileResponse.md)
+ - [TachainSdk::ApiVerificationResponse](docs/ApiVerificationResponse.md)
+ - [TachainSdk::DeleteV1DeclarationDelete200Response](docs/DeleteV1DeclarationDelete200Response.md)
+ - [TachainSdk::GetV1DeclarationListPaging200Response](docs/GetV1DeclarationListPaging200Response.md)
+ - [TachainSdk::GetV1DeclarationRequiredDocuments200Response](docs/GetV1DeclarationRequiredDocuments200Response.md)
+ - [TachainSdk::GetV1DeliveryListPaging200Response](docs/GetV1DeliveryListPaging200Response.md)
  - [TachainSdk::GetV1EnumGetList200Response](docs/GetV1EnumGetList200Response.md)
- - [TachainSdk::MicrosoftAspNetCoreMvcProblemDetails](docs/MicrosoftAspNetCoreMvcProblemDetails.md)
+ - [TachainSdk::GetV1MaterialListPaging200Response](docs/GetV1MaterialListPaging200Response.md)
+ - [TachainSdk::GetV1OrderPOListPaging200Response](docs/GetV1OrderPOListPaging200Response.md)
+ - [TachainSdk::GetV1OrderReceiptPending200Response](docs/GetV1OrderReceiptPending200Response.md)
+ - [TachainSdk::GetV1ProcessRouteListPaging200Response](docs/GetV1ProcessRouteListPaging200Response.md)
+ - [TachainSdk::GetV1ProductListPaging200Response](docs/GetV1ProductListPaging200Response.md)
+ - [TachainSdk::GetV1ProductionListPaging200Response](docs/GetV1ProductionListPaging200Response.md)
+ - [TachainSdk::GetV1ReferenceEnumValues200Response](docs/GetV1ReferenceEnumValues200Response.md)
+ - [TachainSdk::GetV1ReferenceMappings200Response](docs/GetV1ReferenceMappings200Response.md)
  - [TachainSdk::Model1](docs/Model1.md)
+ - [TachainSdk::Model2](docs/Model2.md)
  - [TachainSdk::Model3](docs/Model3.md)
  - [TachainSdk::Model4](docs/Model4.md)
- - [TachainSdk::Order](docs/Order.md)
- - [TachainSdk::OrderApiDto](docs/OrderApiDto.md)
- - [TachainSdk::OrderLine](docs/OrderLine.md)
- - [TachainSdk::OrderLineApiDto](docs/OrderLineApiDto.md)
- - [TachainSdk::OrderStageFormApiDto](docs/OrderStageFormApiDto.md)
- - [TachainSdk::OrderStageFormDatumApiDto](docs/OrderStageFormDatumApiDto.md)
- - [TachainSdk::OrderStageFormDto](docs/OrderStageFormDto.md)
- - [TachainSdk::PagedResponseDeliveryNoteApiDto](docs/PagedResponseDeliveryNoteApiDto.md)
- - [TachainSdk::PagedResponseOrderApiDto](docs/PagedResponseOrderApiDto.md)
- - [TachainSdk::PagedResponseProductionApiDto](docs/PagedResponseProductionApiDto.md)
- - [TachainSdk::ProductBomGroupingDto](docs/ProductBomGroupingDto.md)
- - [TachainSdk::ProductionApiDto](docs/ProductionApiDto.md)
- - [TachainSdk::ProductionRawMaterialApiDto](docs/ProductionRawMaterialApiDto.md)
- - [TachainSdk::ProductionRawMaterialDto](docs/ProductionRawMaterialDto.md)
- - [TachainSdk::ProductionSalesOrderApiDto](docs/ProductionSalesOrderApiDto.md)
- - [TachainSdk::ResultApiEnum](docs/ResultApiEnum.md)
- - [TachainSdk::ResultBrandReportAllocatedDeliveryKpiDetail](docs/ResultBrandReportAllocatedDeliveryKpiDetail.md)
- - [TachainSdk::ResultBrandReportUnlinkedOrderDetail](docs/ResultBrandReportUnlinkedOrderDetail.md)
- - [TachainSdk::ResultKpiArchivedDataChangeDetail](docs/ResultKpiArchivedDataChangeDetail.md)
- - [TachainSdk::ResultMappingOrderSelect](docs/ResultMappingOrderSelect.md)
- - [TachainSdk::ResultOrderTraceReport](docs/ResultOrderTraceReport.md)
- - [TachainSdk::StageAttachmentApiDto](docs/StageAttachmentApiDto.md)
- - [TachainSdk::Supplier](docs/Supplier.md)
- - [TachainSdk::SupplierOnboardingExt](docs/SupplierOnboardingExt.md)
- - [TachainSdk::TemplateDtoBusinessRiskWarnInfoDto](docs/TemplateDtoBusinessRiskWarnInfoDto.md)
- - [TachainSdk::TemplateDtoMultiSoLineCompleteStatus](docs/TemplateDtoMultiSoLineCompleteStatus.md)
- - [TachainSdk::Trader](docs/Trader.md)
+ - [TachainSdk::PostV1DeclarationSubmit200Response](docs/PostV1DeclarationSubmit200Response.md)
+ - [TachainSdk::PostV1DeclarationUploadFile200Response](docs/PostV1DeclarationUploadFile200Response.md)
+ - [TachainSdk::PostV1MaterialCreate200Response](docs/PostV1MaterialCreate200Response.md)
+ - [TachainSdk::PostV1OrderCreate200Response](docs/PostV1OrderCreate200Response.md)
+ - [TachainSdk::PostV1OrderDeclarationVerification200Response](docs/PostV1OrderDeclarationVerification200Response.md)
+ - [TachainSdk::PostV1OrderSubmitAudit200Response](docs/PostV1OrderSubmitAudit200Response.md)
+ - [TachainSdk::PostV1ProcessRouteCreate200Response](docs/PostV1ProcessRouteCreate200Response.md)
+ - [TachainSdk::PostV1ProductCreate200Response](docs/PostV1ProductCreate200Response.md)
+ - [TachainSdk::PostV1ProductionCreate200Response](docs/PostV1ProductionCreate200Response.md)
+ - [TachainSdk::PutV1DeliveryConfirmReceipt200Response](docs/PutV1DeliveryConfirmReceipt200Response.md)
+ - [TachainSdk::PutV1DeliveryReturnReceipt200Response](docs/PutV1DeliveryReturnReceipt200Response.md)
+ - [TachainSdk::PutV1OrderConfirmReceipt200Response](docs/PutV1OrderConfirmReceipt200Response.md)
 
 
 ## Documentation for Authorization

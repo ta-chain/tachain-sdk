@@ -35,26 +35,45 @@ namespace Tachain.Sdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest" /> class.
         /// </summary>
+        /// <param name="customerId">查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。.</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。.</param>
+        /// <param name="customerCode">当前公司维护的客户编码或启用的 Customer/Company 外部映射值。.</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。.</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。.</param>
+        /// <param name="supplierCode">当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。.</param>
+        /// <param name="customerExtNo">订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。.</param>
+        /// <param name="supplierExtNo">订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。.</param>
+        /// <param name="uniqueNo">订单明细的全局唯一系统流水号。.</param>
         /// <param name="attachmentId">单个附件申报记录 ID。.</param>
         /// <param name="attachmentIds">批量附件申报记录 ID。.</param>
         /// <param name="formDataId">单个表单申报记录 ID。.</param>
         /// <param name="formDataIds">批量表单申报记录 ID。.</param>
         /// <param name="stageId">申报阶段 ID。按业务键删除申报资料时用于判断 ExtendNumber 属于哪类单据。.</param>
         /// <param name="extendId">业务扩展 ID，例如订单 ID、生产单 ID、发货单 ID。.</param>
-        /// <param name="extendNumber">业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。.</param>
-        /// <param name="extendDate">业务单日期。订单阶段按订单号定位时使用。.</param>
-        /// <param name="extendLineNumber">订单行号。订单阶段按订单行定位时使用。.</param>
+        /// <param name="extendNumber">业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。.</param>
+        /// <param name="orderDate">业务单日期。订单阶段按订单号定位时使用。.</param>
+        /// <param name="lineNumber">订单行号。订单阶段按订单行定位时使用。.</param>
         /// <param name="orderSide">订单侧别，常用 PO 或 SO。.</param>
         /// <param name="productCode">产品编码。生产/入库阶段按生产单号删除申报资料时参与定位生产单。.</param>
-        /// <param name="productionType">生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。.</param>
+        /// <param name="productionType">生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。.</param>
+        /// <param name="receiptNumber">入库单号，可选；同一生产编号存在多次入库时用于消歧。.</param>
         /// <param name="deliveryNumber">发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。.</param>
         /// <param name="documentTypeId">资料类型 ID。按业务键删除时和 StageId、ExtendId 一起定位申报记录。.</param>
         /// <param name="documentTypeCode">资料类型编码。外部不知道 DocumentTypeId 时可传该字段。.</param>
         /// <param name="documentNumber">附件申报的单据编号；同一资料类型存在多条附件申报时用于进一步过滤。.</param>
         /// <param name="deleteAttachments">是否删除附件申报；默认 true。.</param>
         /// <param name="deleteForms">是否删除表单申报；默认 true。.</param>
-        public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest(string attachmentId = default, List<string> attachmentIds = default, string formDataId = default, List<string> formDataIds = default, string stageId = default, string extendId = default, string extendNumber = default, DateTime? extendDate = default, string extendLineNumber = default, string orderSide = default, string productCode = default, int? productionType = default, string deliveryNumber = default, string documentTypeId = default, string documentTypeCode = default, string documentNumber = default, bool? deleteAttachments = default, bool? deleteForms = default)
+        public TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest(string customerId = default, string customerName = default, string customerCode = default, string supplierId = default, string supplierName = default, string supplierCode = default, string customerExtNo = default, string supplierExtNo = default, string uniqueNo = default, string attachmentId = default, List<string> attachmentIds = default, string formDataId = default, List<string> formDataIds = default, string stageId = default, string extendId = default, string extendNumber = default, DateTime? orderDate = default, string lineNumber = default, string orderSide = default, string productCode = default, int? productionType = default, string receiptNumber = default, string deliveryNumber = default, string documentTypeId = default, string documentTypeCode = default, string documentNumber = default, bool? deleteAttachments = default, bool? deleteForms = default)
         {
+            this.CustomerId = customerId;
+            this.CustomerName = customerName;
+            this.CustomerCode = customerCode;
+            this.SupplierId = supplierId;
+            this.SupplierName = supplierName;
+            this.SupplierCode = supplierCode;
+            this.CustomerExtNo = customerExtNo;
+            this.SupplierExtNo = supplierExtNo;
+            this.UniqueNo = uniqueNo;
             this.AttachmentId = attachmentId;
             this.AttachmentIds = attachmentIds;
             this.FormDataId = formDataId;
@@ -62,11 +81,12 @@ namespace Tachain.Sdk.Model
             this.StageId = stageId;
             this.ExtendId = extendId;
             this.ExtendNumber = extendNumber;
-            this.ExtendDate = extendDate;
-            this.ExtendLineNumber = extendLineNumber;
+            this.OrderDate = orderDate;
+            this.LineNumber = lineNumber;
             this.OrderSide = orderSide;
             this.ProductCode = productCode;
             this.ProductionType = productionType;
+            this.ReceiptNumber = receiptNumber;
             this.DeliveryNumber = deliveryNumber;
             this.DocumentTypeId = documentTypeId;
             this.DocumentTypeCode = documentTypeCode;
@@ -74,6 +94,69 @@ namespace Tachain.Sdk.Model
             this.DeleteAttachments = deleteAttachments;
             this.DeleteForms = deleteForms;
         }
+
+        /// <summary>
+        /// 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。
+        /// </summary>
+        /// <value>查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。</value>
+        [DataMember(Name = "customerId", EmitDefaultValue = true)]
+        public string CustomerId { get; set; }
+
+        /// <summary>
+        /// 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。
+        /// </summary>
+        /// <value>客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。</value>
+        [DataMember(Name = "customerName", EmitDefaultValue = true)]
+        public string CustomerName { get; set; }
+
+        /// <summary>
+        /// 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。
+        /// </summary>
+        /// <value>当前公司维护的客户编码或启用的 Customer/Company 外部映射值。</value>
+        [DataMember(Name = "customerCode", EmitDefaultValue = true)]
+        public string CustomerCode { get; set; }
+
+        /// <summary>
+        /// 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。
+        /// </summary>
+        /// <value>查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。</value>
+        [DataMember(Name = "supplierId", EmitDefaultValue = true)]
+        public string SupplierId { get; set; }
+
+        /// <summary>
+        /// 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。
+        /// </summary>
+        /// <value>供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。</value>
+        [DataMember(Name = "supplierName", EmitDefaultValue = true)]
+        public string SupplierName { get; set; }
+
+        /// <summary>
+        /// 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。
+        /// </summary>
+        /// <value>当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。</value>
+        [DataMember(Name = "supplierCode", EmitDefaultValue = true)]
+        public string SupplierCode { get; set; }
+
+        /// <summary>
+        /// 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。
+        /// </summary>
+        /// <value>订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。</value>
+        [DataMember(Name = "customerExtNo", EmitDefaultValue = true)]
+        public string CustomerExtNo { get; set; }
+
+        /// <summary>
+        /// 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。
+        /// </summary>
+        /// <value>订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。</value>
+        [DataMember(Name = "supplierExtNo", EmitDefaultValue = true)]
+        public string SupplierExtNo { get; set; }
+
+        /// <summary>
+        /// 订单明细的全局唯一系统流水号。
+        /// </summary>
+        /// <value>订单明细的全局唯一系统流水号。</value>
+        [DataMember(Name = "uniqueNo", EmitDefaultValue = true)]
+        public string UniqueNo { get; set; }
 
         /// <summary>
         /// 单个附件申报记录 ID。
@@ -118,9 +201,9 @@ namespace Tachain.Sdk.Model
         public string ExtendId { get; set; }
 
         /// <summary>
-        /// 业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。
+        /// 业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。
         /// </summary>
-        /// <value>业务单号。可配合 ExtendDate、ExtendLineNumber、ProductCode 等字段解析 ExtendId。</value>
+        /// <value>业务单号。可配合 OrderDate、LineNumber、ProductCode 等字段解析 ExtendId。</value>
         [DataMember(Name = "extendNumber", EmitDefaultValue = true)]
         public string ExtendNumber { get; set; }
 
@@ -128,15 +211,15 @@ namespace Tachain.Sdk.Model
         /// 业务单日期。订单阶段按订单号定位时使用。
         /// </summary>
         /// <value>业务单日期。订单阶段按订单号定位时使用。</value>
-        [DataMember(Name = "extendDate", EmitDefaultValue = true)]
-        public DateTime? ExtendDate { get; set; }
+        [DataMember(Name = "orderDate", EmitDefaultValue = true)]
+        public DateTime? OrderDate { get; set; }
 
         /// <summary>
         /// 订单行号。订单阶段按订单行定位时使用。
         /// </summary>
         /// <value>订单行号。订单阶段按订单行定位时使用。</value>
-        [DataMember(Name = "extendLineNumber", EmitDefaultValue = true)]
-        public string ExtendLineNumber { get; set; }
+        [DataMember(Name = "lineNumber", EmitDefaultValue = true)]
+        public string LineNumber { get; set; }
 
         /// <summary>
         /// 订单侧别，常用 PO 或 SO。
@@ -153,11 +236,18 @@ namespace Tachain.Sdk.Model
         public string ProductCode { get; set; }
 
         /// <summary>
-        /// 生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。
+        /// 生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。
         /// </summary>
-        /// <value>生产类型。生产/入库阶段按生产单号定位时参与唯一性判断。</value>
+        /// <value>生产类型校验，可选；生产/入库阶段默认 0/1，不属于唯一键。</value>
         [DataMember(Name = "productionType", EmitDefaultValue = true)]
         public int? ProductionType { get; set; }
+
+        /// <summary>
+        /// 入库单号，可选；同一生产编号存在多次入库时用于消歧。
+        /// </summary>
+        /// <value>入库单号，可选；同一生产编号存在多次入库时用于消歧。</value>
+        [DataMember(Name = "receiptNumber", EmitDefaultValue = true)]
+        public string ReceiptNumber { get; set; }
 
         /// <summary>
         /// 发货单号。发货阶段按单号删除申报资料时用于定位 ExtendId。
@@ -209,6 +299,15 @@ namespace Tachain.Sdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDeleteRequest {\n");
+            sb.Append("  CustomerId: ").Append(CustomerId).Append("\n");
+            sb.Append("  CustomerName: ").Append(CustomerName).Append("\n");
+            sb.Append("  CustomerCode: ").Append(CustomerCode).Append("\n");
+            sb.Append("  SupplierId: ").Append(SupplierId).Append("\n");
+            sb.Append("  SupplierName: ").Append(SupplierName).Append("\n");
+            sb.Append("  SupplierCode: ").Append(SupplierCode).Append("\n");
+            sb.Append("  CustomerExtNo: ").Append(CustomerExtNo).Append("\n");
+            sb.Append("  SupplierExtNo: ").Append(SupplierExtNo).Append("\n");
+            sb.Append("  UniqueNo: ").Append(UniqueNo).Append("\n");
             sb.Append("  AttachmentId: ").Append(AttachmentId).Append("\n");
             sb.Append("  AttachmentIds: ").Append(AttachmentIds).Append("\n");
             sb.Append("  FormDataId: ").Append(FormDataId).Append("\n");
@@ -216,11 +315,12 @@ namespace Tachain.Sdk.Model
             sb.Append("  StageId: ").Append(StageId).Append("\n");
             sb.Append("  ExtendId: ").Append(ExtendId).Append("\n");
             sb.Append("  ExtendNumber: ").Append(ExtendNumber).Append("\n");
-            sb.Append("  ExtendDate: ").Append(ExtendDate).Append("\n");
-            sb.Append("  ExtendLineNumber: ").Append(ExtendLineNumber).Append("\n");
+            sb.Append("  OrderDate: ").Append(OrderDate).Append("\n");
+            sb.Append("  LineNumber: ").Append(LineNumber).Append("\n");
             sb.Append("  OrderSide: ").Append(OrderSide).Append("\n");
             sb.Append("  ProductCode: ").Append(ProductCode).Append("\n");
             sb.Append("  ProductionType: ").Append(ProductionType).Append("\n");
+            sb.Append("  ReceiptNumber: ").Append(ReceiptNumber).Append("\n");
             sb.Append("  DeliveryNumber: ").Append(DeliveryNumber).Append("\n");
             sb.Append("  DocumentTypeId: ").Append(DocumentTypeId).Append("\n");
             sb.Append("  DocumentTypeCode: ").Append(DocumentTypeCode).Append("\n");

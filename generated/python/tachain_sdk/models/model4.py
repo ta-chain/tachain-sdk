@@ -17,20 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_reference_page_response1_tactic_chain_api_service_controllers_api_integration_v1_api_enum_value_response_tactic_chain_api_service_version1000_culture_neutral_public_key_token_null import TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
 from typing import Optional, Set
 from typing_extensions import Self
 from pydantic_core import to_jsonable_python
 
 class Model4(BaseModel):
     """
-    Model4
+    集成统一响应；业务错误也可能使用 HTTP 200，请检查 Code。
     """ # noqa: E501
-    code: StrictInt
-    message: StrictStr
-    data: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["code", "message", "data"]
+    code: StrictInt = Field(description="业务状态码。")
+    data: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull] = None
+    message: Optional[StrictStr] = Field(default=None, description="按请求语言返回的提示，未指定语言时默认中文。")
+    __properties: ClassVar[List[str]] = ["code", "data", "message"]
 
     model_config = ConfigDict(
         validate_by_name=True,
@@ -62,8 +63,12 @@ class Model4(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * OpenAPI `readOnly` fields are excluded.
+        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
+            "code",
+            "message",
         ])
 
         _dict = self.model_dump(
@@ -71,11 +76,16 @@ class Model4(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if data (nullable) is None
+                # override the default output from pydantic by calling `to_dict()` of data
+        if self.data:
+            _dict['data'] = self.data.to_dict()
+                
+                        # set to None if message (nullable) is None
         # and model_fields_set contains the field
-        if self.data is None and "data" in self.model_fields_set:
-            _dict['data'] = None
+        if self.message is None and "message" in self.model_fields_set:
+            _dict['message'] = None
 
+        
         return _dict
 
     @classmethod
@@ -89,8 +99,9 @@ class Model4(BaseModel):
 
         _obj = cls.model_validate({
             "code": obj.get("code"),
-            "message": obj.get("message"),
-            "data": obj.get("data")
+                        "data": TacticChainApiServiceControllersApiIntegrationV1ApiReferencePageResponse1TacticChainApiServiceControllersApiIntegrationV1ApiEnumValueResponseTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull.from_dict(obj["data"]) if obj.get("data") is not None else None,
+                        "message": obj.get("message")
+            
         })
         return _obj
 

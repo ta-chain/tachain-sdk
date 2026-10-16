@@ -39,13 +39,13 @@ func (r ApiDeleteV1DeclarationDeleteRequest) XCredentialType(xCredentialType str
 	return r
 }
 
-// query 方式传入的单个附件申报 ID。
+// 查询返回的附件申报记录标识；也可在 Body 按单据和资料类型删除。
 func (r ApiDeleteV1DeclarationDeleteRequest) AttachmentId(attachmentId string) ApiDeleteV1DeclarationDeleteRequest {
 	r.attachmentId = &attachmentId
 	return r
 }
 
-// query 方式传入的单个表单申报 ID。
+// 查询返回的表单记录标识；也可在 Body 按业务键删除。
 func (r ApiDeleteV1DeclarationDeleteRequest) FormDataId(formDataId string) ApiDeleteV1DeclarationDeleteRequest {
 	r.formDataId = &formDataId
 	return r
@@ -56,7 +56,7 @@ func (r ApiDeleteV1DeclarationDeleteRequest) TacticChainApiServiceControllersApi
 	return r
 }
 
-func (r ApiDeleteV1DeclarationDeleteRequest) Execute() (*Model4, *http.Response, error) {
+func (r ApiDeleteV1DeclarationDeleteRequest) Execute() (*DeleteV1DeclarationDelete200Response, *http.Response, error) {
 	return r.ApiService.DeleteV1DeclarationDeleteExecute(r)
 }
 
@@ -77,13 +77,13 @@ func (a *ApiDeclarationAPIService) DeleteV1DeclarationDelete(ctx context.Context
 }
 
 // Execute executes the request
-//  @return Model4
-func (a *ApiDeclarationAPIService) DeleteV1DeclarationDeleteExecute(r ApiDeleteV1DeclarationDeleteRequest) (*Model4, *http.Response, error) {
+//  @return DeleteV1DeclarationDelete200Response
+func (a *ApiDeclarationAPIService) DeleteV1DeclarationDeleteExecute(r ApiDeleteV1DeclarationDeleteRequest) (*DeleteV1DeclarationDelete200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Model4
+		localVarReturnValue  *DeleteV1DeclarationDelete200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiDeclarationAPIService.DeleteV1DeclarationDelete")
@@ -190,6 +190,38 @@ func (a *ApiDeclarationAPIService) DeleteV1DeclarationDeleteExecute(r ApiDeleteV
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -215,8 +247,8 @@ type ApiGetV1DeclarationListPagingRequest struct {
 	documentTypeId *[]string
 	documentTypeCode *string
 	extendNumber *string
-	extendDate *time.Time
-	extendLineNumber *string
+	orderDate *time.Time
+	lineNumber *string
 	orderSide *string
 	productCode *string
 	productionType *int32
@@ -226,6 +258,16 @@ type ApiGetV1DeclarationListPagingRequest struct {
 	sortBy *string
 	page *int32
 	pageSize *int32
+	customerExtNo *string
+	supplierExtNo *string
+	uniqueNo *string
+	customerId *string
+	customerName *string
+	customerCode *string
+	supplierId *string
+	supplierName *string
+	supplierCode *string
+	receiptNumber *string
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -234,109 +276,169 @@ func (r ApiGetV1DeclarationListPagingRequest) XCredentialType(xCredentialType st
 	return r
 }
 
-// 关键词搜索：支持阶段编码，如 Order、Production（StageId）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+// 关键词搜索，具体匹配范围见本接口说明。
 func (r ApiGetV1DeclarationListPagingRequest) SearchText(searchText string) ApiGetV1DeclarationListPagingRequest {
 	r.searchText = &searchText
 	return r
 }
 
-// 
+// 查询返回的业务单据 ID，可选；使用业务组合时无需传入。
 func (r ApiGetV1DeclarationListPagingRequest) ExtendId(extendId []string) ApiGetV1DeclarationListPagingRequest {
 	r.extendId = &extendId
 	return r
 }
 
-// 
+// 阶段业务代码：Order、Production、Receipt、Deliverynote。它不是需要猜测的数据库数字 ID。
 func (r ApiGetV1DeclarationListPagingRequest) StageId(stageId []string) ApiGetV1DeclarationListPagingRequest {
 	r.stageId = &stageId
 	return r
 }
 
-// 
+// RequiredDocuments 返回的资料类型标识，可选；也可用 documentTypeCode。
 func (r ApiGetV1DeclarationListPagingRequest) DocumentTypeId(documentTypeId []string) ApiGetV1DeclarationListPagingRequest {
 	r.documentTypeId = &documentTypeId
 	return r
 }
 
-// 
+// 资料类型业务代码或当前公司启用的外部映射。
 func (r ApiGetV1DeclarationListPagingRequest) DocumentTypeCode(documentTypeCode string) ApiGetV1DeclarationListPagingRequest {
 	r.documentTypeCode = &documentTypeCode
 	return r
 }
 
-// 
+// 通用业务单号：订单阶段为订单号，生产/入库阶段为生产编号，发货阶段为发货单号。
 func (r ApiGetV1DeclarationListPagingRequest) ExtendNumber(extendNumber string) ApiGetV1DeclarationListPagingRequest {
 	r.extendNumber = &extendNumber
 	return r
 }
 
-// 
-func (r ApiGetV1DeclarationListPagingRequest) ExtendDate(extendDate time.Time) ApiGetV1DeclarationListPagingRequest {
-	r.extendDate = &extendDate
+// 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
+func (r ApiGetV1DeclarationListPagingRequest) OrderDate(orderDate time.Time) ApiGetV1DeclarationListPagingRequest {
+	r.orderDate = &orderDate
 	return r
 }
 
-// 
-func (r ApiGetV1DeclarationListPagingRequest) ExtendLineNumber(extendLineNumber string) ApiGetV1DeclarationListPagingRequest {
-	r.extendLineNumber = &extendLineNumber
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+func (r ApiGetV1DeclarationListPagingRequest) LineNumber(lineNumber string) ApiGetV1DeclarationListPagingRequest {
+	r.lineNumber = &lineNumber
 	return r
 }
 
-// 
+// PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
 func (r ApiGetV1DeclarationListPagingRequest) OrderSide(orderSide string) ApiGetV1DeclarationListPagingRequest {
 	r.orderSide = &orderSide
 	return r
 }
 
-// 
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
 func (r ApiGetV1DeclarationListPagingRequest) ProductCode(productCode string) ApiGetV1DeclarationListPagingRequest {
 	r.productCode = &productCode
 	return r
 }
 
-// 
+// 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
 func (r ApiGetV1DeclarationListPagingRequest) ProductionType(productionType int32) ApiGetV1DeclarationListPagingRequest {
 	r.productionType = &productionType
 	return r
 }
 
-// 
+// 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
 func (r ApiGetV1DeclarationListPagingRequest) DeliveryNumber(deliveryNumber string) ApiGetV1DeclarationListPagingRequest {
 	r.deliveryNumber = &deliveryNumber
 	return r
 }
 
-// 
+// 查询状态过滤，不作为写入状态字段开放。
 func (r ApiGetV1DeclarationListPagingRequest) Status(status int32) ApiGetV1DeclarationListPagingRequest {
 	r.status = &status
 	return r
 }
 
-// 
+// 可选业务筛选条件；与其他条件同时生效。
 func (r ApiGetV1DeclarationListPagingRequest) RiskWarning(riskWarning []int32) ApiGetV1DeclarationListPagingRequest {
 	r.riskWarning = &riskWarning
 	return r
 }
 
-// 
+// 排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。
 func (r ApiGetV1DeclarationListPagingRequest) SortBy(sortBy string) ApiGetV1DeclarationListPagingRequest {
 	r.sortBy = &sortBy
 	return r
 }
 
-// 
+// 页码，默认 1；小于等于 0 时调整为 1。
 func (r ApiGetV1DeclarationListPagingRequest) Page(page int32) ApiGetV1DeclarationListPagingRequest {
 	r.page = &page
 	return r
 }
 
-// 
+// 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
 func (r ApiGetV1DeclarationListPagingRequest) PageSize(pageSize int32) ApiGetV1DeclarationListPagingRequest {
 	r.pageSize = &pageSize
 	return r
 }
 
-func (r ApiGetV1DeclarationListPagingRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1DeclarationListPagingRequest) CustomerExtNo(customerExtNo string) ApiGetV1DeclarationListPagingRequest {
+	r.customerExtNo = &customerExtNo
+	return r
+}
+
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1DeclarationListPagingRequest) SupplierExtNo(supplierExtNo string) ApiGetV1DeclarationListPagingRequest {
+	r.supplierExtNo = &supplierExtNo
+	return r
+}
+
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+func (r ApiGetV1DeclarationListPagingRequest) UniqueNo(uniqueNo string) ApiGetV1DeclarationListPagingRequest {
+	r.uniqueNo = &uniqueNo
+	return r
+}
+
+// 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+func (r ApiGetV1DeclarationListPagingRequest) CustomerId(customerId string) ApiGetV1DeclarationListPagingRequest {
+	r.customerId = &customerId
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1DeclarationListPagingRequest) CustomerName(customerName string) ApiGetV1DeclarationListPagingRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1DeclarationListPagingRequest) CustomerCode(customerCode string) ApiGetV1DeclarationListPagingRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+func (r ApiGetV1DeclarationListPagingRequest) SupplierId(supplierId string) ApiGetV1DeclarationListPagingRequest {
+	r.supplierId = &supplierId
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1DeclarationListPagingRequest) SupplierName(supplierName string) ApiGetV1DeclarationListPagingRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+// 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+func (r ApiGetV1DeclarationListPagingRequest) SupplierCode(supplierCode string) ApiGetV1DeclarationListPagingRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+// 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+func (r ApiGetV1DeclarationListPagingRequest) ReceiptNumber(receiptNumber string) ApiGetV1DeclarationListPagingRequest {
+	r.receiptNumber = &receiptNumber
+	return r
+}
+
+func (r ApiGetV1DeclarationListPagingRequest) Execute() (*GetV1DeclarationListPaging200Response, *http.Response, error) {
 	return r.ApiService.GetV1DeclarationListPagingExecute(r)
 }
 
@@ -357,13 +459,13 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationListPaging(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1DeclarationListPagingRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+//  @return GetV1DeclarationListPaging200Response
+func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1DeclarationListPagingRequest) (*GetV1DeclarationListPaging200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationListDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+		localVarReturnValue  *GetV1DeclarationListPaging200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiDeclarationAPIService.GetV1DeclarationListPaging")
@@ -422,11 +524,11 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1D
 	if r.extendNumber != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "extendNumber", r.extendNumber, "form", "")
 	}
-	if r.extendDate != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "extendDate", r.extendDate, "form", "")
+	if r.orderDate != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderDate", r.orderDate, "form", "")
 	}
-	if r.extendLineNumber != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "extendLineNumber", r.extendLineNumber, "form", "")
+	if r.lineNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
 	}
 	if r.orderSide != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "orderSide", r.orderSide, "form", "")
@@ -471,6 +573,36 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1D
 		parameterAddToHeaderOrQuery(localVarQueryParams, "pageSize", defaultValue, "form", "")
 		r.pageSize = &defaultValue
 	}
+	if r.customerExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerExtNo", r.customerExtNo, "form", "")
+	}
+	if r.supplierExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierExtNo", r.supplierExtNo, "form", "")
+	}
+	if r.uniqueNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "UniqueNo", r.uniqueNo, "form", "")
+	}
+	if r.customerId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerId", r.customerId, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerName", r.customerName, "form", "")
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerCode", r.customerCode, "form", "")
+	}
+	if r.supplierId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierId", r.supplierId, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierName", r.supplierName, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierCode", r.supplierCode, "form", "")
+	}
+	if r.receiptNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "receiptNumber", r.receiptNumber, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -553,6 +685,38 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1D
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -571,8 +735,8 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationListPagingExecute(r ApiGetV1D
 type ApiGetV1DeclarationRequiredDocumentsRequest struct {
 	ctx context.Context
 	ApiService *ApiDeclarationAPIService
-	xCredentialType *string
 	stageCode *string
+	xCredentialType *string
 	id *string
 	orderNumber *string
 	orderDate *time.Time
@@ -581,6 +745,23 @@ type ApiGetV1DeclarationRequiredDocumentsRequest struct {
 	productCode *string
 	productionType *int32
 	deliveryNumber *string
+	customerExtNo *string
+	supplierExtNo *string
+	uniqueNo *string
+	customerId *string
+	customerName *string
+	customerCode *string
+	supplierId *string
+	supplierName *string
+	supplierCode *string
+	receiptNumber *string
+	lineNumber *string
+}
+
+// 阶段业务代码：Order、Production、Receipt、Deliverynote；支持已维护的可见枚举或外部映射。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) StageCode(stageCode string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.stageCode = &stageCode
+	return r
 }
 
 // Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.
@@ -589,61 +770,121 @@ func (r ApiGetV1DeclarationRequiredDocumentsRequest) XCredentialType(xCredential
 	return r
 }
 
-// 申报阶段编码，例如 &#x60;Order&#x60;、&#x60;Production&#x60;、&#x60;Receipt&#x60;、&#x60;Deliverynote&#x60;。
-func (r ApiGetV1DeclarationRequiredDocumentsRequest) StageCode(stageCode string) ApiGetV1DeclarationRequiredDocumentsRequest {
-	r.stageCode = &stageCode
-	return r
-}
-
-// 阶段业务单据内部 ID，例如订单 ID、生产单 ID、发货单 ID。
+// 查询返回的单据 ID，可选；优先使用本文业务组合。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) Id(id string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.id = &id
 	return r
 }
 
-// 订单号；订单阶段未传 id 时，配合 orderDate 定位订单。
+// 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) OrderNumber(orderNumber string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.orderNumber = &orderNumber
 	return r
 }
 
-// 订单日期；订单阶段按订单号定位时必传。
+// 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) OrderDate(orderDate time.Time) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.orderDate = &orderDate
 	return r
 }
 
-// 订单侧别，常用 &#x60;PO&#x60; 或 &#x60;SO&#x60;；订单号和日期不唯一时用于区分。
+// PO&#x3D;当前公司为采购方；SO&#x3D;当前公司为销售方。申报可不传，出现两侧匹配歧义时补充。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) OrderSide(orderSide string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.orderSide = &orderSide
 	return r
 }
 
-// 生产单号；生产/入库阶段未传 id 时，配合产品编码和类型定位生产单。
+// 生产编号，与 productCode 联合定位；多次入库时补充 receiptNumber。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) ProductionNumber(productionNumber string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.productionNumber = &productionNumber
 	return r
 }
 
-// 产品编码；生产/入库阶段按生产单号定位时参与唯一性判断。
+// 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) ProductCode(productCode string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.productCode = &productCode
 	return r
 }
 
-// 生产类型；生产阶段默认 0，入库阶段默认 1。
+// 可选类型校验，Production 阶段默认 0、Receipt 阶段默认 1；不作为生产编号唯一性的组成部分。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) ProductionType(productionType int32) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.productionType = &productionType
 	return r
 }
 
-// 发货单号；发货阶段未传 id 时用于定位发货单。
+// 发货单号，配合交易双方定位；发货阶段优先于 extendNumber。
 func (r ApiGetV1DeclarationRequiredDocumentsRequest) DeliveryNumber(deliveryNumber string) ApiGetV1DeclarationRequiredDocumentsRequest {
 	r.deliveryNumber = &deliveryNumber
 	return r
 }
 
-func (r ApiGetV1DeclarationRequiredDocumentsRequest) Execute() (*Model3, *http.Response, error) {
+// 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) CustomerExtNo(customerExtNo string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.customerExtNo = &customerExtNo
+	return r
+}
+
+// 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) SupplierExtNo(supplierExtNo string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.supplierExtNo = &supplierExtNo
+	return r
+}
+
+// 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) UniqueNo(uniqueNo string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.uniqueNo = &uniqueNo
+	return r
+}
+
+// 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) CustomerId(customerId string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.customerId = &customerId
+	return r
+}
+
+// 客户英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) CustomerName(customerName string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.customerName = &customerName
+	return r
+}
+
+// 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) CustomerCode(customerCode string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.customerCode = &customerCode
+	return r
+}
+
+// 查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) SupplierId(supplierId string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.supplierId = &supplierId
+	return r
+}
+
+// 供应商英文名、当地语言名称或简称，精确匹配。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) SupplierName(supplierName string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.supplierName = &supplierName
+	return r
+}
+
+// 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) SupplierCode(supplierCode string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.supplierCode = &supplierCode
+	return r
+}
+
+// 入库单号；用于核对具体入库记录，发生多次入库歧义时补充。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) ReceiptNumber(receiptNumber string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.receiptNumber = &receiptNumber
+	return r
+}
+
+// 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) LineNumber(lineNumber string) ApiGetV1DeclarationRequiredDocumentsRequest {
+	r.lineNumber = &lineNumber
+	return r
+}
+
+func (r ApiGetV1DeclarationRequiredDocumentsRequest) Execute() (*GetV1DeclarationRequiredDocuments200Response, *http.Response, error) {
 	return r.ApiService.GetV1DeclarationRequiredDocumentsExecute(r)
 }
 
@@ -652,6 +893,9 @@ GetV1DeclarationRequiredDocuments 单据所需申报信息查询接口。
 
 该接口只接收能够唯一定位已存在单据的字段。订单、生产、发货等链路参数由接口内部从系统数据反查，
 不再要求外部传供应商、客户、产品、国家、订单行、领料明细等规则参数。
+订单支持 UniqueNo（查询返回的系统流水号）、CustomerExtNo（买方 ERP 流水号）、SupplierExtNo（卖方 ERP 流水号）。
+外部流水号重复时补交易对方 Name/Code、订单号、日期或行号；多个条件取交集，无唯一匹配则报错。
+无流水号时使用订单号 + 日期 + 交易对方；发货按发货方 + 收货方 + 单号，生产按当前公司 + 编号 + 成品。
 调用方应先调用本接口取得 `DocumentTypeId`、是否必填、表单结构等信息，再调用提交接口保存附件或表单数据。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -665,13 +909,13 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocuments(ctx context
 }
 
 // Execute executes the request
-//  @return Model3
-func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocumentsExecute(r ApiGetV1DeclarationRequiredDocumentsRequest) (*Model3, *http.Response, error) {
+//  @return GetV1DeclarationRequiredDocuments200Response
+func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocumentsExecute(r ApiGetV1DeclarationRequiredDocumentsRequest) (*GetV1DeclarationRequiredDocuments200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Model3
+		localVarReturnValue  *GetV1DeclarationRequiredDocuments200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiDeclarationAPIService.GetV1DeclarationRequiredDocuments")
@@ -684,13 +928,14 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocumentsExecute(r Ap
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.stageCode == nil {
+		return localVarReturnValue, nil, reportError("stageCode is required and must be specified")
+	}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
 	}
 
-	if r.stageCode != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "stageCode", r.stageCode, "form", "")
-	}
+	parameterAddToHeaderOrQuery(localVarQueryParams, "stageCode", r.stageCode, "form", "")
 	if r.id != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
 	}
@@ -715,6 +960,39 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocumentsExecute(r Ap
 	if r.deliveryNumber != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "deliveryNumber", r.deliveryNumber, "form", "")
 	}
+	if r.customerExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerExtNo", r.customerExtNo, "form", "")
+	}
+	if r.supplierExtNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierExtNo", r.supplierExtNo, "form", "")
+	}
+	if r.uniqueNo != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "UniqueNo", r.uniqueNo, "form", "")
+	}
+	if r.customerId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerId", r.customerId, "form", "")
+	}
+	if r.customerName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerName", r.customerName, "form", "")
+	}
+	if r.customerCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "CustomerCode", r.customerCode, "form", "")
+	}
+	if r.supplierId != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierId", r.supplierId, "form", "")
+	}
+	if r.supplierName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierName", r.supplierName, "form", "")
+	}
+	if r.supplierCode != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "SupplierCode", r.supplierCode, "form", "")
+	}
+	if r.receiptNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "receiptNumber", r.receiptNumber, "form", "")
+	}
+	if r.lineNumber != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lineNumber", r.lineNumber, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -796,6 +1074,38 @@ func (a *ApiDeclarationAPIService) GetV1DeclarationRequiredDocumentsExecute(r Ap
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -830,7 +1140,7 @@ func (r ApiPostV1DeclarationSubmitRequest) TacticChainApiServiceControllersApiIn
 	return r
 }
 
-func (r ApiPostV1DeclarationSubmitRequest) Execute() (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+func (r ApiPostV1DeclarationSubmitRequest) Execute() (*PostV1DeclarationSubmit200Response, *http.Response, error) {
 	return r.ApiService.PostV1DeclarationSubmitExecute(r)
 }
 
@@ -838,12 +1148,12 @@ func (r ApiPostV1DeclarationSubmitRequest) Execute() (*TacticChainApiServiceView
 PostV1DeclarationSubmit 申报文件/表单提交接口。
 
 
-入参结构与内部 `BatchCreateStageAttachment` 保持一致：
-            `ExtendId` 表示订单/生产单/发货单等业务 ID，`StageId` 表示申报阶段，
-            `DocumentList` 中每个元素表示一种申报资料类型。
+先调用 RequiredDocuments 查询所需资料，将返回的 data[].code 填入 DocumentList[].DocumentTypeCode。
+            附件先调用 UploadFile，再将返回的 data.fileId 填入 DocumentList[].FileList[].FileId。
+            ExtendId 表示订单、生产单或发货单等业务 ID，StageId 对应查询时的 stageCode。
 
-每个 `DocumentList` 元素可以同时包含 `FileList` 和 `FormDataList`。
-            文件资料和表单资料会分别进入各自服务保存，随后统一重算申报完成度。
+表单按 RequiredDocuments 的 schemaDefinition 填写 value，再将完整数组序列化为 FormData 字符串。
+            保存后可用 ListPaging 复查；返回的 attachments[].id 用于删除附件申报，forms[].id 用于修改或删除表单。
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPostV1DeclarationSubmitRequest
@@ -856,13 +1166,13 @@ func (a *ApiDeclarationAPIService) PostV1DeclarationSubmit(ctx context.Context) 
 }
 
 // Execute executes the request
-//  @return TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-func (a *ApiDeclarationAPIService) PostV1DeclarationSubmitExecute(r ApiPostV1DeclarationSubmitRequest) (*TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull, *http.Response, error) {
+//  @return PostV1DeclarationSubmit200Response
+func (a *ApiDeclarationAPIService) PostV1DeclarationSubmitExecute(r ApiPostV1DeclarationSubmitRequest) (*PostV1DeclarationSubmit200Response, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitResultDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
+		localVarReturnValue  *PostV1DeclarationSubmit200Response
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiDeclarationAPIService.PostV1DeclarationSubmit")
@@ -877,6 +1187,9 @@ func (a *ApiDeclarationAPIService) PostV1DeclarationSubmitExecute(r ApiPostV1Dec
 	localVarFormParams := url.Values{}
 	if r.xCredentialType == nil {
 		return localVarReturnValue, nil, reportError("xCredentialType is required and must be specified")
+	}
+	if r.tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest == nil {
+		return localVarReturnValue, nil, reportError("tacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -964,7 +1277,29 @@ func (a *ApiDeclarationAPIService) PostV1DeclarationSubmitExecute(r ApiPostV1Dec
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v MicrosoftAspNetCoreMvcProblemDetails
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

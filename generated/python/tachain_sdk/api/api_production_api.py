@@ -19,11 +19,12 @@ from datetime import datetime
 from pydantic import Field, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import Optional, Union
 from typing_extensions import Annotated
-from tachain_sdk.models.model4 import Model4
-from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request import TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
-from tachain_sdk.models.tactic_chain_api_service_view_models_common_api_response1_tactic_chain_api_service_view_models_production_api_dto_tactic_chain_api_service_version1000_culture_neutral_public_key_token_null import TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-from tachain_sdk.models.tactic_chain_api_service_view_models_common_paged_response1_tactic_chain_api_service_view_models_production_api_dto_tactic_chain_api_service_version1000_culture_neutral_public_key_token_null import TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull
-from tachain_sdk.models.tactic_chain_api_service_view_models_production_api_dto import TacticChainApiServiceViewModelsProductionApiDto
+from tachain_sdk.models.delete_v1_declaration_delete200_response import DeleteV1DeclarationDelete200Response
+from tachain_sdk.models.get_v1_production_list_paging200_response import GetV1ProductionListPaging200Response
+from tachain_sdk.models.post_v1_production_create200_response import PostV1ProductionCreate200Response
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request import TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request import TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
+from tachain_sdk.models.tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request import TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
 
 from tachain_sdk.api_client import ApiClient, RequestSerialized
 from tachain_sdk.api_response import ApiResponse
@@ -47,11 +48,11 @@ class ApiProductionApi:
     def delete_v1_production_delete(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个 ID，便于简单调用。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,23 +65,23 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Model4:
+    ) -> DeleteV1DeclarationDelete200Response:
         """删除生产记录单。
 
         删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param id: query 方式传入的单个 ID，便于简单调用。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request:
-        :type tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request:
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -109,7 +110,7 @@ class ApiProductionApi:
             number=number,
             product_code=product_code,
             type=type,
-            tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -117,7 +118,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -134,11 +138,11 @@ class ApiProductionApi:
     def delete_v1_production_delete_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个 ID，便于简单调用。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -151,23 +155,23 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Model4]:
+    ) -> ApiResponse[DeleteV1DeclarationDelete200Response]:
         """删除生产记录单。
 
         删除前会校验： 1. 生产单必须存在； 2. 生产单必须属于当前集成凭证对应租户和公司； 3. 生产单状态必须允许删除； 4. 领料或库存已被后续使用时，服务层会返回不可删除。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param id: query 方式传入的单个 ID，便于简单调用。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request:
-        :type tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request:
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -196,7 +200,7 @@ class ApiProductionApi:
             number=number,
             product_code=product_code,
             type=type,
-            tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -204,7 +208,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -221,11 +228,11 @@ class ApiProductionApi:
     def delete_v1_production_delete_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        id: Annotated[Optional[StrictStr], Field(description="query 方式传入的单个 ID，便于简单调用。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest] = None,
+        id: Annotated[Optional[StrictStr], Field(description="查询返回的单据 ID，可选；优先使用本文业务组合。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: Optional[TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -245,16 +252,16 @@ class ApiProductionApi:
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param id: query 方式传入的单个 ID，便于简单调用。
+        :param id: 查询返回的单据 ID，可选；优先使用本文业务组合。
         :type id: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request:
-        :type tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request:
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionDeleteRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -283,7 +290,7 @@ class ApiProductionApi:
             number=number,
             product_code=product_code,
             type=type,
-            tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -291,7 +298,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Model4",
+            '200': "DeleteV1DeclarationDelete200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -307,7 +317,7 @@ class ApiProductionApi:
         number,
         product_code,
         type,
-        tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request,
         _request_auth,
         _content_type,
         _headers,
@@ -351,8 +361,8 @@ class ApiProductionApi:
             _header_params['X-Credential-Type'] = x_credential_type
         # process the form parameters
         # process the body parameter
-        if tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request is not None:
-            _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_integration_delete_request
+        if tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request is not None:
+            _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_production_delete_request
 
 
         # set the HTTP header `Accept`
@@ -407,51 +417,50 @@ class ApiProductionApi:
     def get_v1_production_list_paging(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        product_name: Optional[StrictStr] = None,
-        production_date_start: Optional[datetime] = None,
-        production_date_end: Optional[datetime] = None,
-        batch: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        status: Optional[StrictInt] = None,
-        facility_id: Optional[StrictStr] = None,
-        facility_code: Optional[StrictStr] = None,
-        process_route_id: Optional[StrictInt] = None,
-        process_route_code: Optional[StrictStr] = None,
-        created_by: Optional[StrictStr] = None,
-        created_at_start: Optional[datetime] = None,
-        created_at_end: Optional[datetime] = None,
-        sales_order_line_id: Optional[StrictStr] = None,
-        quantity_produced: Optional[Union[StrictFloat, StrictInt]] = None,
-        unit: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        unique_no: Optional[StrictStr] = None,
-        line_number: Optional[StrictStr] = None,
-        product_category: Optional[StrictStr] = None,
-        material_id: Optional[StrictStr] = None,
-        material_code: Optional[StrictStr] = None,
-        material_name: Optional[StrictStr] = None,
-        product_id: Optional[StrictStr] = None,
-        destination_country: Optional[StrictStr] = None,
-        customer_ext_no: Optional[StrictStr] = None,
-        supplier_ext_no: Optional[StrictStr] = None,
-        origin_country: Optional[StrictStr] = None,
-        estimated_time_of_departure_start: Optional[datetime] = None,
-        estimated_time_of_departure_end: Optional[datetime] = None,
-        season: Optional[StrictStr] = None,
-        season_year: Optional[StrictStr] = None,
-        last_updated_at_start: Optional[datetime] = None,
-        last_updated_at_end: Optional[datetime] = None,
-        color: Optional[StrictStr] = None,
-        so_status: Annotated[Optional[StrictInt], Field(description=" 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        po_status: Annotated[Optional[StrictInt], Field(description=" 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        order_id: Optional[StrictStr] = None,
-        order_number: Optional[StrictStr] = None,
-        order_date: Optional[datetime] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        product_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_start: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_end: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        batch: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        facility_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        facility_code: Annotated[Optional[StrictStr], Field(description="工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。")] = None,
+        process_route_id: Annotated[Optional[StrictInt], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        process_route_code: Annotated[Optional[StrictStr], Field(description="工艺路线 Code/Name 或外部映射。")] = None,
+        created_by: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        created_at_start: Annotated[Optional[datetime], Field(description="创建时间下限。")] = None,
+        created_at_end: Annotated[Optional[datetime], Field(description="创建时间上限。")] = None,
+        sales_order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。")] = None,
+        quantity_produced: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        unit: Annotated[Optional[StrictStr], Field(description="单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        product_category: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_code: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        product_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        destination_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        origin_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season_year: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        color: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        so_status: Annotated[Optional[StrictInt], Field(description="销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        po_status: Annotated[Optional[StrictInt], Field(description="采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        order_id: Annotated[Optional[StrictStr], Field(description="订单主 ID，可选；可改用订单号、日期、交易对方或流水号。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -464,103 +473,101 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull:
+    ) -> GetV1ProductionListPaging200Response:
         """查询生产记录单及详细领料信息。
 
-        返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+        按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param product_name: 
+        :param product_name: 可选业务筛选条件；与其他条件同时生效。
         :type product_name: str
-        :param production_date_start: 
+        :param production_date_start: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_start: datetime
-        :param production_date_end: 
+        :param production_date_end: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_end: datetime
-        :param batch: 
+        :param batch: 可选业务筛选条件；与其他条件同时生效。
         :type batch: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param facility_id: 
+        :param facility_id: 可选业务筛选条件；与其他条件同时生效。
         :type facility_id: str
-        :param facility_code: 
+        :param facility_code: 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
         :type facility_code: str
-        :param process_route_id: 
+        :param process_route_id: 可选业务筛选条件；与其他条件同时生效。
         :type process_route_id: int
-        :param process_route_code: 
+        :param process_route_code: 工艺路线 Code/Name 或外部映射。
         :type process_route_code: str
-        :param created_by: 
+        :param created_by: 可选业务筛选条件；与其他条件同时生效。
         :type created_by: str
-        :param created_at_start: 
+        :param created_at_start: 创建时间下限。
         :type created_at_start: datetime
-        :param created_at_end: 
+        :param created_at_end: 创建时间上限。
         :type created_at_end: datetime
-        :param sales_order_line_id: 
+        :param sales_order_line_id: 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
         :type sales_order_line_id: str
-        :param quantity_produced: 
+        :param quantity_produced: 可选业务筛选条件；与其他条件同时生效。
         :type quantity_produced: float
-        :param unit: 
+        :param unit: 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
         :type unit: str
-        :param sort_by: 
-        :type sort_by: str
-        :param unique_no: 
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
         :type unique_no: str
-        :param line_number: 
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
         :type line_number: str
-        :param product_category: 
+        :param product_category: 可选业务筛选条件；与其他条件同时生效。
         :type product_category: str
-        :param material_id: 
+        :param material_id: 可选业务筛选条件；与其他条件同时生效。
         :type material_id: str
-        :param material_code: 
+        :param material_code: 可选业务筛选条件；与其他条件同时生效。
         :type material_code: str
-        :param material_name: 
+        :param material_name: 可选业务筛选条件；与其他条件同时生效。
         :type material_name: str
-        :param product_id: 
+        :param product_id: 可选业务筛选条件；与其他条件同时生效。
         :type product_id: str
-        :param destination_country: 
+        :param destination_country: 可选业务筛选条件；与其他条件同时生效。
         :type destination_country: str
-        :param customer_ext_no: 
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type customer_ext_no: str
-        :param supplier_ext_no: 
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type supplier_ext_no: str
-        :param origin_country: 
+        :param origin_country: 可选业务筛选条件；与其他条件同时生效。
         :type origin_country: str
-        :param estimated_time_of_departure_start: 
-        :type estimated_time_of_departure_start: datetime
-        :param estimated_time_of_departure_end: 
-        :type estimated_time_of_departure_end: datetime
-        :param season: 
+        :param season: 可选业务筛选条件；与其他条件同时生效。
         :type season: str
-        :param season_year: 
+        :param season_year: 可选业务筛选条件；与其他条件同时生效。
         :type season_year: str
-        :param last_updated_at_start: 
-        :type last_updated_at_start: datetime
-        :param last_updated_at_end: 
-        :type last_updated_at_end: datetime
-        :param color: 
+        :param color: 可选业务筛选条件；与其他条件同时生效。
         :type color: str
-        :param so_status:  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param so_status: 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type so_status: int
-        :param po_status:  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param po_status: 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type po_status: int
-        :param order_id: 
+        :param order_id: 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
         :type order_id: str
-        :param order_number: 
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -604,7 +611,6 @@ class ApiProductionApi:
             sales_order_line_id=sales_order_line_id,
             quantity_produced=quantity_produced,
             unit=unit,
-            sort_by=sort_by,
             unique_no=unique_no,
             line_number=line_number,
             product_category=product_category,
@@ -616,12 +622,8 @@ class ApiProductionApi:
             customer_ext_no=customer_ext_no,
             supplier_ext_no=supplier_ext_no,
             origin_country=origin_country,
-            estimated_time_of_departure_start=estimated_time_of_departure_start,
-            estimated_time_of_departure_end=estimated_time_of_departure_end,
             season=season,
             season_year=season_year,
-            last_updated_at_start=last_updated_at_start,
-            last_updated_at_end=last_updated_at_end,
             color=color,
             so_status=so_status,
             po_status=po_status,
@@ -630,6 +632,10 @@ class ApiProductionApi:
             order_date=order_date,
             page=page,
             page_size=page_size,
+            customer_code=customer_code,
+            supplier_code=supplier_code,
+            customer_name=customer_name,
+            supplier_name=supplier_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -637,7 +643,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1ProductionListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -654,51 +663,50 @@ class ApiProductionApi:
     def get_v1_production_list_paging_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        product_name: Optional[StrictStr] = None,
-        production_date_start: Optional[datetime] = None,
-        production_date_end: Optional[datetime] = None,
-        batch: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        status: Optional[StrictInt] = None,
-        facility_id: Optional[StrictStr] = None,
-        facility_code: Optional[StrictStr] = None,
-        process_route_id: Optional[StrictInt] = None,
-        process_route_code: Optional[StrictStr] = None,
-        created_by: Optional[StrictStr] = None,
-        created_at_start: Optional[datetime] = None,
-        created_at_end: Optional[datetime] = None,
-        sales_order_line_id: Optional[StrictStr] = None,
-        quantity_produced: Optional[Union[StrictFloat, StrictInt]] = None,
-        unit: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        unique_no: Optional[StrictStr] = None,
-        line_number: Optional[StrictStr] = None,
-        product_category: Optional[StrictStr] = None,
-        material_id: Optional[StrictStr] = None,
-        material_code: Optional[StrictStr] = None,
-        material_name: Optional[StrictStr] = None,
-        product_id: Optional[StrictStr] = None,
-        destination_country: Optional[StrictStr] = None,
-        customer_ext_no: Optional[StrictStr] = None,
-        supplier_ext_no: Optional[StrictStr] = None,
-        origin_country: Optional[StrictStr] = None,
-        estimated_time_of_departure_start: Optional[datetime] = None,
-        estimated_time_of_departure_end: Optional[datetime] = None,
-        season: Optional[StrictStr] = None,
-        season_year: Optional[StrictStr] = None,
-        last_updated_at_start: Optional[datetime] = None,
-        last_updated_at_end: Optional[datetime] = None,
-        color: Optional[StrictStr] = None,
-        so_status: Annotated[Optional[StrictInt], Field(description=" 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        po_status: Annotated[Optional[StrictInt], Field(description=" 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        order_id: Optional[StrictStr] = None,
-        order_number: Optional[StrictStr] = None,
-        order_date: Optional[datetime] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        product_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_start: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_end: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        batch: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        facility_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        facility_code: Annotated[Optional[StrictStr], Field(description="工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。")] = None,
+        process_route_id: Annotated[Optional[StrictInt], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        process_route_code: Annotated[Optional[StrictStr], Field(description="工艺路线 Code/Name 或外部映射。")] = None,
+        created_by: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        created_at_start: Annotated[Optional[datetime], Field(description="创建时间下限。")] = None,
+        created_at_end: Annotated[Optional[datetime], Field(description="创建时间上限。")] = None,
+        sales_order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。")] = None,
+        quantity_produced: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        unit: Annotated[Optional[StrictStr], Field(description="单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        product_category: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_code: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        product_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        destination_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        origin_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season_year: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        color: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        so_status: Annotated[Optional[StrictInt], Field(description="销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        po_status: Annotated[Optional[StrictInt], Field(description="采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        order_id: Annotated[Optional[StrictStr], Field(description="订单主 ID，可选；可改用订单号、日期、交易对方或流水号。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -711,103 +719,101 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull]:
+    ) -> ApiResponse[GetV1ProductionListPaging200Response]:
         """查询生产记录单及详细领料信息。
 
-        返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+        按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param product_name: 
+        :param product_name: 可选业务筛选条件；与其他条件同时生效。
         :type product_name: str
-        :param production_date_start: 
+        :param production_date_start: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_start: datetime
-        :param production_date_end: 
+        :param production_date_end: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_end: datetime
-        :param batch: 
+        :param batch: 可选业务筛选条件；与其他条件同时生效。
         :type batch: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param facility_id: 
+        :param facility_id: 可选业务筛选条件；与其他条件同时生效。
         :type facility_id: str
-        :param facility_code: 
+        :param facility_code: 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
         :type facility_code: str
-        :param process_route_id: 
+        :param process_route_id: 可选业务筛选条件；与其他条件同时生效。
         :type process_route_id: int
-        :param process_route_code: 
+        :param process_route_code: 工艺路线 Code/Name 或外部映射。
         :type process_route_code: str
-        :param created_by: 
+        :param created_by: 可选业务筛选条件；与其他条件同时生效。
         :type created_by: str
-        :param created_at_start: 
+        :param created_at_start: 创建时间下限。
         :type created_at_start: datetime
-        :param created_at_end: 
+        :param created_at_end: 创建时间上限。
         :type created_at_end: datetime
-        :param sales_order_line_id: 
+        :param sales_order_line_id: 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
         :type sales_order_line_id: str
-        :param quantity_produced: 
+        :param quantity_produced: 可选业务筛选条件；与其他条件同时生效。
         :type quantity_produced: float
-        :param unit: 
+        :param unit: 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
         :type unit: str
-        :param sort_by: 
-        :type sort_by: str
-        :param unique_no: 
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
         :type unique_no: str
-        :param line_number: 
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
         :type line_number: str
-        :param product_category: 
+        :param product_category: 可选业务筛选条件；与其他条件同时生效。
         :type product_category: str
-        :param material_id: 
+        :param material_id: 可选业务筛选条件；与其他条件同时生效。
         :type material_id: str
-        :param material_code: 
+        :param material_code: 可选业务筛选条件；与其他条件同时生效。
         :type material_code: str
-        :param material_name: 
+        :param material_name: 可选业务筛选条件；与其他条件同时生效。
         :type material_name: str
-        :param product_id: 
+        :param product_id: 可选业务筛选条件；与其他条件同时生效。
         :type product_id: str
-        :param destination_country: 
+        :param destination_country: 可选业务筛选条件；与其他条件同时生效。
         :type destination_country: str
-        :param customer_ext_no: 
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type customer_ext_no: str
-        :param supplier_ext_no: 
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type supplier_ext_no: str
-        :param origin_country: 
+        :param origin_country: 可选业务筛选条件；与其他条件同时生效。
         :type origin_country: str
-        :param estimated_time_of_departure_start: 
-        :type estimated_time_of_departure_start: datetime
-        :param estimated_time_of_departure_end: 
-        :type estimated_time_of_departure_end: datetime
-        :param season: 
+        :param season: 可选业务筛选条件；与其他条件同时生效。
         :type season: str
-        :param season_year: 
+        :param season_year: 可选业务筛选条件；与其他条件同时生效。
         :type season_year: str
-        :param last_updated_at_start: 
-        :type last_updated_at_start: datetime
-        :param last_updated_at_end: 
-        :type last_updated_at_end: datetime
-        :param color: 
+        :param color: 可选业务筛选条件；与其他条件同时生效。
         :type color: str
-        :param so_status:  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param so_status: 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type so_status: int
-        :param po_status:  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param po_status: 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type po_status: int
-        :param order_id: 
+        :param order_id: 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
         :type order_id: str
-        :param order_number: 
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -851,7 +857,6 @@ class ApiProductionApi:
             sales_order_line_id=sales_order_line_id,
             quantity_produced=quantity_produced,
             unit=unit,
-            sort_by=sort_by,
             unique_no=unique_no,
             line_number=line_number,
             product_category=product_category,
@@ -863,12 +868,8 @@ class ApiProductionApi:
             customer_ext_no=customer_ext_no,
             supplier_ext_no=supplier_ext_no,
             origin_country=origin_country,
-            estimated_time_of_departure_start=estimated_time_of_departure_start,
-            estimated_time_of_departure_end=estimated_time_of_departure_end,
             season=season,
             season_year=season_year,
-            last_updated_at_start=last_updated_at_start,
-            last_updated_at_end=last_updated_at_end,
             color=color,
             so_status=so_status,
             po_status=po_status,
@@ -877,6 +878,10 @@ class ApiProductionApi:
             order_date=order_date,
             page=page,
             page_size=page_size,
+            customer_code=customer_code,
+            supplier_code=supplier_code,
+            customer_name=customer_name,
+            supplier_name=supplier_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -884,7 +889,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1ProductionListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -901,51 +909,50 @@ class ApiProductionApi:
     def get_v1_production_list_paging_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。")] = None,
-        number: Optional[StrictStr] = None,
-        product_code: Optional[StrictStr] = None,
-        product_name: Optional[StrictStr] = None,
-        production_date_start: Optional[datetime] = None,
-        production_date_end: Optional[datetime] = None,
-        batch: Optional[StrictStr] = None,
-        type: Optional[StrictInt] = None,
-        status: Optional[StrictInt] = None,
-        facility_id: Optional[StrictStr] = None,
-        facility_code: Optional[StrictStr] = None,
-        process_route_id: Optional[StrictInt] = None,
-        process_route_code: Optional[StrictStr] = None,
-        created_by: Optional[StrictStr] = None,
-        created_at_start: Optional[datetime] = None,
-        created_at_end: Optional[datetime] = None,
-        sales_order_line_id: Optional[StrictStr] = None,
-        quantity_produced: Optional[Union[StrictFloat, StrictInt]] = None,
-        unit: Optional[StrictStr] = None,
-        sort_by: Optional[StrictStr] = None,
-        unique_no: Optional[StrictStr] = None,
-        line_number: Optional[StrictStr] = None,
-        product_category: Optional[StrictStr] = None,
-        material_id: Optional[StrictStr] = None,
-        material_code: Optional[StrictStr] = None,
-        material_name: Optional[StrictStr] = None,
-        product_id: Optional[StrictStr] = None,
-        destination_country: Optional[StrictStr] = None,
-        customer_ext_no: Optional[StrictStr] = None,
-        supplier_ext_no: Optional[StrictStr] = None,
-        origin_country: Optional[StrictStr] = None,
-        estimated_time_of_departure_start: Optional[datetime] = None,
-        estimated_time_of_departure_end: Optional[datetime] = None,
-        season: Optional[StrictStr] = None,
-        season_year: Optional[StrictStr] = None,
-        last_updated_at_start: Optional[datetime] = None,
-        last_updated_at_end: Optional[datetime] = None,
-        color: Optional[StrictStr] = None,
-        so_status: Annotated[Optional[StrictInt], Field(description=" 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        po_status: Annotated[Optional[StrictInt], Field(description=" 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
-        order_id: Optional[StrictStr] = None,
-        order_number: Optional[StrictStr] = None,
-        order_date: Optional[datetime] = None,
-        page: Optional[StrictInt] = None,
-        page_size: Optional[StrictInt] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="关键词搜索，具体匹配范围见本接口说明。")] = None,
+        number: Annotated[Optional[StrictStr], Field(description="生产/发货单号；定位接口精确匹配，列表 number 为筛选。")] = None,
+        product_code: Annotated[Optional[StrictStr], Field(description="当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。")] = None,
+        product_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_start: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        production_date_end: Annotated[Optional[datetime], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        batch: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        type: Annotated[Optional[StrictInt], Field(description="生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。")] = None,
+        status: Annotated[Optional[StrictInt], Field(description="查询状态过滤，不作为写入状态字段开放。")] = None,
+        facility_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        facility_code: Annotated[Optional[StrictStr], Field(description="工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。")] = None,
+        process_route_id: Annotated[Optional[StrictInt], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        process_route_code: Annotated[Optional[StrictStr], Field(description="工艺路线 Code/Name 或外部映射。")] = None,
+        created_by: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        created_at_start: Annotated[Optional[datetime], Field(description="创建时间下限。")] = None,
+        created_at_end: Annotated[Optional[datetime], Field(description="创建时间上限。")] = None,
+        sales_order_line_id: Annotated[Optional[StrictStr], Field(description="查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。")] = None,
+        quantity_produced: Annotated[Optional[Union[StrictFloat, StrictInt]], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        unit: Annotated[Optional[StrictStr], Field(description="单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。")] = None,
+        unique_no: Annotated[Optional[StrictStr], Field(description="系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。")] = None,
+        line_number: Annotated[Optional[StrictStr], Field(description="订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。")] = None,
+        product_category: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_code: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        material_name: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        product_id: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        destination_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        customer_ext_no: Annotated[Optional[StrictStr], Field(description="买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        supplier_ext_no: Annotated[Optional[StrictStr], Field(description="卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。")] = None,
+        origin_country: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        season_year: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        color: Annotated[Optional[StrictStr], Field(description="可选业务筛选条件；与其他条件同时生效。")] = None,
+        so_status: Annotated[Optional[StrictInt], Field(description="销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        po_status: Annotated[Optional[StrictInt], Field(description="采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。")] = None,
+        order_id: Annotated[Optional[StrictStr], Field(description="订单主 ID，可选；可改用订单号、日期、交易对方或流水号。")] = None,
+        order_number: Annotated[Optional[StrictStr], Field(description="订单号。定位操作使用精确匹配；列表接口作为筛选条件。")] = None,
+        order_date: Annotated[Optional[datetime], Field(description="订单日期 yyyy-MM-dd，业务定位按当天范围匹配。")] = None,
+        page: Annotated[Optional[StrictInt], Field(description="页码，默认 1；小于等于 0 时调整为 1。")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。")] = None,
+        customer_code: Annotated[Optional[StrictStr], Field(description="客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。")] = None,
+        supplier_code: Annotated[Optional[StrictStr], Field(description="供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。")] = None,
+        customer_name: Annotated[Optional[StrictStr], Field(description="客户英文名、当地语言名称或简称，精确匹配。")] = None,
+        supplier_name: Annotated[Optional[StrictStr], Field(description="供应商英文名、当地语言名称或简称，精确匹配。")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -961,100 +968,98 @@ class ApiProductionApi:
     ) -> RESTResponseType:
         """查询生产记录单及详细领料信息。
 
-        返回结果按生产单与领料明细展开： 同一个生产单有多条领料时，分页结果中可能出现多条相同生产单主信息， 每条数据的 `ProductionRawMaterial` 表示当前展开的领料明细。
+        按生产单分页，同一生产单只返回一次。没有可见领料的生产单仍会返回，领料集合为空。 只有提供采购领料筛选条件时才要求匹配有效领料；总数为符合条件的生产单数。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param search_text: 关键词搜索：支持生产单号（Production.Number）、生产单产品编码（Production.ProductCode）、生产单产品名称（Production.ProductName）、订单明细原料名称（OrderLine.MaterialName）、订单明细原料编码（OrderLine.MaterialCode）、订单明细产品编码（OrderLine.ProductCode）、订单明细产品名称（OrderLine.ProductName）。去除首尾空白后，使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。
+        :param search_text: 关键词搜索，具体匹配范围见本接口说明。
         :type search_text: str
-        :param number: 
+        :param number: 生产/发货单号；定位接口精确匹配，列表 number 为筛选。
         :type number: str
-        :param product_code: 
+        :param product_code: 当前公司成品编码、名称或 Product/Material 外部映射值（列表以实际筛选字段为准）。
         :type product_code: str
-        :param product_name: 
+        :param product_name: 可选业务筛选条件；与其他条件同时生效。
         :type product_name: str
-        :param production_date_start: 
+        :param production_date_start: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_start: datetime
-        :param production_date_end: 
+        :param production_date_end: 可选业务筛选条件；与其他条件同时生效。
         :type production_date_end: datetime
-        :param batch: 
+        :param batch: 可选业务筛选条件；与其他条件同时生效。
         :type batch: str
-        :param type: 
+        :param type: 生产类型：0=MTO，1=MTS；修改/删除时可选校验，不是唯一定位必填条件。
         :type type: int
-        :param status: 
+        :param status: 查询状态过滤，不作为写入状态字段开放。
         :type status: int
-        :param facility_id: 
+        :param facility_id: 可选业务筛选条件；与其他条件同时生效。
         :type facility_id: str
-        :param facility_code: 
+        :param facility_code: 工厂枚举 Code（当地名称）、Name、简称或工厂外部映射。
         :type facility_code: str
-        :param process_route_id: 
+        :param process_route_id: 可选业务筛选条件；与其他条件同时生效。
         :type process_route_id: int
-        :param process_route_code: 
+        :param process_route_code: 工艺路线 Code/Name 或外部映射。
         :type process_route_code: str
-        :param created_by: 
+        :param created_by: 可选业务筛选条件；与其他条件同时生效。
         :type created_by: str
-        :param created_at_start: 
+        :param created_at_start: 创建时间下限。
         :type created_at_start: datetime
-        :param created_at_end: 
+        :param created_at_end: 创建时间上限。
         :type created_at_end: datetime
-        :param sales_order_line_id: 
+        :param sales_order_line_id: 查询返回的销售订单明细 ID，可选；写入支持三种流水号或订单业务组合替代。
         :type sales_order_line_id: str
-        :param quantity_produced: 
+        :param quantity_produced: 可选业务筛选条件；与其他条件同时生效。
         :type quantity_produced: float
-        :param unit: 
+        :param unit: 单位，支持枚举 Code/Name/ExtCode，服务端解析内部单位。
         :type unit: str
-        :param sort_by: 
-        :type sort_by: str
-        :param unique_no: 
+        :param unique_no: 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。
         :type unique_no: str
-        :param line_number: 
+        :param line_number: 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。
         :type line_number: str
-        :param product_category: 
+        :param product_category: 可选业务筛选条件；与其他条件同时生效。
         :type product_category: str
-        :param material_id: 
+        :param material_id: 可选业务筛选条件；与其他条件同时生效。
         :type material_id: str
-        :param material_code: 
+        :param material_code: 可选业务筛选条件；与其他条件同时生效。
         :type material_code: str
-        :param material_name: 
+        :param material_name: 可选业务筛选条件；与其他条件同时生效。
         :type material_name: str
-        :param product_id: 
+        :param product_id: 可选业务筛选条件；与其他条件同时生效。
         :type product_id: str
-        :param destination_country: 
+        :param destination_country: 可选业务筛选条件；与其他条件同时生效。
         :type destination_country: str
-        :param customer_ext_no: 
+        :param customer_ext_no: 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type customer_ext_no: str
-        :param supplier_ext_no: 
+        :param supplier_ext_no: 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。
         :type supplier_ext_no: str
-        :param origin_country: 
+        :param origin_country: 可选业务筛选条件；与其他条件同时生效。
         :type origin_country: str
-        :param estimated_time_of_departure_start: 
-        :type estimated_time_of_departure_start: datetime
-        :param estimated_time_of_departure_end: 
-        :type estimated_time_of_departure_end: datetime
-        :param season: 
+        :param season: 可选业务筛选条件；与其他条件同时生效。
         :type season: str
-        :param season_year: 
+        :param season_year: 可选业务筛选条件；与其他条件同时生效。
         :type season_year: str
-        :param last_updated_at_start: 
-        :type last_updated_at_start: datetime
-        :param last_updated_at_end: 
-        :type last_updated_at_end: datetime
-        :param color: 
+        :param color: 可选业务筛选条件；与其他条件同时生效。
         :type color: str
-        :param so_status:  销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param so_status: 销售状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type so_status: int
-        :param po_status:  采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。  相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。  相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。  收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
+        :param po_status: 采购状态：6 销售方拒绝变更、7 拒绝接单、8 待销售确认变更、9 待接单、10 待生产、20 待发货、30 已发货、40 待收货、50 已收货、60 已使用、70 已用完。 相关收货确认状态：101 待提交（发货）、102 待收货（审核）、103 重新提交收货、111 取消收货审核、113 收货作废、114 收货驳回、115 收货拒绝、120 审核通过。 相关品牌审核状态：99101 品牌草稿、99102 品牌待审核、99103 重新提交待品牌审核、99111 品牌取消审核、99113 品牌审核作废、99114 品牌驳回、99115 品牌审核拒绝、99120 品牌审核通过。 收货确认和品牌审核状态仅作含义说明，不支持通过本参数筛选。
         :type po_status: int
-        :param order_id: 
+        :param order_id: 订单主 ID，可选；可改用订单号、日期、交易对方或流水号。
         :type order_id: str
-        :param order_number: 
+        :param order_number: 订单号。定位操作使用精确匹配；列表接口作为筛选条件。
         :type order_number: str
-        :param order_date: 
+        :param order_date: 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。
         :type order_date: datetime
-        :param page: 
+        :param page: 页码，默认 1；小于等于 0 时调整为 1。
         :type page: int
-        :param page_size: 
+        :param page_size: 每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。
         :type page_size: int
+        :param customer_code: 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。
+        :type customer_code: str
+        :param supplier_code: 供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。
+        :type supplier_code: str
+        :param customer_name: 客户英文名、当地语言名称或简称，精确匹配。
+        :type customer_name: str
+        :param supplier_name: 供应商英文名、当地语言名称或简称，精确匹配。
+        :type supplier_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1098,7 +1103,6 @@ class ApiProductionApi:
             sales_order_line_id=sales_order_line_id,
             quantity_produced=quantity_produced,
             unit=unit,
-            sort_by=sort_by,
             unique_no=unique_no,
             line_number=line_number,
             product_category=product_category,
@@ -1110,12 +1114,8 @@ class ApiProductionApi:
             customer_ext_no=customer_ext_no,
             supplier_ext_no=supplier_ext_no,
             origin_country=origin_country,
-            estimated_time_of_departure_start=estimated_time_of_departure_start,
-            estimated_time_of_departure_end=estimated_time_of_departure_end,
             season=season,
             season_year=season_year,
-            last_updated_at_start=last_updated_at_start,
-            last_updated_at_end=last_updated_at_end,
             color=color,
             so_status=so_status,
             po_status=po_status,
@@ -1124,6 +1124,10 @@ class ApiProductionApi:
             order_date=order_date,
             page=page,
             page_size=page_size,
+            customer_code=customer_code,
+            supplier_code=supplier_code,
+            customer_name=customer_name,
+            supplier_name=supplier_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1131,7 +1135,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "GetV1ProductionListPaging200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1162,7 +1169,6 @@ class ApiProductionApi:
         sales_order_line_id,
         quantity_produced,
         unit,
-        sort_by,
         unique_no,
         line_number,
         product_category,
@@ -1174,12 +1180,8 @@ class ApiProductionApi:
         customer_ext_no,
         supplier_ext_no,
         origin_country,
-        estimated_time_of_departure_start,
-        estimated_time_of_departure_end,
         season,
         season_year,
-        last_updated_at_start,
-        last_updated_at_end,
         color,
         so_status,
         po_status,
@@ -1188,6 +1190,10 @@ class ApiProductionApi:
         order_date,
         page,
         page_size,
+        customer_code,
+        supplier_code,
+        customer_name,
+        supplier_name,
         _request_auth,
         _content_type,
         _headers,
@@ -1322,10 +1328,6 @@ class ApiProductionApi:
             
             _query_params.append(('unit', unit))
             
-        if sort_by is not None:
-            
-            _query_params.append(('sortBy', sort_by))
-            
         if unique_no is not None:
             
             _query_params.append(('uniqueNo', unique_no))
@@ -1370,32 +1372,6 @@ class ApiProductionApi:
             
             _query_params.append(('originCountry', origin_country))
             
-        if estimated_time_of_departure_start is not None:
-            if isinstance(estimated_time_of_departure_start, datetime):
-                _query_params.append(
-                    (
-                        'estimatedTimeOfDepartureStart',
-                        estimated_time_of_departure_start.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('estimatedTimeOfDepartureStart', estimated_time_of_departure_start))
-            
-        if estimated_time_of_departure_end is not None:
-            if isinstance(estimated_time_of_departure_end, datetime):
-                _query_params.append(
-                    (
-                        'estimatedTimeOfDepartureEnd',
-                        estimated_time_of_departure_end.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('estimatedTimeOfDepartureEnd', estimated_time_of_departure_end))
-            
         if season is not None:
             
             _query_params.append(('season', season))
@@ -1403,32 +1379,6 @@ class ApiProductionApi:
         if season_year is not None:
             
             _query_params.append(('seasonYear', season_year))
-            
-        if last_updated_at_start is not None:
-            if isinstance(last_updated_at_start, datetime):
-                _query_params.append(
-                    (
-                        'lastUpdatedAtStart',
-                        last_updated_at_start.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('lastUpdatedAtStart', last_updated_at_start))
-            
-        if last_updated_at_end is not None:
-            if isinstance(last_updated_at_end, datetime):
-                _query_params.append(
-                    (
-                        'lastUpdatedAtEnd',
-                        last_updated_at_end.strftime(
-                            self.api_client.configuration.datetime_format
-                        )
-                    )
-                )
-            else:
-                _query_params.append(('lastUpdatedAtEnd', last_updated_at_end))
             
         if color is not None:
             
@@ -1470,6 +1420,22 @@ class ApiProductionApi:
         if page_size is not None:
             
             _query_params.append(('pageSize', page_size))
+            
+        if customer_code is not None:
+            
+            _query_params.append(('customerCode', customer_code))
+            
+        if supplier_code is not None:
+            
+            _query_params.append(('supplierCode', supplier_code))
+            
+        if customer_name is not None:
+            
+            _query_params.append(('customerName', customer_name))
+            
+        if supplier_name is not None:
+            
+            _query_params.append(('supplierName', supplier_name))
             
         # process the header parameters
         if x_credential_type is not None:
@@ -1517,7 +1483,7 @@ class ApiProductionApi:
     def post_v1_production_create(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1530,15 +1496,15 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull:
+    ) -> PostV1ProductionCreate200Response:
         """创建生产记录单。
 
-        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1563,7 +1529,7 @@ class ApiProductionApi:
 
         _param = self._post_v1_production_create_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1571,8 +1537,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1589,7 +1557,7 @@ class ApiProductionApi:
     def post_v1_production_create_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1602,15 +1570,15 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull]:
+    ) -> ApiResponse[PostV1ProductionCreate200Response]:
         """创建生产记录单。
 
-        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1635,7 +1603,7 @@ class ApiProductionApi:
 
         _param = self._post_v1_production_create_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1643,8 +1611,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1661,7 +1631,7 @@ class ApiProductionApi:
     def post_v1_production_create_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1677,12 +1647,12 @@ class ApiProductionApi:
     ) -> RESTResponseType:
         """创建生产记录单。
 
-        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. `ProductBomGroupingList` 有值时，会展开为 `ProductionRawMaterialList`； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
+        重要处理： 1. 当前公司、租户、用户、环境由集成凭证决定，外部传入值会被覆盖； 2. 直接传入领料与销售订单业务明细，服务端解析关联 ID； 3. 领料明细不能为空，且每条有效领料数量必须大于 0； 4. 保存成功后按生产类型重算生产或入库阶段的申报完成度。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionCreateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1707,7 +1677,7 @@ class ApiProductionApi:
 
         _param = self._post_v1_production_create_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1715,8 +1685,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
-            '400': "MicrosoftAspNetCoreMvcProblemDetails",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1728,7 +1700,7 @@ class ApiProductionApi:
     def _post_v1_production_create_serialize(
         self,
         x_credential_type,
-        tactic_chain_api_service_view_models_production_api_dto,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1756,8 +1728,8 @@ class ApiProductionApi:
             _header_params['X-Credential-Type'] = x_credential_type
         # process the form parameters
         # process the body parameter
-        if tactic_chain_api_service_view_models_production_api_dto is not None:
-            _body_params = tactic_chain_api_service_view_models_production_api_dto
+        if tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request is not None:
+            _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_production_create_request
 
 
         # set the HTTP header `Accept`
@@ -1812,7 +1784,7 @@ class ApiProductionApi:
     def put_v1_production_update(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1825,15 +1797,15 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull:
+    ) -> PostV1ProductionCreate200Response:
         """修改生产记录单。
 
-        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1858,7 +1830,7 @@ class ApiProductionApi:
 
         _param = self._put_v1_production_update_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1866,7 +1838,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1883,7 +1858,7 @@ class ApiProductionApi:
     def put_v1_production_update_with_http_info(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1896,15 +1871,15 @@ class ApiProductionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull]:
+    ) -> ApiResponse[PostV1ProductionCreate200Response]:
         """修改生产记录单。
 
-        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1929,7 +1904,7 @@ class ApiProductionApi:
 
         _param = self._put_v1_production_update_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1937,7 +1912,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1954,7 +1932,7 @@ class ApiProductionApi:
     def put_v1_production_update_without_preload_content(
         self,
         x_credential_type: Annotated[StrictStr, Field(description="Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API.")],
-        tactic_chain_api_service_view_models_production_api_dto: Optional[TacticChainApiServiceViewModelsProductionApiDto] = None,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1970,12 +1948,12 @@ class ApiProductionApi:
     ) -> RESTResponseType:
         """修改生产记录单。
 
-        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Status = -1` 的明细表示删除该明细。
+        修改时仍按完整生产单保存： 有效领料明细会整体参与服务层处理，传入 `Delete = true` 的明细表示删除已有明细；内部 ID 由订单业务键解析。
 
         :param x_credential_type: Use 'Token' with bearer authorization, or 'API Key' with signed API key headers. This header is mandatory in the deployed API. (required)
         :type x_credential_type: str
-        :param tactic_chain_api_service_view_models_production_api_dto:
-        :type tactic_chain_api_service_view_models_production_api_dto: TacticChainApiServiceViewModelsProductionApiDto
+        :param tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: (required)
+        :type tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request: TacticChainApiServiceControllersApiIntegrationV1ApiProductionUpdateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2000,7 +1978,7 @@ class ApiProductionApi:
 
         _param = self._put_v1_production_update_serialize(
             x_credential_type=x_credential_type,
-            tactic_chain_api_service_view_models_production_api_dto=tactic_chain_api_service_view_models_production_api_dto,
+            tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request=tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2008,7 +1986,10 @@ class ApiProductionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsProductionApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull",
+            '200': "PostV1ProductionCreate200Response",
+            '400': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '401': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
+            '403': "TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2020,7 +2001,7 @@ class ApiProductionApi:
     def _put_v1_production_update_serialize(
         self,
         x_credential_type,
-        tactic_chain_api_service_view_models_production_api_dto,
+        tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2048,8 +2029,8 @@ class ApiProductionApi:
             _header_params['X-Credential-Type'] = x_credential_type
         # process the form parameters
         # process the body parameter
-        if tactic_chain_api_service_view_models_production_api_dto is not None:
-            _body_params = tactic_chain_api_service_view_models_production_api_dto
+        if tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request is not None:
+            _body_params = tactic_chain_api_service_controllers_api_integration_v1_api_production_update_request
 
 
         # set the HTTP header `Accept`

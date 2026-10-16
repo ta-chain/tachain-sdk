@@ -4,8 +4,11 @@ import json
 import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
+import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from normalize_openapi import normalize, walk_refs
 
 
 class ContractMetadata(unittest.TestCase):
@@ -34,7 +37,30 @@ class ContractMetadata(unittest.TestCase):
                     {"ApiKey": [], "Timestamp": [], "Signature": []},
                 ])
                 self.assertTrue(any(p.get("name") == "X-Credential-Type" and p.get("required") for p in operation.get("parameters", [])), f"{method} {path}")
-        self.assertEqual(len(names), 25)
+        self.assertEqual(len(names), 45)
+
+    def test_normalized_contract_is_current_and_all_refs_resolve(self):
+        self.assertEqual(normalize(self.source), self.public)
+        for name, source_schema in self.source["components"].get("schemas", {}).items():
+            schema = self.public["components"]["schemas"][name]
+            self.assertEqual(set(source_schema.get("properties", {})), set(schema.get("properties", {})), name)
+            self.assertEqual(source_schema.get("required", []), schema.get("required", []), name)
+        for ref in walk_refs(self.public):
+            self.assertTrue(ref.startswith("#/components/"), ref)
+            group, name = ref.removeprefix("#/components/").split("/", 1)
+            name = name.replace("~1", "/").replace("~0", "~")
+            self.assertIn(name, self.public["components"][group], ref)
+
+    def test_new_operations_and_file_upload_are_present(self):
+        for resource in ("material", "product", "processRoute"):
+            for operation in ("Create", "Update", "Get", "ListPaging", "Delete"):
+                self.assertIn(f"/v1/{resource}/{operation}", self.public["paths"])
+        for path in ("/v1/reference/Mappings", "/v1/reference/EnumValues", "/v1/order/DeclarationVerification", "/v1/order/ReceiptPending"):
+            self.assertIn(path, self.public["paths"])
+        upload = self.public["paths"]["/v1/declaration/UploadFile"]["post"]
+        schema = upload["requestBody"]["content"]["multipart/form-data"]["schema"]
+        self.assertIn("file", schema["required"])
+        self.assertEqual(schema["properties"]["file"]["format"], "binary")
 
     def test_package_coordinates(self):
         packages = self.config["packages"]

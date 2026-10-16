@@ -32,11 +32,11 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        Model4 DeleteV1DeliveryDelete(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        DeleteV1DeclarationDelete200Response DeleteV1DeliveryDelete(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default);
 
         /// <summary>
         /// 删除发货单。
@@ -46,11 +46,11 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        ApiResponse<Model4> DeleteV1DeliveryDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1DeliveryDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default);
         /// <summary>
         /// 查询发货单信息及明细信息。
         /// </summary>
@@ -59,30 +59,36 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeliveryListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>GetV1DeliveryListPaging200Response</returns>
+        GetV1DeliveryListPaging200Response GetV1DeliveryListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default);
 
         /// <summary>
         /// 查询发货单信息及明细信息。
@@ -92,30 +98,36 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeliveryListPaging200Response</returns>
+        ApiResponse<GetV1DeliveryListPaging200Response> GetV1DeliveryListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default);
         /// <summary>
         /// 查询收货单集合，核对收货信息。
         /// </summary>
@@ -124,30 +136,36 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeliveryReceiptListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>GetV1DeliveryListPaging200Response</returns>
+        GetV1DeliveryListPaging200Response GetV1DeliveryReceiptListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default);
 
         /// <summary>
         /// 查询收货单集合，核对收货信息。
@@ -157,30 +175,36 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryReceiptListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeliveryListPaging200Response</returns>
+        ApiResponse<GetV1DeliveryListPaging200Response> GetV1DeliveryReceiptListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default);
         /// <summary>
         /// 创建发货单。
         /// </summary>
@@ -189,9 +213,9 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1DeliveryCreate(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        PutV1DeliveryConfirmReceipt200Response PostV1DeliveryCreate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest);
 
         /// <summary>
         /// 创建发货单。
@@ -201,9 +225,9 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeliveryCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        ApiResponse<PutV1DeliveryConfirmReceipt200Response> PostV1DeliveryCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest);
         /// <summary>
         /// 确认收货。
         /// </summary>
@@ -212,10 +236,16 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1DeliveryConfirmReceipt(string xCredentialType, string? id = default, string? number = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        PutV1DeliveryConfirmReceipt200Response PutV1DeliveryConfirmReceipt(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
 
         /// <summary>
         /// 确认收货。
@@ -225,10 +255,16 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryConfirmReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        ApiResponse<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryConfirmReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
         /// <summary>
         /// 收货退回。
         /// </summary>
@@ -237,10 +273,16 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e PutV1DeliveryReturnReceipt(string xCredentialType, string? id = default, string? number = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>PutV1DeliveryReturnReceipt200Response</returns>
+        PutV1DeliveryReturnReceipt200Response PutV1DeliveryReturnReceipt(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
 
         /// <summary>
         /// 收货退回。
@@ -250,33 +292,39 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> PutV1DeliveryReturnReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default);
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>ApiResponse of PutV1DeliveryReturnReceipt200Response</returns>
+        ApiResponse<PutV1DeliveryReturnReceipt200Response> PutV1DeliveryReturnReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default);
         /// <summary>
         /// 修改发货单。
         /// </summary>
         /// <remarks>
-        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1DeliveryUpdate(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        PutV1DeliveryConfirmReceipt200Response PutV1DeliveryUpdate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest);
 
         /// <summary>
         /// 修改发货单。
         /// </summary>
         /// <remarks>
-        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default);
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        ApiResponse<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest);
         #endregion Synchronous Operations
     }
 
@@ -294,12 +342,12 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        System.Threading.Tasks.Task<Model4> DeleteV1DeliveryDeleteAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1DeliveryDeleteAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 删除发货单。
@@ -309,12 +357,12 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Model4>> DeleteV1DeliveryDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1DeliveryDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 查询发货单信息及明细信息。
         /// </summary>
@@ -323,31 +371,37 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1DeliveryListPaging200Response</returns>
+        System.Threading.Tasks.Task<GetV1DeliveryListPaging200Response> GetV1DeliveryListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询发货单信息及明细信息。
@@ -357,31 +411,37 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeliveryListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (GetV1DeliveryListPaging200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1DeliveryListPaging200Response>> GetV1DeliveryListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 查询收货单集合，核对收货信息。
         /// </summary>
@@ -390,31 +450,37 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryReceiptListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of GetV1DeliveryListPaging200Response</returns>
+        System.Threading.Tasks.Task<GetV1DeliveryListPaging200Response> GetV1DeliveryReceiptListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询收货单集合，核对收货信息。
@@ -424,31 +490,37 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeliveryReceiptListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (GetV1DeliveryListPaging200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<GetV1DeliveryListPaging200Response>> GetV1DeliveryReceiptListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 创建发货单。
         /// </summary>
@@ -457,10 +529,10 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeliveryCreateAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PostV1DeliveryCreateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 创建发货单。
@@ -470,10 +542,10 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1DeliveryCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PostV1DeliveryCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 确认收货。
         /// </summary>
@@ -482,11 +554,17 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryConfirmReceiptAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryConfirmReceiptAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 确认收货。
@@ -496,11 +574,17 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1DeliveryConfirmReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PutV1DeliveryConfirmReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 收货退回。
         /// </summary>
@@ -509,11 +593,17 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> PutV1DeliveryReturnReceiptAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PutV1DeliveryReturnReceipt200Response</returns>
+        System.Threading.Tasks.Task<PutV1DeliveryReturnReceipt200Response> PutV1DeliveryReturnReceiptAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 收货退回。
@@ -523,36 +613,42 @@ namespace Tachain.Sdk.Api
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>> PutV1DeliveryReturnReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PutV1DeliveryReturnReceipt200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PutV1DeliveryReturnReceipt200Response>> PutV1DeliveryReturnReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
         /// 修改发货单。
         /// </summary>
         /// <remarks>
-        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryUpdateAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryUpdateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 修改发货单。
         /// </summary>
         /// <remarks>
-        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </remarks>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        System.Threading.Tasks.Task<ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1DeliveryUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PutV1DeliveryUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -771,13 +867,13 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>Model4</returns>
-        public Model4 DeleteV1DeliveryDelete(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
+        /// <returns>DeleteV1DeclarationDelete200Response</returns>
+        public DeleteV1DeclarationDelete200Response DeleteV1DeliveryDelete(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = DeleteV1DeliveryDeleteWithHttpInfo(xCredentialType, id, number, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = DeleteV1DeliveryDeleteWithHttpInfo(xCredentialType, id, number, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest);
             return localVarResponse.Data;
         }
 
@@ -786,11 +882,11 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
-        /// <returns>ApiResponse of Model4</returns>
-        public Tachain.Sdk.Client.ApiResponse<Model4> DeleteV1DeliveryDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
+        /// <returns>ApiResponse of DeleteV1DeclarationDelete200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> DeleteV1DeliveryDeleteWithHttpInfo(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -822,7 +918,7 @@ namespace Tachain.Sdk.Api
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -847,7 +943,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Delete<Model4>("/v1/delivery/Delete", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Delete<DeleteV1DeclarationDelete200Response>("/v1/delivery/Delete", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -863,14 +959,14 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of Model4</returns>
-        public async System.Threading.Tasks.Task<Model4> DeleteV1DeliveryDeleteAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of DeleteV1DeclarationDelete200Response</returns>
+        public async System.Threading.Tasks.Task<DeleteV1DeclarationDelete200Response> DeleteV1DeliveryDeleteAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<Model4> localVarResponse = await DeleteV1DeliveryDeleteWithHttpInfoAsync(xCredentialType, id, number, tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response> localVarResponse = await DeleteV1DeliveryDeleteWithHttpInfoAsync(xCredentialType, id, number, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -879,12 +975,12 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">query 方式传入的单个 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (Model4)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<Model4>> DeleteV1DeliveryDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (DeleteV1DeclarationDelete200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<DeleteV1DeclarationDelete200Response>> DeleteV1DeliveryDeleteWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest? tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -918,7 +1014,7 @@ namespace Tachain.Sdk.Api
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiIntegrationDeleteRequest;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryDeleteRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -944,7 +1040,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Model4>("/v1/delivery/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<DeleteV1DeclarationDelete200Response>("/v1/delivery/Delete", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -960,32 +1056,38 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeliveryListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>GetV1DeliveryListPaging200Response</returns>
+        public GetV1DeliveryListPaging200Response GetV1DeliveryListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = GetV1DeliveryListPagingWithHttpInfo(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, customerId, customerCode, businessStatus, sortBy, page, pageSize);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> localVarResponse = GetV1DeliveryListPagingWithHttpInfo(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, customerId, customerCode, businessStatus, sortBy, page, pageSize, customerExtNo, supplierExtNo, orderCustomerCode, orderSupplierCode, orderCustomerName, orderSupplierName);
             return localVarResponse.Data;
         }
 
@@ -994,30 +1096,36 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeliveryListPaging200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> GetV1DeliveryListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1127,6 +1235,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierExtNo", supplierExtNo));
+            }
+            if (orderCustomerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerCode", orderCustomerCode));
+            }
+            if (orderSupplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierCode", orderSupplierCode));
+            }
+            if (orderCustomerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerName", orderCustomerName));
+            }
+            if (orderSupplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierName", orderSupplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1152,7 +1284,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ListPaging", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetV1DeliveryListPaging200Response>("/v1/delivery/ListPaging", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1168,33 +1300,39 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of GetV1DeliveryListPaging200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1DeliveryListPaging200Response> GetV1DeliveryListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await GetV1DeliveryListPagingWithHttpInfoAsync(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, customerId, customerCode, businessStatus, sortBy, page, pageSize, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> localVarResponse = await GetV1DeliveryListPagingWithHttpInfoAsync(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, customerId, customerCode, businessStatus, sortBy, page, pageSize, customerExtNo, supplierExtNo, orderCustomerCode, orderSupplierCode, orderCustomerName, orderSupplierName, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1203,31 +1341,37 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="customerId"> (optional)</param>
-        /// <param name="customerCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeliveryListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (GetV1DeliveryListPaging200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response>> GetV1DeliveryListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? customerId = default, List<string>? customerCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1339,6 +1483,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierExtNo", supplierExtNo));
+            }
+            if (orderCustomerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerCode", orderCustomerCode));
+            }
+            if (orderSupplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierCode", orderSupplierCode));
+            }
+            if (orderCustomerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerName", orderCustomerName));
+            }
+            if (orderSupplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierName", orderSupplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1365,7 +1533,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1DeliveryListPaging200Response>("/v1/delivery/ListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1381,32 +1549,38 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull GetV1DeliveryReceiptListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>GetV1DeliveryListPaging200Response</returns>
+        public GetV1DeliveryListPaging200Response GetV1DeliveryReceiptListPaging(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = GetV1DeliveryReceiptListPagingWithHttpInfo(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, supplierId, supplierCode, businessStatus, sortBy, page, pageSize);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> localVarResponse = GetV1DeliveryReceiptListPagingWithHttpInfo(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, supplierId, supplierCode, businessStatus, sortBy, page, pageSize, customerExtNo, supplierExtNo, orderCustomerCode, orderSupplierCode, orderCustomerName, orderSupplierName);
             return localVarResponse.Data;
         }
 
@@ -1415,30 +1589,36 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryReceiptListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
+        /// <returns>ApiResponse of GetV1DeliveryListPaging200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> GetV1DeliveryReceiptListPagingWithHttpInfo(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1548,6 +1728,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierExtNo", supplierExtNo));
+            }
+            if (orderCustomerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerCode", orderCustomerCode));
+            }
+            if (orderSupplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierCode", orderSupplierCode));
+            }
+            if (orderCustomerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerName", orderCustomerName));
+            }
+            if (orderSupplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierName", orderSupplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1573,7 +1777,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Get<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ReceiptListPaging", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Get<GetV1DeliveryListPaging200Response>("/v1/delivery/ReceiptListPaging", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1589,33 +1793,39 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> GetV1DeliveryReceiptListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of GetV1DeliveryListPaging200Response</returns>
+        public async System.Threading.Tasks.Task<GetV1DeliveryListPaging200Response> GetV1DeliveryReceiptListPagingAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await GetV1DeliveryReceiptListPagingWithHttpInfoAsync(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, supplierId, supplierCode, businessStatus, sortBy, page, pageSize, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response> localVarResponse = await GetV1DeliveryReceiptListPagingWithHttpInfoAsync(xCredentialType, id, isTransfer, matchNumber, fromCountry, toCountry, searchText, number, orderId, deliveryDateStart, deliveryDateEnd, orderLineId, orderNumber, orderDate, lineNumber, uniqueNo, status, supplierId, supplierCode, businessStatus, sortBy, page, pageSize, customerExtNo, supplierExtNo, orderCustomerCode, orderSupplierCode, orderCustomerName, orderSupplierName, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1624,31 +1834,37 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id"> (optional)</param>
-        /// <param name="isTransfer"> (optional)</param>
-        /// <param name="matchNumber"> (optional)</param>
-        /// <param name="fromCountry"> (optional)</param>
-        /// <param name="toCountry"> (optional)</param>
-        /// <param name="searchText">关键词搜索：支持送货单号（Number）。使用完整关键词进行包含匹配，任一字段命中即可，并与其他筛选条件共同生效；不传、空字符串或纯空白时不附加关键词条件。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <param name="orderId"> (optional)</param>
-        /// <param name="deliveryDateStart"> (optional)</param>
-        /// <param name="deliveryDateEnd"> (optional)</param>
-        /// <param name="orderLineId"> (optional)</param>
-        /// <param name="orderNumber"> (optional)</param>
-        /// <param name="orderDate"> (optional)</param>
-        /// <param name="lineNumber"> (optional)</param>
-        /// <param name="uniqueNo"> (optional)</param>
-        /// <param name="status"> (optional)</param>
-        /// <param name="supplierId"> (optional)</param>
-        /// <param name="supplierCode"> (optional)</param>
-        /// <param name="businessStatus"> (optional)</param>
-        /// <param name="sortBy"> (optional)</param>
-        /// <param name="page"> (optional, default to 1)</param>
-        /// <param name="pageSize"> (optional, default to 10)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="isTransfer">查询是否为转运单；创建/修改接口只开放普通发货。 (optional)</param>
+        /// <param name="matchNumber">完整发货单号，精确匹配。 (optional)</param>
+        /// <param name="fromCountry">发货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="toCountry">收货国家，支持国家枚举 Code/Name/ExtCode，保存为 ISO 二位码。 (optional)</param>
+        /// <param name="searchText">关键词搜索，具体匹配范围见本接口说明。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="orderId">订单主 ID，可选；可改用订单号、日期、交易对方或流水号。 (optional)</param>
+        /// <param name="deliveryDateStart">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="deliveryDateEnd">可选业务筛选条件；与其他条件同时生效。 (optional)</param>
+        /// <param name="orderLineId">订单明细 ID，可选；可改用三种流水号或订单号、日期、行号。 (optional)</param>
+        /// <param name="orderNumber">订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)</param>
+        /// <param name="orderDate">订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)</param>
+        /// <param name="lineNumber">订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)</param>
+        /// <param name="uniqueNo">系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)</param>
+        /// <param name="status">查询状态过滤，不作为写入状态字段开放。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <param name="businessStatus">运输业务状态过滤：10 待收货，20 已收货，30 拒绝收货。 (optional)</param>
+        /// <param name="sortBy">排序表达式；使用服务支持的字段，格式示例 CreatedAt:desc。 (optional)</param>
+        /// <param name="page">页码，默认 1；小于等于 0 时调整为 1。 (optional, default to 1)</param>
+        /// <param name="pageSize">每页条数，默认 10（参考数据默认 50）；不在 1～100 范围时使用 10。 (optional, default to 10)</param>
+        /// <param name="customerExtNo">买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="supplierExtNo">卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)</param>
+        /// <param name="orderCustomerCode">关联订单的客户编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderSupplierCode">关联订单的供应商编码/外部映射值；用于订单定位。 (optional)</param>
+        /// <param name="orderCustomerName">关联订单的客户名称；用于订单定位，和运输单列表的 customerCode 数组分开。 (optional)</param>
+        /// <param name="orderSupplierName">关联订单的供应商名称；用于订单定位。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> GetV1DeliveryReceiptListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (GetV1DeliveryListPaging200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<GetV1DeliveryListPaging200Response>> GetV1DeliveryReceiptListPagingWithHttpInfoAsync(string xCredentialType, int? id = default, int? isTransfer = default, string? matchNumber = default, string? fromCountry = default, string? toCountry = default, string? searchText = default, string? number = default, string? orderId = default, DateTime? deliveryDateStart = default, DateTime? deliveryDateEnd = default, string? orderLineId = default, string? orderNumber = default, DateTime? orderDate = default, string? lineNumber = default, string? uniqueNo = default, List<int>? status = default, List<string>? supplierId = default, List<string>? supplierCode = default, int? businessStatus = default, string? sortBy = default, int? page = default, int? pageSize = default, string? customerExtNo = default, string? supplierExtNo = default, string? orderCustomerCode = default, string? orderSupplierCode = default, string? orderCustomerName = default, string? orderSupplierName = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -1760,6 +1976,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "pageSize", pageSize));
             }
+            if (customerExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "customerExtNo", customerExtNo));
+            }
+            if (supplierExtNo != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "supplierExtNo", supplierExtNo));
+            }
+            if (orderCustomerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerCode", orderCustomerCode));
+            }
+            if (orderSupplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierCode", orderSupplierCode));
+            }
+            if (orderCustomerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderCustomerName", orderCustomerName));
+            }
+            if (orderSupplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "orderSupplierName", orderSupplierName));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -1786,7 +2026,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<TacticChainApiServiceViewModelsCommonPagedResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ReceiptListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<GetV1DeliveryListPaging200Response>("/v1/delivery/ReceiptListPaging", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1802,11 +2042,11 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PostV1DeliveryCreate(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        public PutV1DeliveryConfirmReceipt200Response PostV1DeliveryCreate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PostV1DeliveryCreateWithHttpInfo(xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = PostV1DeliveryCreateWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest);
             return localVarResponse.Data;
         }
 
@@ -1815,13 +2055,17 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeliveryCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> PostV1DeliveryCreateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeliveryApi->PostV1DeliveryCreate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest' when calling ApiDeliveryApi->PostV1DeliveryCreate");
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
@@ -1841,7 +2085,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsDeliveryNoteApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1866,7 +2110,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Post<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/Create", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Post<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/Create", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1882,12 +2126,12 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PostV1DeliveryCreateAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        public async System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PostV1DeliveryCreateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PostV1DeliveryCreateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = await PostV1DeliveryCreateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1896,14 +2140,18 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PostV1DeliveryCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PostV1DeliveryCreateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeliveryApi->PostV1DeliveryCreate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest' when calling ApiDeliveryApi->PostV1DeliveryCreate");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -1925,7 +2173,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsDeliveryNoteApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryCreateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -1951,7 +2199,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/Create", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/Create", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1967,12 +2215,18 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1DeliveryConfirmReceipt(string xCredentialType, string? id = default, string? number = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        public PutV1DeliveryConfirmReceipt200Response PutV1DeliveryConfirmReceipt(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PutV1DeliveryConfirmReceiptWithHttpInfo(xCredentialType, id, number);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = PutV1DeliveryConfirmReceiptWithHttpInfo(xCredentialType, id, number, customerId, customerName, customerCode, supplierId, supplierName, supplierCode);
             return localVarResponse.Data;
         }
 
@@ -1981,10 +2235,16 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryConfirmReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryConfirmReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -2014,6 +2274,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -2039,7 +2323,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ConfirmReceipt", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/ConfirmReceipt", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2055,13 +2339,19 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryConfirmReceiptAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        public async System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryConfirmReceiptAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PutV1DeliveryConfirmReceiptWithHttpInfoAsync(xCredentialType, id, number, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = await PutV1DeliveryConfirmReceiptWithHttpInfoAsync(xCredentialType, id, number, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2070,11 +2360,17 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要确认收货的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1DeliveryConfirmReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PutV1DeliveryConfirmReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -2106,6 +2402,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -2132,7 +2452,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/ConfirmReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/ConfirmReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2148,12 +2468,18 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e PutV1DeliveryReturnReceipt(string xCredentialType, string? id = default, string? number = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>PutV1DeliveryReturnReceipt200Response</returns>
+        public PutV1DeliveryReturnReceipt200Response PutV1DeliveryReturnReceipt(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> localVarResponse = PutV1DeliveryReturnReceiptWithHttpInfo(xCredentialType, id, number);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryReturnReceipt200Response> localVarResponse = PutV1DeliveryReturnReceiptWithHttpInfo(xCredentialType, id, number, customerId, customerName, customerCode, supplierId, supplierName, supplierCode);
             return localVarResponse.Data;
         }
 
@@ -2162,10 +2488,16 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> PutV1DeliveryReturnReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default)
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
+        /// <returns>ApiResponse of PutV1DeliveryReturnReceipt200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PutV1DeliveryReturnReceipt200Response> PutV1DeliveryReturnReceiptWithHttpInfo(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -2195,6 +2527,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -2220,7 +2576,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>("/v1/delivery/ReturnReceipt", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<PutV1DeliveryReturnReceipt200Response>("/v1/delivery/ReturnReceipt", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2236,13 +2592,19 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> PutV1DeliveryReturnReceiptAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PutV1DeliveryReturnReceipt200Response</returns>
+        public async System.Threading.Tasks.Task<PutV1DeliveryReturnReceipt200Response> PutV1DeliveryReturnReceiptAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e> localVarResponse = await PutV1DeliveryReturnReceiptWithHttpInfoAsync(xCredentialType, id, number, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryReturnReceipt200Response> localVarResponse = await PutV1DeliveryReturnReceiptWithHttpInfoAsync(xCredentialType, id, number, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -2251,11 +2613,17 @@ namespace Tachain.Sdk.Api
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="id">需要退回的发货/收货流转单 ID。 (optional)</param>
-        /// <param name="number"> (optional)</param>
+        /// <param name="id">查询返回的单据 ID，可选；优先使用本文业务组合。 (optional)</param>
+        /// <param name="number">生产/发货单号；定位接口精确匹配，列表 number 为筛选。 (optional)</param>
+        /// <param name="customerId">查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)</param>
+        /// <param name="customerName">客户英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="customerCode">客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)</param>
+        /// <param name="supplierId">查询返回的供应商公司 ID，可选；可使用 SupplierName/SupplierCode。 (optional)</param>
+        /// <param name="supplierName">供应商英文名、当地语言名称或简称，精确匹配。 (optional)</param>
+        /// <param name="supplierCode">供应商业务编码、名称或当前公司启用的 Supplier/Company 外部映射值。 (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>> PutV1DeliveryReturnReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PutV1DeliveryReturnReceipt200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PutV1DeliveryReturnReceipt200Response>> PutV1DeliveryReturnReceiptWithHttpInfoAsync(string xCredentialType, string? id = default, string? number = default, string? customerId = default, string? customerName = default, string? customerCode = default, string? supplierId = default, string? supplierName = default, string? supplierCode = default, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
@@ -2287,6 +2655,30 @@ namespace Tachain.Sdk.Api
             {
                 localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "number", number));
             }
+            if (customerId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerId", customerId));
+            }
+            if (customerName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerName", customerName));
+            }
+            if (customerCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "CustomerCode", customerCode));
+            }
+            if (supplierId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierId", supplierId));
+            }
+            if (supplierName != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierName", supplierName));
+            }
+            if (supplierCode != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Tachain.Sdk.Client.ClientUtils.ParameterToMultiMap("", "SupplierCode", supplierCode));
+            }
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
 
             // authentication (ApiKey) required
@@ -2313,7 +2705,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<TacticChainApiServiceViewModelsCommonApiResponse1SystemStringSystemPrivateCoreLibVersion9000CultureNeutralPublicKeyToken7cec85d7bea7798e>("/v1/delivery/ReturnReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<PutV1DeliveryReturnReceipt200Response>("/v1/delivery/ReturnReceipt", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2325,31 +2717,35 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull PutV1DeliveryUpdate(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
+        /// <returns>PutV1DeliveryConfirmReceipt200Response</returns>
+        public PutV1DeliveryConfirmReceipt200Response PutV1DeliveryUpdate(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = PutV1DeliveryUpdateWithHttpInfo(xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = PutV1DeliveryUpdateWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
-        /// <returns>ApiResponse of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default)
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
+        /// <returns>ApiResponse of PutV1DeliveryConfirmReceipt200Response</returns>
+        public Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryUpdateWithHttpInfo(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeliveryApi->PutV1DeliveryUpdate");
 
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest' when calling ApiDeliveryApi->PutV1DeliveryUpdate");
+
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -2368,7 +2764,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsDeliveryNoteApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -2393,7 +2789,7 @@ namespace Tachain.Sdk.Api
             }
 
             // make the HTTP request
-            var localVarResponse = this.Client.Put<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/Update", localVarRequestOptions, this.Configuration);
+            var localVarResponse = this.Client.Put<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/Update", localVarRequestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -2405,32 +2801,36 @@ namespace Tachain.Sdk.Api
         }
 
         /// <summary>
-        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull</returns>
-        public async System.Threading.Tasks.Task<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> PutV1DeliveryUpdateAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of PutV1DeliveryConfirmReceipt200Response</returns>
+        public async System.Threading.Tasks.Task<PutV1DeliveryConfirmReceipt200Response> PutV1DeliveryUpdateAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
-            Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull> localVarResponse = await PutV1DeliveryUpdateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceViewModelsDeliveryNoteApiDto, cancellationToken).ConfigureAwait(false);
+            Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response> localVarResponse = await PutV1DeliveryUpdateWithHttpInfoAsync(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
         /// <summary>
-        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 &#x60;UniqueCode&#x60;，传入 &#x60;Status &#x3D; -1&#x60; 可删除明细。
+        /// 修改发货单。 新增明细不需要传 &#x60;UniqueCode&#x60;，接口会按系统规则生成； 已有明细保留原 UniqueCode；保留明细 Id 修改方式，或用三种订单流水号/业务组合定位；Delete&#x3D;true 删除。 主单按 Number + CustomerName/CustomerCode 定位，发货方固定当前公司；已传的 Id 和业务条件必须一致。
         /// </summary>
         /// <exception cref="Tachain.Sdk.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="xCredentialType">Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API.</param>
-        /// <param name="tacticChainApiServiceViewModelsDeliveryNoteApiDto"> (optional)</param>
+        /// <param name="tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest"></param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse (TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull)</returns>
-        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>> PutV1DeliveryUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceViewModelsDeliveryNoteApiDto? tacticChainApiServiceViewModelsDeliveryNoteApiDto = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns>Task of ApiResponse (PutV1DeliveryConfirmReceipt200Response)</returns>
+        public async System.Threading.Tasks.Task<Tachain.Sdk.Client.ApiResponse<PutV1DeliveryConfirmReceipt200Response>> PutV1DeliveryUpdateWithHttpInfoAsync(string xCredentialType, TacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest, System.Threading.CancellationToken cancellationToken = default)
         {
             // verify the required parameter 'xCredentialType' is set
             if (xCredentialType == null)
                 throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'xCredentialType' when calling ApiDeliveryApi->PutV1DeliveryUpdate");
+
+            // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest' is set
+            if (tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest == null)
+                throw new Tachain.Sdk.Client.ApiException(400, "Missing required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest' when calling ApiDeliveryApi->PutV1DeliveryUpdate");
 
 
             Tachain.Sdk.Client.RequestOptions localVarRequestOptions = new Tachain.Sdk.Client.RequestOptions();
@@ -2452,7 +2852,7 @@ namespace Tachain.Sdk.Api
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             localVarRequestOptions.HeaderParameters.Add("X-Credential-Type", Tachain.Sdk.Client.ClientUtils.ParameterToString(xCredentialType)); // header parameter
-            localVarRequestOptions.Data = tacticChainApiServiceViewModelsDeliveryNoteApiDto;
+            localVarRequestOptions.Data = tacticChainApiServiceControllersApiIntegrationV1ApiDeliveryUpdateRequest;
 
             // authentication (ApiKey) required
             if (!string.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("X-API-Key")))
@@ -2478,7 +2878,7 @@ namespace Tachain.Sdk.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<TacticChainApiServiceViewModelsCommonApiResponse1TacticChainApiServiceViewModelsDeliveryNoteApiDtoTacticChainApiServiceVersion1000CultureNeutralPublicKeyTokenNull>("/v1/delivery/Update", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<PutV1DeliveryConfirmReceipt200Response>("/v1/delivery/Update", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

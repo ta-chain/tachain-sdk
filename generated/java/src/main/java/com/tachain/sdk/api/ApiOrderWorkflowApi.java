@@ -27,7 +27,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.tachain.sdk.model.GetV1OrderReceiptPending200Response;
+import java.time.OffsetDateTime;
+import com.tachain.sdk.model.PostV1OrderDeclarationVerification200Response;
+import com.tachain.sdk.model.PostV1OrderSubmitAudit200Response;
+import com.tachain.sdk.model.PutV1OrderConfirmReceipt200Response;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiErrorResponse;
 import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest;
+import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest;
 import com.tachain.sdk.model.TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest;
 
 import java.lang.reflect.Type;
@@ -74,9 +81,22 @@ public class ApiOrderWorkflowApi {
     }
 
     /**
-     * Build call for postV1OrderSubmitAudit
+     * Build call for getV1OrderReceiptPending
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (optional)
+     * @param orderId 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param orderLineId 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param supplierCode 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -84,10 +104,408 @@ public class ApiOrderWorkflowApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postV1OrderSubmitAuditCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call getV1OrderReceiptPendingCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String orderId, @javax.annotation.Nullable String orderLineId, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/v1/order/ReceiptPending";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (orderId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("OrderId", orderId));
+        }
+
+        if (orderLineId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("OrderLineId", orderLineId));
+        }
+
+        if (orderNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("OrderNumber", orderNumber));
+        }
+
+        if (orderDate != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("OrderDate", orderDate));
+        }
+
+        if (lineNumber != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("LineNumber", lineNumber));
+        }
+
+        if (customerExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerExtNo", customerExtNo));
+        }
+
+        if (supplierExtNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierExtNo", supplierExtNo));
+        }
+
+        if (uniqueNo != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("UniqueNo", uniqueNo));
+        }
+
+        if (customerId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerId", customerId));
+        }
+
+        if (customerName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerName", customerName));
+        }
+
+        if (customerCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("CustomerCode", customerCode));
+        }
+
+        if (supplierId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierId", supplierId));
+        }
+
+        if (supplierName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierName", supplierName));
+        }
+
+        if (supplierCode != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("SupplierCode", supplierCode));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xCredentialType != null) {
+            localVarHeaderParams.put("X-Credential-Type", localVarApiClient.parameterToString(xCredentialType));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "ApiKey", "Signature", "BearerToken", "Timestamp" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getV1OrderReceiptPendingValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String orderId, @javax.annotation.Nullable String orderLineId, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'xCredentialType' is set
+        if (xCredentialType == null) {
+            throw new ApiException("Missing the required parameter 'xCredentialType' when calling getV1OrderReceiptPending(Async)");
+        }
+
+        return getV1OrderReceiptPendingCall(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, _callback);
+
+    }
+
+    /**
+     * 采购订单确认收货待办项查询。
+     * 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param orderId 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param orderLineId 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param supplierCode 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @return GetV1OrderReceiptPending200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public GetV1OrderReceiptPending200Response getV1OrderReceiptPending(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String orderId, @javax.annotation.Nullable String orderLineId, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode) throws ApiException {
+        ApiResponse<GetV1OrderReceiptPending200Response> localVarResp = getV1OrderReceiptPendingWithHttpInfo(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 采购订单确认收货待办项查询。
+     * 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param orderId 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param orderLineId 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param supplierCode 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @return ApiResponse&lt;GetV1OrderReceiptPending200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<GetV1OrderReceiptPending200Response> getV1OrderReceiptPendingWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String orderId, @javax.annotation.Nullable String orderLineId, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode) throws ApiException {
+        okhttp3.Call localVarCall = getV1OrderReceiptPendingValidateBeforeCall(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, null);
+        Type localVarReturnType = new TypeToken<GetV1OrderReceiptPending200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * 采购订单确认收货待办项查询。 (asynchronously)
+     * 当前公司必须为采购方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补供应商条件。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；LineNumber 可选，不传则返回整单各明细待办。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 GetOrderLineHasPendingAsync 对应 Service，逐行返回现有收货待办及已本地化消息。 HasPending&#x3D;false 仅表示本次无待办，不保证可收货；ConfirmReceipt 仍执行状态、数量、库存和审核校验。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param orderId 查询返回的订单主 ID；不指定明细时查询整单各明细待办。 (optional)
+     * @param orderLineId 查询返回的订单明细 ID，可用任一流水号或订单业务组合替代。 (optional)
+     * @param orderNumber 订单号。定位操作使用精确匹配；列表接口作为筛选条件。 (optional)
+     * @param orderDate 订单日期 yyyy-MM-dd，业务定位按当天范围匹配。 (optional)
+     * @param lineNumber 订单行号。流水号可以替代它；需要按行操作时最终必须唯一匹配。 (optional)
+     * @param customerExtNo 买方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param supplierExtNo 卖方外部系统的订单明细流水号；重复时补充交易对方/订单条件。 (optional)
+     * @param uniqueNo 系统生成的订单明细全局流水号，查询返回后可直接使用；不可自行生成。 (optional)
+     * @param customerId 查询返回的客户公司 ID，可选；可使用 CustomerName/CustomerCode。 (optional)
+     * @param customerName 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 (optional)
+     * @param customerCode 客户业务编码、名称或当前公司启用的 Customer/Company 外部映射值。 (optional)
+     * @param supplierId 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 (optional)
+     * @param supplierName 供应商英文名、当地语言名称或简称；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param supplierCode 供应商业务编码或启用的外部映射；无 ID/流水号时配合订单号、订单日期定位。 (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getV1OrderReceiptPendingAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable String orderId, @javax.annotation.Nullable String orderLineId, @javax.annotation.Nullable String orderNumber, @javax.annotation.Nullable OffsetDateTime orderDate, @javax.annotation.Nullable String lineNumber, @javax.annotation.Nullable String customerExtNo, @javax.annotation.Nullable String supplierExtNo, @javax.annotation.Nullable String uniqueNo, @javax.annotation.Nullable String customerId, @javax.annotation.Nullable String customerName, @javax.annotation.Nullable String customerCode, @javax.annotation.Nullable String supplierId, @javax.annotation.Nullable String supplierName, @javax.annotation.Nullable String supplierCode, final ApiCallback<GetV1OrderReceiptPending200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getV1OrderReceiptPendingValidateBeforeCall(xCredentialType, orderId, orderLineId, orderNumber, orderDate, lineNumber, customerExtNo, supplierExtNo, uniqueNo, customerId, customerName, customerCode, supplierId, supplierName, supplierCode, _callback);
+        Type localVarReturnType = new TypeToken<GetV1OrderReceiptPending200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for postV1OrderDeclarationVerification
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call postV1OrderDeclarationVerificationCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest;
+
+        // create path and map variables
+        String localVarPath = "/v1/order/DeclarationVerification";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xCredentialType != null) {
+            localVarHeaderParams.put("X-Credential-Type", localVarApiClient.parameterToString(xCredentialType));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "ApiKey", "Signature", "BearerToken", "Timestamp" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call postV1OrderDeclarationVerificationValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'xCredentialType' is set
+        if (xCredentialType == null) {
+            throw new ApiException("Missing the required parameter 'xCredentialType' when calling postV1OrderDeclarationVerification(Async)");
+        }
+
+        // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' is set
+        if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest == null) {
+            throw new ApiException("Missing the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest' when calling postV1OrderDeclarationVerification(Async)");
+        }
+
+        return postV1OrderDeclarationVerificationCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, _callback);
+
+    }
+
+    /**
+     * 销售订单提交审核前一键校验。
+     * 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest  (required)
+     * @return PostV1OrderDeclarationVerification200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public PostV1OrderDeclarationVerification200Response postV1OrderDeclarationVerification(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest) throws ApiException {
+        ApiResponse<PostV1OrderDeclarationVerification200Response> localVarResp = postV1OrderDeclarationVerificationWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 销售订单提交审核前一键校验。
+     * 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest  (required)
+     * @return ApiResponse&lt;PostV1OrderDeclarationVerification200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<PostV1OrderDeclarationVerification200Response> postV1OrderDeclarationVerificationWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest) throws ApiException {
+        okhttp3.Call localVarCall = postV1OrderDeclarationVerificationValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, null);
+        Type localVarReturnType = new TypeToken<PostV1OrderDeclarationVerification200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * 销售订单提交审核前一键校验。 (asynchronously)
+     * 当前公司必须为销售方。UniqueNo、CustomerExtNo、SupplierExtNo 任一流水号定位明细，外部流水号重复时补客户条件。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；LineNumber 可选，不传则校验整单。 支持查询返回的 OrderId/OrderLineId；所有已提供条件取交集。 复用 DeclarationVerification 的校验核心（含累计领料校验），只读取正式业务数据，不保存草稿、不提交审核。 Code&#x3D;200 表示校验已执行，业务结果检查 Passed、HasBlockingErrors、HasWarnings 和 VerificationResults。 Type&#x3D;1 阻断，Type&#x3D;0 警告，Type&#x3D;2/3 为 AI 文件提示；SubmitAudit 会重新校验当时的数据。
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call postV1OrderDeclarationVerificationAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, final ApiCallback<PostV1OrderDeclarationVerification200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = postV1OrderDeclarationVerificationValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderDeclarationVerificationRequest, _callback);
+        Type localVarReturnType = new TypeToken<PostV1OrderDeclarationVerification200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for postV1OrderSubmitAudit
+     * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call postV1OrderSubmitAuditCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -113,6 +531,7 @@ public class ApiOrderWorkflowApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -137,10 +556,15 @@ public class ApiOrderWorkflowApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call postV1OrderSubmitAuditValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call postV1OrderSubmitAuditValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'xCredentialType' is set
         if (xCredentialType == null) {
             throw new ApiException("Missing the required parameter 'xCredentialType' when calling postV1OrderSubmitAudit(Async)");
+        }
+
+        // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' is set
+        if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest == null) {
+            throw new ApiException("Missing the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest' when calling postV1OrderSubmitAudit(Async)");
         }
 
         return postV1OrderSubmitAuditCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, _callback);
@@ -149,45 +573,54 @@ public class ApiOrderWorkflowApi {
 
     /**
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (required)
+     * @return PostV1OrderSubmitAudit200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public void postV1OrderSubmitAudit(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest) throws ApiException {
-        postV1OrderSubmitAuditWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
+    public PostV1OrderSubmitAudit200Response postV1OrderSubmitAudit(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest) throws ApiException {
+        ApiResponse<PostV1OrderSubmitAudit200Response> localVarResp = postV1OrderSubmitAuditWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest);
+        return localVarResp.getData();
     }
 
     /**
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (required)
+     * @return ApiResponse&lt;PostV1OrderSubmitAudit200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> postV1OrderSubmitAuditWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest) throws ApiException {
+    public ApiResponse<PostV1OrderSubmitAudit200Response> postV1OrderSubmitAuditWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest) throws ApiException {
         okhttp3.Call localVarCall = postV1OrderSubmitAuditValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<PostV1OrderSubmitAudit200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * 销售方根据已入库的订单、生产、发货及申报资料提交审核。 (asynchronously)
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + CustomerId/CustomerName。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + CustomerName/CustomerCode；加 LineNumber 限定明细。 买方/卖方外部流水号适用于对应系统回传；重复时补充交易对方。所有条件取交集。 复用快速申报校验；Type&#x3D;1 阻断，Type&#x3D;0 返回 Code&#x3D;409，确认后传 ConfirmWarnings&#x3D;true 重试。 校验通过后执行现有状态和时间更新逻辑，不重复保存生产、发货或库存，不合并页面草稿。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -195,19 +628,23 @@ public class ApiOrderWorkflowApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call postV1OrderSubmitAuditAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call postV1OrderSubmitAuditAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, final ApiCallback<PostV1OrderSubmitAudit200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = postV1OrderSubmitAuditValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderSubmitAuditRequest, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<PostV1OrderSubmitAudit200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for putV1OrderConfirmReceipt
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -215,10 +652,13 @@ public class ApiOrderWorkflowApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call putV1OrderConfirmReceiptCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call putV1OrderConfirmReceiptCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -244,6 +684,7 @@ public class ApiOrderWorkflowApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
+            "application/json"
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -268,10 +709,15 @@ public class ApiOrderWorkflowApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call putV1OrderConfirmReceiptValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call putV1OrderConfirmReceiptValidateBeforeCall(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'xCredentialType' is set
         if (xCredentialType == null) {
             throw new ApiException("Missing the required parameter 'xCredentialType' when calling putV1OrderConfirmReceipt(Async)");
+        }
+
+        // verify the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' is set
+        if (tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest == null) {
+            throw new ApiException("Missing the required parameter 'tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest' when calling putV1OrderConfirmReceipt(Async)");
         }
 
         return putV1OrderConfirmReceiptCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, _callback);
@@ -280,45 +726,54 @@ public class ApiOrderWorkflowApi {
 
     /**
      * 采购方按整单或单条订单明细确认收货。
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (required)
+     * @return PutV1OrderConfirmReceipt200Response
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public void putV1OrderConfirmReceipt(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) throws ApiException {
-        putV1OrderConfirmReceiptWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
+    public PutV1OrderConfirmReceipt200Response putV1OrderConfirmReceipt(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) throws ApiException {
+        ApiResponse<PutV1OrderConfirmReceipt200Response> localVarResp = putV1OrderConfirmReceiptWithHttpInfo(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest);
+        return localVarResp.getData();
     }
 
     /**
      * 采购方按整单或单条订单明细确认收货。
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (optional)
-     * @return ApiResponse&lt;Void&gt;
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (required)
+     * @return ApiResponse&lt;PutV1OrderConfirmReceipt200Response&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Void> putV1OrderConfirmReceiptWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) throws ApiException {
+    public ApiResponse<PutV1OrderConfirmReceipt200Response> putV1OrderConfirmReceiptWithHttpInfo(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest) throws ApiException {
         okhttp3.Call localVarCall = putV1OrderConfirmReceiptValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, null);
-        return localVarApiClient.execute(localVarCall);
+        Type localVarReturnType = new TypeToken<PutV1OrderConfirmReceipt200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * 采购方按整单或单条订单明细确认收货。 (asynchronously)
-     * 支持 OrderId、OrderLineId，或 OrderNumber + OrderDate + SupplierId/SupplierName。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
+     * 支持查询返回的 OrderId/OrderLineId，或 UniqueNo、CustomerExtNo、SupplierExtNo。 无流水号时用 OrderNumber + OrderDate + SupplierName/SupplierCode；加 LineNumber 限定明细。 买方外部流水号适用于采购 ERP，卖方外部流水号适用于供应商回传；重复时补充交易对方。所有条件取交集。 LineNumber 可选，不传时处理整单；提供多个条件时取交集。 复用 /api/DeliveryNote/OrderReceivingDeliveryNote 的校验、收货及审核流程。 Code&#x3D;207 表示部分完成，需检查 PendingOrderLineIds；Code&#x3D;200 表示本次所有明细均已确认。
      * @param xCredentialType Use &#39;Token&#39; with bearer authorization, or &#39;API Key&#39; with signed API key headers. This header is mandatory in the deployed API. (required)
-     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (optional)
+     * @param tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -326,13 +781,17 @@ public class ApiOrderWorkflowApi {
      <table border="1">
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> 检查响应体 Code；业务成功与业务校验失败均可能使用 HTTP 200。 </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> 请求包含不支持的字段、类型错误或无法解析的内容；返回 code、data、message。 </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> 凭证无效。 </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> 凭证无接口权限。 </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call putV1OrderConfirmReceiptAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nullable TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call putV1OrderConfirmReceiptAsync(@javax.annotation.Nonnull String xCredentialType, @javax.annotation.Nonnull TacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, final ApiCallback<PutV1OrderConfirmReceipt200Response> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = putV1OrderConfirmReceiptValidateBeforeCall(xCredentialType, tacticChainApiServiceControllersApiIntegrationV1ApiOrderConfirmReceiptRequest, _callback);
-        localVarApiClient.executeAsync(localVarCall, _callback);
+        Type localVarReturnType = new TypeToken<PutV1OrderConfirmReceipt200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
 }

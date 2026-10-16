@@ -13,48 +13,89 @@ import AnyCodable
 /** 外部集成申报资料提交请求。 */
 public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest: Codable, JSONEncodable, Hashable {
 
+    public static let documentListRule = ArrayRule(minItems: 1, maxItems: nil, uniqueItems: false)
+    /** 查询返回的客户公司 ID，可选。优先使用 CustomerName 或 CustomerCode。 */
+    public var customerId: String?
+    /** 客户英文名、当地语言名称或简称，精确匹配当前公司的有效客户关系。 */
+    public var customerName: String?
+    /** 当前公司维护的客户编码或启用的 Customer/Company 外部映射值。 */
+    public var customerCode: String?
+    /** 查询返回的供应商公司 ID，可选。优先使用 SupplierName 或 SupplierCode。 */
+    public var supplierId: String?
+    /** 供应商英文名、当地语言名称或简称，精确匹配当前公司的有效供应商关系。 */
+    public var supplierName: String?
+    /** 当前公司维护的供应商编码或启用的 Supplier/Company 外部映射值。 */
+    public var supplierCode: String?
+    /** 订单明细的客户外部系统流水号，可独立定位；非唯一时需要增加交易对方条件。 */
+    public var customerExtNo: String?
+    /** 订单明细的供应商外部系统流水号，可独立定位；重复时补充交易对方、订单号、日期或行号。 */
+    public var supplierExtNo: String?
+    /** 订单明细的全局唯一系统流水号。 */
+    public var uniqueNo: String?
     /** 业务扩展 ID，例如订单、生产单、发货单等业务单据 ID。 */
     public var extendId: String?
     /** 业务单号。订单阶段表示订单号，生产/入库阶段表示生产单号，发货阶段可表示发货单号。 */
     public var extendNumber: String?
     /** 业务单日期。订单阶段用于和 ExtendNumber 一起定位订单。 */
-    public var extendDate: Date?
-    /** 订单行号。订单阶段需要按行定位时与 ExtendNumber、ExtendDate 一起使用。 */
-    public var extendLineNumber: String?
+    public var orderDate: Date?
+    /** 订单行号。订单阶段需要按行定位时与 ExtendNumber、OrderDate 一起使用。 */
+    public var lineNumber: String?
     /** 订单侧别，常用 PO 或 SO；订单号重复时用于区分采购订单和销售订单。 */
     public var orderSide: String?
-    /** 产品编码。生产/入库阶段按生产单号定位时需要配合生产类型使用。 */
+    /** 成品编码、名称或外部映射。生产/入库阶段配合生产编号定位。 */
     public var productCode: String?
-    /** 生产类型。生产阶段默认 0，入库阶段默认 1；显式传入时参与生产单唯一定位。 */
+    /** 生产类型校验。生产阶段默认 0，入库阶段默认 1；不属于生产单唯一键。 */
     public var productionType: Int?
+    /** 入库单号，可选；同一生产编号存在多次入库时用于消歧。 */
+    public var receiptNumber: String?
     /** 发货单号。发货阶段优先用该字段定位发货单。 */
     public var deliveryNumber: String?
     /** 申报阶段 ID。 */
-    public var stageId: String?
+    public var stageId: String
     /** 申报资料明细集合，每条明细对应一种资料类型。 */
-    public var documentList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest]?
+    public var documentList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest]
 
-    public init(extendId: String? = nil, extendNumber: String? = nil, extendDate: Date? = nil, extendLineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, deliveryNumber: String? = nil, stageId: String? = nil, documentList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest]? = nil) {
+    public init(customerId: String? = nil, customerName: String? = nil, customerCode: String? = nil, supplierId: String? = nil, supplierName: String? = nil, supplierCode: String? = nil, customerExtNo: String? = nil, supplierExtNo: String? = nil, uniqueNo: String? = nil, extendId: String? = nil, extendNumber: String? = nil, orderDate: Date? = nil, lineNumber: String? = nil, orderSide: String? = nil, productCode: String? = nil, productionType: Int? = nil, receiptNumber: String? = nil, deliveryNumber: String? = nil, stageId: String, documentList: [TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationDocumentRequest]) {
+        self.customerId = customerId
+        self.customerName = customerName
+        self.customerCode = customerCode
+        self.supplierId = supplierId
+        self.supplierName = supplierName
+        self.supplierCode = supplierCode
+        self.customerExtNo = customerExtNo
+        self.supplierExtNo = supplierExtNo
+        self.uniqueNo = uniqueNo
         self.extendId = extendId
         self.extendNumber = extendNumber
-        self.extendDate = extendDate
-        self.extendLineNumber = extendLineNumber
+        self.orderDate = orderDate
+        self.lineNumber = lineNumber
         self.orderSide = orderSide
         self.productCode = productCode
         self.productionType = productionType
+        self.receiptNumber = receiptNumber
         self.deliveryNumber = deliveryNumber
         self.stageId = stageId
         self.documentList = documentList
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case customerId
+        case customerName
+        case customerCode
+        case supplierId
+        case supplierName
+        case supplierCode
+        case customerExtNo
+        case supplierExtNo
+        case uniqueNo
         case extendId
         case extendNumber
-        case extendDate
-        case extendLineNumber
+        case orderDate
+        case lineNumber
         case orderSide
         case productCode
         case productionType
+        case receiptNumber
         case deliveryNumber
         case stageId
         case documentList
@@ -64,26 +105,46 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(customerId, forKey: .customerId)
+        try container.encodeIfPresent(customerName, forKey: .customerName)
+        try container.encodeIfPresent(customerCode, forKey: .customerCode)
+        try container.encodeIfPresent(supplierId, forKey: .supplierId)
+        try container.encodeIfPresent(supplierName, forKey: .supplierName)
+        try container.encodeIfPresent(supplierCode, forKey: .supplierCode)
+        try container.encodeIfPresent(customerExtNo, forKey: .customerExtNo)
+        try container.encodeIfPresent(supplierExtNo, forKey: .supplierExtNo)
+        try container.encodeIfPresent(uniqueNo, forKey: .uniqueNo)
         try container.encodeIfPresent(extendId, forKey: .extendId)
         try container.encodeIfPresent(extendNumber, forKey: .extendNumber)
-        try container.encodeIfPresent(extendDate, forKey: .extendDate)
-        try container.encodeIfPresent(extendLineNumber, forKey: .extendLineNumber)
+        try container.encodeIfPresent(orderDate, forKey: .orderDate)
+        try container.encodeIfPresent(lineNumber, forKey: .lineNumber)
         try container.encodeIfPresent(orderSide, forKey: .orderSide)
         try container.encodeIfPresent(productCode, forKey: .productCode)
         try container.encodeIfPresent(productionType, forKey: .productionType)
+        try container.encodeIfPresent(receiptNumber, forKey: .receiptNumber)
         try container.encodeIfPresent(deliveryNumber, forKey: .deliveryNumber)
-        try container.encodeIfPresent(stageId, forKey: .stageId)
-        try container.encodeIfPresent(documentList, forKey: .documentList)
+        try container.encode(stageId, forKey: .stageId)
+        try container.encode(documentList, forKey: .documentList)
     }
 
     public static func == (lhs: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest, rhs: TacticChainApiServiceControllersApiIntegrationV1ApiDeclarationSubmitRequest) -> Bool {
+        lhs.customerId == rhs.customerId &&
+        lhs.customerName == rhs.customerName &&
+        lhs.customerCode == rhs.customerCode &&
+        lhs.supplierId == rhs.supplierId &&
+        lhs.supplierName == rhs.supplierName &&
+        lhs.supplierCode == rhs.supplierCode &&
+        lhs.customerExtNo == rhs.customerExtNo &&
+        lhs.supplierExtNo == rhs.supplierExtNo &&
+        lhs.uniqueNo == rhs.uniqueNo &&
         lhs.extendId == rhs.extendId &&
         lhs.extendNumber == rhs.extendNumber &&
-        lhs.extendDate == rhs.extendDate &&
-        lhs.extendLineNumber == rhs.extendLineNumber &&
+        lhs.orderDate == rhs.orderDate &&
+        lhs.lineNumber == rhs.lineNumber &&
         lhs.orderSide == rhs.orderSide &&
         lhs.productCode == rhs.productCode &&
         lhs.productionType == rhs.productionType &&
+        lhs.receiptNumber == rhs.receiptNumber &&
         lhs.deliveryNumber == rhs.deliveryNumber &&
         lhs.stageId == rhs.stageId &&
         lhs.documentList == rhs.documentList
@@ -91,16 +152,26 @@ public final class TacticChainApiServiceControllersApiIntegrationV1ApiDeclaratio
     }
 
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(customerId?.hashValue)
+        hasher.combine(customerName?.hashValue)
+        hasher.combine(customerCode?.hashValue)
+        hasher.combine(supplierId?.hashValue)
+        hasher.combine(supplierName?.hashValue)
+        hasher.combine(supplierCode?.hashValue)
+        hasher.combine(customerExtNo?.hashValue)
+        hasher.combine(supplierExtNo?.hashValue)
+        hasher.combine(uniqueNo?.hashValue)
         hasher.combine(extendId?.hashValue)
         hasher.combine(extendNumber?.hashValue)
-        hasher.combine(extendDate?.hashValue)
-        hasher.combine(extendLineNumber?.hashValue)
+        hasher.combine(orderDate?.hashValue)
+        hasher.combine(lineNumber?.hashValue)
         hasher.combine(orderSide?.hashValue)
         hasher.combine(productCode?.hashValue)
         hasher.combine(productionType?.hashValue)
+        hasher.combine(receiptNumber?.hashValue)
         hasher.combine(deliveryNumber?.hashValue)
-        hasher.combine(stageId?.hashValue)
-        hasher.combine(documentList?.hashValue)
+        hasher.combine(stageId.hashValue)
+        hasher.combine(documentList.hashValue)
         
     }
 }
