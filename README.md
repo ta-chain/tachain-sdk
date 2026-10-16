@@ -33,7 +33,7 @@ The normalizer repairs known Apifox array-item references using the correspondin
 
 The pinned generator's Python template needs a small generation-time fallback for composed request models. It keeps `FileId`/Base64 fields during dictionary conversion and leaves omitted alternatives absent, so uploaded files survive nested declaration submission. This workaround lives in `scripts/generate.py`; generated code remains reproducible. CI checks those round trips and TypeScript's signed reference queries and multipart uploads without calling a live API.
 
-The sync script copies that contract to the sibling frontend's `public/openapi/tactic-chain-public.json`, which powers the SDK page and its AI prompt link. Run `python3 scripts/sync_frontend_spec.py --check` before publishing to detect drift. Supply `--frontend-root` when the projects are checked out in different locations.
+The sync script copies that contract to the sibling frontend's `public/openapi/tactic-chain-public.json`, which powers the SDK page and its AI prompt link. It also writes `src/features/integration/sdk/release.json` with `releaseVersion` and `generatorVersion` from `sdk.config.json`, so frontend SDK documentation can use the same version information. Run `python3 scripts/sync_frontend_spec.py --check` before publishing to detect drift in either the contract or release metadata. Supply `--frontend-root` when the projects are checked out in different locations.
 
 Regenerate one language with `python3 scripts/generate.py typescript`. Generated directories are replaced by the script; put hand-maintained code in `helpers/`, `examples/`, or `scripts/`. CI reruns generation and checks for differences.
 
@@ -119,6 +119,15 @@ Publishing jobs use the GitHub `package-release` environment. **Configure requir
 Go is a nested module and uses tags such as `generated/go/v0.1.1`. Packagist expects `composer.json` at a repository root, and Swift Package Manager expects `Package.swift` at a repository root. Consequently the generated PHP and Swift directories are mirrored into the [PHP](https://github.com/ta-chain/tachain-sdk-php) and [Swift](https://github.com/ta-chain/tachain-sdk-swift) release repositories and tagged there with the release version (for example, `v0.1.1`). Continue publishing them only from this repository's subtree history. The main monorepo URL is **not** a direct Composer or SPM package URL.
 
 Maven Central publishing uses Sonatype's Central Publishing Maven plugin, attached sources/Javadoc, and the generated `sign-artifacts` GPG profile. Central Portal namespace verification and a user token are required for publishing. The release workflow does not run on ordinary commits or pull requests.
+
+The Java generator pins Central Publishing Maven plugin `0.12.0`, which removes Maven 3.10 local repository metadata before creating the upload bundle. Keep this customization in `scripts/generate.py`; editing only the generated POM would lose it on regeneration. Java verification builds and checks the actual bundle without uploading or requiring release credentials:
+
+```sh
+mvn -B -f generated/java/pom.xml -DskipUpload=true clean deploy
+python3 tests/check_java_bundle.py
+```
+
+The bundle check rejects stray metadata and files outside the configured version directory, and verifies the POM, main JAR, sources, and Javadoc. The release job uses `clean deploy` with GPG signing enabled to avoid retaining stale staging files from an earlier build.
 
 ## License and contributions
 

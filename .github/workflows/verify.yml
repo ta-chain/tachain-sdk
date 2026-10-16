@@ -74,8 +74,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Build and test Maven package
-        run: mvn -B -f generated/java/pom.xml test
+      - name: Build and test Maven package without uploading
+        run: mvn -B -f generated/java/pom.xml -DskipUpload=true clean deploy
+      - name: Check Java Central bundle contents
+        run: python3 tests/check_java_bundle.py
 
   csharp:
     runs-on: ubuntu-latest

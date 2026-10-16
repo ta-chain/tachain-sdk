@@ -117,7 +117,8 @@ def customize_java_pom(path: Path, repository: str) -> None:
     central = ET.SubElement(plugins, q("plugin"))
     ET.SubElement(central, q("groupId")).text = "org.sonatype.central"
     ET.SubElement(central, q("artifactId")).text = "central-publishing-maven-plugin"
-    ET.SubElement(central, q("version")).text = "0.9.0"
+    # 0.12.0 removes Maven 3.10's local repository metadata before bundling.
+    ET.SubElement(central, q("version")).text = "0.12.0"
     ET.SubElement(central, q("extensions")).text = "true"
     config = ET.SubElement(central, q("configuration"))
     ET.SubElement(config, q("publishingServerId")).text = "central"

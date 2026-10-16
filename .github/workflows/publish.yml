@@ -153,7 +153,7 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
-        run: mvn -B -f generated/java/pom.xml -Psign-artifacts deploy
+        run: mvn -B -f generated/java/pom.xml -Psign-artifacts clean deploy
 
   csharp:
     if: contains(fromJSON(needs.preflight.outputs.languages), 'csharp')
